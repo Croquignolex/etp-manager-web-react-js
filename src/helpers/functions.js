@@ -19,23 +19,17 @@ import {
     PROCESSING,
     SUPERVISOR,
     AGENT_TYPE,
-    USER_SCOPE,
     FLEET_TYPE,
     MASTER_TYPE,
-    AGENT_SCOPE,
     MANAGER_ROLE,
-    COMPANY_SCOPE,
     EVERYONE_ROLE,
-    PROFILE_SCOPE,
     API_SERVER_URL,
     ETP_AGENT_TYPE,
     SIMS_PAGE_PATH,
-    OPERATOR_SCOPE,
     CORPORATE_TYPE,
     COLLECTOR_ROLE,
     COLLECTOR_TYPE,
     ZONES_PAGE_PATH,
-    COLLECTOR_SCOPE,
     USERS_PAGE_PATH,
     AGENTS_PAGE_PATH,
     PROFILE_PAGE_PATH,
@@ -84,6 +78,14 @@ import {
     REQUESTS_CLEARANCE_EDIT_PAGE_PATH,
     OPERATIONS_ANONYMOUS_FLEETS_PAGE_PATH,
 } from "./constants";
+import {
+    USER_SCOPE,
+    AGENT_SCOPE,
+    COMPANY_SCOPE,
+    PROFILE_SCOPE,
+    OPERATOR_SCOPE,
+    COLLECTOR_SCOPE
+} from "../constants/scopeConstants";
 
 // Request interceptor
 axios.interceptors.request.use(config => {
@@ -284,10 +286,10 @@ export function apiGetRequest(url) {
                 const apiResponse = res.data;
                 apiResponse.status
                     ? resolve(apiResponse.data)
-                    : reject(JSON.stringify(apiResponse.message));
+                    : reject(apiResponse.message);
             })
             .catch(e => {
-                reject("Erreur l'ors de l'excution de la requête");
+                reject(apiErrorManagement(e.message));
                 if(process.env.NODE_ENV !== 'production') console.log({e});
             })
     });
@@ -301,10 +303,10 @@ export function apiPostRequest(url, data = {}) {
                 const apiResponse = res.data;
                 apiResponse.status
                     ? resolve(apiResponse.data)
-                    : reject(JSON.stringify(apiResponse.message));
+                    : reject(apiResponse.message);
             })
             .catch(e => {
-                reject("Erreur l'ors de l'excution de la requête");
+                reject(apiErrorManagement(e.message));
                 if(process.env.NODE_ENV !== 'production') console.log({e});
             })
     });
@@ -541,4 +543,12 @@ export function accessRequiredRoles(currentPath, role) {
     }
 
     return requiredRole.includes(role);
+}
+
+//
+function apiErrorManagement(errorMessage) {
+    switch (errorMessage) {
+        case "Network Error": return "Erreur du reseau. Merci de vérifier votre connexion internet";
+        default: return errorMessage;
+    }
 }

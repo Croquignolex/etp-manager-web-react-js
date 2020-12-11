@@ -16,13 +16,13 @@ function AppRoutes({history}) {
                 <PublicRoute
                     exact
                     path={LOGIN_PAGE_PATH}
-                    component={asyncComponent(() => import('./pages/LoginPage'))}
+                    component={asyncComponent(() => import('./containers/LoginConatainer'))}
                 />
                 {/* Available pages on auth mode */}
-                <RestrictedRoute
+                {/*<RestrictedRoute
                     path={APP_PAGE_PATH}
                     component={asyncComponent(() => import('./components/layout/AppLayout'))}
-                />
+                />*/}
                 {/* 404 page */}
                 <Route component={asyncComponent(() => import('./pages/error/NotFoundPage'))} />
             </Switch>

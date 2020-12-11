@@ -33,23 +33,15 @@ import {
 } from './actions'
 import {
     AGENT_ROLE,
-    AGENT_SCOPE,
-    LOGIN_SCOPE,
-    PROFILE_SCOPE,
     LOGIN_API_PATH,
-    SETTINGS_SCOPE,
     LOGOUT_API_PATH,
-    USER_EDIT_SCOPE,
     BALANCE_API_PATH,
-    USER_BALANCE_SCOPE,
-    PROFILE_AVATAR_SCOPE,
     COLLECTOR_AGENT_ROLE,
     EDIT_AVATAR_API_PATH,
     EDIT_PROFILE_API_PATH,
     EDIT_SETTING_API_PATH,
     LOCAL_STORAGE_USER_ID,
     EDIT_PASSWORD_API_PATH,
-    PROFILE_PASSWORD_SCOPE,
     LOCAL_STORAGE_USER_ZONE,
     LOCAL_STORAGE_USER_NAME,
     LOCAL_STORAGE_USER_POST,
@@ -73,6 +65,15 @@ import {
     LOCAL_STORAGE_USER_FRONT_ID_CARD,
     LOCAL_STORAGE_USER_AUTHENTICATION,
 } from "../../helpers/constants";
+import {
+    AGENT_SCOPE,
+    LOGIN_SCOPE,
+    USER_EDIT_SCOPE,
+    USER_BALANCE_SCOPE,
+    PROFILE_AVATAR_SCOPE,
+    PROFILE_PASSWORD_SCOPE,
+    PROFILE_SCOPE, SETTINGS_SCOPE
+} from "../../constants/scopeConstants";
 
 // Check user authentication from data in local storage
 export function* emitCheckUserAuthentication() {
