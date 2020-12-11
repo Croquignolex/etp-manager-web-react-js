@@ -66,12 +66,7 @@ function LoginPage() {
             <div className="auth-home">
                 <div className="login-box">
                     <div className="login-logo">
-                        <span>
-                            <img alt="..."
-                                 className=""
-                                 src={require('../assets/images/logo-rectangle.png')}
-                            />
-                        </span>
+                        <span><img alt="..." width="80" src={require('../assets/images/logo.png')} /></span>
                     </div>
                     <div className="card">
                         <div className="card-body login-card-body">

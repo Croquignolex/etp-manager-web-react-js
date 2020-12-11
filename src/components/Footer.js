@@ -8,10 +8,7 @@ function Footer({needAbsolutePosition}) {
     // Render
     return (
         <footer className={`app-footer text-right ${needAbsolutePosition && 'absolute-position'}`}>
-            <small>
-                <strong>Copyright &copy; 2020.</strong>
-                &nbsp;&nbsp;All rights reserved.
-            </small>
+            <small><strong>Copyright &copy; 2020.</strong>&nbsp;&nbsp;All rights reserved.</small>
         </footer>
     )
 }
