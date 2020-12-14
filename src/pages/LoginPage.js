@@ -56,22 +56,12 @@ function LoginPage({match, errors, requests, dispatch}) {
         <div className="auth-home">
             <div className="login-box">
                 <div className="login-logo">
-                    <span><img alt="..." width="80" src={require('../assets/images/logo.png')} /></span>
+                    <span><img alt="..." width="300" src={require('../assets/images/manager.png')} /></span>
                 </div>
-                <div className="card">
+                <div className="card no-shadow">
                     <div className="card-body login-card-body">
-                        <p className="login-box-msg">Connectez-vous</p>
                         {shouldShowError(scope, errors.list) && <ErrorAlert scope={scope} />}
                         <form name="form" onSubmit={handleSubmit}>
-                            <Input type='number'
-                                   input={username}
-                                   label='Téléphone'
-                                   icon='fas fa-phone'
-                                   handleInput={(isValid, val) => {
-                                       shouldResetErrorData();
-                                       setUsername({...username, isValid, val});
-                                   }}
-                            />
                             <Input type='password'
                                    input={password}
                                    icon='fas fa-lock'

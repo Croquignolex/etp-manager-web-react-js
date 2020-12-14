@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 function AuthFormButton({processing}) {
     // Render
     return (
-        <div className="col-6">
+        <div className="col-6 offset-3">
             {processing ?
                 (
                     <button disabled type="submit"
