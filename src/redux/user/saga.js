@@ -1,82 +1,7 @@
-import { all, takeEvery, takeLatest, put, fork, call } from 'redux-saga/effects'
-
-import {storeSetDangerErrorData} from "../errors/actions";
-import {storeSetInfoToastData, storeSetSuccessToastData} from "../toast/actions";
-import {
-    storeRequestInit,
-    storeRequestFailed,
-    storeRequestSucceed
-} from "../requests/actions";
-import {
-    apiGetRequest,
-    apiPostRequest,
-    getImageFromServer,
-    getLocaleStorageItem,
-    setLocaleStorageItem,
-    removeAllLocaleStorageItems
-} from "../../helpers/functions";
-import {
-    EMIT_USER_LOGOUT,
-    EMIT_USER_BALANCE,
-    storeResetUserData,
-    storeSetUserBalance,
-    storeSetUserFullData,
-    storeSetUserAvatarData,
-    storeSetUserSettingData,
-    EMIT_USER_AVATAR_UPDATE,
-    EMIT_USER_SETTING_UPDATE,
-    EMIT_USER_PASSWORD_UPDATE,
-    storeSetUserInformationData,
-    EMIT_USER_INFORMATION_UPDATE,
-    EMIT_CHECK_USER_AUTHENTICATION,
-    EMIT_ATTEMPT_USER_AUTHENTICATION
-} from './actions'
-import {
-    AGENT_ROLE,
-    LOGIN_API_PATH,
-    LOGOUT_API_PATH,
-    BALANCE_API_PATH,
-    COLLECTOR_AGENT_ROLE,
-    EDIT_AVATAR_API_PATH,
-    EDIT_PROFILE_API_PATH,
-    EDIT_SETTING_API_PATH,
-    LOCAL_STORAGE_USER_ID,
-    EDIT_PASSWORD_API_PATH,
-    LOCAL_STORAGE_USER_ZONE,
-    LOCAL_STORAGE_USER_NAME,
-    LOCAL_STORAGE_USER_POST,
-    LOCAL_STORAGE_USER_ROLE,
-    LOCAL_STORAGE_USER_SIMS,
-    LOCAL_STORAGE_USER_TOWN,
-    LOCAL_STORAGE_USER_EMAIL,
-    LOCAL_STORAGE_USER_PHONE,
-    LOCAL_STORAGE_USER_TOKEN,
-    LOCAL_STORAGE_USER_AVATAR,
-    LOCAL_STORAGE_USER_ADDRESS,
-    LOCAL_STORAGE_USER_COUNTRY,
-    LOCAL_STORAGE_USER_BALANCE,
-    LOCAL_STORAGE_USER_SETTING,
-    LOCAL_STORAGE_USER_REFERENCE,
-    LOCAL_STORAGE_USER_SALE_POINT,
-    LOCAL_STORAGE_USER_COMMISSION,
-    LOCAL_STORAGE_USER_DESCRIPTION,
-    LOCAL_STORAGE_USER_BACK_ID_CARD,
-    LOCAL_STORAGE_USER_CREATION_DATE,
-    LOCAL_STORAGE_USER_FRONT_ID_CARD,
-    LOCAL_STORAGE_USER_AUTHENTICATION,
-} from "../../helpers/constants";
-import {
-    AGENT_SCOPE,
-    LOGIN_SCOPE,
-    USER_EDIT_SCOPE,
-    USER_BALANCE_SCOPE,
-    PROFILE_AVATAR_SCOPE,
-    PROFILE_PASSWORD_SCOPE,
-    PROFILE_SCOPE, SETTINGS_SCOPE
-} from "../../constants/scopeConstants";
+import { all, takeEvery, put, fork, call } from 'redux-saga/effects'
 
 // Check user authentication from data in local storage
-export function* emitCheckUserAuthentication() {
+/*export function* emitCheckUserAuthentication() {
     yield takeEvery(EMIT_CHECK_USER_AUTHENTICATION, function*() {
         try {
             // Fetch user auth in locale storage
@@ -115,10 +40,10 @@ export function* emitCheckUserAuthentication() {
             } else yield put(storeResetUserData());
         } catch (e) { yield put(storeResetUserData()); }
     });
-}
+}*/
 
 // Attempt user authentication from API
-export function* emitAttemptUserAuthentication() {
+/*export function* emitAttemptUserAuthentication() {
     yield takeLatest(EMIT_ATTEMPT_USER_AUTHENTICATION, function*({phone, password}) {
         const scope = LOGIN_SCOPE;
         try {
@@ -249,8 +174,9 @@ export function* emitAttemptUserAuthentication() {
             yield put(storeSetDangerErrorData({message, scope}));
         }
     });
-}
+}*/
 
+/*
 // Update user information from API
 export function* emitUserInformationUpdate() {
     yield takeLatest(EMIT_USER_INFORMATION_UPDATE, function*({name, post, address,
@@ -410,17 +336,11 @@ export function* emitUserBalance() {
         }
     });
 }
+*/
 
 // Combine to export all functions at once
 export default function* sagaUser() {
     yield all([
-        fork(emitUserLogout),
-        fork(emitUserBalance),
-        fork(emitUserAvatarUpdate),
-        fork(emitUserSettingUpdate),
-        fork(emitUserPasswordUpdate),
-        fork(emitUserInformationUpdate),
-        fork(emitCheckUserAuthentication),
-        fork(emitAttemptUserAuthentication),
+        // fork(emitCheckUserAuthentication),
     ]);
 }
