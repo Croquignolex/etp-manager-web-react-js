@@ -1,5 +1,5 @@
 import {connect} from "react-redux";
-import LoginPage from "../pages/LoginPage";
+import CheckUserPage from "../pages/CheckUserPage";
 
 // Map state function to component props
 const mapStateToProps = (state) => ({
@@ -15,4 +15,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 // Connect component to Redux
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CheckUserPage);

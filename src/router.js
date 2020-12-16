@@ -4,8 +4,6 @@ import { ConnectedRouter } from 'connected-react-router';
 
 import asyncComponent from './helpers/asyncComponent';
 import PublicRoute from "./components/router/PublicRoute";
-import RestrictedRoute from "./components/router/RestrictedRoute";
-import {APP_PAGE_PATH, LOGIN_PAGE_PATH} from "./helpers/constants";
 
 // Component
 function AppRoutes({history}) {
@@ -13,18 +11,14 @@ function AppRoutes({history}) {
         <ConnectedRouter history={history}>
             <Switch>
                 {/* Available pages on guest mode */}
-                <PublicRoute
-                    exact
-                    path={LOGIN_PAGE_PATH}
-                    component={asyncComponent(() => import('./containers/LoginConatainer'))}
-                />
+                <PublicRoute exact path="/" component={asyncComponent(() => import('./containers/checkUserContainer'))} />
                 {/* Available pages on auth mode */}
                 {/*<RestrictedRoute
                     path={APP_PAGE_PATH}
                     component={asyncComponent(() => import('./components/layout/AppLayout'))}
                 />*/}
                 {/* 404 page */}
-                <Route component={asyncComponent(() => import('./pages/error/NotFoundPage'))} />
+                <Route component={asyncComponent(() => import('./pages/NotFoundPage'))} />
             </Switch>
         </ConnectedRouter>
     );

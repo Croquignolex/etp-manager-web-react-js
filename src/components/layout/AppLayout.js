@@ -199,7 +199,7 @@ function AppLayout({toast, user, notifications, requests, dispatch}) {
                     <RestrictedRoute path={COMPANY_NEW_PAGE_PATH} exact component={CompaniesNewPage} />
                     <RestrictedRoute path={`${COMPANY_EDIT_PAGE_PATH}/:id`} exact component={CompaniesEditPage} customPath={COMPANY_EDIT_PAGE_PATH} />
                     {/* 404 page */}
-                    <Route path="*" exact component={asyncComponent(() => import('../../pages/error/NotFoundPage'))} />
+                    <Route path="*" exact component={asyncComponent(() => import('../../pages/NotFoundPage'))} />
                 </Switch>
                 <Footer />
             </div>
