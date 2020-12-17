@@ -1,8 +1,9 @@
 import { all, takeEvery, put, fork, call } from 'redux-saga/effects'
 
 import {getLocaleStorageItem} from "../../functions/localStorageFunctions";
-import {LOCAL_STORAGE_USER_DATA} from "../../constants/localStorageConstants";
+import {storeResetSettingsData, storeSetSettingsData} from "../settings/actions";
 import {EMIT_CHECK_USER_AUTHENTICATION, storeResetUserData, storeSetUserFullData} from "./actions";
+import {LOCAL_STORAGE_USER_DATA, LOCAL_STORAGE_SETTINGS} from "../../constants/localStorageConstants";
 
 // Check user authentication from data in local storage
 export function* emitCheckUserAuthentication() {
@@ -10,16 +11,31 @@ export function* emitCheckUserAuthentication() {
         try {
             // Fetch user auth in locale storage
             const user_data = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_DATA);
+            const settings_data = yield call(getLocaleStorageItem, LOCAL_STORAGE_SETTINGS);
             // Check auth
-            if(user_data != null && user_data.auth) {
-                const {id, name, post, email, phone, avatar, address, creation, description} = user_data;
-                // Fire event to redux
+            if(user_data != null && settings_data !== null && user_data.auth) {
+                const {cards, charts, bars, sound, session} = settings_data;
+                const {name, post, email, phone, avatar, address, creation} = user_data;
+                // Fire event to redux for user data
                 yield put(storeSetUserFullData({
-                    address, description, post, id,
-                    name, phone, email, avatar, creation,
+                    id: user_data.id,
+                    description: user_data.description,
+                    address, post, name, phone, email, avatar, creation,
                 }));
-            } else yield put(storeResetUserData());
-        } catch (e) { yield put(storeResetUserData()); }
+                // Fire event to redux for settings data
+                yield put(storeSetSettingsData({
+                    id: settings_data.id,
+                    description: settings_data.description,
+                    cards, charts, bars, sound, session
+                }))
+            } else {
+                yield put(storeResetUserData());
+                yield put(storeResetSettingsData());
+            }
+        } catch (e) {
+            yield put(storeResetUserData());
+            yield put(storeResetSettingsData());
+        }
     });
 }
 

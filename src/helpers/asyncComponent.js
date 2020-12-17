@@ -33,11 +33,6 @@ export default function asyncComponent(importComponent) {
         }
 
         render() {
-            /*return (
-                <ErrorBoundary>
-                    {this.state.component || <div className="lds-ripple"><div/><div/></div>}
-                </ErrorBoundary>
-            )*/
             return (
                 <>{this.state.component || <div className="lds-ripple"><div/><div/></div>}</>
             )
