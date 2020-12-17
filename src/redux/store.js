@@ -35,6 +35,6 @@ const store = createStore(
 sagaMiddleware.run(sagas);
 
 // Init global store
-//store.dispatch(emitCheckUserAuthentication());
+store.dispatch(emitCheckUserAuthentication());
 
 export { store, history };

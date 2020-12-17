@@ -5,8 +5,7 @@ import CheckUserPage from "../pages/CheckUserPage";
 const mapStateToProps = (state) => ({
     user: state.user,
     errors: state.errors,
-    requests: state.requests,
-    notifications: state.notifications,
+    requests: state.requests
 });
 
 // Map dispatch function to component props

@@ -1,46 +1,27 @@
 import { all, takeEvery, put, fork, call } from 'redux-saga/effects'
 
+import {getLocaleStorageItem} from "../../functions/localStorageFunctions";
+import {LOCAL_STORAGE_USER_DATA} from "../../constants/localStorageConstants";
+import {EMIT_CHECK_USER_AUTHENTICATION, storeResetUserData, storeSetUserFullData} from "./actions";
+
 // Check user authentication from data in local storage
-/*export function* emitCheckUserAuthentication() {
+export function* emitCheckUserAuthentication() {
     yield takeEvery(EMIT_CHECK_USER_AUTHENTICATION, function*() {
         try {
             // Fetch user auth in locale storage
-            const user_auth = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_AUTHENTICATION);
+            const user_data = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_DATA);
             // Check auth
-            if(user_auth != null && user_auth) {
-                const id = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_ID);
-                const name = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_NAME);
-                const post = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_POST);
-                const role = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_ROLE);
-                const email = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_EMAIL);
-                const phone = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_PHONE);
-                const avatar = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_AVATAR);
-                const address = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_ADDRESS);
-                const creation = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_CREATION_DATE);
-                const description = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_DESCRIPTION);
-
-                const sims = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_SIMS);
-                const town = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_TOWN);
-                const zone = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_ZONE);
-                const country = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_COUNTRY);
-                const setting = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_SETTING);
-                const reference = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_REFERENCE);
-                const salePoint = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_SALE_POINT);
-                const commission = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_COMMISSION);
-                const backIDCard = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_BACK_ID_CARD);
-                const frontIDCard = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_FRONT_ID_CARD);
-
+            if(user_data != null && user_data.auth) {
+                const {id, name, post, email, phone, avatar, address, creation, description} = user_data;
                 // Fire event to redux
                 yield put(storeSetUserFullData({
-                    address, description, post, role, id,
+                    address, description, post, id,
                     name, phone, email, avatar, creation,
-                    zone, sims, town, country, reference, setting,
-                    salePoint, commission, backIDCard, frontIDCard,
                 }));
             } else yield put(storeResetUserData());
         } catch (e) { yield put(storeResetUserData()); }
     });
-}*/
+}
 
 // Attempt user authentication from API
 /*export function* emitAttemptUserAuthentication() {
@@ -341,6 +322,6 @@ export function* emitUserBalance() {
 // Combine to export all functions at once
 export default function* sagaUser() {
     yield all([
-        // fork(emitCheckUserAuthentication),
+        fork(emitCheckUserAuthentication),
     ]);
 }

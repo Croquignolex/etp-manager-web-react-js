@@ -16,6 +16,12 @@ function CheckUserPage({location, errors, requests, dispatch}) {
     }, []);
 
     useEffect(() => {
+
+        // eslint-disable-next-line
+    }, []);
+
+    useEffect(() => {
+
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             dispatch(storeResetUserCheckErrorData());

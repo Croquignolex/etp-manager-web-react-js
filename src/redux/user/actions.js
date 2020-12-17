@@ -23,29 +23,15 @@ export const storeResetUserData = () => ({
 });
 
 // Set user data in store
-export const storeSetUserFullData = ({address, description, post, role, id,
-                                      name, phone, email, avatar, creation, zone,
-                                         sims, town, country, reference, salePoint,
-                                         commission, backIDCard, frontIDCard, setting}) => ({
+export const storeSetUserFullData = ({id, name, post, email, phone, avatar, address, creation, description}) => ({
     id,
     name,
-    role,
     post,
-    sims,
-    town,
-    zone,
     phone,
     email,
     avatar,
-    setting,
-    country,
     address,
     creation,
-    reference,
-    salePoint,
-    commission,
-    backIDCard,
-    frontIDCard,
     description,
     type: STORE_SET_USER_FULL_DATA
 });

@@ -12,6 +12,7 @@ import outlays from './outlays/reducer';
 import requests from './requests/reducer';
 import supplies from './supplies/reducer';
 import payments from './payments/reducer';
+import settings from './settings/reducer';
 import handovers from './handovers/reducer';
 import simsTypes from './simsTypes/reducer';
 import operators from './operators/reducer';
@@ -38,6 +39,7 @@ export default {
     refuels,
     requests,
     payments,
+    settings,
     supplies,
     handovers,
     transfers,

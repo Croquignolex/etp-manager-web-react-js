@@ -9,7 +9,6 @@ import {
 
 // Partial global store for user data management
 const initialState = {
-    // Basic info
     id: '',
     name: '',
     post: '',
@@ -21,25 +20,6 @@ const initialState = {
     creation: '',
     description: '',
     isLoggedIn: false,
-
-    role: {id: '', name: ''},
-    setting: {id: '', cards: [], charts: [], bars: [], sound: true, session: 15, description: ''},
-
-    // Agent info
-    town: '',
-    country: '',
-    document: '',
-    reference: '',
-    salePoint: '',
-    commission: '',
-    backIDCard: '',
-    frontIDCard: '',
-
-    // Agent & collector info
-    account: {id: '', balance: 0},
-    zone: {id: '', map: '', name: '', reference: ''},
-
-    sims: [],
 };
 
 // Reduce
@@ -91,26 +71,13 @@ function reduce(state = initialState, action) {
                 id: action.id,
                 isLoggedIn: true,
                 name: action.name,
-                role: action.role,
                 post: action.post,
                 phone: action.phone,
                 email: action.email,
                 avatar: action.avatar,
-                setting: action.setting,
                 address: action.address,
                 creation: action.creation,
                 description: action.description,
-                // Agent
-                town: action.town,
-                sims: action.sims,
-                country: action.country,
-                reference: action.reference,
-                salePoint: action.salePoint,
-                commission: action.commission,
-                backIDCard: action.backIDCard,
-                frontIDCard: action.frontIDCard,
-                // Collector
-                zone: action.zone,
             };
             return nextState || state;
         // Unknown action
