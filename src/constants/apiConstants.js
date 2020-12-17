@@ -1,9 +1,9 @@
 import {API_SERVER_URL} from "./generalConstants";
 
 export const API_URL = `${API_SERVER_URL}/api`;
-export const LOGIN_API_PATH = `${API_URL}/login`;
 export const LOGOUT_API_PATH = `${API_URL}/logout`;
 export const BALANCE_API_PATH = `${API_URL}/mon_solde`;
+export const AUTHENTICATION_API_PATH = `${API_URL}/authentication`;
 export const COMPARE_LISTING_API_PATH = `${API_URL}/import_flotage`;
 
 export const ROLES_API_PATH = `${API_URL}/permisions_list`;

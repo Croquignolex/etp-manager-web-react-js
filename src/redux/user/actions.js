@@ -51,39 +51,15 @@ export const storeSetUserAvatarData = ({avatar}) => ({
     avatar,
     type: STORE_SET_USER_AVATAR_DATA
 });
-
-// Set user setting in store
-export const storeSetUserSettingData = ({cards, charts, bars, sound, session, description}) => ({
-    bars,
-    cards,
-    sound,
-    charts,
-    session,
-    description,
-    type: STORE_SET_USER_SETTING_DATA
-});
-
-// Set user balance in store
-export const storeSetUserBalance = ({account}) => ({
-    account,
-    type: STORE_SET_USER_BALANCE_DATA
-});
-
 //====================== Middleware trigger actions
-// Emit user balance
-export const emitUserBalance = () => ({
-    type: EMIT_USER_BALANCE
-});
-
 // Emit user auth check
 export const emitCheckUserAuthentication = () => ({
     type: EMIT_CHECK_USER_AUTHENTICATION
 });
 
 // Emit user auth attempt
-export const emitAttemptUserAuthentication = ({phone, password}) => ({
-    phone,
-    password,
+export const emitAttemptUserAuthentication = ({token}) => ({
+    token,
     type: EMIT_ATTEMPT_USER_AUTHENTICATION
 });
 
@@ -108,17 +84,6 @@ export const emitUserInformationUpdate = ({name, post, address, email, descripti
 export const emitUserAvatarUpdate = ({avatar}) => ({
     avatar,
     type: EMIT_USER_AVATAR_UPDATE
-});
-
-// Emit user setting update
-export const emitUserSettingUpdate = ({cards, charts, bars, sound, session, description}) => ({
-    bars,
-    cards,
-    sound,
-    charts,
-    session,
-    description,
-    type: EMIT_USER_SETTING_UPDATE
 });
 
 // Emit user data clean up toward api logout

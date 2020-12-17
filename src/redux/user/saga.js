@@ -1,9 +1,17 @@
-import { all, takeEvery, put, fork, call } from 'redux-saga/effects'
+import { all, takeEvery, takeLatest, put, fork, call } from 'redux-saga/effects'
 
-import {getLocaleStorageItem} from "../../functions/localStorageFunctions";
+import {getLocaleStorageItem, setLocaleStorageItem} from "../../functions/localStorageFunctions";
 import {storeResetSettingsData, storeSetSettingsData} from "../settings/actions";
-import {EMIT_CHECK_USER_AUTHENTICATION, storeResetUserData, storeSetUserFullData} from "./actions";
+import {
+    EMIT_ATTEMPT_USER_AUTHENTICATION,
+    EMIT_CHECK_USER_AUTHENTICATION,
+    storeResetUserData,
+    storeSetUserFullData
+} from "./actions";
 import {LOCAL_STORAGE_USER_DATA, LOCAL_STORAGE_SETTINGS} from "../../constants/localStorageConstants";
+import {storeUserCheckRequestInit} from "../requests/actions";
+import {apiPostRequest} from "../../functions/axiosFunctions";
+import {AUTHENTICATION_API_PATH} from "../../constants/apiConstants";
 
 // Check user authentication from data in local storage
 export function* emitCheckUserAuthentication() {
@@ -40,16 +48,15 @@ export function* emitCheckUserAuthentication() {
 }
 
 // Attempt user authentication from API
-/*export function* emitAttemptUserAuthentication() {
-    yield takeLatest(EMIT_ATTEMPT_USER_AUTHENTICATION, function*({phone, password}) {
-        const scope = LOGIN_SCOPE;
+export function* emitAttemptUserAuthentication() {
+    yield takeLatest(EMIT_ATTEMPT_USER_AUTHENTICATION, function*({token}) {
         try {
             // Fire event for request
-            yield put(storeRequestInit({scope}));
+            yield put(storeUserCheckRequestInit());
             // API call
-            const apiResponse = yield call(apiPostRequest, LOGIN_API_PATH, {phone, password});
+            const apiResponse = yield call(apiPostRequest, AUTHENTICATION_API_PATH, {token});
 
-            let town = '';
+            /*let town = '';
             let sims = [];
             let country = '';
             let reference = '';
@@ -59,18 +66,17 @@ export function* emitCheckUserAuthentication() {
             let frontIDCard = '';
             let role = {id: '', name: ''};
             let zone = {id: '', map: '', name: '', reference: ''};
-            let setting = {id: '', cards: [], charts: [], bars: [], sound: true, session: 15, description: ''};
+            let setting = {id: '', cards: [], charts: [], bars: [], sound: true, session: 15, description: ''};*/
 
-            const roleData = apiResponse.role;
-            const zoneData = apiResponse.zone;
-            const userData = apiResponse.user;
-            const simsData = apiResponse.puces;
-            const agentData = apiResponse.agent;
-            const settingData = apiResponse.setting;
-            const avatarFromServer = getImageFromServer(userData.avatar, PROFILE_SCOPE);
-            const {id, name, poste, email, adresse, created_at, description} = userData;
+
+            //const settingData = apiResponse.setting;
+
+            //const avatarFromServer = getImageFromServer(userData.avatar, PROFILE_SCOPE);
+            const {id, name, poste, email, adresse, created_at, description, avatar} = apiResponse;
 
             // Set user data into local storage
+            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_DATA, apiResponse);
+
             yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_NAME, name);
             yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_POST, poste);
             yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_EMAIL, email);
@@ -171,7 +177,7 @@ export function* emitCheckUserAuthentication() {
             yield put(storeSetDangerErrorData({message, scope}));
         }
     });
-}*/
+}
 
 /*
 // Update user information from API
@@ -335,9 +341,15 @@ export function* emitUserBalance() {
 }
 */
 
+// Extract user data & settings
+function extractUserDataAndSettings(apiResponse) {
+    //const {id, name, poste, email, adresse, created_at, description, avatar} = apiResponse;
+}
+
 // Combine to export all functions at once
 export default function* sagaUser() {
     yield all([
         fork(emitCheckUserAuthentication),
+        fork(emitAttemptUserAuthentication),
     ]);
 }

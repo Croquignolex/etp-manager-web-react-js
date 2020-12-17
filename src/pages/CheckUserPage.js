@@ -4,6 +4,7 @@ import React, {useEffect, useLayoutEffect} from 'react';
 import Footer from "../components/Footer";
 import LoaderComponent from "../components/LoaderComponent";
 import ErrorAlertComponent from "../components/ErrorAlertComponent";
+import {emitAttemptUserAuthentication} from "../redux/user/actions";
 import {requestLoading, setPageTitle} from "../functions/generalFunctions";
 import {storeResetUserCheckErrorData, storeSetUserCheckErrorData} from "../redux/errors/actions";
 
@@ -15,12 +16,15 @@ function CheckUserPage({location, errors, requests, dispatch}) {
     }, []);
 
     useEffect(() => {
+        // Extract token from URL
         const token = (new URLSearchParams(location.search)).get('token');
         if(token === null) {
+            // Display unauthenticated error
             dispatch(storeSetUserCheckErrorData({message: 'unauthenticated'}))
         }
         else {
-            // TODO: try to authenticate user
+            // Attempt to authenticate user
+            dispatch(emitAttemptUserAuthentication({token}))
         }
         // Cleaner error alert while component did unmount without store dependency
         return () => {

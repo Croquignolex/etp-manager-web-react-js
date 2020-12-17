@@ -1,44 +1,4 @@
 
-import axios from "axios";
-import moment from 'moment';
-
-import {
-    DONE,
-    ADMIN,
-    AGENT,
-    CANCEL,
-    MANAGER,
-    PENDING,
-    UNKNOWN,
-    APP_NAME,
-    COLLECTOR,
-    PROCESSING,
-    SUPERVISOR,
-    AGENT_TYPE,
-    FLEET_TYPE,
-    MASTER_TYPE,
-    API_SERVER_URL,
-    ETP_AGENT_TYPE,
-    CORPORATE_TYPE,
-    COLLECTOR_TYPE,
-} from "./constants";
-import {
-    USER_SCOPE,
-    AGENT_SCOPE,
-    COMPANY_SCOPE,
-    PROFILE_SCOPE,
-    OPERATOR_SCOPE,
-    COLLECTOR_SCOPE
-} from "../constants/scopeConstants";
-
-// Request interceptor
-axios.interceptors.request.use(config => {
-    config.headers.ContentType = 'Application/json';
-    config.headers.Authorization = 'Bearer ' + getLocaleStorageItem(LOCAL_STORAGE_USER_TOKEN);
-    return config;
-}, error => Promise.reject(error));
-
-//
 export function getFieldColor(field) {
     return {color: (field.isValid ? '#22252a' : '#e22529')}
 }
@@ -166,40 +126,6 @@ export function dataToArrayForSelect(data) {
         })
     });
     return returnNedArray;
-}
-
-//
-export function apiGetRequest(url) {
-    return new Promise((resolve, reject) => {
-        axios.get(url)
-            .then(res => {
-                const apiResponse = res.data;
-                apiResponse.status
-                    ? resolve(apiResponse.data)
-                    : reject(apiResponse.message);
-            })
-            .catch(e => {
-                reject(apiErrorManagement(e.message));
-                if(process.env.NODE_ENV !== 'production') console.log({e});
-            })
-    });
-}
-
-//
-export function apiPostRequest(url, data = {}) {
-    return new Promise((resolve, reject) => {
-        axios.post(url, data)
-            .then(res => {
-                const apiResponse = res.data;
-                apiResponse.status
-                    ? resolve(apiResponse.data)
-                    : reject(apiResponse.message);
-            })
-            .catch(e => {
-                reject(apiErrorManagement(e.message));
-                if(process.env.NODE_ENV !== 'production') console.log({e});
-            })
-    });
 }
 
 //
@@ -364,12 +290,4 @@ export function extractFleetsData(apiFleets) {
     });
     sortByCreationDate(fleets);
     return fleets;
-}
-
-//
-function apiErrorManagement(errorMessage) {
-    switch (errorMessage) {
-        case "Network Error": return "Erreur du reseau. Merci de vérifier votre connexion internet";
-        default: return errorMessage;
-    }
 }
