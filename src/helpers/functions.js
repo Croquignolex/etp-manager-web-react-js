@@ -42,17 +42,6 @@ export function formatNumber(number) {
 }
 
 //
-export function getImageFromServer(image, scope) {
-    const defaultImage = (scope === PROFILE_SCOPE)
-        ? require('../assets/images/default.jpg')
-        : require('../assets/images/no-image.jpg');
-
-    return (image === null)
-        ? defaultImage
-        : `${API_SERVER_URL}/storage/${image}`;
-}
-
-//
 export function groupArrayBy(list, keyGetter) {
     const map = new Map();
     let returnedData = [];

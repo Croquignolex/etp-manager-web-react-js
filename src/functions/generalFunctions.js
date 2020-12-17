@@ -1,5 +1,6 @@
-import {APP_NAME} from "../constants/generalConstants";
+import {API_SERVER_URL, APP_NAME} from "../constants/generalConstants";
 
+// Add app name on page title
 export function setPageTitle(title) {
     document.title = `${title} - ${APP_NAME}`;
 }
@@ -20,4 +21,16 @@ export function requestFailed(requests) {
 export function requestLoading(requests) {
     const {failed, loading, succeeded} = requests
     return !succeeded && !failed && loading;
+}
+
+// Get user profile image
+export function getProfileImageFromServer(image) {
+    const defaultImage = require('../assets/images/default.jpg');
+    return (image === null) ? defaultImage : `${API_SERVER_URL}/storage/${image}`;
+}
+
+// Get CNI image
+export function getCNIImageFromServer(image, scope) {
+    const defaultImage = require('../assets/images/no-image.jpg');
+    return (image === null) ? defaultImage : `${API_SERVER_URL}/storage/${image}`;
 }

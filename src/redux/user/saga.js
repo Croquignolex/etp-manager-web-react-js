@@ -1,39 +1,37 @@
 import { all, takeEvery, takeLatest, put, fork, call } from 'redux-saga/effects'
 
-import {getLocaleStorageItem, setLocaleStorageItem} from "../../functions/localStorageFunctions";
-import {storeResetSettingsData, storeSetSettingsData} from "../settings/actions";
-import {
-    EMIT_ATTEMPT_USER_AUTHENTICATION,
-    EMIT_CHECK_USER_AUTHENTICATION,
-    storeResetUserData,
-    storeSetUserFullData
-} from "./actions";
-import {LOCAL_STORAGE_USER_DATA, LOCAL_STORAGE_SETTINGS} from "../../constants/localStorageConstants";
-import {storeUserCheckRequestInit} from "../requests/actions";
+import {storeSetUserCheckErrorData} from "../errors/actions";
 import {apiPostRequest} from "../../functions/axiosFunctions";
 import {AUTHENTICATION_API_PATH} from "../../constants/apiConstants";
+import {getProfileImageFromServer} from "../../functions/generalFunctions";
+import {storeResetSettingsData, storeSetSettingsData} from "../settings/actions";
+import {getLocaleStorageItem, setLocaleStorageItem} from "../../functions/localStorageFunctions";
+import {LOCAL_STORAGE_USER_DATA, LOCAL_STORAGE_SETTINGS} from "../../constants/localStorageConstants";
+import {storeUserCheckRequestFailed, storeUserCheckRequestInit, storeUserCheckRequestSucceed} from "../requests/actions";
+import {EMIT_ATTEMPT_USER_AUTHENTICATION, EMIT_CHECK_USER_AUTHENTICATION, storeResetUserData, storeSetUserFullData} from "./actions";
 
 // Check user authentication from data in local storage
 export function* emitCheckUserAuthentication() {
     yield takeEvery(EMIT_CHECK_USER_AUTHENTICATION, function*() {
         try {
             // Fetch user auth in locale storage
-            const user_data = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_DATA);
-            const settings_data = yield call(getLocaleStorageItem, LOCAL_STORAGE_SETTINGS);
+            const userData = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_DATA);
+            const settingsData = yield call(getLocaleStorageItem, LOCAL_STORAGE_SETTINGS);
             // Check auth
-            if(user_data != null && settings_data !== null && user_data.auth) {
-                const {cards, charts, bars, sound, session} = settings_data;
-                const {name, post, email, phone, avatar, address, creation} = user_data;
+            if(userData != null && settingsData !== null && userData.auth) {
+                // Deconstruction
+                const {cards, charts, bars, sound, session} = settingsData;
+                const {name, post, email, phone, avatar, address, creation} = userData;
                 // Fire event to redux for user data
                 yield put(storeSetUserFullData({
-                    id: user_data.id,
-                    description: user_data.description,
+                    id: userData.id,
+                    description: userData.description,
                     address, post, name, phone, email, avatar, creation,
                 }));
                 // Fire event to redux for settings data
                 yield put(storeSetSettingsData({
-                    id: settings_data.id,
-                    description: settings_data.description,
+                    id: settingsData.id,
+                    description: settingsData.description,
                     cards, charts, bars, sound, session
                 }))
             } else {
@@ -53,128 +51,36 @@ export function* emitAttemptUserAuthentication() {
         try {
             // Fire event for request
             yield put(storeUserCheckRequestInit());
+            // Put token in local storage for a check
+            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_DATA, {token});
             // API call
-            const apiResponse = yield call(apiPostRequest, AUTHENTICATION_API_PATH, {token});
-
-            /*let town = '';
-            let sims = [];
-            let country = '';
-            let reference = '';
-            let salePoint = '';
-            let commission = '';
-            let backIDCard = '';
-            let frontIDCard = '';
-            let role = {id: '', name: ''};
-            let zone = {id: '', map: '', name: '', reference: ''};
-            let setting = {id: '', cards: [], charts: [], bars: [], sound: true, session: 15, description: ''};*/
-
-
-            //const settingData = apiResponse.setting;
-
-            //const avatarFromServer = getImageFromServer(userData.avatar, PROFILE_SCOPE);
-            const {id, name, poste, email, adresse, created_at, description, avatar} = apiResponse;
-
+            const apiResponse = yield call(apiPostRequest, AUTHENTICATION_API_PATH);
+            // Extract data
+            const {userData, settingsData} = extractUserAndSettingsData(apiResponse);
+            // Deconstruction
+            const {cards, charts, bars, sound, session} = settingsData;
+            const {name, post, email, phone, avatar, address, creation} = userData;
             // Set user data into local storage
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_DATA, apiResponse);
-
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_NAME, name);
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_POST, poste);
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_EMAIL, email);
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_PHONE, phone);
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_ADDRESS, adresse);
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_ID, id.toString());
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_AUTHENTICATION, true);
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_TOKEN, apiResponse.token);
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_AVATAR, avatarFromServer);
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_DESCRIPTION, description);
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_CREATION_DATE, created_at);
-
-            if(roleData !== null) {
-                role = {
-                    name: roleData.name,
-                    id: roleData.id.toString()
-                }
-            }
-
-            if(settingData !== null) {
-                setting = {
-                    session: settingData.session,
-                    id: settingData.id.toString(),
-                    sound: settingData.sound === 1,
-                    bars: JSON.parse(settingData.bars),
-                    description: settingData.description,
-                    cards: JSON.parse(settingData.cards),
-                    charts: JSON.parse(settingData.charts),
-                }
-            }
-
-            // Both agent & collector data
-            if(COLLECTOR_AGENT_ROLE.includes(role.name)) {
-                if(zoneData !== null) {
-                    zone = {
-                        map: zoneData.map,
-                        name: zoneData.nom,
-                        id: zoneData.id.toString(),
-                        reference: zoneData.reference
-                    };
-                }
-                if(simsData !== null) {
-                    simsData.forEach(sim => {
-                        sims.push({
-                            name: sim.nom,
-                            number: sim.numero,
-                            balance: sim.solde,
-                            id: sim.id.toString(),
-                            reference: sim.reference
-                        })
-                    })
-                }
-                // Agent Data
-                if(AGENT_ROLE.includes(role.name)) {
-                    town = agentData.ville;
-                    country = agentData.pays;
-                    reference = agentData.reference;
-                    salePoint = agentData.point_de_vente;
-                    commission = agentData.taux_commission;
-                    frontIDCard = getImageFromServer(agentData.img_cni, AGENT_SCOPE);
-                    backIDCard = getImageFromServer(agentData.img_cni_back, AGENT_SCOPE);
-                }
-            }
-
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_TOWN, town);
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_COUNTRY, country);
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_REFERENCE, reference);
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_SALE_POINT, salePoint);
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_COMMISSION, commission);
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_BACK_ID_CARD, backIDCard);
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_FRONT_ID_CARD, frontIDCard);
-
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_SIMS, sims);
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_ZONE, zone);
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_ROLE, role);
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_SETTING, setting);
-
-            // Fire event to fill user data
+            yield call(setLocaleStorageItem, LOCAL_STORAGE_SETTINGS, settingsData);
+            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_DATA, {...userData, token});
+            // Fire event to redux for user data
             yield put(storeSetUserFullData({
-                post: poste,
-                address: adresse,
-                id: id.toString(),
-                creation: created_at,
-                avatar: avatarFromServer,
-                name, phone, email, description, zone, sims, role, setting,
-                town, country, reference, salePoint, commission, backIDCard, frontIDCard,
+                id: userData.id,
+                description: userData.description,
+                address, post, name, phone, email, avatar, creation,
             }));
-            // Fire event for welcome notify
-            yield put(storeSetSuccessToastData({
-                title: 'Bienvenue!',
-                body: `Tout est prêt pour vous ${name}`
-            }));
+            // Fire event to redux for settings data
+            yield put(storeSetSettingsData({
+                id: settingsData.id,
+                description: settingsData.description,
+                cards, charts, bars, sound, session
+            }))
             // Fire event for request
-            yield put(storeRequestSucceed({scope}));
+            //yield put(storeUserCheckRequestSucceed());
         } catch (message) {
             // Fire event for request
-            yield put(storeRequestFailed({scope}));
-            yield put(storeSetDangerErrorData({message, scope}));
+            yield put(storeUserCheckRequestFailed());
+            yield put(storeSetUserCheckErrorData({message}));
         }
     });
 }
@@ -342,8 +248,31 @@ export function* emitUserBalance() {
 */
 
 // Extract user data & settings
-function extractUserDataAndSettings(apiResponse) {
-    //const {id, name, poste, email, adresse, created_at, description, avatar} = apiResponse;
+function extractUserAndSettingsData(apiResponse) {
+    const {user, settings} = apiResponse;
+    return {
+        userData: {
+            auth: true,
+            name: user.name,
+            post: user.poste,
+            email: user.email,
+            phone: user.phone,
+            address: user.adresse,
+            id: user.id.toString(),
+            creation: user.created_at,
+            description: user.description,
+            avatar: getProfileImageFromServer(user.avatar)
+        },
+        settingsData: {
+            session: settings.session,
+            id: settings.id.toString(),
+            sound: settings.sound === 1,
+            bars: JSON.parse(settings.bars),
+            cards: JSON.parse(settings.cards),
+            description: settings.description,
+            charts: JSON.parse(settings.charts)
+        }
+    }
 }
 
 // Combine to export all functions at once

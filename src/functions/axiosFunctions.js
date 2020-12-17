@@ -5,8 +5,9 @@ import {LOCAL_STORAGE_USER_DATA} from "../constants/localStorageConstants";
 
 // Request interceptor
 axios.interceptors.request.use(config => {
+    const userData = getLocaleStorageItem(LOCAL_STORAGE_USER_DATA);
     config.headers.ContentType = 'Application/json';
-    config.headers.Authorization = 'Bearer ' + getLocaleStorageItem(LOCAL_STORAGE_USER_DATA).token;
+    if(userData !== null) config.headers.Authorization = 'Bearer ' + userData.token;
     return config;
 }, error => Promise.reject(error));
 
@@ -45,6 +46,7 @@ export function apiPostRequest(url, data = {}) {
 function apiErrorManagement(errorMessage) {
     switch (errorMessage) {
         case "Network Error": return "Erreur du reseau. Merci de vérifier votre connexion internet";
+        case "Request failed with status code 500": return "Erreur du serveur. Le serveur ne parvient pas traiter la requêtte";
         default: return errorMessage;
     }
 }

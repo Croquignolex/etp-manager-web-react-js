@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import LoaderComponent from "../components/LoaderComponent";
 import ErrorAlertComponent from "../components/ErrorAlertComponent";
 import {emitAttemptUserAuthentication} from "../redux/user/actions";
+import {DEFAULT_GUEST_MESSAGE} from "../constants/defaultConstants";
 import {requestLoading, setPageTitle} from "../functions/generalFunctions";
 import {storeResetUserCheckErrorData, storeSetUserCheckErrorData} from "../redux/errors/actions";
 
@@ -20,7 +21,7 @@ function CheckUserPage({location, errors, requests, dispatch}) {
         const token = (new URLSearchParams(location.search)).get('token');
         if(token === null) {
             // Display unauthenticated error
-            dispatch(storeSetUserCheckErrorData({message: 'unauthenticated'}))
+            dispatch(storeSetUserCheckErrorData({message: DEFAULT_GUEST_MESSAGE}))
         }
         else {
             // Attempt to authenticate user
@@ -41,7 +42,7 @@ function CheckUserPage({location, errors, requests, dispatch}) {
                     <img alt="..." src={require('../assets/images/manager.png')} className="img-fluid" />
                 </div>
                 <div className="col-12 mt-4">
-                    {requestLoading(requests) && <LoaderComponent />}
+                    {requestLoading(requests.userCheck) && <LoaderComponent />}
                     {errors.userCheck.show && <ErrorAlertComponent message={errors.userCheck.message} />}
                 </div>
             </div>

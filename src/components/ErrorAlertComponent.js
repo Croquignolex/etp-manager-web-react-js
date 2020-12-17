@@ -4,6 +4,7 @@ import {Alert} from "react-bootstrap";
 
 import {AUTH_URL} from "../constants/generalConstants";
 import {playErrorSound} from "../functions/playSoundFunctions";
+import {DEFAULT_GUEST_MESSAGE} from "../constants/defaultConstants";
 
 // Component
 function ErrorAlertComponent({message}) {
@@ -14,9 +15,9 @@ function ErrorAlertComponent({message}) {
     return (
         <Alert variant="danger" className='text-center'>
             <i className="fa fa-ban" />&nbsp;
-            {message !== "unauthenticated"
+            {message !== DEFAULT_GUEST_MESSAGE
                 ? message
-                : <>Vous n'êtes pas authentifiés. Merci de vous authtifier en cliquant <a href={AUTH_URL}>ici</a>.</>
+                : <>Erreur d'authentification. Merci de vous authentifier en cliquant <a href={AUTH_URL}>ici</a>.</>
             }
         </Alert>
     )
