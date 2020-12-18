@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 
-import asyncComponent from './helpers/asyncComponent';
+import asyncComponent from './components/asyncComponent';
 import {APP_PAGE_PATH} from "./constants/pagePathConstants";
 import PublicRouteContainer from "./containers/PublicRouteContainer";
 import RestrictedRouteContainer from "./containers/RestrictedRouteContainer";

@@ -1,21 +1,17 @@
 import PropTypes from "prop-types";
-import React, {useEffect, useLayoutEffect} from 'react';
+import React, {useEffect} from 'react';
 
 import FooterComponent from "../components/FooterComponent";
 import LoaderComponent from "../components/LoaderComponent";
+import {requestLoading} from "../functions/generalFunctions";
 import ErrorAlertComponent from "../components/ErrorAlertComponent";
 import {emitAttemptUserAuthentication} from "../redux/user/actions";
 import {DEFAULT_GUEST_MESSAGE} from "../constants/defaultConstants";
-import {requestLoading, setPageTitle} from "../functions/generalFunctions";
 import {storeResetUserCheckErrorData, storeSetUserCheckErrorData} from "../redux/errors/actions";
 
 // Component
 function CheckUserPage({location, errors, requests, dispatch}) {
     // local effects
-    useLayoutEffect(() => {
-        setPageTitle("Redirection");
-    }, []);
-
     useEffect(() => {
         // Extract token from URL
         const token = (new URLSearchParams(location.search)).get('token');

@@ -1,6 +1,9 @@
 import {connect} from "react-redux";
 
 import CheckUserPage from "../pages/CheckUserPage";
+import {setPageTitle} from "../functions/generalFunctions";
+
+setPageTitle("Redirection");
 
 // Map state function to component props
 const mapStateToProps = (state) => ({

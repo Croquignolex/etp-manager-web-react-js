@@ -14,3 +14,4 @@ export const VENDORS = [
     {id: 'BANQUE (MTN)', name: 'BANQUE (MTN)'},
 ];
 
+export const USER_ROLE = "GESTIONNAIRE DE FLOTTE";

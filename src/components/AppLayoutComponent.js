@@ -3,10 +3,13 @@ import {Switch, Route} from "react-router-dom";
 import React, {useEffect, useLayoutEffect} from 'react';
 
 import FooterComponent from "./FooterComponent";
-import asyncComponent from "../helpers/asyncComponent";
+import asyncComponent from "./asyncComponent";
 import NavBarContainer from "../containers/NavBarContainer";
 import SideBarContainer from "../containers/SideBarContainer";
+import {PROFILE_PAGE_PATH} from "../constants/pagePathConstants";
+import ProfilePageContainer from "../containers/ProfilePageContainer";
 import {emitUnreadNotificationsFetch} from "../redux/notifications/actions";
+import RestrictedRouteContainer from "../containers/RestrictedRouteContainer";
 
 // Component
 function AppLayoutComponent({location, dispatch}) {
@@ -45,9 +48,8 @@ function AppLayoutComponent({location, dispatch}) {
                 <SideBarContainer pathname={location.pathname} />
                 <Switch>
                     {/* Common pages */}
-                    {/*<RestrictedRoute path={LISTING_PAGE_PATH} exact component={ListingPage} />
-                    <RestrictedRoute path={PROFILE_PAGE_PATH} exact component={ProfilePage} />
-                    <RestrictedRoute path={SETTINGS_PAGE_PATH} exact component={SettingsPage} />*/}
+                    <RestrictedRouteContainer path={PROFILE_PAGE_PATH} exact component={ProfilePageContainer} />
+                    {/*<RestrictedRoute path={SETTINGS_PAGE_PATH} exact component={SettingsPage} />*!/*/}
                     {/*<RestrictedRouteContainer path={DASHBOARD_PAGE_PATH} exact component={DashboardPage} />*/}
                     {/*<RestrictedRoute path={NOTIFICATIONS_PAGE_PATH} exact component={NotificationsPage} />*/}
                     {/* Network pages */}
