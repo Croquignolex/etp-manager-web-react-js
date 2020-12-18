@@ -1,14 +1,15 @@
 import PropTypes from "prop-types";
-import React, {useEffect, useLayoutEffect} from 'react';
 import {Switch, Route} from "react-router-dom";
+import React, {useEffect, useLayoutEffect} from 'react';
 
 import FooterComponent from "./FooterComponent";
 import asyncComponent from "../helpers/asyncComponent";
 import NavBarContainer from "../containers/NavBarContainer";
+import SideBarContainer from "../containers/SideBarContainer";
 import {emitUnreadNotificationsFetch} from "../redux/notifications/actions";
 
 // Component
-function AppLayoutComponent({location, toast, user, requests, dispatch}) {
+function AppLayoutComponent({location, dispatch}) {
     // Local layout effect
     useLayoutEffect(() => {
        if(is_mobile()) {
@@ -41,7 +42,7 @@ function AppLayoutComponent({location, toast, user, requests, dispatch}) {
             {/*<ToastAlert toast={toast} dispatch={dispatch} playSound={user.setting.sound} />*/}
             <div className="wrapper">
                 <NavBarContainer />
-                {/*<SideBar user={user} requests={requests} />*/}
+                <SideBarContainer pathname={location.pathname} />
                 <Switch>
                     {/* Common pages */}
                     {/*<RestrictedRoute path={LISTING_PAGE_PATH} exact component={ListingPage} />

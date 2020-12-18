@@ -3,7 +3,7 @@ import React, {Fragment} from 'react';
 import { Link } from 'react-router-dom';
 
 import {emitUserLogout} from "../redux/user/actions";
-import {dateToString} from "../functions/generalFunctions";
+import {dateToString, formatString} from "../functions/generalFunctions";
 import {emitNotificationRead} from "../redux/notifications/actions";
 import {PROFILE_PAGE, SETTINGS_PAGE} from "../constants/pageNameConstants";
 import {NOTIFICATIONS_PAGE_PATH, PROFILE_PAGE_PATH, SETTINGS_PAGE_PATH} from "../constants/pagePathConstants";
@@ -23,7 +23,7 @@ function NavBarComponent({userName, unreadNotifications, dispatch}) {
             </ul>
             <ul className='navbar-nav ml-auto'>
                 <li className='text-center'>
-                    {userName}<br/>
+                    {formatString(userName, 23)}<br/>
                     <strong className='text-theme'>GESTIONNAIRE DE FLOTTE</strong>
                 </li>
             </ul>

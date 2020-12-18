@@ -12,31 +12,6 @@ export function needleSearch(set, needle) {
 }
 
 //
-export function formatString(text, maxCharacters) {
-    // Extract
-    try {
-        if(text.length > maxCharacters) return text.substring(0, maxCharacters) + '...';
-    } catch (e) {
-        if(process.env.NODE_ENV !== 'production') console.log({e});
-    }
-    return text;
-}
-
-//
-export function formatNumber(number) {
-    // Extract
-    try {
-        if(number.toString().length > 3)
-            return new Intl.NumberFormat('en-EN', {
-                style: 'decimal',
-            }).format(number)
-    } catch (e) {
-        if(process.env.NODE_ENV !== 'production') console.log({e});
-    }
-    return number;
-}
-
-//
 export function groupArrayBy(list, keyGetter) {
     const map = new Map();
     let returnedData = [];
