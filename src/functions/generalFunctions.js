@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import {API_SERVER_URL, APP_NAME} from "../constants/generalConstants";
 
 // Add app name on page title
@@ -33,4 +35,18 @@ export function getProfileImageFromServer(image) {
 export function getCNIImageFromServer(image, scope) {
     const defaultImage = require('../assets/images/no-image.jpg');
     return (image === null) ? defaultImage : `${API_SERVER_URL}/storage/${image}`;
+}
+
+// Convert API date to string
+export function dateToString(date) {
+    return date && moment(date).format('DD/MM/YYYY HH:mm');
+}
+
+// Sort by API creation date
+export function sortByCreationDate(array) {
+    return array.sort((a, b) => {
+        if(a.creation < b.creation) return 1;
+        if(a.creation > b.creation) return -1;
+        return 0;
+    });
 }

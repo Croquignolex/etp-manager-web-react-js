@@ -1,4 +1,3 @@
-export const LOGIN_PAGE_PATH = '/';
 export const APP_PAGE_PATH = '/app';
 export const PROFILE_PAGE_PATH = `${APP_PAGE_PATH}/profile`;
 export const SETTINGS_PAGE_PATH = `${APP_PAGE_PATH}/settings`;

@@ -3,16 +3,16 @@ import React, {useContext, useEffect, useState} from 'react';
 
 import Loader from "../../../components/Loader";
 import CustomModal from "../../../components/Modal";
-import Header from "../../../components/app/Header";
+import Header from "../../../components/Header";
 import FormModal from "../../../components/FormModal";
 import ErrorAlert from "../../../components/ErrorAlert";
 import TableSearch from "../../../components/TableSearch";
 import LittleLoader from "../../../components/LittleLoader";
-import CheckBox from "../../../components/app/form/CheckBox";
-import ViewSwitcher from "../../../components/app/ViewSwitcher";
+import CheckBox from "../../../components/form/CheckBox";
+import ViewSwitcher from "../../../components/ViewSwitcher";
 import {storeResetErrorData} from "../../../redux/errors/actions";
-import UsersDetailModal from "../../../components/app/users/UsersDetailModal";
-import CollectorsCard from "../../../components/app/collectors/CollectorsCard";
+import UsersDetailModal from "../../../components/users/UsersDetailModal";
+import CollectorsCard from "../../../components/collectors/CollectorsCard";
 import CollectorsHigherOrder from "../../../components/layout/CollectorsHigherOrder";
 import {emitCollectorDelete, emitToggleCollectorStatus} from "../../../redux/collectors/actions";
 import {

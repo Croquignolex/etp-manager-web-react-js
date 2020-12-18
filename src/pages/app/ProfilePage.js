@@ -1,15 +1,15 @@
 import React, {useContext} from 'react';
 
-import Header from "../../components/app/Header";
+import Header from "../../components/Header";
 import {UserContext} from "../../helpers/contexts";
-import UsersEdit from "../../components/app/users/UsersEdit";
-import UsersZone from "../../components/app/users/UsersZone";
-import AgentsCNI from "../../components/app/agents/AgentsCNI";
-import UsersDetail from "../../components/app/users/UsersDetail";
-import ProfileSims from "../../components/app/profile/ProfileSims";
+import UsersEdit from "../../components/users/UsersEdit";
+import UsersZone from "../../components/users/UsersZone";
+import AgentsCNI from "../../components/agents/AgentsCNI";
+import UsersDetail from "../../components/users/UsersDetail";
+import ProfileSims from "../../components/profile/ProfileSims";
 import AppHigherOrder from "../../components/layout/AppHigherOrder";
-import UsersAvatarEdit from "../../components/app/users/UsersAvatarEdit";
-import ProfilePassword from "../../components/app/profile/ProfilePassword";
+import UsersAvatarEdit from "../../components/users/UsersAvatarEdit";
+import ProfilePassword from "../../components/profile/ProfilePassword";
 import {
     AGENT_ROLE,
     PROFILE_PAGE,

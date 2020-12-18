@@ -1,12 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react';
 
-import Header from "../../../../components/app/Header";
+import Header from "../../../../components/Header";
 import FormModal from "../../../../components/FormModal";
 import {storeResetErrorData} from "../../../../redux/errors/actions";
-import FleetsEdit from "../../../../components/app/fleets/FleetsEdit";
-import FleetsDetail from "../../../../components/app/fleets/FleetsDetail";
-import FleetsSupplies from "../../../../components/app/fleets/FleetsSupplies";
-import FleetsAddSupply from "../../../../components/app/fleets/FleetsAddSupply";
+import FleetsEdit from "../../../../components/fleets/FleetsEdit";
+import FleetsDetail from "../../../../components/fleets/FleetsDetail";
+import FleetsSupplies from "../../../../components/fleets/FleetsSupplies";
+import FleetsAddSupply from "../../../../components/fleets/FleetsAddSupply";
 import {processingRequest, shouldShowError} from "../../../../helpers/functions";
 import RequestsFleetsHigherOrder from "../../../../components/layout/RequestsFleetsHigherOrder";
 import {

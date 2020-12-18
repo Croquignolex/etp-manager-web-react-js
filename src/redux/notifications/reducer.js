@@ -1,8 +1,4 @@
-import {
-    STORE_SET_NOTIFICATIONS_DATA,
-    STORE_SET_NOTIFICATION_ACTION_DATA,
-    STORE_SET_UNREAD_NOTIFICATIONS_DATA,
-} from "./actions";
+import {STORE_SET_NOTIFICATIONS_DATA, STORE_SET_NOTIFICATION_ACTION_DATA, STORE_SET_UNREAD_NOTIFICATIONS_DATA} from "./actions";
 
 // Partial global store for users data management
 const initialState = {

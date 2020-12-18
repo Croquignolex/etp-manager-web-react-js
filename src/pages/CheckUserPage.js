@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React, {useEffect, useLayoutEffect} from 'react';
 
-import Footer from "../components/Footer";
+import FooterComponent from "../components/FooterComponent";
 import LoaderComponent from "../components/LoaderComponent";
 import ErrorAlertComponent from "../components/ErrorAlertComponent";
 import {emitAttemptUserAuthentication} from "../redux/user/actions";
@@ -46,7 +46,7 @@ function CheckUserPage({location, errors, requests, dispatch}) {
                     {errors.userCheck.show && <ErrorAlertComponent message={errors.userCheck.message} />}
                 </div>
             </div>
-            <Footer needAbsolutePosition={true} />
+            <FooterComponent needAbsolutePosition={true} />
         </div>
     )
 }

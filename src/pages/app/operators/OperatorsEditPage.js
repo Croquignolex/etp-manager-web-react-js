@@ -1,12 +1,12 @@
 import React, {useContext, useLayoutEffect, useState} from 'react';
 
-import Header from "../../../components/app/Header";
+import Header from "../../../components/Header";
 import FormModal from "../../../components/FormModal";
-import SimsList from "../../../components/app/sims/SimsList";
+import SimsList from "../../../components/sims/SimsList";
 import {storeResetErrorData} from "../../../redux/errors/actions";
-import OperatorsEdit from "../../../components/app/operators/OperatorsEdit";
-import OperatorsAddSim from "../../../components/app/operators/OperatorsAddSim";
-import OperatorsDetail from "../../../components/app/operators/OperatorsDetail";
+import OperatorsEdit from "../../../components/operators/OperatorsEdit";
+import OperatorsAddSim from "../../../components/operators/OperatorsAddSim";
+import OperatorsDetail from "../../../components/operators/OperatorsDetail";
 import OperatorsHigherOrder from "../../../components/layout/OperatorsHigherOrder";
 import {formatNumber, processingRequest, shouldShowError} from "../../../helpers/functions";
 import {

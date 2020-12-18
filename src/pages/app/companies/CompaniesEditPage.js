@@ -1,14 +1,14 @@
 import React, {useContext, useLayoutEffect, useState} from 'react';
 
-import Header from "../../../components/app/Header";
+import Header from "../../../components/Header";
 import FormModal from "../../../components/FormModal";
-import SimsList from "../../../components/app/sims/SimsList";
+import SimsList from "../../../components/sims/SimsList";
 import {storeResetErrorData} from "../../../redux/errors/actions";
-import CompaniesEdit from "../../../components/app/companies/CompaniesEdit";
-import CompaniesAddSim from "../../../components/app/companies/CompaniesAddSim";
-import CompaniesDetail from "../../../components/app/companies/CompaniesDetail";
+import CompaniesEdit from "../../../components/companies/CompaniesEdit";
+import CompaniesAddSim from "../../../components/companies/CompaniesAddSim";
+import CompaniesDetail from "../../../components/companies/CompaniesDetail";
 import CompaniesHigherOrder from "../../../components/layout/CompaniesHigherOrder";
-import AgentsDocumentEdit from "../../../components/app/agents/AgentsDocumentEdit";
+import AgentsDocumentEdit from "../../../components/agents/AgentsDocumentEdit";
 import {formatNumber, processingRequest, shouldShowError} from "../../../helpers/functions";
 import {
     COMPANY_SCOPE,

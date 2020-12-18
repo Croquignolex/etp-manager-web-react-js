@@ -1,12 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react';
 
 import Loader from "../../../components/Loader";
-import Header from "../../../components/app/Header";
+import Header from "../../../components/Header";
 import FormModal from "../../../components/FormModal";
 import ErrorAlert from "../../../components/ErrorAlert";
 import TableSearch from "../../../components/TableSearch";
 import {storeResetErrorData} from "../../../redux/errors/actions";
-import CheckoutNewPayment from "../../../components/app/checkout/CheckoutNewPayment";
+import CheckoutNewPayment from "../../../components/checkout/CheckoutNewPayment";
 import {MANAGER_ROLE, CHECKOUT_PAYMENTS_PAGE, PAYMENTS_SCOPE} from "../../../helpers/constants";
 import CheckoutPaymentsHigherOrder from "../../../components/layout/CheckoutPaymentsHigherOrder";
 import {

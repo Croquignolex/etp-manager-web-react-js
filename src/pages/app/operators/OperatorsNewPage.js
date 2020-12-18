@@ -1,10 +1,10 @@
 import React, {useContext, useEffect, useLayoutEffect, useState} from 'react';
 
-import Header from "../../../components/app/Header";
-import Input from "../../../components/app/form/Input";
+import Header from "../../../components/Header";
+import Input from "../../../components/form/Input";
 import ErrorAlert from "../../../components/ErrorAlert";
-import Button from "../../../components/app/form/Button";
-import TextArea from "../../../components/app/form/Textarea";
+import Button from "../../../components/form/Button";
+import TextArea from "../../../components/form/Textarea";
 import {requiredChecker} from "../../../helpers/formsChecker";
 import {emitNewOperator} from "../../../redux/operators/actions";
 import {storeResetErrorData} from "../../../redux/errors/actions";

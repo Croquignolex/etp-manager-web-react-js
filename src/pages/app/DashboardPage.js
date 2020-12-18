@@ -2,13 +2,13 @@ import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 import React, {useLayoutEffect} from 'react';
 
-import Header from "../../components/app/Header";
+import Header from "../../components/Header";
 import {getPageTitle} from "../../helpers/functions";
 import {storeCurrentPath} from "../../redux/requests/actions";
-import AgentDashboard from "../../components/app/dashboard/agent/AgentDashboard";
-import AdminDashboard from "../../components/app/dashboard/admin/AdminDashboard";
-import ManagerDashboard from "../../components/app/dashboard/manager/ManagerDashboard";
-import CollectorDashboard from "../../components/app/dashboard/collector/CollectorDashboard";
+import AgentDashboard from "../../components/dashboard/agent/AgentDashboard";
+import AdminDashboard from "../../components/dashboard/admin/AdminDashboard";
+import ManagerDashboard from "../../components/dashboard/manager/ManagerDashboard";
+import CollectorDashboard from "../../components/dashboard/collector/CollectorDashboard";
 import {
     ADMIN_ROLE,
     AGENT_ROLE,

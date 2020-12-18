@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 
 import Loader from "../../../components/Loader";
-import Header from "../../../components/app/Header";
+import Header from "../../../components/Header";
 import ErrorAlert from "../../../components/ErrorAlert";
 import TableSearch from "../../../components/TableSearch";
 import {storeResetErrorData} from "../../../redux/errors/actions";

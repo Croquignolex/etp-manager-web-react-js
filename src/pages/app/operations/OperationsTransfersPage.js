@@ -1,12 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react';
 
 import Loader from "../../../components/Loader";
-import Header from "../../../components/app/Header";
+import Header from "../../../components/Header";
 import FormModal from "../../../components/FormModal";
 import ErrorAlert from "../../../components/ErrorAlert";
 import TableSearch from "../../../components/TableSearch";
 import {storeResetErrorData} from "../../../redux/errors/actions";
-import OperationsFleetNewTransfer from "../../../components/app/operations/OperationsFleetNewTransfer";
+import OperationsFleetNewTransfer from "../../../components/operations/OperationsFleetNewTransfer";
 import OperationsTransfersHigherOrder from "../../../components/layout/OperationsTransfersHigherOrder";
 import {
     dateToString,

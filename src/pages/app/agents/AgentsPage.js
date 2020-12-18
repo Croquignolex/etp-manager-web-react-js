@@ -3,17 +3,17 @@ import React, {useContext, useEffect, useState} from 'react';
 
 import Loader from "../../../components/Loader";
 import CustomModal from "../../../components/Modal";
-import Header from "../../../components/app/Header";
+import Header from "../../../components/Header";
 import FormModal from "../../../components/FormModal";
 import ErrorAlert from "../../../components/ErrorAlert";
 import TableSearch from "../../../components/TableSearch";
 import LittleLoader from "../../../components/LittleLoader";
-import CheckBox from "../../../components/app/form/CheckBox";
-import ViewSwitcher from "../../../components/app/ViewSwitcher";
+import CheckBox from "../../../components/form/CheckBox";
+import ViewSwitcher from "../../../components/ViewSwitcher";
 import {storeResetErrorData} from "../../../redux/errors/actions";
-import AgentsCard from "../../../components/app/agents/AgentsCard";
+import AgentsCard from "../../../components/agents/AgentsCard";
 import AgentsHigherOrder from "../../../components/layout/AgentsHigherOrder";
-import UsersDetailModal from "../../../components/app/users/UsersDetailModal";
+import UsersDetailModal from "../../../components/users/UsersDetailModal";
 import {emitAgentDelete, emitToggleAgentStatus} from "../../../redux/agents/actions";
 import {
     UserContext,

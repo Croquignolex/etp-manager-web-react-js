@@ -1,12 +1,12 @@
 import React, {useContext, useEffect} from 'react';
 
-import Header from "../../../components/app/Header";
-import SimsEdit from "../../../components/app/sims/SimsEdit";
-import SimsDetail from "../../../components/app/sims/SimsDetail";
+import Header from "../../../components/Header";
+import SimsEdit from "../../../components/sims/SimsEdit";
+import SimsDetail from "../../../components/sims/SimsDetail";
 import {storeResetErrorData} from "../../../redux/errors/actions";
-import SimsAgentEdit from "../../../components/app/sims/SimsAgentEdit";
+import SimsAgentEdit from "../../../components/sims/SimsAgentEdit";
 import SimsHigherOrder from "../../../components/layout/SimsHigherOrder";
-import SimsOperatorEdit from "../../../components/app/sims/SimsOperatorEdit";
+import SimsOperatorEdit from "../../../components/sims/SimsOperatorEdit";
 import {shouldShowError, processingRequest} from "../../../helpers/functions";
 import {
     SIM_SCOPE,
@@ -20,7 +20,7 @@ import {
     RequestsContext,
     DispatchContext,
 } from "../../../helpers/contexts";
-import SimsCompanyEdit from "../../../components/app/sims/SimsCompanyEdit";
+import SimsCompanyEdit from "../../../components/sims/SimsCompanyEdit";
 
 // Component
 function SimsEditPage() {

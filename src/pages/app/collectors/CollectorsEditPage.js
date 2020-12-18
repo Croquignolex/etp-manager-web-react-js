@@ -1,14 +1,14 @@
 import React, {useContext, useEffect, useState} from 'react';
 
-import Header from "../../../components/app/Header";
+import Header from "../../../components/Header";
 import FormModal from "../../../components/FormModal";
-import SimsList from "../../../components/app/sims/SimsList";
-import UsersZone from "../../../components/app/users/UsersZone";
+import SimsList from "../../../components/sims/SimsList";
+import UsersZone from "../../../components/users/UsersZone";
 import {storeResetErrorData} from "../../../redux/errors/actions";
-import UsersDetail from "../../../components/app/users/UsersDetail";
-import UsersZoneEdit from "../../../components/app/users/UsersZoneEdit";
-import CollectorsEdit from "../../../components/app/collectors/CollectorsEdit";
-import CollectorsAddSim from "../../../components/app/collectors/CollectorsAddSim";
+import UsersDetail from "../../../components/users/UsersDetail";
+import UsersZoneEdit from "../../../components/users/UsersZoneEdit";
+import CollectorsEdit from "../../../components/collectors/CollectorsEdit";
+import CollectorsAddSim from "../../../components/collectors/CollectorsAddSim";
 import CollectorsHigherOrder from "../../../components/layout/CollectorsHigherOrder";
 import {shouldShowError, processingRequest, formatNumber} from "../../../helpers/functions";
 import {

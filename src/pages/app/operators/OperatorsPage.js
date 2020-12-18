@@ -3,7 +3,7 @@ import React, {useContext, useLayoutEffect, useState} from 'react';
 
 import Loader from "../../../components/Loader";
 import CustomModal from "../../../components/Modal";
-import Header from "../../../components/app/Header";
+import Header from "../../../components/Header";
 import FormModal from "../../../components/FormModal";
 import ErrorAlert from "../../../components/ErrorAlert";
 import TableSearch from "../../../components/TableSearch";
@@ -11,7 +11,7 @@ import LittleLoader from "../../../components/LittleLoader";
 import {storeResetErrorData} from "../../../redux/errors/actions";
 import {emitOperatorDelete} from "../../../redux/operators/actions";
 import OperatorsHigherOrder from "../../../components/layout/OperatorsHigherOrder";
-import OperatorsDetailModal from "../../../components/app/operators/OperatorsDetailModal";
+import OperatorsDetailModal from "../../../components/operators/OperatorsDetailModal";
 import {
     dateToString,
     formatNumber,

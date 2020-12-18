@@ -1,15 +1,15 @@
 import React, {useContext, useEffect, useState} from 'react';
 
-import Header from "../../../components/app/Header";
-import Input from "../../../components/app/form/Input";
+import Header from "../../../components/Header";
+import Input from "../../../components/form/Input";
 import ErrorAlert from "../../../components/ErrorAlert";
-import Button from "../../../components/app/form/Button";
-import Select from "../../../components/app/form/Select";
+import Button from "../../../components/form/Button";
+import Select from "../../../components/form/Select";
 import {emitNewAgent} from "../../../redux/agents/actions";
-import TextArea from "../../../components/app/form/Textarea";
+import TextArea from "../../../components/form/Textarea";
 import {storeResetErrorData} from "../../../redux/errors/actions";
-import FileImageType from "../../../components/app/form/FileImageType";
-import FileDocumentType from "../../../components/app/form/FileDocumentType";
+import FileImageType from "../../../components/form/FileImageType";
+import FileDocumentType from "../../../components/form/FileDocumentType";
 import AgentsHigherOrder from "../../../components/layout/AgentsHigherOrder";
 import {
     fileChecker,

@@ -3,13 +3,13 @@ import React, {useContext, useEffect, useState} from 'react';
 
 import Loader from "../../../components/Loader";
 import CustomModal from "../../../components/Modal";
-import Header from "../../../components/app/Header";
+import Header from "../../../components/Header";
 import ErrorAlert from "../../../components/ErrorAlert";
 import TableSearch from "../../../components/TableSearch";
 import LittleLoader from "../../../components/LittleLoader";
-import CheckBox from "../../../components/app/form/CheckBox";
-import UsersCard from "../../../components/app/users/UsersCard";
-import ViewSwitcher from "../../../components/app/ViewSwitcher";
+import CheckBox from "../../../components/form/CheckBox";
+import UsersCard from "../../../components/users/UsersCard";
+import ViewSwitcher from "../../../components/ViewSwitcher";
 import {storeResetErrorData} from "../../../redux/errors/actions";
 import UsersHigherOrder from "../../../components/layout/UsersHigherOrder";
 import {

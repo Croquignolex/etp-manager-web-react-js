@@ -12,11 +12,6 @@ export function needleSearch(set, needle) {
 }
 
 //
-export function dateToString(date) {
-    return date && moment(date).format('DD/MM/YYYY HH:mm');
-}
-
-//
 export function formatString(text, maxCharacters) {
     // Extract
     try {
@@ -61,16 +56,7 @@ export function groupArrayBy(list, keyGetter) {
 }
 
 //
-export function sortByCreationDate(array) {
-    return array.sort((a, b) => {
-        if(a.creation < b.creation) return 1;
-        if(a.creation > b.creation) return -1;
-        return 0;
-    });
-}
-
-//
-export function simTypeBadgeColor(type) {
+/*export function simTypeBadgeColor(type) {
     switch (type) {
         case AGENT_TYPE: return 'primary';
         case FLEET_TYPE: return 'warning';
@@ -80,9 +66,10 @@ export function simTypeBadgeColor(type) {
         case CORPORATE_TYPE: return 'secondary';
         default: return 'default';
     }
-}
+}*/
 
 //
+/*
 export function fleetTypeBadgeColor(type) {
     switch (type) {
         case CANCEL: return {color: 'danger', text: 'Annulée'};
@@ -92,8 +79,10 @@ export function fleetTypeBadgeColor(type) {
         default: return {color: 'default', text: 'Inconnu'};
     }
 }
+*/
 
 //
+/*
 export function roleBadgeColor(role) {
     switch (role) {
         case ADMIN: return 'danger';
@@ -104,6 +93,7 @@ export function roleBadgeColor(role) {
         default: return 'default';
     }
 }
+*/
 
 //
 export function dataToArrayForSelect(data) {
@@ -174,6 +164,7 @@ export function mappedAmounts(items) {
 }
 
 //
+/*
 export function extractDataInPartialRedux(scope, partialRedux) {
     switch (scope) {
         case USER_SCOPE: return partialRedux.users.current;
@@ -184,9 +175,10 @@ export function extractDataInPartialRedux(scope, partialRedux) {
         default: return (partialRedux.user || {sims: []});
     }
 }
+*/
 
 //
-export function fleetsByTypeChartData(fleets) {
+/*export function fleetsByTypeChartData(fleets) {
     // Data
     const data = [];
     const labels = [];
@@ -208,7 +200,7 @@ export function fleetsByTypeChartData(fleets) {
     });
     // Return
     return {data, labels, backgroundColor}
-}
+}*/
 
 //
 export function extractFleetData(apiSim, apiUser, apiAgent, apiClaimer, apiFleet, apiSupplies) {

@@ -1,4 +1,5 @@
 import {connect} from "react-redux";
+
 import CheckUserPage from "../pages/CheckUserPage";
 
 // Map state function to component props

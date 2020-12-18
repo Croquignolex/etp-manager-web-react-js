@@ -1,10 +1,10 @@
 import React, {useContext, useEffect} from 'react';
 
-import Header from "../../../components/app/Header";
-import UsersEdit from "../../../components/app/users/UsersEdit";
+import Header from "../../../components/Header";
+import UsersEdit from "../../../components/users/UsersEdit";
 import {storeResetErrorData} from "../../../redux/errors/actions";
-import UsersDetail from "../../../components/app/users/UsersDetail";
-import UsersRoleEdit from "../../../components/app/users/UsersRoleEdit";
+import UsersDetail from "../../../components/users/UsersDetail";
+import UsersRoleEdit from "../../../components/users/UsersRoleEdit";
 import UsersHigherOrder from "../../../components/layout/UsersHigherOrder";
 import {ErrorsContext, DispatchContext, RequestsContext} from "../../../helpers/contexts";
 import {

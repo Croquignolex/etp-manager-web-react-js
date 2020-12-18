@@ -3,7 +3,7 @@ import React, {useContext, useLayoutEffect, useState} from 'react';
 
 import Loader from "../../../components/Loader";
 import CustomModal from "../../../components/Modal";
-import Header from "../../../components/app/Header";
+import Header from "../../../components/Header";
 import ErrorAlert from "../../../components/ErrorAlert";
 import TableSearch from "../../../components/TableSearch";
 import LittleLoader from "../../../components/LittleLoader";
@@ -29,7 +29,7 @@ import {
     ALL_COMPANIES_PAGE,
     COMPANY_EDIT_PAGE_PATH,
 } from "../../../helpers/constants";
-import OperatorsDetailModal from "../../../components/app/operators/OperatorsDetailModal";
+import OperatorsDetailModal from "../../../components/operators/OperatorsDetailModal";
 import FormModal from "../../../components/FormModal";
 
 // Component

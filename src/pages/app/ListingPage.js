@@ -1,9 +1,9 @@
 import React, {useContext, useEffect, useState} from 'react';
 
-import Header from "../../components/app/Header";
+import Header from "../../components/Header";
 import ErrorAlert from "../../components/ErrorAlert";
-import Button from "../../components/app/form/Button";
-import Select from "../../components/app/form/Select";
+import Button from "../../components/form/Button";
+import Select from "../../components/form/Select";
 import {storeResetErrorData} from "../../redux/errors/actions";
 import {emitCompareListing} from "../../redux/requests/actions";
 import ListingHigherOrder from "../../components/layout/ListingHigherOrder";
@@ -23,7 +23,7 @@ import {
     DEFAULT_FORM_DATA,
     IMPORT_LISTING_PAGE, WARNING, DANGER, SUCCESS
 } from "../../helpers/constants";
-import FileDocumentType from "../../components/app/form/FileDocumentType";
+import FileDocumentType from "../../components/form/FileDocumentType";
 
 // Component
 function ListingPage() {

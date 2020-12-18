@@ -1,10 +1,10 @@
 import React, {useContext, useEffect} from 'react';
 
-import Header from "../../../../components/app/Header";
+import Header from "../../../../components/Header";
 import {shouldShowError} from "../../../../helpers/functions";
 import {storeResetErrorData} from "../../../../redux/errors/actions";
-import FleetsEdit from "../../../../components/app/fleets/FleetsEdit";
-import FleetsDetail from "../../../../components/app/fleets/FleetsDetail";
+import FleetsEdit from "../../../../components/fleets/FleetsEdit";
+import FleetsDetail from "../../../../components/fleets/FleetsDetail";
 import {ErrorsContext, DispatchContext} from "../../../../helpers/contexts";
 import RequestsClearancesHigherOrder from "../../../../components/layout/RequestsClearancesHigherOrder";
 import {

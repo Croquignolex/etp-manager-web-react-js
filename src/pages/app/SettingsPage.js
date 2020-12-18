@@ -1,12 +1,12 @@
 import React, {useContext, useState, useEffect} from 'react';
 
-import Header from "../../components/app/Header";
-import Input from "../../components/app/form/Input";
+import Header from "../../components/Header";
+import Input from "../../components/form/Input";
 import ErrorAlert from "../../components/ErrorAlert";
-import Button from "../../components/app/form/Button";
-import Select from "../../components/app/form/Select";
-import CheckBox from "../../components/app/form/CheckBox";
-import TextArea from "../../components/app/form/Textarea";
+import Button from "../../components/form/Button";
+import Select from "../../components/form/Select";
+import CheckBox from "../../components/form/CheckBox";
+import TextArea from "../../components/form/Textarea";
 import {requiredChecker} from "../../helpers/formsChecker";
 import {emitUserSettingUpdate} from "../../redux/user/actions";
 import {storeResetErrorData} from "../../redux/errors/actions";

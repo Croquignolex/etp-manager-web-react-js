@@ -1,14 +1,21 @@
 import { all, takeEvery, takeLatest, put, fork, call } from 'redux-saga/effects'
 
+import {AUTH_URL} from "../../constants/generalConstants";
 import {storeSetUserCheckErrorData} from "../errors/actions";
 import {apiPostRequest} from "../../functions/axiosFunctions";
-import {AUTHENTICATION_API_PATH} from "../../constants/apiConstants";
 import {getProfileImageFromServer} from "../../functions/generalFunctions";
 import {storeResetSettingsData, storeSetSettingsData} from "../settings/actions";
-import {getLocaleStorageItem, setLocaleStorageItem} from "../../functions/localStorageFunctions";
+import {AUTHENTICATION_API_PATH, LOGOUT_API_PATH} from "../../constants/apiConstants";
+import {storeUserCheckRequestFailed, storeUserCheckRequestInit} from "../requests/actions";
 import {LOCAL_STORAGE_USER_DATA, LOCAL_STORAGE_SETTINGS} from "../../constants/localStorageConstants";
-import {storeUserCheckRequestFailed, storeUserCheckRequestInit, storeUserCheckRequestSucceed} from "../requests/actions";
-import {EMIT_ATTEMPT_USER_AUTHENTICATION, EMIT_CHECK_USER_AUTHENTICATION, storeResetUserData, storeSetUserFullData} from "./actions";
+import {getLocaleStorageItem, removeAllLocaleStorageItems, setLocaleStorageItem} from "../../functions/localStorageFunctions";
+import {
+    EMIT_USER_LOGOUT,
+    storeResetUserData,
+    storeSetUserFullData,
+    EMIT_CHECK_USER_AUTHENTICATION,
+    EMIT_ATTEMPT_USER_AUTHENTICATION
+} from "./actions";
 
 // Check user authentication from data in local storage
 export function* emitCheckUserAuthentication() {
@@ -22,18 +29,18 @@ export function* emitCheckUserAuthentication() {
                 // Deconstruction
                 const {cards, charts, bars, sound, session} = settingsData;
                 const {name, post, email, phone, avatar, address, creation} = userData;
-                // Fire event to redux for user data
-                yield put(storeSetUserFullData({
-                    id: userData.id,
-                    description: userData.description,
-                    address, post, name, phone, email, avatar, creation,
-                }));
                 // Fire event to redux for settings data
                 yield put(storeSetSettingsData({
                     id: settingsData.id,
                     description: settingsData.description,
                     cards, charts, bars, sound, session
                 }))
+                // Fire event to redux for user data
+                yield put(storeSetUserFullData({
+                    id: userData.id,
+                    description: userData.description,
+                    address, post, name, phone, email, avatar, creation,
+                }));
             } else {
                 yield put(storeResetUserData());
                 yield put(storeResetSettingsData());
@@ -63,25 +70,37 @@ export function* emitAttemptUserAuthentication() {
             // Set user data into local storage
             yield call(setLocaleStorageItem, LOCAL_STORAGE_SETTINGS, settingsData);
             yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_DATA, {...userData, token});
-            // Fire event to redux for user data
-            yield put(storeSetUserFullData({
-                id: userData.id,
-                description: userData.description,
-                address, post, name, phone, email, avatar, creation,
-            }));
             // Fire event to redux for settings data
             yield put(storeSetSettingsData({
                 id: settingsData.id,
                 description: settingsData.description,
                 cards, charts, bars, sound, session
             }))
-            // Fire event for request
-            //yield put(storeUserCheckRequestSucceed());
+            // Fire event to redux for user data
+            yield put(storeSetUserFullData({
+                id: userData.id,
+                description: userData.description,
+                address, post, name, phone, email, avatar, creation,
+            }));
         } catch (message) {
             // Fire event for request
             yield put(storeUserCheckRequestFailed());
             yield put(storeSetUserCheckErrorData({message}));
         }
+    });
+}
+
+// Remove user data present into local storage while logout from API
+export function* emitUserLogout() {
+    yield takeLatest(EMIT_USER_LOGOUT, function*() {
+        try {
+            // Logout in API (Do not wait API response)
+            call(apiPostRequest, LOGOUT_API_PATH);
+            // Remove all data in locale storage
+            yield call(removeAllLocaleStorageItems);
+            // Redirect to auth page
+            window.location.replace(AUTH_URL);
+        } catch (e) {}
     });
 }
 
@@ -203,19 +222,6 @@ export function* emitUserSettingUpdate() {
     });
 }
 
-// Remove user data present into local storage while logout from API
-export function* emitUserLogout() {
-    yield takeLatest(EMIT_USER_LOGOUT, function*() {
-        try {
-            // Logout in API (Do not wait API response)
-            call(apiPostRequest, LOGOUT_API_PATH);
-            // Remove all data in locale storage
-            yield call(removeAllLocaleStorageItems);
-        } catch (e) {}
-        finally {yield put(storeResetUserData());}
-    });
-}
-
 // Get user balance & keep into store and local storage
 export function* emitUserBalance() {
     yield takeLatest(EMIT_USER_BALANCE, function*() {
@@ -278,6 +284,7 @@ function extractUserAndSettingsData(apiResponse) {
 // Combine to export all functions at once
 export default function* sagaUser() {
     yield all([
+        fork(emitUserLogout),
         fork(emitCheckUserAuthentication),
         fork(emitAttemptUserAuthentication),
     ]);

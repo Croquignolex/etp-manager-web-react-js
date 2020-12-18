@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 
 import Loader from "../../../components/Loader";
-import Header from "../../../components/app/Header";
+import Header from "../../../components/Header";
 import CustomModal from "../../../components/Modal";
 import FormModal from "../../../components/FormModal";
 import ErrorAlert from "../../../components/ErrorAlert";
@@ -10,7 +10,7 @@ import LittleLoader from "../../../components/LittleLoader";
 import {storeResetErrorData} from "../../../redux/errors/actions";
 import {emitConfirmFleetRecovery} from "../../../redux/recoveries/actions";
 import RecoveriesHigherOrder from "../../../components/layout/RecoveriesHigherOrder";
-import RecoveriesFleetNew from "../../../components/app/recoveries/RecoveriesFleetNew";
+import RecoveriesFleetNew from "../../../components/recoveries/RecoveriesFleetNew";
 import {
     dateToString,
     formatNumber,

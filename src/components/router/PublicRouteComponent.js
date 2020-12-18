@@ -5,7 +5,7 @@ import { Route, Redirect } from 'react-router-dom';
 import {APP_PAGE_PATH} from "../../constants/pagePathConstants";
 
 // Component
-const PublicRouteComponent = ({ component: Component, user, dispatch, ...rest }) => (
+const PublicRouteComponent = ({ component: Component, user, ...rest }) => (
     <Route
         {...rest}
         render={props =>
@@ -20,8 +20,7 @@ const PublicRouteComponent = ({ component: Component, user, dispatch, ...rest })
 PublicRouteComponent.propTypes = {
     rest: PropTypes.object,
     user: PropTypes.object.isRequired,
-    dispatch: PropTypes.func.isRequired,
-    component: PropTypes.func.isRequired,
+    component: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
 };
 
 // Connect component to Redux

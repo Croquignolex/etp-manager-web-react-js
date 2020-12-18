@@ -1,15 +1,15 @@
 import React, {useContext, useEffect, useState} from 'react';
 
 import Loader from "../../../components/Loader";
-import Header from "../../../components/app/Header";
+import Header from "../../../components/Header";
 import FormModal from "../../../components/FormModal";
 import ErrorAlert from "../../../components/ErrorAlert";
 import TableSearch from "../../../components/TableSearch";
 import {storeResetErrorData} from "../../../redux/errors/actions";
-import RecoveriesCashNew from "../../../components/app/recoveries/RecoveriesCashNew";
-import RecoveriesFleetNew from "../../../components/app/recoveries/RecoveriesFleetNew";
+import RecoveriesCashNew from "../../../components/recoveries/RecoveriesCashNew";
+import RecoveriesFleetNew from "../../../components/recoveries/RecoveriesFleetNew";
 import OperationsFleetsHigherOrder from "../../../components/layout/OperationsFleetsHigherOrder";
-import OperationsFleetNewSupply from "../../../components/app/operations/OperationsFleetNewSupply";
+import OperationsFleetNewSupply from "../../../components/operations/OperationsFleetNewSupply";
 import {
     dateToString,
     formatNumber,

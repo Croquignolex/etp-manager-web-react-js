@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 
 import Loader from "../../../components/Loader";
-import Header from "../../../components/app/Header";
+import Header from "../../../components/Header";
 import FormModal from "../../../components/FormModal";
 import ErrorAlert from "../../../components/ErrorAlert";
 import TableSearch from "../../../components/TableSearch";
@@ -22,7 +22,7 @@ import {
     RequestsContext,
     HandoversContext
 } from "../../../helpers/contexts";
-import CheckoutNewHandingOver from "../../../components/app/checkout/CheckoutNewHandingOver";
+import CheckoutNewHandingOver from "../../../components/checkout/CheckoutNewHandingOver";
 
 // Component
 function HandingOverPage() {

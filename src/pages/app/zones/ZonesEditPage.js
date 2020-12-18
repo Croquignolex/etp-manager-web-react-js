@@ -1,12 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react';
 
-import Header from "../../../components/app/Header";
+import Header from "../../../components/Header";
 import FormModal from "../../../components/FormModal";
-import ZonesEdit from "../../../components/app/zones/ZonesEdit";
+import ZonesEdit from "../../../components/zones/ZonesEdit";
 import {storeResetErrorData} from "../../../redux/errors/actions";
-import ZonesAgents from "../../../components/app/zones/ZonesAgents";
-import ZonesDetail from "../../../components/app/zones/ZonesDetail";
-import ZonesAddAgent from "../../../components/app/zones/ZonesAddAgent";
+import ZonesAgents from "../../../components/zones/ZonesAgents";
+import ZonesDetail from "../../../components/zones/ZonesDetail";
+import ZonesAddAgent from "../../../components/zones/ZonesAddAgent";
 import ZonesHigherOrder from "../../../components/layout/ZonesHigherOrder";
 import {
     formatNumber,

@@ -1,10 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react';
 
-import Header from "../../../../components/app/Header";
+import Header from "../../../../components/Header";
 import ErrorAlert from "../../../../components/ErrorAlert";
-import Select from "../../../../components/app/form/Select";
-import Amount from "../../../../components/app/form/Amount";
-import Button from "../../../../components/app/form/Button";
+import Select from "../../../../components/form/Select";
+import Amount from "../../../../components/form/Amount";
+import Button from "../../../../components/form/Button";
 import {requiredChecker} from "../../../../helpers/formsChecker";
 import {storeResetErrorData} from "../../../../redux/errors/actions";
 import RequestsClearancesHigherOrder from "../../../../components/layout/RequestsClearancesHigherOrder";

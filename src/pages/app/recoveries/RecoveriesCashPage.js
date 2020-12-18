@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 
 import Loader from "../../../components/Loader";
-import Header from "../../../components/app/Header";
+import Header from "../../../components/Header";
 import CustomModal from "../../../components/Modal";
 import FormModal from "../../../components/FormModal";
 import ErrorAlert from "../../../components/ErrorAlert";
@@ -9,7 +9,7 @@ import TableSearch from "../../../components/TableSearch";
 import {storeResetErrorData} from "../../../redux/errors/actions";
 import {emitConfirmCashRecovery} from "../../../redux/recoveries/actions";
 import RecoveriesHigherOrder from "../../../components/layout/RecoveriesHigherOrder";
-import RecoveriesCashNew from "../../../components/app/recoveries/RecoveriesCashNew";
+import RecoveriesCashNew from "../../../components/recoveries/RecoveriesCashNew";
 import {
     dateToString,
     formatNumber,

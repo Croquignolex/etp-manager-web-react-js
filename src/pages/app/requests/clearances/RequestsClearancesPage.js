@@ -2,14 +2,14 @@ import {Link} from "react-router-dom";
 import React, {useContext, useEffect, useState} from 'react';
 
 import Loader from "../../../../components/Loader";
-import Header from "../../../../components/app/Header";
+import Header from "../../../../components/Header";
 import CustomModal from "../../../../components/Modal";
 import FormModal from "../../../../components/FormModal";
 import ErrorAlert from "../../../../components/ErrorAlert";
 import TableSearch from "../../../../components/TableSearch";
 import LittleLoader from "../../../../components/LittleLoader";
 import {storeResetErrorData} from "../../../../redux/errors/actions";
-import ClearancesProceed from "../../../../components/app/clearances/ClearancesProceed";
+import ClearancesProceed from "../../../../components/clearances/ClearancesProceed";
 import RequestsClearancesHigherOrder from "../../../../components/layout/RequestsClearancesHigherOrder";
 import {emitClearanceCancelByAgent, emitClearanceCancelByCollector} from "../../../../redux/clearances/actions";
 import {

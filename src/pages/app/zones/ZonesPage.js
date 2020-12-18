@@ -2,17 +2,17 @@ import {Link} from "react-router-dom";
 import React, {useContext, useEffect, useState} from 'react';
 
 import Loader from "../../../components/Loader";
-import Header from "../../../components/app/Header";
+import Header from "../../../components/Header";
 import CustomModal from "../../../components/Modal";
 import FormModal from "../../../components/FormModal";
 import ErrorAlert from "../../../components/ErrorAlert";
 import TableSearch from "../../../components/TableSearch";
 import {emitZoneDelete} from "../../../redux/zones/actions";
 import LittleLoader from "../../../components/LittleLoader";
-import ViewSwitcher from "../../../components/app/ViewSwitcher";
+import ViewSwitcher from "../../../components/ViewSwitcher";
 import {storeResetErrorData} from "../../../redux/errors/actions";
 import ZonesHigherOrder from "../../../components/layout/ZonesHigherOrder";
-import ZonesDetailModal from "../../../components/app/zones/ZonesDetailModal";
+import ZonesDetailModal from "../../../components/zones/ZonesDetailModal";
 import {
     DANGER,
     ZONES_SCOPE,

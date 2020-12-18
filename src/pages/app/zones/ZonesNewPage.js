@@ -1,12 +1,12 @@
 import { useHistory } from "react-router-dom";
 import React, {useContext, useEffect, useState} from 'react';
 
-import Header from "../../../components/app/Header";
-import Input from "../../../components/app/form/Input";
+import Header from "../../../components/Header";
+import Input from "../../../components/form/Input";
 import ErrorAlert from "../../../components/ErrorAlert";
 import {emitNewZone} from "../../../redux/zones/actions";
-import Button from "../../../components/app/form/Button";
-import TextArea from "../../../components/app/form/Textarea";
+import Button from "../../../components/form/Button";
+import TextArea from "../../../components/form/Textarea";
 import {requiredChecker} from "../../../helpers/formsChecker";
 import {storeResetErrorData} from "../../../redux/errors/actions";
 import ZonesHigherOrder from "../../../components/layout/ZonesHigherOrder";

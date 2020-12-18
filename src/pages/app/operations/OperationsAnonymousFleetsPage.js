@@ -1,14 +1,14 @@
 import React, {useContext, useEffect, useState} from 'react';
 
 import Loader from "../../../components/Loader";
-import Header from "../../../components/app/Header";
+import Header from "../../../components/Header";
 import FormModal from "../../../components/FormModal";
 import ErrorAlert from "../../../components/ErrorAlert";
 import TableSearch from "../../../components/TableSearch";
 import {storeResetErrorData} from "../../../redux/errors/actions";
 import {OPERATIONS_ANONYMOUS_FLEETS_PAGE, ANONYMOUS_SCOPE} from "../../../helpers/constants";
 import OperationsFleetsHigherOrder from "../../../components/layout/OperationsFleetsHigherOrder";
-import OperationsFleetNewAnonymousSupply from "../../../components/app/operations/OperationsFleetNewAnonymousSupply";
+import OperationsFleetNewAnonymousSupply from "../../../components/operations/OperationsFleetNewAnonymousSupply";
 import {
     dateToString,
     formatNumber,

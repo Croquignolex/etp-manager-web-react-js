@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 
 import {Link} from "react-router-dom";
 import Loader from "../../../components/Loader";
-import Header from "../../../components/app/Header";
+import Header from "../../../components/Header";
 import CustomModal from "../../../components/Modal";
 import ErrorAlert from "../../../components/ErrorAlert";
 import TableSearch from "../../../components/TableSearch";

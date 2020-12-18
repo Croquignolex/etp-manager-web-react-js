@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 
 import Loader from "../../../components/Loader";
-import Header from "../../../components/app/Header";
+import Header from "../../../components/Header";
 import CustomModal from "../../../components/Modal";
 import ErrorAlert from "../../../components/ErrorAlert";
 import TableSearch from "../../../components/TableSearch";
@@ -9,7 +9,7 @@ import LittleLoader from "../../../components/LittleLoader";
 import {emitConfirmRefuel} from "../../../redux/refuels/actions";
 import {storeResetErrorData} from "../../../redux/errors/actions";
 import OperationsClearancesHigherOrder from "../../../components/layout/OperationsClearancesHigherOrder";
-import OperationsClearanceNewRefuel from "../../../components/app/operations/OperationsClearanceNewRefuel";
+import OperationsClearanceNewRefuel from "../../../components/operations/OperationsClearanceNewRefuel";
 import {
     dateToString,
     formatNumber,

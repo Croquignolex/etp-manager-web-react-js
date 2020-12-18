@@ -1,55 +1,33 @@
 import { all, takeLatest, put, fork, call } from 'redux-saga/effects'
 
-import {storeSetInfoToastData} from "../toast/actions";
-import {storeSetDangerErrorData} from "../errors/actions";
+import {BASE_URL} from "../../constants/generalConstants";
+import {apiGetRequest} from "../../functions/axiosFunctions";
+import {sortByCreationDate} from "../../functions/generalFunctions";
+import {playSuccessSound} from "../../functions/playSoundFunctions";
+import {UNREAD_NOTIFICATIONS_API_PATH} from "../../constants/apiConstants";
+import {storeSetUnreadNotificationsData, EMIT_UNREAD_NOTIFICATIONS_FETCH} from './actions'
+import {LOCAL_STORAGE_USER_RECEIVED_NOTIFICATIONS} from "../../constants/localStorageConstants";
+import {getLocaleStorageItem, setLocaleStorageItem} from "../../functions/localStorageFunctions";
 import {
-    apiGetRequest,
-    apiPostRequest,
-    playSuccessSound,
-    sortByCreationDate,
-    getLocaleStorageItem,
-    setLocaleStorageItem
-} from "../../helpers/functions";
+    CASH_RECOVERY_NOTIFICATION,
+    REQUEST_FLEET_NOTIFICATION,
+    FLEET_RECOVERY_NOTIFICATION,
+    FLEET_OPERATION_NOTIFICATION,
+    REQUEST_CLEARANCE_NOTIFICATION,
+    CLEARANCE_OPERATION_NOTIFICATION
+} from "../../constants/typeConstants";
 import {
-    EMIT_READ_NOTIFICATION,
-    EMIT_NOTIFICATIONS_FETCH,
-    EMIT_NOTIFICATION_DELETE,
-    storeSetNotificationsData,
-    storeSetNotificationActionData,
-    storeSetUnreadNotificationsData,
-    EMIT_UNREAD_NOTIFICATIONS_FETCH
-} from './actions'
-import {
-    BASE_URL,
     DASHBOARD_PAGE_PATH,
-    NOTIFICATIONS_SCOPE,
-    NOTIFICATIONS_API_PATH,
     REQUESTS_FLEETS_PAGE_PATH,
     RECOVERIES_CASH_PAGE_PATH,
-    UNREAD_NOTIFICATIONS_SCOPE,
-    REQUEST_FLEET_NOTIFICATION,
-    CASH_RECOVERY_NOTIFICATION,
-    OPERATIONS_FLEETS_PAGE_PATH,
     RECOVERIES_FLEETS_PAGE_PATH,
-    FLEET_RECOVERY_NOTIFICATION,
-    READ_NOTIFICATIONS_API_PATH,
-    FLEET_OPERATION_NOTIFICATION,
+    OPERATIONS_FLEETS_PAGE_PATH,
     REQUESTS_CLEARANCES_PAGE_PATH,
-    UNREAD_NOTIFICATIONS_API_PATH,
-    DELETE_NOTIFICATIONS_API_PATH,
-    REQUEST_CLEARANCE_NOTIFICATION,
-    OPERATIONS_CLEARANCES_PAGE_PATH,
-    CLEARANCE_OPERATION_NOTIFICATION,
-    LOCAL_STORAGE_USER_RECEIVED_NOTIFICATIONS
-} from "../../helpers/constants";
-import {
-    storeRequestInit,
-    storeRequestFailed,
-    storeRequestSucceed
-} from "../requests/actions";
+    OPERATIONS_CLEARANCES_PAGE_PATH
+} from "../../constants/pagePathConstants";
 
 // Fetch notifications from API
-export function* emitNotificationsFetch() {
+/*export function* emitNotificationsFetch() {
     yield takeLatest(EMIT_NOTIFICATIONS_FETCH, function*() {
         const scope = NOTIFICATIONS_SCOPE;
         try {
@@ -67,15 +45,13 @@ export function* emitNotificationsFetch() {
             yield put(storeSetDangerErrorData({message, scope}));
         }
     });
-}
+}*/
 
 // Fetch unread notifications from API
 export function* emitUnreadNotificationsFetch() {
     yield takeLatest(EMIT_UNREAD_NOTIFICATIONS_FETCH, function*() {
-        const scope = UNREAD_NOTIFICATIONS_SCOPE;
         try {
             // Fire event for request
-            // yield put(storeRequestInit({scope}));
             const apiResponse = yield call(apiGetRequest, UNREAD_NOTIFICATIONS_API_PATH);
             const notifications = extractNotificationsData(apiResponse.notifications);
             const currentNotifications = notifications.length;
@@ -94,7 +70,7 @@ export function* emitUnreadNotificationsFetch() {
                         if (Notification.permission === "granted") {
                             const options = {
                                 body: notifications[0].message,
-                                icon: `${BASE_URL}/logo-square.png`
+                                icon: `${BASE_URL}/logo.png`
                             };
                             const notification = new Notification("Notification MMAC", options);
                             notification.onclick = (e)  => {
@@ -108,18 +84,12 @@ export function* emitUnreadNotificationsFetch() {
             yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_RECEIVED_NOTIFICATIONS, currentNotifications);
             // Fire event to redux
             yield put(storeSetUnreadNotificationsData({notifications}));
-            // Fire event for request
-            // yield put(storeRequestSucceed({scope}));
-        } catch (message) {
-            // Fire event for request
-            // yield put(storeRequestFailed({scope}));
-            yield put(storeSetDangerErrorData({message, scope}));
-        }
+        } catch (message) {}
     });
 }
 
 // Fetch read notification from API
-export function* emitNotificationRead() {
+/*export function* emitNotificationRead() {
     yield takeLatest(EMIT_READ_NOTIFICATION, function*({id}) {
         const scope = UNREAD_NOTIFICATIONS_SCOPE;
         try {
@@ -139,10 +109,10 @@ export function* emitNotificationRead() {
             yield put(storeSetDangerErrorData({message, scope}));
         }
     });
-}
+}*/
 
 // Delete notification from API
-export function* emitNotificationDelete() {
+/*export function* emitNotificationDelete() {
     yield takeLatest(EMIT_NOTIFICATION_DELETE, function*({id}) {
         const scope = NOTIFICATIONS_SCOPE;
         try {
@@ -167,7 +137,7 @@ export function* emitNotificationDelete() {
             yield put(storeSetDangerErrorData({message, scope}));
         }
     });
-}
+}*/
 
 
 // Extract notification data
@@ -188,6 +158,18 @@ function extractNotificationData(apiNotification) {
     return notification;
 }
 
+// Extract notifications data
+function extractNotificationsData(apiNotifications) {
+    const notifications = [];
+    if(apiNotifications) {
+        apiNotifications.forEach(data => {
+            notifications.push(extractNotificationData(data));
+        });
+    }
+    sortByCreationDate(notifications);
+    return notifications;
+}
+
 // URL
 function getNotificationDetail(notificationType) {
     switch (notificationType) {
@@ -201,24 +183,9 @@ function getNotificationDetail(notificationType) {
     }
 }
 
-// Extract notifications data
-function extractNotificationsData(apiNotifications) {
-    const notifications = [];
-    if(apiNotifications) {
-        apiNotifications.forEach(data => {
-            notifications.push(extractNotificationData(data));
-        });
-    }
-    sortByCreationDate(notifications);
-    return notifications;
-}
-
 // Combine to export all functions at once
 export default function* sagaNotifications() {
     yield all([
-        fork(emitNotificationRead),
-        fork(emitNotificationsFetch),
-        fork(emitNotificationDelete),
         fork(emitUnreadNotificationsFetch),
     ]);
 }

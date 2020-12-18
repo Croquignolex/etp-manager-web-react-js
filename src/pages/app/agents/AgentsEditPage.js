@@ -1,18 +1,18 @@
 import React, {useContext, useEffect, useState} from 'react';
 
-import Header from "../../../components/app/Header";
+import Header from "../../../components/Header";
 import FormModal from "../../../components/FormModal";
-import SimsList from "../../../components/app/sims/SimsList";
-import UsersZone from "../../../components/app/users/UsersZone";
-import AgentsCNI from "../../../components/app/agents/AgentsCNI";
+import SimsList from "../../../components/sims/SimsList";
+import UsersZone from "../../../components/users/UsersZone";
+import AgentsCNI from "../../../components/agents/AgentsCNI";
 import {storeResetErrorData} from "../../../redux/errors/actions";
-import AgentsEdit from "../../../components/app/agents/AgentsEdit";
-import UsersDetail from "../../../components/app/users/UsersDetail";
-import AgentsAddSim from "../../../components/app/agents/AgentsAddSim";
-import UsersZoneEdit from "../../../components/app/users/UsersZoneEdit";
-import AgentsCNIEdit from "../../../components/app/agents/AgentsCNIEdit";
+import AgentsEdit from "../../../components/agents/AgentsEdit";
+import UsersDetail from "../../../components/users/UsersDetail";
+import AgentsAddSim from "../../../components/agents/AgentsAddSim";
+import UsersZoneEdit from "../../../components/users/UsersZoneEdit";
+import AgentsCNIEdit from "../../../components/agents/AgentsCNIEdit";
 import AgentsHigherOrder from "../../../components/layout/AgentsHigherOrder";
-import AgentsDocumentEdit from "../../../components/app/agents/AgentsDocumentEdit";
+import AgentsDocumentEdit from "../../../components/agents/AgentsDocumentEdit";
 import {
     formatNumber,
     shouldShowError,

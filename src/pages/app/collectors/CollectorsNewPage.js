@@ -1,11 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
 
-import Header from "../../../components/app/Header";
-import Input from "../../../components/app/form/Input";
+import Header from "../../../components/Header";
+import Input from "../../../components/form/Input";
 import ErrorAlert from "../../../components/ErrorAlert";
-import Button from "../../../components/app/form/Button";
-import Select from "../../../components/app/form/Select";
-import TextArea from "../../../components/app/form/Textarea";
+import Button from "../../../components/form/Button";
+import Select from "../../../components/form/Select";
+import TextArea from "../../../components/form/Textarea";
 import {storeResetErrorData} from "../../../redux/errors/actions";
 import {emitNewCollector} from "../../../redux/collectors/actions";
 import {phoneChecker, requiredChecker} from "../../../helpers/formsChecker";
