@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React, {useEffect} from 'react';
 
-import FooterComponent from "../components/FooterComponent";
+import '../assets/scss/footer.scss';
 import LoaderComponent from "../components/LoaderComponent";
 import {requestLoading} from "../functions/generalFunctions";
 import ErrorAlertComponent from "../components/ErrorAlertComponent";
@@ -42,7 +42,9 @@ function CheckUserPage({location, errors, requests, dispatch}) {
                     {errors.userCheck.show && <ErrorAlertComponent message={errors.userCheck.message} />}
                 </div>
             </div>
-            <FooterComponent needAbsolutePosition={true} />
+            <footer className="app-footer text-right">
+                <small><strong>Copyright &copy; 2020.</strong>&nbsp;&nbsp;All rights reserved.</small>
+            </footer>
         </div>
     )
 }

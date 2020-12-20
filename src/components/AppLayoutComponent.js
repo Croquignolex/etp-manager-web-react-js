@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import {Switch, Route} from "react-router-dom";
 import React, {useEffect, useLayoutEffect} from 'react';
 
-import FooterComponent from "./FooterComponent";
 import asyncComponent from "./asyncComponent";
 import NavBarContainer from "../containers/NavBarContainer";
 import SideBarContainer from "../containers/SideBarContainer";
@@ -42,7 +41,7 @@ function AppLayoutComponent({location, dispatch}) {
     // Render
     return (
         <>
-            {/*<ToastAlert toast={toast} dispatch={dispatch} playSound={user.setting.sound} />*/}
+            {/*<ToastAlertComponent toast={toast} dispatch={dispatch} playSound={user.setting.sound} />*/}
             <div className="wrapper">
                 <NavBarContainer />
                 <SideBarContainer pathname={location.pathname} />
@@ -107,7 +106,6 @@ function AppLayoutComponent({location, dispatch}) {
                     {/* 404 page */}
                     <Route path="*" exact component={asyncComponent(() => import('../pages/NotFoundPage'))} />
                 </Switch>
-                <FooterComponent />
             </div>
         </>
     )
