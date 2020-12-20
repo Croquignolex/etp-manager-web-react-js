@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import HeaderComponent from "../components/HeaderComponent";
 import {PROFILE_PAGE} from "../constants/pageNameConstants";
-import UsersDetailComponent from "../components/users/UsersDetailComponent";
+import ProfileDetailComponent from "../components/profile/ProfileDetailComponent";
 
 // Component
 function ProfilePage({user}) {
@@ -16,7 +16,7 @@ function ProfilePage({user}) {
                     <div className='row'>
                         <div className="col-lg-4 col-md-5 col-sm-6">
                             {/* User information */}
-                            <UsersDetailComponent user={user} />
+                            <ProfileDetailComponent user={user} />
                         </div>
                         <div className="col-lg-8 col-md-7 col-sm-6">
                             <div className="card custom-card-outline">

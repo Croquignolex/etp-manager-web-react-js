@@ -3,7 +3,7 @@ import axios from "axios";
 import {getLocaleStorageItem} from "./localStorageFunctions";
 import {LOCAL_STORAGE_USER_DATA} from "../constants/localStorageConstants";
 
-// Request interceptor
+// Axios request interceptor to add automatically token
 axios.interceptors.request.use(config => {
     const userData = getLocaleStorageItem(LOCAL_STORAGE_USER_DATA);
     config.headers.ContentType = 'Application/json';
@@ -11,6 +11,7 @@ axios.interceptors.request.use(config => {
     return config;
 }, error => Promise.reject(error));
 
+// Emit GET request to API and format response
 export function apiGetRequest(url) {
     return new Promise((resolve, reject) => {
         axios.get(url)
@@ -27,6 +28,7 @@ export function apiGetRequest(url) {
     });
 }
 
+// Emit POST request to API and format response
 export function apiPostRequest(url, data = {}) {
     return new Promise((resolve, reject) => {
         axios.post(url, data)
@@ -43,6 +45,7 @@ export function apiPostRequest(url, data = {}) {
     });
 }
 
+// Format known API error response
 function apiErrorManagement(errorMessage) {
     switch (errorMessage) {
         case "Network Error": return "Erreur du reseau. Merci de vérifier votre connexion internet";

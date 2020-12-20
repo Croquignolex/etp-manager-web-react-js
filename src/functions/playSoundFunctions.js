@@ -6,6 +6,7 @@ import mp3SuccessFile from "../assets/audio/success.mp3";
 import {getLocaleStorageItem} from "./localStorageFunctions";
 import {LOCAL_STORAGE_SETTINGS} from "../constants/localStorageConstants";
 
+// Play success sound
 export function playSuccessSound() {
     const successSound = new UIfx(mp3SuccessFile, {volume: 1.0, throttleMs: 100});
     try {
@@ -17,6 +18,7 @@ export function playSuccessSound() {
     }
 }
 
+// Play waring sound
 export function playWarningSound() {
     const warningSound = new UIfx(mp3WarningFile, {volume: 1.0, throttleMs: 100});
     try {
@@ -28,6 +30,7 @@ export function playWarningSound() {
     }
 }
 
+// Play Error sound
 export function playErrorSound() {
     const errorSound = new UIfx(mp3ErrorFile, {volume: 1.0, throttleMs: 100});
     try {

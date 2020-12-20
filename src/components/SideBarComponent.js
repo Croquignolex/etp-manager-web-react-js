@@ -4,7 +4,6 @@ import React, {useState, useMemo} from 'react';
 
 import {APP_NAME} from "../constants/generalConstants";
 import {formatString} from "../functions/generalFunctions";
-import {INVISIBLE_MENU_ITEM} from "../constants/defaultConstants";
 import {
     SIMS,
     AGENTS,
@@ -155,6 +154,8 @@ function SideBarComponent({user, pathname}) {
         </aside>
     )
 }
+
+const INVISIBLE_MENU_ITEM = 'INVISIBLE_MENU_ITEM';
 
 // Build dashboard menu
 function buildDashboardMenu() {

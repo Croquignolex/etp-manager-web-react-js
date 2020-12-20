@@ -26,27 +26,6 @@ import {
     OPERATIONS_CLEARANCES_PAGE_PATH
 } from "../../constants/pagePathConstants";
 
-// Fetch notifications from API
-/*export function* emitNotificationsFetch() {
-    yield takeLatest(EMIT_NOTIFICATIONS_FETCH, function*() {
-        const scope = NOTIFICATIONS_SCOPE;
-        try {
-            // Fire event for request
-            yield put(storeRequestInit({scope}));
-            const apiResponse = yield call(apiGetRequest, NOTIFICATIONS_API_PATH);
-            const notifications = extractNotificationsData(apiResponse.notifications);
-            // Fire event to redux
-            yield put(storeSetNotificationsData({notifications}));
-            // Fire event for request
-            yield put(storeRequestSucceed({scope}));
-        } catch (message) {
-            // Fire event for request
-            yield put(storeRequestFailed({scope}));
-            yield put(storeSetDangerErrorData({message, scope}));
-        }
-    });
-}*/
-
 // Fetch unread notifications from API
 export function* emitUnreadNotificationsFetch() {
     yield takeLatest(EMIT_UNREAD_NOTIFICATIONS_FETCH, function*() {
@@ -87,58 +66,6 @@ export function* emitUnreadNotificationsFetch() {
         } catch (message) {}
     });
 }
-
-// Fetch read notification from API
-/*export function* emitNotificationRead() {
-    yield takeLatest(EMIT_READ_NOTIFICATION, function*({id}) {
-        const scope = UNREAD_NOTIFICATIONS_SCOPE;
-        try {
-            // Fire event for request
-            yield put(storeRequestInit({scope}));
-            yield call(apiGetRequest, `${READ_NOTIFICATIONS_API_PATH}/${id}`);
-            // Update received notification number
-            const receivedNotifications = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_RECEIVED_NOTIFICATIONS);
-            if(receivedNotifications != null && receivedNotifications) {
-                yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_RECEIVED_NOTIFICATIONS, (receivedNotifications - 1));
-            }
-            // Fire event for request
-            yield put(storeRequestSucceed({scope}));
-        } catch (message) {
-            // Fire event for request
-            yield put(storeRequestFailed({scope}));
-            yield put(storeSetDangerErrorData({message, scope}));
-        }
-    });
-}*/
-
-// Delete notification from API
-/*export function* emitNotificationDelete() {
-    yield takeLatest(EMIT_NOTIFICATION_DELETE, function*({id}) {
-        const scope = NOTIFICATIONS_SCOPE;
-        try {
-            // Fire event at redux to toggle action loader
-            yield put(storeSetNotificationActionData({id}));
-            // Fire event for request
-            const apiResponse = yield call(apiPostRequest, `${DELETE_NOTIFICATIONS_API_PATH}/${id}`);
-            const notifications = extractNotificationsData(apiResponse.notifications);
-            // Fire event at redux for operator delete toast
-            yield put(storeSetInfoToastData({
-                title: 'Bravo!',
-                body: `Notification supprimée avec succès`
-            }));
-            // Fire event to redux
-            yield put(storeSetNotificationsData({notifications}));
-            // Fire event for request
-            yield put(storeRequestSucceed({scope}));
-        } catch (message) {
-            // Fire event for request
-            yield put(storeRequestFailed({scope}));
-            yield put(storeSetNotificationActionData({id}));
-            yield put(storeSetDangerErrorData({message, scope}));
-        }
-    });
-}*/
-
 
 // Extract notification data
 function extractNotificationData(apiNotification) {
