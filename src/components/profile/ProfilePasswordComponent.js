@@ -64,7 +64,7 @@ function ProfilePasswordComponent({error, request, dispatch}) {
         // Check values
         const _oldPassword = passwordChecker(oldPassword);
         const _newPassword = passwordChecker(newPassword);
-        const _confirmPassword = passwordConfirmChecker(newPassword, confirmPassword);
+        const _confirmPassword = passwordConfirmChecker(confirmPassword, newPassword);
         // Set value
         setOldPassword(_oldPassword);
         setNewPassword(_newPassword);

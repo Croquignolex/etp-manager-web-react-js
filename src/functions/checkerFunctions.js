@@ -1,180 +1,108 @@
-/**
- *
- * @param input
- * @returns {*}
- */
-export function emailChecker(input) {
-    let regex = /^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,6}$/i;
-    // !/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
-    return regex.test(input.val)
-        ? {...input, isValid: true}
-        : {...input, isValid: false, message: "Format de l'addresse mail incorrect"}
-}
-
-/**
- *
- * @param input
- * @returns {*}
- */
+// Check phone input format
 export function phoneChecker(input) {
     let regex = /^(2|6)[0-9]{8}$/ig;
-    return regex.test(input.val)
+    return regex.test(input.data)
         ? {...input, isValid: true}
-        : {...input, isValid: false, message: "Format du numéro de téléphone incorrect"}
+        : {...input, isValid: false, errorMessage: "Format du numéro de téléphone incorrect"}
 }
 
-/**
- requiredChecker
- * @param input
- * @returns {*}
- */
+// Check password input format
 export function passwordChecker(input) {
     return inRange(input, 6)
 }
 
-/**
- *
- * @param input
- * @param passwordInput
- * @returns {*}
- */
+// Check password confirmation input format
 export function passwordConfirmChecker(input, passwordInput) {
-    return (input.val === passwordInput.val)
+    return (input.data === passwordInput.data)
         ? {...input, isValid: true}
-        : {...input, isValid: false, message: "La confirmation du mot de passe n'est pas correct"};
+        : {...input, isValid: false, errorMessage: "La confirmation du mot de passe n'est pas correct"};
 }
 
-/**
- *
- * @param input
- * @returns {*}
- */
+// Check require input format
 export function requiredChecker(input) {
-    return inRange(input, 1, 255, "Ce champ est réquis")
+    return inRange(input, 1, "Ce champ est réquis")
 }
 
-/**
- *
- * @param input
- * @returns {*}
- */
+// Check image input format
 export function imageChecker(input) {
-    if(input.val !== '') {
+    if(input.data !== '') {
         const fileTypeChecked = inImageType(input);
         return fileTypeChecked.isValid ? inImageSize(input) : fileTypeChecked;
     }
     return {...input, isValid: true};
 }
 
-/**
- *
- * @param input
- * @returns {*}
- */
+// Check required image input format
 export function requiredImageChecker(input) {
-    if(input.val !== '') {
+    if(input.data !== '') {
         const fileTypeChecked = inImageType(input);
         return fileTypeChecked.isValid ? inImageSize(input) : fileTypeChecked;
     }
-    return{...input, isValid: false, message: "Ce champ est réquis"};
+    return{...input, isValid: false, errorMassage: "Ce champ est réquis"};
 }
 
-/**
- *
- * @param input
- * @param extension
- * @returns {*}
- */
+// Check file input format
 export function fileChecker(input, extension = 'file') {
-    if(input.val !== '') {
+    if(input.data !== '') {
         const fileTypeChecked = inFileType(input, extension);
         return fileTypeChecked.isValid ? inFileSize(input) : fileTypeChecked;
     }
     return {...input, isValid: true};
 }
 
-/**
- *
- * @param input
- * @param extension
- * @returns {*}
- */
+// Check required file input format
 export function requiredFileChecker(input, extension = 'file') {
-    if(input.val !== '') {
+    if(input.data !== '') {
         const fileTypeChecked = inFileType(input, extension);
         return fileTypeChecked.isValid ? inFileSize(input) : fileTypeChecked;
     }
-    return{...input, isValid: false, message: "Ce champ est réquis"};
+    return{...input, isValid: false, errorMessage: "Ce champ est réquis"};
 }
 
-/**
- *
- * @param input
- * @returns {*}
- */
+// Helper function to check in image type input format
 function inImageType(input) {
     const acceptedFileTYpe = ['image/png', 'image/jpg', 'image/jpeg'];
-    return acceptedFileTYpe.includes(input.val.type)
+    return acceptedFileTYpe.includes(input.data.type)
         ? {...input, isValid: true}
-        : {...input, isValid: false, message: 'Format non supporté'};
+        : {...input, isValid: false, errorMessage: 'Format non supporté'};
 }
 
-/**
- *
- * @param input
- * @returns {{isValid: boolean}|*}
- */
+// Helper function to check in image size input format
 function inImageSize(input) {
     try {
-        return input.val.size < 2000000
+        return input.data.size < 2000000
             ? {...input, isValid: true}
-            : {...input, isValid: false, message: 'Image trop lourde'};
+            : {...input, isValid: false, errorMessage: 'Image trop lourde'};
     }
-    catch (e) { return {...input, isValid: false, message: "Erreur de chargement de l'image"} }
+    catch (e) { return {...input, isValid: false, errorMessage: "Erreur de chargement de l'image"} }
 }
 
-/**
- *
- * @param input
- * @param extension
- * @returns {*}
- */
+// Helper function to check in file type format
 function inFileType(input, extension) {
     const acceptedFileTYpe = (extension === 'file')
         ? ['application/pdf', 'image/png', 'image/jpg', 'image/jpeg']
         : ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
-    return (acceptedFileTYpe.includes(input.val.type))
+    return (acceptedFileTYpe.includes(input.data.type))
             ? {...input, isValid: true}
-            : {...input, isValid: false, message: 'Format non supporté'};
+            : {...input, isValid: false, errorMessage: 'Format non supporté'};
 
 }
 
-/**
- *
- * @param input
- * @returns {{isValid: boolean}|*}
- */
+// Helper function to check in file size input format
 function inFileSize(input) {
     try {
-        return input.val.size < 10000000
+        return input.data.size < 10000000
             ? {...input, isValid: true}
-            : {...input, isValid: false, message: 'Fichier trop lourde'};
+            : {...input, isValid: false, errorMessage: 'Fichier trop lourde'};
     }
-    catch (e) { return {...input, isValid: false, message: "Erreur de chargement du fichier"} }
+    catch (e) { return {...input, isValid: false, errorMessage: "Erreur de chargement du fichier"} }
 }
 
-/**
- *
- * @param input
- * @param min
- * @param max
- * @param errorMessage
- * @returns {*}
- */
-function inRange(input, min = 2, max = 255, errorMessage = undefined) {
-    const length = input.val ? input.val.toString().length : 0;
+// Helper function to check in range input format
+function inRange(input, min = 2, errorMessage = null) {
+    const length = input.data ? input.data.toString().length : 0;
     const message = errorMessage ? errorMessage : `Ce champ doit avoir au moins ${min} caractères`;
-    return (length <= max && length >= min)
+    return (length >= min)
         ? {...input, isValid: true}
-        : {...input, isValid: false, message: message}
+        : {...input, isValid: false, errorMessage: message}
 }

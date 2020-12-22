@@ -6,7 +6,7 @@ import {getFieldColor} from "../../functions/generalFunctions";
 // Component
 function InputComponent({id, label, type, input, handleInput}) {
     // Data
-    const {data, errorMassage, isValid} = input;
+    const {data, errorMessage, isValid} = input;
     const inputClass = `form-control ${!isValid && 'is-invalid'}`;
 
     const handleChange = (e) => {
@@ -25,7 +25,7 @@ function InputComponent({id, label, type, input, handleInput}) {
                        value={data ? data : ''}
                        style={getFieldColor(input)}
                 />
-                <small className="text-danger">{!isValid && errorMassage}</small>
+                <small className="text-danger">{!isValid && errorMessage}</small>
             </div>
         </>
     )
