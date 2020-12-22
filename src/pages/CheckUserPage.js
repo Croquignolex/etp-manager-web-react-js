@@ -10,7 +10,7 @@ import {DEFAULT_GUEST_MESSAGE} from "../constants/defaultConstants";
 import {storeResetUserCheckErrorData, storeSetUserCheckErrorData} from "../redux/errors/actions";
 
 // Component
-function CheckUserPage({location, errors, requests, dispatch}) {
+function CheckUserPage({location, error, request, dispatch}) {
     // local effects
     useEffect(() => {
         // Extract token from URL
@@ -38,8 +38,8 @@ function CheckUserPage({location, errors, requests, dispatch}) {
                     <img alt="..." src={require('../assets/images/manager.png')} className="img-fluid" />
                 </div>
                 <div className="col-12 mt-4">
-                    {requestLoading(requests.userCheck) && <LoaderComponent />}
-                    {errors.userCheck.show && <ErrorAlertComponent message={errors.userCheck.message} />}
+                    {requestLoading(request) && <LoaderComponent />}
+                    {error.show && <ErrorAlertComponent message={error.message} />}
                 </div>
             </div>
             <footer className="app-footer text-right">
@@ -51,9 +51,9 @@ function CheckUserPage({location, errors, requests, dispatch}) {
 
 // Prop types to ensure destroyed props data type
 CheckUserPage.propTypes = {
-    errors: PropTypes.object.isRequired,
+    error: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
-    requests: PropTypes.object.isRequired,
+    request: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
 };
 

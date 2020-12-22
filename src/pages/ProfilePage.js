@@ -4,9 +4,10 @@ import PropTypes from "prop-types";
 import HeaderComponent from "../components/HeaderComponent";
 import {PROFILE_PAGE} from "../constants/pageNameConstants";
 import ProfileDetailComponent from "../components/profile/ProfileDetailComponent";
+import ProfilePasswordComponent from "../components/profile/ProfilePasswordComponent";
 
 // Component
-function ProfilePage({user}) {
+function ProfilePage({user, userRequests, userErrors, dispatch}) {
     // Render
     return (
         <div className="content-wrapper">
@@ -45,7 +46,7 @@ function ProfilePage({user}) {
                                     <div className="tab-content">
                                         <div className="active tab-pane" id="password">
                                             {/*Password update form*/}
-                                            {/*<ProfilePassword />*/}
+                                            <ProfilePasswordComponent request={userRequests.password} error={userErrors.password} dispatch={dispatch} />
                                         </div>
                                         <div className="tab-pane" id="info">
                                             {/*Information update form*/}
@@ -69,6 +70,9 @@ function ProfilePage({user}) {
 // Prop types to ensure destroyed props data type
 ProfilePage.propTypes = {
     user: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    userErrors: PropTypes.object.isRequired,
+    userRequests: PropTypes.object.isRequired,
 };
 
 export default React.memo(ProfilePage);

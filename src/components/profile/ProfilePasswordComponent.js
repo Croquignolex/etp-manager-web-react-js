@@ -1,39 +1,24 @@
-import React, {useContext, useEffect, useState} from 'react';
+import PropTypes from "prop-types";
+import React, {useEffect, useState} from 'react';
 
-import Input from "../form/Input";
-import Button from "../form/Button";
-import ErrorAlert from "../../ErrorAlert";
-import {storeResetErrorData} from "../../redux/errors/actions";
 import {emitUserPasswordUpdate} from "../../redux/user/actions";
-import {DEFAULT_FORM_DATA, PROFILE_PASSWORD_SCOPE} from "../../helpers/constants";
+import {storeResetUserPasswordEditErrorData} from "../../redux/errors/actions";
 import {passwordChecker, passwordConfirmChecker} from "../../helpers/formsChecker";
-import {ErrorsContext, DispatchContext, RequestsContext} from "../../helpers/contexts";
 import {
     shouldShowError,
-    playWarningSound,
     succeededRequest,
     processingRequest
 } from "../../helpers/functions";
 
 // Component
-function ProfilePasswordComponent() {
+function ProfilePasswordComponent({error, request, dispatch}) {
     // Local state
-    const [oldPassword, setOldPassword] = useState(DEFAULT_FORM_DATA);
+    /*const [oldPassword, setOldPassword] = useState(DEFAULT_FORM_DATA);
     const [newPassword, setNewPassword] = useState(DEFAULT_FORM_DATA);
-    const [confirmPassword, setConfirmPassword] = useState(DEFAULT_FORM_DATA);
+    const [confirmPassword, setConfirmPassword] = useState(DEFAULT_FORM_DATA);*/
 
-    // Context states
-    const errors = useContext(ErrorsContext);
-    const requests = useContext(RequestsContext);
-    const dispatch = useContext(DispatchContext);
-
-    // Data
-    const scope = PROFILE_PASSWORD_SCOPE;
-    const shouldResetErrorData = () => {
-        shouldShowError(scope, errors.list) && dispatch(storeResetErrorData({scope}));
-    };
-
-    useEffect(() => {
+    // <Local effects
+    /*useEffect(() => {
         // Reset inputs while toast (well done) into current scope
         if(succeededRequest(scope, requests.list)) {
             setOldPassword(DEFAULT_FORM_DATA);
@@ -41,18 +26,18 @@ function ProfilePasswordComponent() {
             setConfirmPassword(DEFAULT_FORM_DATA);
         }
         // eslint-disable-next-line
-    }, [requests]);
+    }, [requests]);*/
 
     useEffect(() => {
         // Cleaner error alert while component did unmount without store dependency
         return () => {
-            shouldResetErrorData();
+            dispatch(storeResetUserPasswordEditErrorData());
         };
         // eslint-disable-next-line
     }, []);
 
     // Trigger password form submit
-    const handleSubmit = (e) => {
+   /* const handleSubmit = (e) => {
         e.preventDefault();
         shouldResetErrorData();
         const _oldPassword = passwordChecker(oldPassword);
@@ -72,7 +57,7 @@ function ProfilePasswordComponent() {
                 newPassword: _newPassword.val,
             }));
         else playWarningSound();
-    };
+    };*/
 
     // Render
     return (
@@ -126,5 +111,12 @@ function ProfilePasswordComponent() {
         </>
     )
 }
+
+// Prop types to ensure destroyed props data type
+ProfilePasswordComponent.propTypes = {
+    error: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    request: PropTypes.object.isRequired,
+};
 
 export default React.memo(ProfilePasswordComponent);

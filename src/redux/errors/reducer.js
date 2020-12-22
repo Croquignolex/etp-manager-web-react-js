@@ -1,11 +1,16 @@
 import {
     STORE_SET_USER_CHECK_ERROR_DATA,
     STORE_RESET_USER_CHECK_ERROR_DATA,
+    STORE_SET_USER_PASSWORD_EDIT_ERROR_DATA,
+    STORE_RESET_USER_PASSWORD_EDIT_ERROR_DATA
 } from "./actions";
 
 // Partial global store for error data management
 const initialState = {
-    userCheck: {show: false, message: ''}
+    user: {
+        check: {show: false, message: ''},
+        password: {show: false, message: ''},
+    }
 };
 
 // Reduce
@@ -15,13 +20,21 @@ function reduce(state = initialState, action) {
         // ======================================================== User check
         // Resolve event to reset error store data
         case STORE_RESET_USER_CHECK_ERROR_DATA:
-            nextState = {...state, userCheck: {...initialState.userCheck}};
+            nextState = {...state, user: {...state.user, check: initialState.user.check}};
             return nextState || state;
         // Resolve event to set error store data
         case STORE_SET_USER_CHECK_ERROR_DATA:
-            nextState = {...state, userCheck: {...state.userCheck, show: true, message: action.message}};
+            nextState = {...state, user: {...state.user, check: {show: true, message: action.message}}};
             return nextState || state;
-        // ========================================================
+        // ======================================================== User password edit
+        // Resolve event to reset error store data
+        case STORE_RESET_USER_PASSWORD_EDIT_ERROR_DATA:
+            nextState = {...state, user: {...state.user, password: initialState.user.password}};
+            return nextState || state;
+        // Resolve event to set error store data
+        case STORE_SET_USER_PASSWORD_EDIT_ERROR_DATA:
+            nextState = {...state, user: {...state.user, password: {show: true, message: action.message}}};
+            return nextState || state;
         // Unknown action
         default: return state;
     }
