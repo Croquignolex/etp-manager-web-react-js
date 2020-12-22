@@ -8,7 +8,7 @@ import ProfileDetailComponent from "../components/profile/ProfileDetailComponent
 import ProfilePasswordComponent from "../components/profile/ProfilePasswordComponent";
 
 // Component
-function ProfilePage({user, userRequests, userErrors, dispatch}) {
+function ProfilePage({user, userRequests, dispatch}) {
     // Render
     return (
         <div className="content-wrapper">
@@ -47,11 +47,11 @@ function ProfilePage({user, userRequests, userErrors, dispatch}) {
                                     <div className="tab-content">
                                         <div className="active tab-pane" id="password">
                                             {/*Password update form*/}
-                                            <ProfilePasswordComponent request={userRequests.password} error={userErrors.password} dispatch={dispatch} />
+                                            <ProfilePasswordComponent request={userRequests.password} dispatch={dispatch} />
                                         </div>
                                         <div className="tab-pane" id="info">
                                             {/*Information update form*/}
-                                            <ProfileEditComponent request={userRequests.profile} error={userErrors.profile} dispatch={dispatch} />
+                                            <ProfileEditComponent user={user} request={userRequests.profile} dispatch={dispatch} />
                                         </div>
                                         <div className="tab-pane" id="avatar">
                                             {/* Avatar update form */}
@@ -72,7 +72,6 @@ function ProfilePage({user, userRequests, userErrors, dispatch}) {
 ProfilePage.propTypes = {
     user: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
-    userErrors: PropTypes.object.isRequired,
     userRequests: PropTypes.object.isRequired,
 };
 

@@ -1,20 +1,18 @@
 import PropTypes from "prop-types";
 import React, {useEffect, useState} from 'react';
-import {NotificationManager} from 'react-notifications';
 
 import InputComponent from "../form/InputComponent";
 import ButtonComponent from "../form/ButtonComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import {emitUserPasswordUpdate} from "../../redux/user/actions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
+import {playWarningSound} from "../../functions/playSoundFunctions";
 import {storeUserPasswordEditRequestReset} from "../../redux/requests/actions";
-import {storeResetUserPasswordEditErrorData} from "../../redux/errors/actions";
-import {requestLoading, requestSucceeded} from "../../functions/generalFunctions";
-import {playInfoSound, playWarningSound} from "../../functions/playSoundFunctions";
 import {passwordChecker, passwordConfirmChecker} from "../../functions/checkerFunctions";
+import {requestLoading, requestSucceeded, requestFailed, applySuccess} from "../../functions/generalFunctions";
 
 // Component
-function ProfilePasswordComponent({error, request, dispatch}) {
+function ProfilePasswordComponent({request, dispatch}) {
     // Local state
     const [oldPassword, setOldPassword] = useState(DEFAULT_FORM_DATA);
     const [newPassword, setNewPassword] = useState(DEFAULT_FORM_DATA);
@@ -24,11 +22,10 @@ function ProfilePasswordComponent({error, request, dispatch}) {
     useEffect(() => {
         // Reset inputs while toast (well done) into current scope
         if(requestSucceeded(request)) {
-            playInfoSound();
+            applySuccess(request.message);
             setOldPassword(DEFAULT_FORM_DATA);
             setNewPassword(DEFAULT_FORM_DATA);
             setConfirmPassword(DEFAULT_FORM_DATA);
-            NotificationManager.info('Bravo!', 'Mot de passe mis à jour avec succès');
         }
     }, [request]);
 
@@ -37,30 +34,29 @@ function ProfilePasswordComponent({error, request, dispatch}) {
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             dispatch(storeUserPasswordEditRequestReset());
-            dispatch(storeResetUserPasswordEditErrorData());
         };
         // eslint-disable-next-line
     }, []);
 
     const handleOldPasswordInput = (data) => {
-        dispatch(storeResetUserPasswordEditErrorData());
+        dispatch(storeUserPasswordEditRequestReset());
         setOldPassword({...oldPassword, isValid: true, data})
     }
 
     const handleNewPasswordInput = (data) => {
-        dispatch(storeResetUserPasswordEditErrorData());
+        dispatch(storeUserPasswordEditRequestReset());
         setNewPassword({...newPassword, isValid: true, data})
     }
 
     const handleConfirmPasswordInput = (data) => {
-        dispatch(storeResetUserPasswordEditErrorData());
+        dispatch(storeUserPasswordEditRequestReset());
         setConfirmPassword({...confirmPassword, isValid: true, data})
     }
 
     // Trigger password form submit
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(storeResetUserPasswordEditErrorData());
+        dispatch(storeUserPasswordEditRequestReset());
         // Check values
         const _oldPassword = passwordChecker(oldPassword);
         const _newPassword = passwordChecker(newPassword);
@@ -82,7 +78,7 @@ function ProfilePasswordComponent({error, request, dispatch}) {
     // Render
     return (
         <>
-            {error.show && <ErrorAlertComponent message={error.message} />}
+            {requestFailed(request) && <ErrorAlertComponent message={request.message} />}
             {/* Password form */}
             <form onSubmit={handleSubmit}>
                 <div className='row'>
@@ -123,7 +119,6 @@ function ProfilePasswordComponent({error, request, dispatch}) {
 
 // Prop types to ensure destroyed props data type
 ProfilePasswordComponent.propTypes = {
-    error: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired,
 };

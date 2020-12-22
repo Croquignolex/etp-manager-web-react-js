@@ -1,5 +1,7 @@
 import moment from 'moment';
 
+import {playInfoSound} from "./playSoundFunctions";
+import {NotificationManager} from "react-notifications";
 import {API_SERVER_URL, APP_NAME} from "../constants/generalConstants";
 
 // Input text color
@@ -10,6 +12,12 @@ export function getFieldColor(field) {
 // Add app name on page title
 export function setPageTitle(title) {
     document.title = `${title} - ${APP_NAME}`;
+}
+
+// Apply success sound & toast
+export function applySuccess(message) {
+    playInfoSound();
+    NotificationManager.success(message);
 }
 
 // Check if request has succeeded

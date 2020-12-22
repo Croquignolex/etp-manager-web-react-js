@@ -24,7 +24,7 @@ function NavBarComponent({userName, unreadNotifications, dispatch}) {
             </ul>
             <ul className='navbar-nav ml-auto'>
                 <li className='text-center'>
-                    {formatString(userName, 23)}<br/>
+                    {formatString(userName, 19)}<br/>
                     <strong className='text-theme'>{USER_ROLE}</strong>
                 </li>
             </ul>

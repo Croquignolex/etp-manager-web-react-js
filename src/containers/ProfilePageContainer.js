@@ -9,7 +9,6 @@ setPageTitle(PROFILE_PAGE);
 // Map state function to component props
 const mapStateToProps = (state) => ({
     user: state.user,
-    userErrors: state.errors.user,
     userRequests: state.requests.user
 });
 

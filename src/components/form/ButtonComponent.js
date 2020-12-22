@@ -2,7 +2,7 @@ import React  from 'react';
 import PropTypes from 'prop-types';
 
 // Component
-function AppFormButton({processing}) {
+function ButtonComponent({processing}) {
     // Render
     return (
         <>
@@ -10,9 +10,7 @@ function AppFormButton({processing}) {
             <div className="col-lg-3 col-md-4 col-sm-6">
                 {processing ?
                     (
-                        <button disabled type="submit"
-                                className="login-btn btn btn-block"
-                        >
+                        <button disabled type="submit" className="login-btn btn btn-block">
                             <img alt='...'
                                  className="spinner-loader"
                                  src={require('../../assets/images/spinner-light.svg')}
@@ -20,9 +18,7 @@ function AppFormButton({processing}) {
                         </button>
                     ) :
                     (
-                        <button type="submit"
-                                className="login-btn btn btn-dark btn-block"
-                        >
+                        <button type="submit" className="login-btn btn btn-dark btn-block">
                             <i className='fa fa-check' />&nbsp;
                             Valider
                         </button>
@@ -34,8 +30,8 @@ function AppFormButton({processing}) {
 }
 
 // Prop types to ensure destroyed props data type
-AppFormButton.propTypes = {
+ButtonComponent.propTypes = {
     processing: PropTypes.bool.isRequired
 };
 
-export default React.memo(AppFormButton);
+export default React.memo(ButtonComponent);

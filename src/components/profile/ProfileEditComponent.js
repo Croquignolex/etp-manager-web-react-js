@@ -1,140 +1,148 @@
 import PropTypes from "prop-types";
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
+
+import InputComponent from "../form/InputComponent";
+import ButtonComponent from "../form/ButtonComponent";
+import ErrorAlertComponent from "../ErrorAlertComponent";
+import TextareaComponent from "../form/TextareaComponent";
+import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
+import {emitUserInformationUpdate} from "../../redux/user/actions";
+import {playWarningSound} from "../../functions/playSoundFunctions";
+import {storeUserProfileEditRequestReset} from "../../redux/requests/actions";
+import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
-function ProfileEditComponent({error, request, dispatch}) {
-// Local state
-    const [name, setName] = useState(DEFAULT_FORM_DATA);
-    const [post, setPost] = useState(DEFAULT_FORM_DATA);
-    const [email, setEmail] = useState(DEFAULT_FORM_DATA);
-    const [address, setAddress] = useState(DEFAULT_FORM_DATA);
-    const [description, setDescription] = useState(DEFAULT_FORM_DATA);
+function ProfileEditComponent({user, request, dispatch}) {
+    // Local state
+    const [name, setName] = useState({...DEFAULT_FORM_DATA, data: user.name});
+    const [post, setPost] = useState({...DEFAULT_FORM_DATA, data: user.post});
+    const [email, setEmail] = useState({...DEFAULT_FORM_DATA, data: user.email});
+    const [address, setAddress] = useState({...DEFAULT_FORM_DATA, data: user.address});
+    const [description, setDescription] = useState({...DEFAULT_FORM_DATA, data: user.description});
 
+    // Local effects
+    useEffect(() => {
+        // Reset inputs while toast (well done) into current scope
+        if(requestSucceeded(request)) {
+            applySuccess(request.message);
+        }
+    }, [request]);
+
+    // Local effects
     useEffect(() => {
         // Cleaner error alert while component did unmount without store dependency
         return () => {
-            shouldResetErrorData();
+            dispatch(storeUserProfileEditRequestReset());
         };
         // eslint-disable-next-line
     }, []);
 
-    useEffect(() => {
-        const {name, post, address, description, email} = userData;
-        setName({...DEFAULT_FORM_DATA, val: name});
-        setPost({...DEFAULT_FORM_DATA, val: post});
-        setEmail({...DEFAULT_FORM_DATA, val: email});
-        setAddress({...DEFAULT_FORM_DATA, val: address});
-        setDescription({...DEFAULT_FORM_DATA, val: description});
-        // eslint-disable-next-line
-    }, [userData]);
+    const handleNameInput = (data) => {
+        dispatch(storeUserProfileEditRequestReset());
+        setName({...name, isValid: true, data})
+    }
+
+    const handlePostInput = (data) => {
+        dispatch(storeUserProfileEditRequestReset());
+        setPost({...post, isValid: true, data})
+    }
+
+    const handleEmailInput = (data) => {
+        dispatch(storeUserProfileEditRequestReset());
+        setEmail({...email, isValid: true, data})
+    }
+
+    const handleAddressInput = (data) => {
+        dispatch(storeUserProfileEditRequestReset());
+        setAddress({...address, isValid: true, data})
+    }
+
+    const handleDescriptionInput = (data) => {
+        dispatch(storeUserProfileEditRequestReset());
+        setDescription({...description, isValid: true, data})
+    }
 
     // Trigger user information form submit
     const handleSubmit = (e) => {
         e.preventDefault();
-        shouldResetErrorData();
+        dispatch(storeUserProfileEditRequestReset());
         const _name = requiredChecker(name);
         // Set value
         setName(_name);
         const validationOK = _name.isValid;
         // Check
         if(validationOK) {
-            const data = {
-                post: post.val,
-                name: _name.val,
-                email: email.val,
-                address: address.val,
-                description: description.val
-            };
-            (parentScope === USER_SCOPE) && dispatch(emitUpdateUser({
-                ...data,
-                id: userData.id
+            dispatch(emitUserInformationUpdate({
+                post: post.data,
+                name: _name.data,
+                email: email.data,
+                address: address.data,
+                description: description.data
             }));
-            (parentScope === PROFILE_SCOPE) && dispatch(emitUserInformationUpdate(data));
         } else playWarningSound();
     };
 
     // Render
     return (
         <>
-            {processingRequest(parentScope, requests.list) ? <Loader/> : (
-                <>
-                    {shouldShowError(scope, errors.list) &&
-                    <ErrorAlert scope={scope} />
-                    }
-                    <form onSubmit={handleSubmit}>
-                        <div className='row'>
-                            <div className='col-sm-6'>
-                                <Input label='Nom'
-                                       type='text'
-                                       input={name}
-                                       id='inputName'
-                                       handleInput={(isValid, val) => {
-                                           shouldResetErrorData();
-                                           setName({...name, isValid, val})
-                                       }}
-                                />
-                            </div>
-                        </div>
-                        <div className='row'>
-                            <div className='col-sm-6'>
-                                <Input type='text'
-                                       label='Email'
-                                       input={email}
-                                       id='inputEmail'
-                                       handleInput={(isValid, val) => {
-                                           shouldResetErrorData();
-                                           setEmail({...email, isValid, val})
-                                       }}
-                                />
-                            </div>
-                            <div className='col-sm-6'>
-                                <Input label='Poste'
-                                       type='text'
-                                       input={post}
-                                       id='inputPost'
-                                       handleInput={(isValid, val) => {
-                                           shouldResetErrorData();
-                                           setPost({...post, isValid, val})
-                                       }}
-                                />
-                            </div>
-                        </div>
-                        <div className='row'>
-                            <div className='col-sm-6'>
-                                <TextArea label='Adresse'
-                                          input={address}
-                                          id='inputAddress'
-                                          handleInput={(isValid, val) => {
-                                              shouldResetErrorData();
-                                              setAddress({...address, isValid, val})
-                                          }}
-                                />
-                            </div>
-                            <div className='col-sm-6'>
-                                <TextArea label='Description'
-                                          input={description}
-                                          id='inputDescription'
-                                          handleInput={(isValid, val) => {
-                                              shouldResetErrorData();
-                                              setDescription({...description, isValid, val})
-                                          }}
-                                />
-                            </div>
-                        </div>
-                        <div className="form-group row">
-                            <Button processing={processingRequest(scope, requests.list)} />
-                        </div>
-                    </form>
-                </>
-            )}
+            {requestFailed(request) && <ErrorAlertComponent message={request.message} />}
+            <form onSubmit={handleSubmit}>
+                <div className='row'>
+                    <div className='col-sm-6'>
+                        <InputComponent label='Nom'
+                                        type='text'
+                                        input={name}
+                                        id='inputName'
+                                        handleInput={handleNameInput}
+                        />
+                    </div>
+                </div>
+                <div className='row'>
+                    <div className='col-sm-6'>
+                        <InputComponent type='text'
+                                        label='Email'
+                                        input={email}
+                                        id='inputEmail'
+                                        handleInput={handleEmailInput}
+                        />
+                    </div>
+                    <div className='col-sm-6'>
+                        <InputComponent type='text'
+                                        label='Poste'
+                                        input={post}
+                                        id='inputPost'
+                                        handleInput={handlePostInput}
+                        />
+                    </div>
+                </div>
+                <div className='row'>
+                    <div className='col-sm-6'>
+                        <TextareaComponent label='Adresse'
+                                        input={address}
+                                        id='inputAddress'
+                                        handleInput={handleAddressInput}
+                        />
+                    </div>
+                    <div className='col-sm-6'>
+                        <TextareaComponent label='Description'
+                                        input={description}
+                                        id='inputDescription'
+                                        handleInput={handleDescriptionInput}
+                        />
+                    </div>
+                </div>
+                <div className="form-group row">
+                    <ButtonComponent processing={requestLoading(request)} />
+                </div>
+            </form>
         </>
     )
 }
 
 // Prop types to ensure destroyed props data type
 ProfileEditComponent.propTypes = {
-    error: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired,
 };

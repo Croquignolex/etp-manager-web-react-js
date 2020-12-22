@@ -7,17 +7,10 @@ import {storeResetSettingsData, storeSetSettingsData} from "../settings/actions"
 import {LOCAL_STORAGE_USER_DATA, LOCAL_STORAGE_SETTINGS} from "../../constants/localStorageConstants";
 import {
     LOGOUT_API_PATH,
+    EDIT_PROFILE_API_PATH,
     EDIT_PASSWORD_API_PATH,
     AUTHENTICATION_API_PATH
 } from "../../constants/apiConstants";
-import {
-    storeUserCheckRequestInit,
-    storeUserCheckRequestFailed,
-    storeUserCheckRequestSucceed,
-    storeUserPasswordEditRequestInit,
-    storeUserPasswordEditRequestFailed,
-    storeUserPasswordEditRequestSucceed
-} from "../requests/actions";
 import {
     setLocaleStorageItem,
     getLocaleStorageItem,
@@ -28,9 +21,22 @@ import {
     storeResetUserData,
     storeSetUserFullData,
     EMIT_USER_PASSWORD_UPDATE,
+    storeSetUserInformationData,
+    EMIT_USER_INFORMATION_UPDATE,
     EMIT_CHECK_USER_AUTHENTICATION,
     EMIT_ATTEMPT_USER_AUTHENTICATION
 } from "./actions";
+import {
+    storeUserCheckRequestInit,
+    storeUserCheckRequestFailed,
+    storeUserCheckRequestSucceed,
+    storeUserProfileEditRequestInit,
+    storeUserPasswordEditRequestInit,
+    storeUserProfileEditRequestFailed,
+    storeUserPasswordEditRequestFailed,
+    storeUserPasswordEditRequestSucceed,
+    storeUserProfileEditRequestSucceed
+} from "../requests/actions";
 
 // Check user authentication from data in local storage
 export function* emitCheckUserAuthentication() {
@@ -114,13 +120,35 @@ export function* emitUserPasswordUpdate() {
             yield put(storeUserPasswordEditRequestInit());
             const data = {current_pass: oldPassword, new_pass: newPassword};
             // API call
-            yield call(apiPostRequest, EDIT_PASSWORD_API_PATH, data);
+            const apiResponse = yield call(apiPostRequest, EDIT_PASSWORD_API_PATH, data);
             // Fire event for request
-            yield put(storeUserPasswordEditRequestSucceed());
+            yield put(storeUserPasswordEditRequestSucceed({message: apiResponse.message}));
         } catch (message) {
             // Fire event for request
-            yield put(storeUserPasswordEditRequestFailed());
-            yield put(storeSetUserPasswordEditErrorData({message}));
+            yield put(storeUserPasswordEditRequestFailed({message}));
+        }
+    });
+}
+
+// Update user information from API
+export function* emitUserInformationUpdate() {
+    yield takeLatest(EMIT_USER_INFORMATION_UPDATE, function*({name, post, address, email, description}) {
+        try {
+            // Fire event for request
+            yield put(storeUserProfileEditRequestInit());
+            const data = {name, email, poste: post, adresse: address, description};
+            const userData = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_DATA);
+            // API call
+            const apiResponse = yield call(apiPostRequest, EDIT_PROFILE_API_PATH, data);
+            // Set user data into local storage
+            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_DATA, {...userData, name, post, address, description});
+            // Fire event for request
+            yield put(storeUserProfileEditRequestSucceed({message: apiResponse.message}));
+            // Fire event to redux
+            yield put(storeSetUserInformationData({name, post, address, email, description}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeUserProfileEditRequestFailed({message}));
         }
     });
 }
@@ -140,40 +168,6 @@ export function* emitUserLogout() {
 }
 
 /*
-// Update user information from API
-export function* emitUserInformationUpdate() {
-    yield takeLatest(EMIT_USER_INFORMATION_UPDATE, function*({name, post, address,
-                                                                 email, description}) {
-        const scope = USER_EDIT_SCOPE;
-        try {
-            // Fire event for request
-            yield put(storeRequestInit({scope}));
-            const data = {name, email, poste: post, adresse: address, description};
-            // API call
-            yield call(apiPostRequest, EDIT_PROFILE_API_PATH, data);
-            // Set user data into local storage
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_NAME, name);
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_POST, post);
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_EMAIL, email);
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_ADDRESS, address);
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_DESCRIPTION, description);
-            // Fire event at redux for information toast
-            yield put(storeSetInfoToastData({
-                title: 'Bravo!',
-                body: `Information du profil mis à jour avec succès`
-            }));
-            // Fire event to redux
-            yield put(storeSetUserInformationData({name, post, address, email, description}));
-            // Fire event for request
-            yield put(storeRequestSucceed({scope}));
-        } catch (message) {
-            // Fire event for request
-            yield put(storeRequestFailed({scope}));
-            yield put(storeSetDangerErrorData({message, scope}));
-        }
-    });
-}
-
 // Update user avatar from API
 export function* emitUserAvatarUpdate() {
     yield takeLatest(EMIT_USER_AVATAR_UPDATE, function*({avatar}) {
@@ -201,67 +195,7 @@ export function* emitUserAvatarUpdate() {
             yield put(storeSetDangerErrorData({message, scope}));
         }
     });
-}
-
-// Update user setting from API
-export function* emitUserSettingUpdate() {
-    yield takeLatest(EMIT_USER_SETTING_UPDATE, function*({cards, charts, bars,
-                                                             sound, session, description}) {
-        const scope = SETTINGS_SCOPE;
-        try {
-            // Fire event for request
-            yield put(storeRequestInit({scope}));
-            const setting = {cards, charts, bars, sound, session, description};
-            // API call
-            yield call(apiPostRequest, EDIT_SETTING_API_PATH, setting);
-            // Set user data into local storage
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_SETTING, setting);
-            // Fire event at redux for information toast
-            yield put(storeSetInfoToastData({
-                title: 'Bravo!',
-                body: `Paramètres mis à jour avec succès`
-            }));
-            yield put(storeSetUserSettingData(setting));
-            // Fire event for request
-            yield put(storeRequestSucceed({scope}));
-        } catch (message) {
-            // Fire event for request
-            yield put(storeRequestFailed({scope}));
-            yield put(storeSetDangerErrorData({message, scope}));
-        }
-    });
-}
-
-// Get user balance & keep into store and local storage
-export function* emitUserBalance() {
-    yield takeLatest(EMIT_USER_BALANCE, function*() {
-        const scope = USER_BALANCE_SCOPE;
-        try {
-            // Fire event for request
-            yield put(storeRequestInit({scope}));
-            const apiResponse = yield call(apiGetRequest, BALANCE_API_PATH);
-            // Extract balance
-            const accountData = apiResponse.caisse;
-            let account = {id: '', balance: 0}
-            if(accountData) {
-                account = {
-                    balance: apiResponse.caisse.solde,
-                    id: apiResponse.caisse.id.toString(),
-                };
-            }
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_BALANCE, account.balance);
-            // Fire event to redux
-            yield put(storeSetUserBalance({account}));
-            // Fire event for request
-            yield put(storeRequestSucceed({scope}));
-        } catch (message) {
-            // Fire event for request
-            yield put(storeRequestFailed({scope}));
-            yield put(storeSetDangerErrorData({message, scope}));
-        }
-    });
-}
-*/
+}*/
 
 // Extract user data & settings
 function extractUserAndSettingsData(apiResponse) {
@@ -296,6 +230,7 @@ export default function* sagaUser() {
     yield all([
         fork(emitUserLogout),
         fork(emitUserPasswordUpdate),
+        fork(emitUserInformationUpdate),
         fork(emitCheckUserAuthentication),
         fork(emitAttemptUserAuthentication),
     ]);

@@ -2,8 +2,6 @@ import {
     STORE_RESET_USER_DATA,
     STORE_SET_USER_FULL_DATA,
     STORE_SET_USER_AVATAR_DATA,
-    STORE_SET_USER_BALANCE_DATA,
-    STORE_SET_USER_SETTING_DATA,
     STORE_SET_USER_INFORMATION_DATA,
 } from "./actions";
 
@@ -16,7 +14,6 @@ const initialState = {
     email: '',
     avatar: '',
     address: '',
-    status: true,
     creation: '',
     description: '',
     isLoggedIn: false,
@@ -34,10 +31,6 @@ function reduce(state = initialState, action) {
         case STORE_SET_USER_AVATAR_DATA:
             nextState = {...state, avatar: action.avatar};
             return nextState || state;
-        // Resolve event to set user store avatar
-        case STORE_SET_USER_BALANCE_DATA:
-            nextState = {...state, account: action.account};
-            return nextState || state;
         // Resolve event to set user store simple data
         case STORE_SET_USER_INFORMATION_DATA:
             nextState = {
@@ -47,21 +40,6 @@ function reduce(state = initialState, action) {
                 email: action.email,
                 address: action.address,
                 description: action.description
-            };
-            return nextState || state;
-        // Resolve event to set user store setting data
-        case STORE_SET_USER_SETTING_DATA:
-            nextState = {
-                ...state,
-                setting: {
-                    ...state.setting,
-                    bars: action.bars,
-                    cards: action.cards,
-                    sound: action.sound,
-                    charts: action.charts,
-                    session: action.session,
-                    description: action.description,
-                }
             };
             return nextState || state;
         // Resolve event to fill user store data

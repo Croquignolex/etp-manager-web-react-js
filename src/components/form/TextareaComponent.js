@@ -1,26 +1,31 @@
 import React  from 'react';
 import PropTypes from 'prop-types';
+import {getFieldColor} from "../../functions/generalFunctions";
 
-import {getFieldColor} from "../../helpers/functions";
 
 // Component
 function AppFormTextarea({id, label, input, handleInput}) {
     // Data
-    const {val, message, isValid} = input;
+    const {data, errorMessage, isValid} = input;
+    const inputClass = `form-control ${!isValid && 'is-invalid'}`;
+
+    const handleChange = (e) => {
+        handleInput(e.target.value)
+    }
 
     // Render
     return (
         <>
             <div className="form-group">
                 <label htmlFor={id}>{label}</label>
-                 <textarea rows='3'
-                           id={id}
-                           value={val ? val : ''}
+                 <textarea id={id}
+                           rows='3'
+                           className={inputClass}
+                           onChange={handleChange}
+                           value={data ? data : ''}
                            style={getFieldColor(input)}
-                           onChange={(e) => handleInput(true, e.target.value)}
-                           className={`form-control ${!isValid && 'is-invalid'}`}
                  />
-                <small className={'text-danger'}>{!isValid && message}</small>
+                <small className="text-danger">{!isValid && errorMessage}</small>
             </div>
         </>
     )

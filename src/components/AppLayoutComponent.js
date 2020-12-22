@@ -1,20 +1,23 @@
 import PropTypes from "prop-types";
 import {Switch, Route} from "react-router-dom";
 import React, {useEffect, useLayoutEffect} from 'react';
-import {NotificationContainer} from "react-notifications";
+import {NotificationContainer, NotificationManager} from "react-notifications";
 
 import 'react-notifications/lib/notifications.css';
 
 import asyncComponent from "./asyncComponent";
 import NavBarContainer from "../containers/NavBarContainer";
 import SideBarContainer from "../containers/SideBarContainer";
+import {requestSucceeded} from "../functions/generalFunctions";
+import {playSuccessSound} from "../functions/playSoundFunctions";
 import {PROFILE_PAGE_PATH} from "../constants/pagePathConstants";
+import {storeUserCheckRequestReset} from "../redux/requests/actions";
 import ProfilePageContainer from "../containers/ProfilePageContainer";
 import {emitUnreadNotificationsFetch} from "../redux/notifications/actions";
 import RestrictedRouteContainer from "../containers/RestrictedRouteContainer";
 
 // Component
-function AppLayoutComponent({location, dispatch}) {
+function AppLayoutComponent({userCheckRequest, location, dispatch}) {
     // Local layout effect
     useLayoutEffect(() => {
        if(is_mobile()) {
@@ -26,6 +29,12 @@ function AppLayoutComponent({location, dispatch}) {
 
     // Local effect
     useEffect(() => {
+        // Welcome form the first check
+        if(requestSucceeded(userCheckRequest)) {
+            playSuccessSound();
+            NotificationManager.success(userCheckRequest.message);
+            dispatch(storeUserCheckRequestReset());
+        }
         // Ask user permission for desktop notification
         if (Notification.permission !== "denied") {
             Notification.requestPermission()
@@ -126,6 +135,7 @@ function is_mobile() {
 AppLayoutComponent.propTypes = {
     dispatch: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
+    userCheckRequest: PropTypes.object.isRequired,
 };
 
 // Connect component to Redux

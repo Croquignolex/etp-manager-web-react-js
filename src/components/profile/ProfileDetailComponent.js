@@ -7,7 +7,7 @@ import {dateToString} from "../../functions/generalFunctions";
 // Component
 function ProfileDetailComponent({user}) {
     // Data
-    const {avatar, name, post, phone, description, email, status, address, creation} = user;
+    const {avatar, name, post, phone, description, email, address, creation} = user;
 
     // Render
     return (
@@ -15,12 +15,7 @@ function ProfileDetailComponent({user}) {
             {/* Primary information */}
             <div className="card custom-card-outline">
                 <div className="card-body box-profile">
-                    <span className="mr-1">
-                        {status
-                            ? <i className='fa fa-lock-open text-success' />
-                            : <i className='fa fa-lock text-danger' />
-                        }
-                    </span>
+                    <span className="mr-1"><i className='fa fa-lock-open text-success' /></span>
                     <span className="badge badge-success">{USER_ROLE}</span>
                     <div className="text-center">
                         <img src={avatar} alt="avatar..."

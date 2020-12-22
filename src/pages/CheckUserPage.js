@@ -1,28 +1,17 @@
 import PropTypes from "prop-types";
 import React, {useEffect} from 'react';
-import {NotificationManager} from 'react-notifications';
 
 import '../assets/scss/footer.scss';
 
 import LoaderComponent from "../components/LoaderComponent";
-import {playSuccessSound} from "../functions/playSoundFunctions";
 import ErrorAlertComponent from "../components/ErrorAlertComponent";
 import {emitAttemptUserAuthentication} from "../redux/user/actions";
 import {DEFAULT_GUEST_MESSAGE} from "../constants/defaultConstants";
-import {requestFailed, requestLoading, requestSucceeded} from "../functions/generalFunctions";
-import {storeUserCheckRequestFailed, storeUserCheckRequestReset} from "../redux/requests/actions";
+import {storeUserCheckRequestFailed} from "../redux/requests/actions";
+import {requestFailed, requestLoading} from "../functions/generalFunctions";
 
 // Component
 function CheckUserPage({location, request, dispatch}) {
-    // Local effects
-    useEffect(() => {
-        // Reset inputs while toast (well done) into current scope
-        if(requestSucceeded(request)) {
-            playSuccessSound();
-            NotificationManager.info(request.message);
-        }
-    }, [request]);
-
     // local effects
     useEffect(() => {
         // Extract token from URL
@@ -35,10 +24,6 @@ function CheckUserPage({location, request, dispatch}) {
             // Attempt to authenticate user
             dispatch(emitAttemptUserAuthentication({token}))
         }
-        // Cleaner error alert while component did unmount without store dependency
-        return () => {
-            dispatch(storeUserCheckRequestReset());
-        };
         // eslint-disable-next-line
     }, []);
 
