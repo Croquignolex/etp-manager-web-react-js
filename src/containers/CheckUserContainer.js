@@ -7,7 +7,6 @@ setPageTitle("Redirection");
 
 // Map state function to component props
 const mapStateToProps = (state) => ({
-    error: state.errors.user.check,
     request: state.requests.user.check
 });
 

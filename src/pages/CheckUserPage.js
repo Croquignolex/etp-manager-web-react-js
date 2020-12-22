@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import React, {useEffect} from 'react';
+import {NotificationManager} from 'react-notifications';
 
 import '../assets/scss/footer.scss';
 
@@ -8,17 +9,17 @@ import {playSuccessSound} from "../functions/playSoundFunctions";
 import ErrorAlertComponent from "../components/ErrorAlertComponent";
 import {emitAttemptUserAuthentication} from "../redux/user/actions";
 import {DEFAULT_GUEST_MESSAGE} from "../constants/defaultConstants";
-import {storeUserCheckRequestReset} from "../redux/requests/actions";
-import {requestLoading, requestSucceeded} from "../functions/generalFunctions";
-import {storeResetUserCheckErrorData, storeSetUserCheckErrorData} from "../redux/errors/actions";
+import {requestFailed, requestLoading, requestSucceeded} from "../functions/generalFunctions";
+import {storeUserCheckRequestFailed, storeUserCheckRequestReset} from "../redux/requests/actions";
 
 // Component
-function CheckUserPage({location, error, request, dispatch}) {
+function CheckUserPage({location, request, dispatch}) {
     // Local effects
     useEffect(() => {
         // Reset inputs while toast (well done) into current scope
         if(requestSucceeded(request)) {
             playSuccessSound();
+            NotificationManager.info(request.message);
         }
     }, [request]);
 
@@ -28,7 +29,7 @@ function CheckUserPage({location, error, request, dispatch}) {
         const token = (new URLSearchParams(location.search)).get('token');
         if(token === null) {
             // Display unauthenticated error
-            dispatch(storeSetUserCheckErrorData({message: DEFAULT_GUEST_MESSAGE}))
+            dispatch(storeUserCheckRequestFailed({message: DEFAULT_GUEST_MESSAGE}))
         }
         else {
             // Attempt to authenticate user
@@ -37,7 +38,6 @@ function CheckUserPage({location, error, request, dispatch}) {
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             dispatch(storeUserCheckRequestReset());
-            dispatch(storeResetUserCheckErrorData());
         };
         // eslint-disable-next-line
     }, []);
@@ -51,7 +51,7 @@ function CheckUserPage({location, error, request, dispatch}) {
                 </div>
                 <div className="col-12 mt-4">
                     {requestLoading(request) && <LoaderComponent />}
-                    {error.show && <ErrorAlertComponent message={error.message} />}
+                    {requestFailed(request) && <ErrorAlertComponent message={request.message} />}
                 </div>
             </div>
             <footer className="app-footer text-right">
@@ -63,7 +63,6 @@ function CheckUserPage({location, error, request, dispatch}) {
 
 // Prop types to ensure destroyed props data type
 CheckUserPage.propTypes = {
-    error: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,

@@ -18,7 +18,7 @@ export function apiGetRequest(url) {
             .then(res => {
                 const apiResponse = res.data;
                 apiResponse.status
-                    ? resolve(apiResponse.data)
+                    ? resolve(apiResponse)
                     : reject(apiResponse.message);
             })
             .catch(e => {
@@ -35,7 +35,7 @@ export function apiPostRequest(url, data = {}) {
             .then(res => {
                 const apiResponse = res.data;
                 apiResponse.status
-                    ? resolve(apiResponse.data)
+                    ? resolve(apiResponse)
                     : reject(apiResponse.message);
             })
             .catch(e => {

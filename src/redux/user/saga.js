@@ -4,7 +4,6 @@ import {AUTH_URL} from "../../constants/generalConstants";
 import {apiPostRequest} from "../../functions/axiosFunctions";
 import {getProfileImageFromServer} from "../../functions/generalFunctions";
 import {storeResetSettingsData, storeSetSettingsData} from "../settings/actions";
-import {storeSetUserCheckErrorData, storeSetUserPasswordEditErrorData} from "../errors/actions";
 import {LOCAL_STORAGE_USER_DATA, LOCAL_STORAGE_SETTINGS} from "../../constants/localStorageConstants";
 import {
     LOGOUT_API_PATH,
@@ -14,6 +13,7 @@ import {
 import {
     storeUserCheckRequestInit,
     storeUserCheckRequestFailed,
+    storeUserCheckRequestSucceed,
     storeUserPasswordEditRequestInit,
     storeUserPasswordEditRequestFailed,
     storeUserPasswordEditRequestSucceed
@@ -78,13 +78,15 @@ export function* emitAttemptUserAuthentication() {
             // API call
             const apiResponse = yield call(apiPostRequest, AUTHENTICATION_API_PATH);
             // Extract data
-            const {userData, settingsData} = extractUserAndSettingsData(apiResponse);
+            const {userData, settingsData} = extractUserAndSettingsData(apiResponse.data);
             // Deconstruction
             const {cards, charts, bars, sound, session} = settingsData;
             const {name, post, email, phone, avatar, address, creation} = userData;
             // Set user data into local storage
             yield call(setLocaleStorageItem, LOCAL_STORAGE_SETTINGS, settingsData);
             yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_DATA, {...userData, token});
+            // Fire event for request
+            yield put(storeUserCheckRequestSucceed({message: apiResponse.message}));
             // Fire event to redux for settings data
             yield put(storeSetSettingsData({
                 id: settingsData.id,
@@ -99,8 +101,7 @@ export function* emitAttemptUserAuthentication() {
             }));
         } catch (message) {
             // Fire event for request
-            yield put(storeUserCheckRequestFailed());
-            yield put(storeSetUserCheckErrorData({message}));
+            yield put(storeUserCheckRequestFailed({message}));
         }
     });
 }
