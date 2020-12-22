@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 import HeaderComponent from "../components/HeaderComponent";
 import {PROFILE_PAGE} from "../constants/pageNameConstants";
+import ProfileEditComponent from "../components/profile/ProfileEditComponent";
 import ProfileDetailComponent from "../components/profile/ProfileDetailComponent";
 import ProfilePasswordComponent from "../components/profile/ProfilePasswordComponent";
 
@@ -50,7 +51,7 @@ function ProfilePage({user, userRequests, userErrors, dispatch}) {
                                         </div>
                                         <div className="tab-pane" id="info">
                                             {/*Information update form*/}
-                                            {/*<UsersEdit parentScope={scope} />*/}
+                                            <ProfileEditComponent request={userRequests.profile} error={userErrors.profile} dispatch={dispatch} />
                                         </div>
                                         <div className="tab-pane" id="avatar">
                                             {/* Avatar update form */}
