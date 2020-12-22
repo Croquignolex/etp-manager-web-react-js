@@ -7,7 +7,7 @@ import ButtonComponent from "../form/ButtonComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import {emitUserPasswordUpdate} from "../../redux/user/actions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
-import {storeUserCheckRequestReset} from "../../redux/requests/actions";
+import {storeUserPasswordEditRequestReset} from "../../redux/requests/actions";
 import {storeResetUserPasswordEditErrorData} from "../../redux/errors/actions";
 import {requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 import {playInfoSound, playWarningSound} from "../../functions/playSoundFunctions";
@@ -36,7 +36,7 @@ function ProfilePasswordComponent({error, request, dispatch}) {
     useEffect(() => {
         // Cleaner error alert while component did unmount without store dependency
         return () => {
-            dispatch(storeUserCheckRequestReset());
+            dispatch(storeUserPasswordEditRequestReset());
             dispatch(storeResetUserPasswordEditErrorData());
         };
         // eslint-disable-next-line
@@ -73,8 +73,8 @@ function ProfilePasswordComponent({error, request, dispatch}) {
         // Check
         if(validationOK) {
             dispatch(emitUserPasswordUpdate({
-                oldPassword: _oldPassword.val,
-                newPassword: _newPassword.val,
+                oldPassword: _oldPassword.data,
+                newPassword: _newPassword.data,
             }));
         } else playWarningSound();
     };

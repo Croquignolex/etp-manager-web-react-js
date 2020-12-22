@@ -1,18 +1,33 @@
 import { all, takeEvery, takeLatest, put, fork, call } from 'redux-saga/effects'
 
 import {AUTH_URL} from "../../constants/generalConstants";
-import {storeSetUserCheckErrorData} from "../errors/actions";
 import {apiPostRequest} from "../../functions/axiosFunctions";
 import {getProfileImageFromServer} from "../../functions/generalFunctions";
 import {storeResetSettingsData, storeSetSettingsData} from "../settings/actions";
-import {AUTHENTICATION_API_PATH, LOGOUT_API_PATH} from "../../constants/apiConstants";
-import {storeUserCheckRequestFailed, storeUserCheckRequestInit} from "../requests/actions";
+import {storeSetUserCheckErrorData, storeSetUserPasswordEditErrorData} from "../errors/actions";
 import {LOCAL_STORAGE_USER_DATA, LOCAL_STORAGE_SETTINGS} from "../../constants/localStorageConstants";
-import {getLocaleStorageItem, removeAllLocaleStorageItems, setLocaleStorageItem} from "../../functions/localStorageFunctions";
+import {
+    LOGOUT_API_PATH,
+    EDIT_PASSWORD_API_PATH,
+    AUTHENTICATION_API_PATH
+} from "../../constants/apiConstants";
+import {
+    storeUserCheckRequestInit,
+    storeUserCheckRequestFailed,
+    storeUserPasswordEditRequestInit,
+    storeUserPasswordEditRequestFailed,
+    storeUserPasswordEditRequestSucceed
+} from "../requests/actions";
+import {
+    setLocaleStorageItem,
+    getLocaleStorageItem,
+    removeAllLocaleStorageItems
+} from "../../functions/localStorageFunctions";
 import {
     EMIT_USER_LOGOUT,
     storeResetUserData,
     storeSetUserFullData,
+    EMIT_USER_PASSWORD_UPDATE,
     EMIT_CHECK_USER_AUTHENTICATION,
     EMIT_ATTEMPT_USER_AUTHENTICATION
 } from "./actions";
@@ -90,6 +105,25 @@ export function* emitAttemptUserAuthentication() {
     });
 }
 
+// Update user password from API
+export function* emitUserPasswordUpdate() {
+    yield takeLatest(EMIT_USER_PASSWORD_UPDATE, function*({oldPassword, newPassword}) {
+        try {
+            // Fire event for request
+            yield put(storeUserPasswordEditRequestInit());
+            const data = {current_pass: oldPassword, new_pass: newPassword};
+            // API call
+            yield call(apiPostRequest, EDIT_PASSWORD_API_PATH, data);
+            // Fire event for request
+            yield put(storeUserPasswordEditRequestSucceed());
+        } catch (message) {
+            // Fire event for request
+            yield put(storeUserPasswordEditRequestFailed());
+            yield put(storeSetUserPasswordEditErrorData({message}));
+        }
+    });
+}
+
 // Remove user data present into local storage while logout from API
 export function* emitUserLogout() {
     yield takeLatest(EMIT_USER_LOGOUT, function*() {
@@ -129,31 +163,6 @@ export function* emitUserInformationUpdate() {
             }));
             // Fire event to redux
             yield put(storeSetUserInformationData({name, post, address, email, description}));
-            // Fire event for request
-            yield put(storeRequestSucceed({scope}));
-        } catch (message) {
-            // Fire event for request
-            yield put(storeRequestFailed({scope}));
-            yield put(storeSetDangerErrorData({message, scope}));
-        }
-    });
-}
-
-// Update user password from API
-export function* emitUserPasswordUpdate() {
-    yield takeLatest(EMIT_USER_PASSWORD_UPDATE, function*({oldPassword, newPassword}) {
-        const scope = PROFILE_PASSWORD_SCOPE;
-        try {
-            // Fire event for request
-            yield put(storeRequestInit({scope}));
-            const data = {current_pass: oldPassword, new_pass: newPassword};
-            // API call
-            yield call(apiPostRequest, EDIT_PASSWORD_API_PATH, data);
-            // Fire event at redux for information toast
-            yield put(storeSetInfoToastData({
-                title: 'Bravo!',
-                body: `Mot de passe mis à jour avec succès`
-            }));
             // Fire event for request
             yield put(storeRequestSucceed({scope}));
         } catch (message) {
@@ -285,6 +294,7 @@ function extractUserAndSettingsData(apiResponse) {
 export default function* sagaUser() {
     yield all([
         fork(emitUserLogout),
+        fork(emitUserPasswordUpdate),
         fork(emitCheckUserAuthentication),
         fork(emitAttemptUserAuthentication),
     ]);
