@@ -2,15 +2,26 @@ import PropTypes from "prop-types";
 import React, {useEffect} from 'react';
 
 import '../assets/scss/footer.scss';
+
 import LoaderComponent from "../components/LoaderComponent";
-import {requestLoading} from "../functions/generalFunctions";
+import {playSuccessSound} from "../functions/playSoundFunctions";
 import ErrorAlertComponent from "../components/ErrorAlertComponent";
 import {emitAttemptUserAuthentication} from "../redux/user/actions";
 import {DEFAULT_GUEST_MESSAGE} from "../constants/defaultConstants";
+import {storeUserCheckRequestReset} from "../redux/requests/actions";
+import {requestLoading, requestSucceeded} from "../functions/generalFunctions";
 import {storeResetUserCheckErrorData, storeSetUserCheckErrorData} from "../redux/errors/actions";
 
 // Component
 function CheckUserPage({location, error, request, dispatch}) {
+    // Local effects
+    useEffect(() => {
+        // Reset inputs while toast (well done) into current scope
+        if(requestSucceeded(request)) {
+            playSuccessSound();
+        }
+    }, [request]);
+
     // local effects
     useEffect(() => {
         // Extract token from URL
@@ -25,6 +36,7 @@ function CheckUserPage({location, error, request, dispatch}) {
         }
         // Cleaner error alert while component did unmount without store dependency
         return () => {
+            dispatch(storeUserCheckRequestReset());
             dispatch(storeResetUserCheckErrorData());
         };
         // eslint-disable-next-line

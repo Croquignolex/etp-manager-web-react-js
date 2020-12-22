@@ -2,6 +2,11 @@ import moment from 'moment';
 
 import {API_SERVER_URL, APP_NAME} from "../constants/generalConstants";
 
+// Input text color
+export function getFieldColor(field) {
+    return {color: (field.isValid ? '#22252a' : '#e22529')}
+}
+
 // Add app name on page title
 export function setPageTitle(title) {
     document.title = `${title} - ${APP_NAME}`;

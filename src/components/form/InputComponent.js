@@ -1,12 +1,17 @@
 import React  from 'react';
 import PropTypes from 'prop-types';
 
-import {getFieldColor} from "../../helpers/functions";
+import {getFieldColor} from "../../functions/generalFunctions";
 
 // Component
-function AppFormInput({id, label, type, input, handleInput}) {
+function InputComponent({id, label, type, input, handleInput}) {
     // Data
-    const {val, message, isValid} = input;
+    const {data, errorMassage, isValid} = input;
+    const inputClass = `form-control ${!isValid && 'is-invalid'}`;
+
+    const handleChange = (e) => {
+        handleInput(e.target.value)
+    }
 
     // Render
     return (
@@ -15,19 +20,19 @@ function AppFormInput({id, label, type, input, handleInput}) {
                 <label htmlFor={id}>{label}</label>
                 <input id={id}
                        type={type}
-                       value={val ? val : ''}
+                       className={inputClass}
+                       onChange={handleChange}
+                       value={data ? data : ''}
                        style={getFieldColor(input)}
-                       onChange={(e) => handleInput(true, e.target.value)}
-                       className={`form-control ${!isValid && 'is-invalid'}`}
                 />
-                <small className={'text-danger'}>{!isValid && message}</small>
+                <small className="text-danger">{!isValid && errorMassage}</small>
             </div>
         </>
     )
 }
 
 // Prop types to ensure destroyed props data type
-AppFormInput.propTypes = {
+InputComponent.propTypes = {
     id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
@@ -35,4 +40,4 @@ AppFormInput.propTypes = {
     handleInput: PropTypes.func.isRequired
 };
 
-export default React.memo(AppFormInput);
+export default React.memo(InputComponent);

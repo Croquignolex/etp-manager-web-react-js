@@ -1,6 +1,9 @@
 import PropTypes from "prop-types";
 import {Switch, Route} from "react-router-dom";
 import React, {useEffect, useLayoutEffect} from 'react';
+import {NotificationContainer} from "react-notifications";
+
+import 'react-notifications/lib/notifications.css';
 
 import asyncComponent from "./asyncComponent";
 import NavBarContainer from "../containers/NavBarContainer";
@@ -41,7 +44,7 @@ function AppLayoutComponent({location, dispatch}) {
     // Render
     return (
         <>
-            {/*<ToastAlertComponent toast={toast} dispatch={dispatch} playSound={user.setting.sound} />*/}
+            <NotificationContainer />
             <div className="wrapper">
                 <NavBarContainer />
                 <SideBarContainer pathname={location.pathname} />
@@ -121,10 +124,8 @@ function is_mobile() {
 
 // Prop types to ensure destroyed props data type
 AppLayoutComponent.propTypes = {
-    user: PropTypes.object.isRequired,
-    toast: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
-    requests: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
 };
 
 // Connect component to Redux
