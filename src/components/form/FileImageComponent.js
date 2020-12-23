@@ -3,12 +3,17 @@ import React, {useState} from 'react';
 import FileBase64 from 'react-file-base64';
 
 // Component
-function AppFormFileImageType({id, label, input, handleInput}) {
+function FileImageComponent({id, label, input, handleInput}) {
     //Local state
    const [preview, setPreview] = useState('');
 
     // Data
-    const {message, isValid} = input;
+    const {errorMessage, isValid} = input;
+
+    const handleDone = (e) => {
+        setPreview(e.base64);
+        handleInput(e)
+    }
 
     // Render
     return (
@@ -17,15 +22,9 @@ function AppFormFileImageType({id, label, input, handleInput}) {
                 <div className="form-group">
                     <label htmlFor={id}>{label}</label>
                     <div className="custom-file">
-                        <FileBase64
-                            multiple={false}
-                            onDone={(e) => {
-                                setPreview(e.base64)
-                                handleInput(true, e.file)
-                            }}
-                        />
+                        <FileBase64 multiple={false} onDone={handleDone} />
                     </div>
-                    <small className={'text-danger'}>{!isValid && message}</small>
+                    <small className={'text-danger'}>{!isValid && errorMessage}</small>
                     <p className='text-primary'>
                         <small>
                             <strong>
@@ -37,23 +36,18 @@ function AppFormFileImageType({id, label, input, handleInput}) {
                 </div>
             </div>
             <div className='col-sm-6'>
-                {preview &&
-                    <img alt='...'
-                         src={preview}
-                         className='profile-user-img img-fluid'
-                    />
-                }
+                {preview && <img alt='...' src={preview} className='profile-user-img img-fluid' />}
             </div>
         </>
     )
 }
 
 // Prop types to ensure destroyed props data type
-AppFormFileImageType.propTypes = {
+FileImageComponent.propTypes = {
     id: PropTypes.string.isRequired,
     input: PropTypes.object.isRequired,
     label: PropTypes.string.isRequired,
     handleInput: PropTypes.func.isRequired
 };
 
-export default React.memo(AppFormFileImageType);
+export default React.memo(FileImageComponent);

@@ -60,61 +60,6 @@ function AppLayoutComponent({userCheckRequest, location, dispatch}) {
                 <Switch>
                     {/* Common pages */}
                     <RestrictedRouteContainer path={PROFILE_PAGE_PATH} exact component={ProfilePageContainer} />
-                    {/*<RestrictedRoute path={SETTINGS_PAGE_PATH} exact component={SettingsPage} />*!/*/}
-                    {/*<RestrictedRouteContainer path={DASHBOARD_PAGE_PATH} exact component={DashboardPage} />*/}
-                    {/*<RestrictedRoute path={NOTIFICATIONS_PAGE_PATH} exact component={NotificationsPage} />*/}
-                    {/* Network pages */}
-                    {/*<RestrictedRoute path={NETWORK_FLEETS_PAGE_PATH} exact component={NetworkFleetsPage} />
-                     Requests Fleets pages
-                    <RestrictedRoute path={REQUESTS_FLEETS_PAGE_PATH} exact component={RequestsFleetsPage} />
-                    <RestrictedRoute path={REQUESTS_FLEET_NEW_PAGE_PATH} exact component={RequestsFleetsNewPage} />
-                    <RestrictedRoute path={`${REQUESTS_FLEET_EDIT_PAGE_PATH}/:id`} exact component={RequestsFleetsEditPage} customPath={REQUESTS_FLEET_EDIT_PAGE_PATH} />
-                     Requests Clearances pages
-                    <RestrictedRoute path={REQUESTS_CLEARANCES_PAGE_PATH} exact component={RequestsClearancesPage} />
-                    <RestrictedRoute path={REQUESTS_CLEARANCE_NEW_PAGE_PATH} exact component={RequestsClearancesNewPage} />
-                    <RestrictedRoute path={`${REQUESTS_CLEARANCE_EDIT_PAGE_PATH}/:id`} exact component={RequestsClearancesEditPage} customPath={REQUESTS_CLEARANCE_EDIT_PAGE_PATH} />
-                     Operations pages
-                    <RestrictedRoute path={OPERATIONS_FLEETS_PAGE_PATH} exact component={OperationsFleetsPage} />
-                    <RestrictedRoute path={OPERATION_AFFORDS_PAGE_PATH} exact component={OperationsAffordsPage} />
-                    <RestrictedRoute path={OPERATIONS_TRANSFERS_PAGE_PATH} exact component={OperationsTransfersPage} />
-                    <RestrictedRoute path={OPERATIONS_CLEARANCES_PAGE_PATH} exact component={OperationsClearancesPage} />
-                    <RestrictedRoute path={OPERATIONS_ANONYMOUS_FLEETS_PAGE_PATH} exact component={OperationsAnonymousFleetsPage} />
-                     Checkout
-                    <RestrictedRoute path={HANDING_OVER_PAGE_PATH} exact component={HandingOverPage} />
-                    <RestrictedRoute path={CHECKOUT_OUTLAYS_PAGE_PATH} exact component={CheckoutOutlaysPage} />
-                    <RestrictedRoute path={CHECKOUT_PAYMENTS_PAGE_PATH} exact component={CheckoutPaymentsPage} />
-                     Recoveries pages
-                    <RestrictedRoute path={RECOVERIES_CASH_PAGE_PATH} exact component={RecoveriesCashPage} />
-                    <RestrictedRoute path={RECOVERIES_FLEETS_PAGE_PATH} exact component={RecoveriesFleetsPage} />
-                     Operators pages
-                    <RestrictedRoute path={OPERATORS_PAGE_PATH} exact component={OperatorsPage} />
-                    <RestrictedRoute path={OPERATOR_NEW_PAGE_PATH} exact component={OperatorsNewPage} />
-                    <RestrictedRoute path={`${OPERATOR_EDIT_PAGE_PATH}/:id`} exact component={OperatorsEditPage} customPath={OPERATOR_EDIT_PAGE_PATH} />
-                     Zones pages
-                    <RestrictedRoute path={ZONES_PAGE_PATH} exact component={ZonesPage} />
-                    <RestrictedRoute path={ZONE_NEW_PAGE_PATH} exact component={ZonesNewPage} />
-                    <RestrictedRoute path={`${ZONE_EDIT_PAGE_PATH}/:id`} exact component={ZonesEditPage} customPath={ZONE_EDIT_PAGE_PATH} />
-                     Sims pages
-                    <RestrictedRoute path={SIMS_PAGE_PATH} exact component={SimsPage} />
-                    <RestrictedRoute path={SIM_NEW_PAGE_PATH} exact component={SimsNewPage} />
-                    <RestrictedRoute path={`${SIM_EDIT_PAGE_PATH}/:id`} exact component={SimsEditPage} customPath={SIM_EDIT_PAGE_PATH} />
-                     Users pages
-                    <RestrictedRoute path={USERS_PAGE_PATH} exact component={UsersPage} />
-                    <RestrictedRoute path={USER_NEW_PAGE_PATH} exact component={UsersNewPage} />
-                    <RestrictedRoute path={`${USER_EDIT_PAGE_PATH}/:id`} exact component={UsersEditPage} customPath={USER_EDIT_PAGE_PATH} />
-                     Collectors pages
-                    <RestrictedRoute path={COLLECTORS_PAGE_PATH} exact component={CollectorsPage} />
-                    <RestrictedRoute path={COLLECTOR_NEW_PAGE_PATH} exact component={CollectorsNewPage} />
-                    <RestrictedRoute path={COLLECTOR_FLEETS_PAGE_PATH} exact component={CollectorsFleetsPage} />
-                    <RestrictedRoute path={`${COLLECTOR_EDIT_PAGE_PATH}/:id`} exact component={CollectorsEditPage} customPath={COLLECTOR_EDIT_PAGE_PATH} />
-                     Agents pages
-                    <RestrictedRoute path={AGENTS_PAGE_PATH} exact component={AgentsPage} />
-                    <RestrictedRoute path={AGENT_NEW_PAGE_PATH} exact component={AgentsNewPage} />
-                    <RestrictedRoute path={`${AGENT_EDIT_PAGE_PATH}/:id`} exact component={AgentsEditPage} customPath={AGENT_EDIT_PAGE_PATH} />
-                     Companies pages
-                    <RestrictedRoute path={COMPANIES_PAGE_PATH} exact component={CompaniesPage} />
-                    <RestrictedRoute path={COMPANY_NEW_PAGE_PATH} exact component={CompaniesNewPage} />
-                    <RestrictedRoute path={`${COMPANY_EDIT_PAGE_PATH}/:id`} exact component={CompaniesEditPage} customPath={COMPANY_EDIT_PAGE_PATH} />*/}
                     {/* 404 page */}
                     <Route path="*" exact component={asyncComponent(() => import('../pages/NotFoundPage'))} />
                 </Switch>

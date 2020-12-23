@@ -25,7 +25,7 @@ export function requiredChecker(input) {
 
 // Check image input format
 export function imageChecker(input) {
-    if(input.data !== '') {
+    if(input.data.file && input.data.base64) {
         const fileTypeChecked = inImageType(input);
         return fileTypeChecked.isValid ? inImageSize(input) : fileTypeChecked;
     }
@@ -34,11 +34,11 @@ export function imageChecker(input) {
 
 // Check required image input format
 export function requiredImageChecker(input) {
-    if(input.data !== '') {
+    if(input.data.file && input.data.base64) {
         const fileTypeChecked = inImageType(input);
         return fileTypeChecked.isValid ? inImageSize(input) : fileTypeChecked;
     }
-    return{...input, isValid: false, errorMassage: "Ce champ est réquis"};
+    return{...input, isValid: false, errorMessage: "Ce champ est réquis"};
 }
 
 // Check file input format
@@ -62,7 +62,7 @@ export function requiredFileChecker(input, extension = 'file') {
 // Helper function to check in image type input format
 function inImageType(input) {
     const acceptedFileTYpe = ['image/png', 'image/jpg', 'image/jpeg'];
-    return acceptedFileTYpe.includes(input.data.type)
+    return acceptedFileTYpe.includes(input.data.file.type)
         ? {...input, isValid: true}
         : {...input, isValid: false, errorMessage: 'Format non supporté'};
 }
@@ -70,7 +70,7 @@ function inImageType(input) {
 // Helper function to check in image size input format
 function inImageSize(input) {
     try {
-        return input.data.size < 2000000
+        return input.data.file.size < 2000000
             ? {...input, isValid: true}
             : {...input, isValid: false, errorMessage: 'Image trop lourde'};
     }

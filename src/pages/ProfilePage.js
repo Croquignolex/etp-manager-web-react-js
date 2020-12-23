@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import HeaderComponent from "../components/HeaderComponent";
 import {PROFILE_PAGE} from "../constants/pageNameConstants";
 import ProfileEditComponent from "../components/profile/ProfileEditComponent";
+import ProfileAvatarComponent from "../components/profile/ProfileAvatarComponent";
 import ProfileDetailComponent from "../components/profile/ProfileDetailComponent";
 import ProfilePasswordComponent from "../components/profile/ProfilePasswordComponent";
 
@@ -55,7 +56,7 @@ function ProfilePage({user, userRequests, dispatch}) {
                                         </div>
                                         <div className="tab-pane" id="avatar">
                                             {/* Avatar update form */}
-                                            {/*<UsersAvatarEdit />*/}
+                                            <ProfileAvatarComponent request={userRequests.avatar} dispatch={dispatch} />
                                         </div>
                                     </div>
                                 </div>

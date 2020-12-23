@@ -7,6 +7,7 @@ import {storeResetSettingsData, storeSetSettingsData} from "../settings/actions"
 import {LOCAL_STORAGE_USER_DATA, LOCAL_STORAGE_SETTINGS} from "../../constants/localStorageConstants";
 import {
     LOGOUT_API_PATH,
+    EDIT_AVATAR_API_PATH,
     EDIT_PROFILE_API_PATH,
     EDIT_PASSWORD_API_PATH,
     AUTHENTICATION_API_PATH
@@ -20,6 +21,8 @@ import {
     EMIT_USER_LOGOUT,
     storeResetUserData,
     storeSetUserFullData,
+    storeSetUserAvatarData,
+    EMIT_USER_AVATAR_UPDATE,
     EMIT_USER_PASSWORD_UPDATE,
     storeSetUserInformationData,
     EMIT_USER_INFORMATION_UPDATE,
@@ -30,12 +33,15 @@ import {
     storeUserCheckRequestInit,
     storeUserCheckRequestFailed,
     storeUserCheckRequestSucceed,
+    storeUserAvatarEditRequestInit,
     storeUserProfileEditRequestInit,
     storeUserPasswordEditRequestInit,
+    storeUserAvatarEditRequestFailed,
     storeUserProfileEditRequestFailed,
+    storeUserAvatarEditRequestSucceed,
     storeUserPasswordEditRequestFailed,
-    storeUserPasswordEditRequestSucceed,
-    storeUserProfileEditRequestSucceed
+    storeUserProfileEditRequestSucceed,
+    storeUserPasswordEditRequestSucceed
 } from "../requests/actions";
 
 // Check user authentication from data in local storage
@@ -167,35 +173,28 @@ export function* emitUserLogout() {
     });
 }
 
-/*
 // Update user avatar from API
 export function* emitUserAvatarUpdate() {
     yield takeLatest(EMIT_USER_AVATAR_UPDATE, function*({avatar}) {
-        const scope = PROFILE_AVATAR_SCOPE;
         try {
             // Fire event for request
-            yield put(storeRequestInit({scope}));
-            const data = new FormData();
-            data.append('base_64_image', avatar);
+            yield put(storeUserAvatarEditRequestInit());
+            const data = {base_64_image: avatar};
+            const userData = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_DATA);
             // API call
-            yield call(apiPostRequest, EDIT_AVATAR_API_PATH, data);
+            const apiResponse = yield call(apiPostRequest, EDIT_AVATAR_API_PATH, data);
             // Set user data into local storage
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_AVATAR, avatar);
-            // Fire event at redux for information toast
-            yield put(storeSetInfoToastData({
-                title: 'Bravo!',
-                body: `Avatar mis à jour avec succès`
-            }));
-            yield put(storeSetUserAvatarData({avatar}));
+            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_DATA, {...userData, avatar});
             // Fire event for request
-            yield put(storeRequestSucceed({scope}));
+            yield put(storeUserAvatarEditRequestSucceed({message: apiResponse.message}));
+            // Fire event to redux
+            yield put(storeSetUserAvatarData({avatar}));
         } catch (message) {
             // Fire event for request
-            yield put(storeRequestFailed({scope}));
-            yield put(storeSetDangerErrorData({message, scope}));
+            yield put(storeUserAvatarEditRequestFailed({message}));
         }
     });
-}*/
+}
 
 // Extract user data & settings
 function extractUserAndSettingsData(apiResponse) {
@@ -229,6 +228,7 @@ function extractUserAndSettingsData(apiResponse) {
 export default function* sagaUser() {
     yield all([
         fork(emitUserLogout),
+        fork(emitUserAvatarUpdate),
         fork(emitUserPasswordUpdate),
         fork(emitUserInformationUpdate),
         fork(emitCheckUserAuthentication),
