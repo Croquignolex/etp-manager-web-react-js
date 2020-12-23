@@ -1,6 +1,7 @@
 import { all, takeEvery, takeLatest, put, fork, call } from 'redux-saga/effects'
 
 import {AUTH_URL} from "../../constants/generalConstants";
+import {USER_ROLE} from "../../constants/defaultConstants";
 import {apiPostRequest} from "../../functions/axiosFunctions";
 import {getProfileImageFromServer} from "../../functions/generalFunctions";
 import {storeResetSettingsData, storeSetSettingsData} from "../settings/actions";
@@ -87,30 +88,34 @@ export function* emitAttemptUserAuthentication() {
             yield put(storeUserCheckRequestInit());
             // Put token in local storage for a check
             yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_DATA, {token});
+            const data = {role: USER_ROLE};
             // API call
-            const apiResponse = yield call(apiPostRequest, AUTHENTICATION_API_PATH);
+            const apiResponse = yield call(apiPostRequest, AUTHENTICATION_API_PATH, data);
             // Extract data
-            const {userData, settingsData} = extractUserAndSettingsData(apiResponse.data);
+            const {userData, settingsData, roleData} = extractUserAndSettingsData(apiResponse.data);
             // Deconstruction
-            const {cards, charts, bars, sound, session} = settingsData;
-            const {name, post, email, phone, avatar, address, creation} = userData;
-            // Set user data into local storage
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_SETTINGS, settingsData);
-            yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_DATA, {...userData, token});
-            // Fire event for request
-            yield put(storeUserCheckRequestSucceed({message: apiResponse.message}));
-            // Fire event to redux for settings data
-            yield put(storeSetSettingsData({
-                id: settingsData.id,
-                description: settingsData.description,
-                cards, charts, bars, sound, session
-            }))
-            // Fire event to redux for user data
-            yield put(storeSetUserFullData({
-                id: userData.id,
-                description: userData.description,
-                address, post, name, phone, email, avatar, creation,
-            }));
+            if(roleData === data.role) {
+                const {cards, charts, bars, sound, session} = settingsData;
+                const {name, post, email, phone, avatar, address, creation} = userData;
+                // Set user data into local storage
+                yield call(setLocaleStorageItem, LOCAL_STORAGE_SETTINGS, settingsData);
+                yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_DATA, {...userData, token});
+                // Fire event for request
+                yield put(storeUserCheckRequestSucceed({message: apiResponse.message}));
+                // Fire event to redux for settings data
+                yield put(storeSetSettingsData({
+                    id: settingsData.id,
+                    description: settingsData.description,
+                    cards, charts, bars, sound, session
+                }))
+                // Fire event to redux for user data
+                yield put(storeSetUserFullData({
+                    id: userData.id,
+                    description: userData.description,
+                    address, post, name, phone, email, avatar, creation,
+                }));
+            }
+            else yield put(storeUserCheckRequestFailed({message: "Utilisateur non authorisé sur ce rôle"}));
         } catch (message) {
             // Fire event for request
             yield put(storeUserCheckRequestFailed({message}));
@@ -198,7 +203,7 @@ export function* emitUserAvatarUpdate() {
 
 // Extract user data & settings
 function extractUserAndSettingsData(apiResponse) {
-    const {user, settings} = apiResponse;
+    const {user, settings, role} = apiResponse;
     return {
         userData: {
             auth: true,
@@ -220,7 +225,8 @@ function extractUserAndSettingsData(apiResponse) {
             cards: JSON.parse(settings.cards),
             description: settings.description,
             charts: JSON.parse(settings.charts)
-        }
+        },
+        roleData: role
     }
 }
 
