@@ -1,23 +1,18 @@
 import PropTypes from "prop-types";
-import {Switch, Route} from "react-router-dom";
 import React, {useEffect, useLayoutEffect} from 'react';
 import {NotificationContainer, NotificationManager} from "react-notifications";
 
 import 'react-notifications/lib/notifications.css';
 
-import asyncComponent from "./asyncComponent";
 import NavBarContainer from "../containers/NavBarContainer";
 import SideBarContainer from "../containers/SideBarContainer";
 import {requestSucceeded} from "../functions/generalFunctions";
 import {playSuccessSound} from "../functions/playSoundFunctions";
-import {PROFILE_PAGE_PATH} from "../constants/pagePathConstants";
 import {storeUserCheckRequestReset} from "../redux/requests/actions";
-import ProfilePageContainer from "../containers/ProfilePageContainer";
 import {emitUnreadNotificationsFetch} from "../redux/notifications/actions";
-import RestrictedRouteContainer from "../containers/RestrictedRouteContainer";
 
 // Component
-function AppLayoutComponent({userCheckRequest, location, dispatch}) {
+function AppLayoutComponent({userCheckRequest, dispatch, pathname, children}) {
     // Local layout effect
     useLayoutEffect(() => {
        if(is_mobile()) {
@@ -25,7 +20,7 @@ function AppLayoutComponent({userCheckRequest, location, dispatch}) {
            document.getElementsByTagName('body')[0].classList.remove('sidebar-open')
            document.getElementsByTagName('body')[0].classList.add('sidebar-collapse')
        }
-    }, [location.pathname]);
+    }, [pathname]);
 
     // Local effect
     useEffect(() => {
@@ -56,13 +51,8 @@ function AppLayoutComponent({userCheckRequest, location, dispatch}) {
             <NotificationContainer />
             <div className="wrapper">
                 <NavBarContainer />
-                <SideBarContainer pathname={location.pathname} />
-                <Switch>
-                    {/* Common pages */}
-                    <RestrictedRouteContainer path={PROFILE_PAGE_PATH} exact component={ProfilePageContainer} />
-                    {/* 404 page */}
-                    <Route path="*" exact component={asyncComponent(() => import('../pages/NotFoundPage'))} />
-                </Switch>
+                <SideBarContainer pathname={pathname} />
+                {children}
             </div>
         </>
     )
@@ -79,7 +69,8 @@ function is_mobile() {
 // Prop types to ensure destroyed props data type
 AppLayoutComponent.propTypes = {
     dispatch: PropTypes.func.isRequired,
-    location: PropTypes.object.isRequired,
+    children: PropTypes.node.isRequired,
+    pathname: PropTypes.string.isRequired,
     userCheckRequest: PropTypes.object.isRequired,
 };
 

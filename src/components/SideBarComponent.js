@@ -71,7 +71,8 @@ function SideBarComponent({user, pathname}) {
             buildAuthorisedAgentMenu(),
             buildAuthorisedSimsMenu(),
         ];
-    }, []);
+        // eslint-disable-next-line
+    }, [pathname]);
 
     // Render
     return (
