@@ -33,40 +33,45 @@ function ProfileEditComponent({user, request, dispatch}) {
     useEffect(() => {
         // Cleaner error alert while component did unmount without store dependency
         return () => {
-            dispatch(storeUserProfileEditRequestReset());
+            shouldResetErrorData();
         };
         // eslint-disable-next-line
     }, []);
 
     const handleNameInput = (data) => {
-        dispatch(storeUserProfileEditRequestReset());
+        shouldResetErrorData();
         setName({...name, isValid: true, data})
     }
 
     const handlePostInput = (data) => {
-        dispatch(storeUserProfileEditRequestReset());
+        shouldResetErrorData();
         setPost({...post, isValid: true, data})
     }
 
     const handleEmailInput = (data) => {
-        dispatch(storeUserProfileEditRequestReset());
+        shouldResetErrorData();
         setEmail({...email, isValid: true, data})
     }
 
     const handleAddressInput = (data) => {
-        dispatch(storeUserProfileEditRequestReset());
+        shouldResetErrorData();
         setAddress({...address, isValid: true, data})
     }
 
     const handleDescriptionInput = (data) => {
-        dispatch(storeUserProfileEditRequestReset());
+        shouldResetErrorData();
         setDescription({...description, isValid: true, data})
     }
+
+    // Reset error alert
+    const shouldResetErrorData = () => {
+        requestFailed(request) && dispatch(storeUserProfileEditRequestReset());
+    };
 
     // Trigger user information form submit
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(storeUserProfileEditRequestReset());
+        shouldResetErrorData();
         const _name = requiredChecker(name);
         // Set value
         setName(_name);

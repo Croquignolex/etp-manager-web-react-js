@@ -60,7 +60,6 @@ function SideBarComponent({user, pathname}) {
 
     // Data
     const {name, avatar} = user;
-
     const authorisedMenu = useMemo(() => {
         return [
             buildDashboardMenu(),

@@ -76,6 +76,7 @@ function ProfilePage({user, userRequests, dispatch, location}) {
 ProfilePage.propTypes = {
     user: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired,
     userRequests: PropTypes.object.isRequired,
 };
 

@@ -15,19 +15,17 @@ function InputComponent({id, label, type, input, handleInput}) {
 
     // Render
     return (
-        <>
-            <div className="form-group">
-                <label htmlFor={id}>{label}</label>
-                <input id={id}
-                       type={type}
-                       className={inputClass}
-                       onChange={handleChange}
-                       value={data ? data : ''}
-                       style={getFieldColor(input)}
-                />
-                <small className="text-danger">{!isValid && errorMessage}</small>
-            </div>
-        </>
+        <div className="form-group">
+            <label htmlFor={id}>{label}</label>
+            <input id={id}
+                   type={type}
+                   className={inputClass}
+                   onChange={handleChange}
+                   value={data ? data : ''}
+                   style={getFieldColor(input)}
+            />
+            <small className="text-danger">{!isValid && errorMessage}</small>
+        </div>
     )
 }
 

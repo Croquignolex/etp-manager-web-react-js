@@ -28,20 +28,25 @@ function ProfileAvatarComponent({dispatch, request}) {
     useEffect(() => {
         // Cleaner error alert while component did unmount without store dependency
         return () => {
-            dispatch(storeUserAvatarEditRequestReset());
+            shouldResetErrorData();
         };
         // eslint-disable-next-line
     }, []);
 
     const handleAvatarInput = (data) => {
-        dispatch(storeUserAvatarEditRequestReset());
+        shouldResetErrorData();
         setAvatar({...avatar, isValid: true, data})
     }
+
+    // Reset error alert
+    const shouldResetErrorData = () => {
+        requestFailed(request) && dispatch(storeUserAvatarEditRequestReset());
+    };
 
     // Trigger avatar form submit
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(storeUserAvatarEditRequestReset());
+        shouldResetErrorData();
         const _avatar = requiredImageChecker(avatar);
         // Set value
         setAvatar(_avatar);

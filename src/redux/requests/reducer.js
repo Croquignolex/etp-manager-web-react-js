@@ -1,21 +1,4 @@
-import {
-    STORE_USER_CHECK_REQUEST_INIT,
-    STORE_USER_CHECK_REQUEST_RESET,
-    STORE_USER_CHECK_REQUEST_FAILED,
-    STORE_USER_CHECK_REQUEST_SUCCEEDED,
-    STORE_USER_AVATAR_EDIT_REQUEST_INIT,
-    STORE_USER_PROFILE_EDIT_REQUEST_INIT,
-    STORE_USER_AVATAR_EDIT_REQUEST_RESET,
-    STORE_USER_PASSWORD_EDIT_REQUEST_INIT,
-    STORE_USER_AVATAR_EDIT_REQUEST_FAILED,
-    STORE_USER_PROFILE_EDIT_REQUEST_RESET,
-    STORE_USER_PASSWORD_EDIT_REQUEST_RESET,
-    STORE_USER_PROFILE_EDIT_REQUEST_FAILED,
-    STORE_USER_PASSWORD_EDIT_REQUEST_FAILED,
-    STORE_USER_AVATAR_EDIT_REQUEST_SUCCEEDED,
-    STORE_USER_PROFILE_EDIT_REQUEST_SUCCEEDED,
-    STORE_USER_PASSWORD_EDIT_REQUEST_SUCCEEDED
-} from "./actions";
+import * as actions from "./actions";
 
 // Partial global store for requests data management
 const initialState = {
@@ -24,7 +7,8 @@ const initialState = {
         avatar: {failed: false, loading: false, succeeded: false, message: ""},
         profile: {failed: false, loading: false, succeeded: false, message: ""},
         password: {failed: false, loading: false, succeeded: false, message: ""},
-    }
+    },
+    settings: {failed: false, loading: false, succeeded: false, message: ""},
 };
 
 // Reduce
@@ -33,71 +17,88 @@ function reduce(state = initialState, action) {
     switch (action.type) {
         // ======================================================== User check
         // Resolve event to set user check init request store data
-        case STORE_USER_CHECK_REQUEST_INIT:
+        case actions.STORE_USER_CHECK_REQUEST_INIT:
             nextState = {...state, user: {...state.user, check: getInitValue()}};
             return nextState || state;
         // Resolve event to set user check failed request store data
-        case STORE_USER_CHECK_REQUEST_FAILED:
+        case actions.STORE_USER_CHECK_REQUEST_FAILED:
             nextState = {...state, user: {...state.user, check: getFailedValue(action.message)}};
             return nextState || state;
         // Resolve event to set user check succeeded request store data
-        case STORE_USER_CHECK_REQUEST_SUCCEEDED:
+        case actions.STORE_USER_CHECK_REQUEST_SUCCEEDED:
             nextState = {...state, user: {...state.user, check: getSucceededValue(action.message)}};
             return nextState || state;
         // Resolve event to set user check reset request store data
-        case STORE_USER_CHECK_REQUEST_RESET:
+        case actions.STORE_USER_CHECK_REQUEST_RESET:
             nextState = {...state, user: {...state.user, check: initialState.user.check}};
             return nextState || state;
         // ======================================================== User password edit
         // Resolve event to set user check init request store data
-        case STORE_USER_PASSWORD_EDIT_REQUEST_INIT:
+        case actions.STORE_USER_PASSWORD_EDIT_REQUEST_INIT:
             nextState = {...state, user: {...state.user, password: getInitValue()}};
             return nextState || state;
         // Resolve event to set user check failed request store data
-        case STORE_USER_PASSWORD_EDIT_REQUEST_FAILED:
+        case actions.STORE_USER_PASSWORD_EDIT_REQUEST_FAILED:
             nextState = {...state, user: {...state.user, password: getFailedValue(action.message)}};
             return nextState || state;
         // Resolve event to set user check succeeded request store data
-        case STORE_USER_PASSWORD_EDIT_REQUEST_SUCCEEDED:
+        case actions.STORE_USER_PASSWORD_EDIT_REQUEST_SUCCEEDED:
             nextState = {...state, user: {...state.user, password: getSucceededValue(action.message)}};
             return nextState || state;
         // Resolve event to set user check reset request store data
-        case STORE_USER_PASSWORD_EDIT_REQUEST_RESET:
+        case actions.STORE_USER_PASSWORD_EDIT_REQUEST_RESET:
             nextState = {...state, user: {...state.user, password: initialState.user.password}};
             return nextState || state;
         // ======================================================== User profile edit
         // Resolve event to set user check init request store data
-        case STORE_USER_PROFILE_EDIT_REQUEST_INIT:
+        case actions.STORE_USER_PROFILE_EDIT_REQUEST_INIT:
             nextState = {...state, user: {...state.user, profile: getInitValue()}};
             return nextState || state;
         // Resolve event to set user check failed request store data
-        case STORE_USER_PROFILE_EDIT_REQUEST_FAILED:
+        case actions.STORE_USER_PROFILE_EDIT_REQUEST_FAILED:
             nextState = {...state, user: {...state.user, profile: getFailedValue(action.message)}};
             return nextState || state;
         // Resolve event to set user check succeeded request store data
-        case STORE_USER_PROFILE_EDIT_REQUEST_SUCCEEDED:
+        case actions.STORE_USER_PROFILE_EDIT_REQUEST_SUCCEEDED:
             nextState = {...state, user: {...state.user, profile: getSucceededValue(action.message)}};
             return nextState || state;
         // Resolve event to set user check reset request store data
-        case STORE_USER_PROFILE_EDIT_REQUEST_RESET:
+        case actions.STORE_USER_PROFILE_EDIT_REQUEST_RESET:
             nextState = {...state, user: {...state.user, profile: initialState.user.profile}};
             return nextState || state;
         // ======================================================== User avatar edit
         // Resolve event to set user check init request store data
-        case STORE_USER_AVATAR_EDIT_REQUEST_INIT:
+        case actions.STORE_USER_AVATAR_EDIT_REQUEST_INIT:
             nextState = {...state, user: {...state.user, avatar: getInitValue()}};
             return nextState || state;
         // Resolve event to set user check failed request store data
-        case STORE_USER_AVATAR_EDIT_REQUEST_FAILED:
+        case actions.STORE_USER_AVATAR_EDIT_REQUEST_FAILED:
             nextState = {...state, user: {...state.user, avatar: getFailedValue(action.message)}};
             return nextState || state;
         // Resolve event to set user check succeeded request store data
-        case STORE_USER_AVATAR_EDIT_REQUEST_SUCCEEDED:
+        case actions.STORE_USER_AVATAR_EDIT_REQUEST_SUCCEEDED:
             nextState = {...state, user: {...state.user, avatar: getSucceededValue(action.message)}};
             return nextState || state;
         // Resolve event to set user check reset request store data
-        case STORE_USER_AVATAR_EDIT_REQUEST_RESET:
+        case actions.STORE_USER_AVATAR_EDIT_REQUEST_RESET:
             nextState = {...state, user: {...state.user, avatar: initialState.user.avatar}};
+            return nextState || state;
+        // ======================================================== Settings
+        // Resolve event to set user check init request store data
+        case actions.STORE_SETTINGS_REQUEST_INIT:
+            nextState = {...state, settings: getInitValue()};
+            return nextState || state;
+        // Resolve event to set user check failed request store data
+        case actions.STORE_SETTINGS_REQUEST_FAILED:
+            nextState = {...state, settings: getFailedValue(action.message)};
+            return nextState || state;
+        // Resolve event to set user check succeeded request store data
+        case actions.STORE_SETTINGS_REQUEST_SUCCEEDED:
+            nextState = {...state, settings: getSucceededValue(action.message)};
+            return nextState || state;
+        // Resolve event to set user check reset request store data
+        case actions.STORE_SETTINGS_REQUEST_RESET:
+            nextState = {...state, settings: initialState.settings};
             return nextState || state;
         // Unknown action
         default: return state;

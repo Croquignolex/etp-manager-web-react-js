@@ -15,19 +15,17 @@ function AppFormTextarea({id, label, input, handleInput}) {
 
     // Render
     return (
-        <>
-            <div className="form-group">
-                <label htmlFor={id}>{label}</label>
-                 <textarea id={id}
-                           rows='3'
-                           className={inputClass}
-                           onChange={handleChange}
-                           value={data ? data : ''}
-                           style={getFieldColor(input)}
-                 />
-                <small className="text-danger">{!isValid && errorMessage}</small>
-            </div>
-        </>
+        <div className="form-group">
+            <label htmlFor={id}>{label}</label>
+             <textarea id={id}
+                       rows='3'
+                       className={inputClass}
+                       onChange={handleChange}
+                       value={data ? data : ''}
+                       style={getFieldColor(input)}
+             />
+            <small className="text-danger">{!isValid && errorMessage}</small>
+        </div>
     )
 }
 
