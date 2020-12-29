@@ -3,55 +3,9 @@ import { Link } from 'react-router-dom';
 import React, {useState, useMemo} from 'react';
 
 import {APP_NAME} from "../constants/generalConstants";
+import * as path from "../constants/pagePathConstants";
+import * as page from "../constants/pageNameConstants";
 import {formatString} from "../functions/generalFunctions";
-import {
-    SIMS,
-    AGENTS,
-    REQUESTS,
-    CHECKOUT,
-    OPERATIONS,
-    RECOVERIES,
-    ALL_SIMS_PAGE,
-    AGENT_NEW_PAGE,
-    DASHBOARD_PAGE,
-    ALL_AGENTS_PAGE,
-    HANDING_OVER_PAGE,
-    RECOVERIES_CASH_PAGE,
-    REQUESTS_FLEETS_PAGE,
-    RECOVERIES_FLEET_PAGE,
-    CHECKOUT_OUTlAYS_PAGE,
-    OPERATIONS_FLEETS_PAGE,
-    CHECKOUT_PAYMENTS_PAGE,
-    OPERATIONS_AFFORDS_PAGE,
-    REQUESTS_CLEARANCES_PAGE,
-    OPERATIONS_TRANSFERS_PAGE,
-    OPERATIONS_CLEARANCES_PAGE,
-    OPERATIONS_ANONYMOUS_FLEETS_PAGE
-} from "../constants/pageNameConstants";
-import {
-    SIMS_PAGE_PATH,
-    AGENTS_PAGE_PATH,
-    PROFILE_PAGE_PATH,
-    SIM_EDIT_PAGE_PATH,
-    AGENT_NEW_PAGE_PATH,
-    DASHBOARD_PAGE_PATH,
-    AGENT_EDIT_PAGE_PATH,
-    HANDING_OVER_PAGE_PATH,
-    REQUESTS_FLEETS_PAGE_PATH,
-    RECOVERIES_CASH_PAGE_PATH,
-    CHECKOUT_OUTLAYS_PAGE_PATH,
-    CHECKOUT_PAYMENTS_PAGE_PATH,
-    OPERATIONS_FLEETS_PAGE_PATH,
-    OPERATION_AFFORDS_PAGE_PATH,
-    RECOVERIES_FLEETS_PAGE_PATH,
-    REQUESTS_FLEET_NEW_PAGE_PATH,
-    REQUESTS_FLEET_EDIT_PAGE_PATH,
-    REQUESTS_CLEARANCES_PAGE_PATH,
-    OPERATIONS_TRANSFERS_PAGE_PATH,
-    OPERATIONS_CLEARANCES_PAGE_PATH,
-    REQUESTS_CLEARANCE_NEW_PAGE_PATH,
-    OPERATIONS_ANONYMOUS_FLEETS_PAGE_PATH
-} from "../constants/pagePathConstants";
 
 // Component
 function SideBarComponent({user, pathname}) {
@@ -90,7 +44,7 @@ function SideBarComponent({user, pathname}) {
                         <img src={avatar} className="img-circle elevation-2" alt="avatar..."/>
                     </div>
                     <div className="info">
-                        <Link className="text-white" to={PROFILE_PAGE_PATH}>{formatString(name, 17)}</Link>
+                        <Link className="text-white" to={path.PROFILE_PAGE_PATH}>{formatString(name, 17)}</Link>
                     </div>
                 </div>
                 {/* Menu */}
@@ -160,8 +114,8 @@ const INVISIBLE_MENU_ITEM = 'INVISIBLE_MENU_ITEM';
 // Build dashboard menu
 function buildDashboardMenu() {
     return {
-        name: DASHBOARD_PAGE,
-        path: DASHBOARD_PAGE_PATH,
+        name: page.DASHBOARD_PAGE,
+        path: path.DASHBOARD_PAGE_PATH,
         icon: 'fa fa-tachometer-alt',
         sub: []
     };
@@ -170,16 +124,16 @@ function buildDashboardMenu() {
 // Build requests menu
 function buildRequestsMenu() {
     return {
-        name: REQUESTS,
+        name: page.REQUESTS,
         icon: 'fa fa-paste',
         sub: [
-            {name: REQUESTS_FLEETS_PAGE, path: REQUESTS_FLEETS_PAGE_PATH},
-            {name: REQUESTS_CLEARANCES_PAGE, path: REQUESTS_CLEARANCES_PAGE_PATH},
+            {name: page.REQUESTS_FLEETS_PAGE, path: path.REQUESTS_FLEETS_PAGE_PATH},
+            {name: page.REQUESTS_CLEARANCES_PAGE, path: path.REQUESTS_CLEARANCES_PAGE_PATH},
 
-            {name: INVISIBLE_MENU_ITEM, path: REQUESTS_FLEET_NEW_PAGE_PATH},
-            {name: INVISIBLE_MENU_ITEM, path: REQUESTS_CLEARANCE_NEW_PAGE_PATH},
-            {name: INVISIBLE_MENU_ITEM, path: `${REQUESTS_FLEET_EDIT_PAGE_PATH}/:id`},
-            {name: INVISIBLE_MENU_ITEM, path: `${REQUESTS_FLEET_EDIT_PAGE_PATH}/:id`},
+            {name: INVISIBLE_MENU_ITEM, path: path.REQUESTS_FLEET_NEW_PAGE_PATH},
+            {name: INVISIBLE_MENU_ITEM, path: path.REQUESTS_CLEARANCE_NEW_PAGE_PATH},
+            {name: INVISIBLE_MENU_ITEM, path: `${path.REQUESTS_FLEET_EDIT_PAGE_PATH}/:id`},
+            {name: INVISIBLE_MENU_ITEM, path: `${path.REQUESTS_FLEET_EDIT_PAGE_PATH}/:id`},
         ]
     };
 }
@@ -187,14 +141,14 @@ function buildRequestsMenu() {
 // Build operations menu
 function buildAuthorisedOperationsMenu() {
     return {
-        name: OPERATIONS,
+        name: page.OPERATIONS,
         icon: 'fa fa-exchange',
         sub: [
-            {name: OPERATIONS_TRANSFERS_PAGE, path: OPERATIONS_TRANSFERS_PAGE_PATH},
-            {name: OPERATIONS_ANONYMOUS_FLEETS_PAGE, path: OPERATIONS_ANONYMOUS_FLEETS_PAGE_PATH},
-            {name: OPERATIONS_FLEETS_PAGE, path: OPERATIONS_FLEETS_PAGE_PATH},
-            {name: OPERATIONS_CLEARANCES_PAGE, path: OPERATIONS_CLEARANCES_PAGE_PATH},
-            {name: OPERATIONS_AFFORDS_PAGE, path: OPERATION_AFFORDS_PAGE_PATH}
+            {name: page.OPERATIONS_TRANSFERS_PAGE, path: path.OPERATIONS_TRANSFERS_PAGE_PATH},
+            {name: page.OPERATIONS_ANONYMOUS_FLEETS_PAGE, path: path.OPERATIONS_ANONYMOUS_FLEETS_PAGE_PATH},
+            {name: page.OPERATIONS_FLEETS_PAGE, path: path.OPERATIONS_FLEETS_PAGE_PATH},
+            {name: page.OPERATIONS_CLEARANCES_PAGE, path: path.OPERATIONS_CLEARANCES_PAGE_PATH},
+            {name: page.OPERATIONS_AFFORDS_PAGE, path: path.OPERATION_AFFORDS_PAGE_PATH}
         ]
     }
 }
@@ -202,11 +156,11 @@ function buildAuthorisedOperationsMenu() {
 // Build recoveries menu
 function buildAuthorisedRecoveriesMenu() {
     return {
-        name: RECOVERIES,
+        name: page.RECOVERIES,
         icon: 'fa fa-share',
         sub: [
-            {name: RECOVERIES_CASH_PAGE, path: RECOVERIES_CASH_PAGE_PATH},
-            {name: RECOVERIES_FLEET_PAGE, path: RECOVERIES_FLEETS_PAGE_PATH},
+            {name: page.RECOVERIES_CASH_PAGE, path: path.RECOVERIES_CASH_PAGE_PATH},
+            {name: page.RECOVERIES_FLEET_PAGE, path: path.RECOVERIES_FLEETS_PAGE_PATH},
         ]
     }
 }
@@ -214,12 +168,12 @@ function buildAuthorisedRecoveriesMenu() {
 // Build checkout menu
 function buildAuthorisedCheckoutMenu() {
     return {
-        name: CHECKOUT,
+        name: page.CHECKOUT,
         icon: 'fa fa-coins',
         sub: [
-            {name: CHECKOUT_PAYMENTS_PAGE, path: CHECKOUT_PAYMENTS_PAGE_PATH},
-            {name: CHECKOUT_OUTlAYS_PAGE, path: CHECKOUT_OUTLAYS_PAGE_PATH},
-            {name: HANDING_OVER_PAGE, path: HANDING_OVER_PAGE_PATH},
+            {name: page.CHECKOUT_PAYMENTS_PAGE, path: path.CHECKOUT_PAYMENTS_PAGE_PATH},
+            {name: page.CHECKOUT_OUTlAYS_PAGE, path: path.CHECKOUT_OUTLAYS_PAGE_PATH},
+            {name: page.HANDING_OVER_PAGE, path: path.HANDING_OVER_PAGE_PATH},
         ]
     }
 }
@@ -227,12 +181,12 @@ function buildAuthorisedCheckoutMenu() {
 // Build agents menu
 function buildAuthorisedAgentMenu() {
     return {
-        name: AGENTS,
+        name: page.AGENTS,
         icon: 'fa fa-user-cog',
         sub: [
-            {name: ALL_AGENTS_PAGE, path: AGENTS_PAGE_PATH},
-            {name: AGENT_NEW_PAGE, path: AGENT_NEW_PAGE_PATH},
-            {name: INVISIBLE_MENU_ITEM, path: `${AGENT_EDIT_PAGE_PATH}/:id`}
+            {name: page.ALL_AGENTS_PAGE, path: path.AGENTS_PAGE_PATH},
+            {name: page.AGENT_NEW_PAGE, path: path.AGENT_NEW_PAGE_PATH},
+            {name: INVISIBLE_MENU_ITEM, path: `${path.AGENT_EDIT_PAGE_PATH}/:id`}
         ]
     };
 }
@@ -240,11 +194,11 @@ function buildAuthorisedAgentMenu() {
 // Build sims menu
 function buildAuthorisedSimsMenu() {
     return {
-        name: SIMS,
+        name: page.SIMS,
         icon: 'fa fa-sim-card',
         sub: [
-            {name: ALL_SIMS_PAGE, path: SIMS_PAGE_PATH},
-            {name: INVISIBLE_MENU_ITEM, path: `${SIM_EDIT_PAGE_PATH}/:id`}
+            {name: page.ALL_SIMS_PAGE, path: path.SIMS_PAGE_PATH},
+            {name: INVISIBLE_MENU_ITEM, path: `${path.SIM_EDIT_PAGE_PATH}/:id`}
         ]
     };
 }

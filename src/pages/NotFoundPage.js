@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from "react-router-dom";
 
 import '../assets/scss/error.scss';
 
@@ -17,7 +16,7 @@ function NotFoundPage() {
                     a été rétirée, a changée de nom ou est
                     temporairement indisponible
                 </p>
-                <Link to='/'>Retour</Link>
+                <a href='/'>Retour</a>
             </div>
         </div>
     )
