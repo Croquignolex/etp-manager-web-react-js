@@ -2,6 +2,7 @@
 export const PROFILE_PAGE = 'Mon profil';
 export const SETTINGS_PAGE = 'Paramètres';
 export const DASHBOARD_PAGE = 'Tableau de bord';
+export const NOTIFICATIONS_PAGE = 'Notifications';
 
 // Agents
 export const AGENTS = 'Agents';

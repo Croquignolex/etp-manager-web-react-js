@@ -9,7 +9,7 @@ setPageTitle(PROFILE_PAGE);
 // Map state function to component props
 const mapStateToProps = (state) => ({
     user: state.user,
-    userRequests: state.requests.user
+    userRequests: state.userRequests
 });
 
 // Map dispatch function to component props

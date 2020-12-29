@@ -8,7 +8,7 @@ import NavBarContainer from "../containers/NavBarContainer";
 import SideBarContainer from "../containers/SideBarContainer";
 import {requestSucceeded} from "../functions/generalFunctions";
 import {playSuccessSound} from "../functions/playSoundFunctions";
-import {storeUserCheckRequestReset} from "../redux/requests/actions";
+import {storeUserCheckRequestReset} from "../redux/requests/user/actions";
 import {emitUnreadNotificationsFetch} from "../redux/notifications/actions";
 
 // Component

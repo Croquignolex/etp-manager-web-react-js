@@ -1,95 +1,48 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React, {useState} from 'react';
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import HeaderComponent from "../components/HeaderComponent";
-import {DASHBOARD_PAGE} from "../constants/pageNameConstants";
+import {requestFailed} from "../functions/generalFunctions";
+import {NOTIFICATIONS_PAGE} from "../constants/pageNameConstants";
 import AppLayoutContainer from "../containers/AppLayoutContainer";
+import ErrorAlertComponent from "../components/ErrorAlertComponent";
+import TableSearchComponent from "../components/TableSearchComponent";
+import {storeNotificationsRequestReset} from "../redux/requests/notifications/actions";
 
 // Component
-function DashboardPage({settings, requests, dispatch, location}) {
-    // Data
-    const cardsData = settings.cards;
+function DashboardPage({notifications, request, dispatch, location}) {
+    // Local states
+    const [needle, setNeedle] = useState('');
+    const [deleteModal, setDeleteModal] = useState({show: false, header: '', body: '', type: '', id: 0});
+
+    const handleNeedleInput = (data) => {
+        setNeedle(data)
+    }
+
+    // Reset error alert
+    const shouldResetErrorData = () => {
+        requestFailed(request) && dispatch(storeNotificationsRequestReset());
+    };
 
     // Render
     return (
         <AppLayoutContainer pathname={location.pathname}>
             <div className="content-wrapper">
-                <HeaderComponent title={DASHBOARD_PAGE} icon={'fa fa-tachometer-alt'} />
+                <HeaderComponent title={NOTIFICATIONS_PAGE} icon={'fa fa-bell'} />
                 <section className="content">
                     <div className='container-fluid'>
                         <div className="row">
-                            {/*{cardsData.includes(0) &&
-                                <div className="col-lg-3 col-md-4 col-sm-6">
-                                    <DashboardCards color='bg-dark'
-                                                    icon='fa fa-coin'
-                                                    url={PROFILE_PAGE_PATH}
-                                                    scope={USER_BALANCE_SCOPE}
-                                                    label={CASH_ACCOUNT_BALANCE}
-                                                    data={formatNumber(user.account.balance)}
-                                    />
+                            <div className="col-12">
+                                <div className="card custom-card-outline">
+                                    <div className="card-body">
+                                        <div className="tab-content">
+                                            {requestFailed(request) && <ErrorAlertComponent message={request.message} />}
+                                            <TableSearchComponent needle={needle} handleNeedle={handleNeedleInput} />
+                                        </div>
+                                    </div>
                                 </div>
-                            }
-                            {cardsData.includes(1) &&
-                                <div className="col-lg-3 col-md-4 col-sm-6">
-                                    <DashboardCards icon='fa fa-phone'
-                                                    scope={SIMS_SCOPE}
-                                                    color='bg-primary'
-                                                    url={SIMS_PAGE_PATH}
-                                                    label='Flotte des PUCE DE FLOTTAGE'
-                                                    data={
-                                                        formatNumber(
-                                                            sims.list
-                                                                .filter(sim => FLEET_TYPE === sim.type.name)
-                                                                .reduce((acc, val) => acc + val.balance, 0)
-                                                        )
-                                                    }
-                                    />
-                                </div>
-                            }
-                            {cardsData.includes(2) &&
-                                <div className="col-lg-3 col-md-4 col-sm-6">
-                                    <DashboardCards icon='fa fa-rss'
-                                                    color='bg-warning'
-                                                    scope={FLEETS_SCOPE}
-                                                    data={fleets.list.length}
-                                                    label="Demandes de flotte"
-                                                    url={REQUESTS_FLEETS_PAGE_PATH}
-                                    />
-                                </div>
-                            }
-                            {cardsData.includes(3) &&
-                                <div className="col-lg-3 col-md-4 col-sm-6">
-                                    <DashboardCards label="Agents"
-                                                    color='bg-danger'
-                                                    icon='fa fa-user-cog'
-                                                    scope={AGENTS_SCOPE}
-                                                    url={AGENTS_PAGE_PATH}
-                                                    data={agents.list.length}
-                                    />
-                                </div>
-                            }
-                            {cardsData.includes(4) &&
-                                <div className="col-lg-3 col-md-4 col-sm-6">
-                                    <DashboardCards label="Puces"
-                                                    color='bg-success'
-                                                    scope={SIMS_SCOPE}
-                                                    url={SIMS_PAGE_PATH}
-                                                    icon='fa fa-sim-card'
-                                                    data={sims.list.length}
-                                    />
-                                </div>
-                            }
-                            {cardsData.includes(5) &&
-                                <div className="col-lg-3 col-md-4 col-sm-6">
-                                    <DashboardCards color='bg-info'
-                                                    icon='fa fa-rss-square'
-                                                    scope={CLEARANCES_SCOPE}
-                                                    data={clearances.list.length}
-                                                    label="Demandes de déstockage"
-                                                    url={REQUESTS_CLEARANCES_PAGE_PATH}
-                                    />
-                                </div>
-                            }*/}
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -101,9 +54,9 @@ function DashboardPage({settings, requests, dispatch, location}) {
 // Prop types to ensure destroyed props data type
 DashboardPage.propTypes = {
     dispatch: PropTypes.func.isRequired,
-    requests: PropTypes.object.isRequired,
+    request: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
-    settings: PropTypes.object.isRequired,
+    notifications: PropTypes.object.isRequired,
 };
 
 export default React.memo(DashboardPage);

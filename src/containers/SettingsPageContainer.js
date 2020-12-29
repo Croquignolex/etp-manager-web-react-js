@@ -9,7 +9,7 @@ setPageTitle(SETTINGS_PAGE);
 // Map state function to component props
 const mapStateToProps = (state) => ({
     settings: state.settings,
-    request: state.requests.settings
+    request: state.settingsRequests
 });
 
 // Map dispatch function to component props

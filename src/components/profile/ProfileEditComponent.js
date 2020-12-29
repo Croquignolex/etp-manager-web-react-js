@@ -9,7 +9,7 @@ import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {emitUserInformationUpdate} from "../../redux/user/actions";
 import {playWarningSound} from "../../functions/playSoundFunctions";
-import {storeUserProfileEditRequestReset} from "../../redux/requests/actions";
+import {storeUserProfileEditRequestReset} from "../../redux/requests/user/actions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component

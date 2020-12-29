@@ -5,7 +5,11 @@ import {EDIT_SETTING_API_PATH} from "../../constants/apiConstants";
 import {EMIT_SETTINGS_UPDATE, storeSetSettingsData} from "./actions";
 import {setLocaleStorageItem,} from "../../functions/localStorageFunctions";
 import {LOCAL_STORAGE_SETTINGS} from "../../constants/localStorageConstants";
-import {storeSettingsRequestInit, storeSettingsRequestFailed, storeSettingsRequestSucceed} from "../requests/actions";
+import {
+    storeSettingsRequestInit,
+    storeSettingsRequestFailed,
+    storeSettingsRequestSucceed
+} from "../requests/settings/actions";
 
 // Update settings from API
 export function* emitSettingsUpdate() {

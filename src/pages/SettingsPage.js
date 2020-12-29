@@ -11,9 +11,9 @@ import ButtonComponent from "../components/form/ButtonComponent";
 import SelectComponent from "../components/form/SelectComponent";
 import AppLayoutContainer from "../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../components/ErrorAlertComponent";
-import {storeSettingsRequestReset} from "../redux/requests/actions";
 import TextareaComponent from "../components/form/TextareaComponent";
 import CheckBoxComponent from "../components/form/CheckBoxComponent";
+import {storeSettingsRequestReset} from "../redux/requests/settings/actions";
 import {DEFAULT_ARRAY_FORM_DATA, DEFAULT_FORM_DATA} from "../constants/defaultConstants";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../functions/generalFunctions";
 

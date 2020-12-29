@@ -43,7 +43,7 @@ import {
     storeUserPasswordEditRequestFailed,
     storeUserProfileEditRequestSucceed,
     storeUserPasswordEditRequestSucceed
-} from "../requests/actions";
+} from "../requests/user/actions";
 
 // Check user authentication from data in local storage
 export function* emitCheckUserAuthentication() {

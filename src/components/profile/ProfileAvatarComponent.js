@@ -8,7 +8,7 @@ import {emitUserAvatarUpdate} from "../../redux/user/actions";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {requiredImageChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_OBJECT_FORM_DATA} from "../../constants/defaultConstants";
-import {storeUserAvatarEditRequestReset} from "../../redux/requests/actions";
+import {storeUserAvatarEditRequestReset} from "../../redux/requests/user/actions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component

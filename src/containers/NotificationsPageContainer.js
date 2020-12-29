@@ -1,15 +1,15 @@
 import {connect} from "react-redux";
 
-import DashboardPage from "../pages/DashboardPage";
+import NotificationsPage from "../pages/NotificationsPage";
 import {setPageTitle} from "../functions/generalFunctions";
-import {DASHBOARD_PAGE} from "../constants/pageNameConstants";
+import {NOTIFICATIONS_PAGE} from "../constants/pageNameConstants";
 
-setPageTitle(DASHBOARD_PAGE);
+setPageTitle(NOTIFICATIONS_PAGE);
 
 // Map state function to component props
 const mapStateToProps = (state) => ({
-    requests: state.requests,
-    settings: state.settings,
+    notifications: state.notifications,
+    request: state.notificationsRequests,
 });
 
 // Map dispatch function to component props
@@ -18,4 +18,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 // Connect component to Redux
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardPage);
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationsPage);

@@ -7,7 +7,7 @@ import ErrorAlertComponent from "../ErrorAlertComponent";
 import {emitUserPasswordUpdate} from "../../redux/user/actions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
-import {storeUserPasswordEditRequestReset} from "../../redux/requests/actions";
+import {storeUserPasswordEditRequestReset} from "../../redux/requests/user/actions";
 import {passwordChecker, passwordConfirmChecker} from "../../functions/checkerFunctions";
 import {requestLoading, requestSucceeded, requestFailed, applySuccess} from "../../functions/generalFunctions";
 

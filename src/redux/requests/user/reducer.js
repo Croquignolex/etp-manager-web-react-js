@@ -1,14 +1,12 @@
 import * as actions from "./actions";
+import {requestFailedValue, requestInitValue, requestSucceededValue} from "../../../functions/reduxFunctions";
 
 // Partial global store for requests data management
 const initialState = {
-    user: {
-        check: {failed: false, loading: false, succeeded: false, message: ""},
-        avatar: {failed: false, loading: false, succeeded: false, message: ""},
-        profile: {failed: false, loading: false, succeeded: false, message: ""},
-        password: {failed: false, loading: false, succeeded: false, message: ""},
-    },
-    settings: {failed: false, loading: false, succeeded: false, message: ""},
+    check: {failed: false, loading: false, succeeded: false, message: ""},
+    avatar: {failed: false, loading: false, succeeded: false, message: ""},
+    profile: {failed: false, loading: false, succeeded: false, message: ""},
+    password: {failed: false, loading: false, succeeded: false, message: ""},
 };
 
 // Reduce
@@ -18,103 +16,74 @@ function reduce(state = initialState, action) {
         // ======================================================== User check
         // Resolve event to set user check init request store data
         case actions.STORE_USER_CHECK_REQUEST_INIT:
-            nextState = {...state, user: {...state.user, check: getInitValue()}};
+            nextState = {...state, check: requestInitValue()};
             return nextState || state;
         // Resolve event to set user check failed request store data
         case actions.STORE_USER_CHECK_REQUEST_FAILED:
-            nextState = {...state, user: {...state.user, check: getFailedValue(action.message)}};
+            nextState = {...state, check: requestFailedValue(action.message)};
             return nextState || state;
         // Resolve event to set user check succeeded request store data
         case actions.STORE_USER_CHECK_REQUEST_SUCCEEDED:
-            nextState = {...state, user: {...state.user, check: getSucceededValue(action.message)}};
+            nextState = {...state, check: requestSucceededValue(action.message)};
             return nextState || state;
         // Resolve event to set user check reset request store data
         case actions.STORE_USER_CHECK_REQUEST_RESET:
-            nextState = {...state, user: {...state.user, check: initialState.user.check}};
+            nextState = {...state, check: initialState.check};
             return nextState || state;
         // ======================================================== User password edit
         // Resolve event to set user check init request store data
         case actions.STORE_USER_PASSWORD_EDIT_REQUEST_INIT:
-            nextState = {...state, user: {...state.user, password: getInitValue()}};
+            nextState = {...state, password: requestInitValue()};
             return nextState || state;
         // Resolve event to set user check failed request store data
         case actions.STORE_USER_PASSWORD_EDIT_REQUEST_FAILED:
-            nextState = {...state, user: {...state.user, password: getFailedValue(action.message)}};
+            nextState = {...state, password: requestFailedValue(action.message)};
             return nextState || state;
         // Resolve event to set user check succeeded request store data
         case actions.STORE_USER_PASSWORD_EDIT_REQUEST_SUCCEEDED:
-            nextState = {...state, user: {...state.user, password: getSucceededValue(action.message)}};
+            nextState = {...state, password: requestSucceededValue(action.message)};
             return nextState || state;
         // Resolve event to set user check reset request store data
         case actions.STORE_USER_PASSWORD_EDIT_REQUEST_RESET:
-            nextState = {...state, user: {...state.user, password: initialState.user.password}};
+            nextState = {...state, password: initialState.password};
             return nextState || state;
         // ======================================================== User profile edit
         // Resolve event to set user check init request store data
         case actions.STORE_USER_PROFILE_EDIT_REQUEST_INIT:
-            nextState = {...state, user: {...state.user, profile: getInitValue()}};
+            nextState = {...state, profile: requestInitValue()};
             return nextState || state;
         // Resolve event to set user check failed request store data
         case actions.STORE_USER_PROFILE_EDIT_REQUEST_FAILED:
-            nextState = {...state, user: {...state.user, profile: getFailedValue(action.message)}};
+            nextState = {...state, profile: requestFailedValue(action.message)};
             return nextState || state;
         // Resolve event to set user check succeeded request store data
         case actions.STORE_USER_PROFILE_EDIT_REQUEST_SUCCEEDED:
-            nextState = {...state, user: {...state.user, profile: getSucceededValue(action.message)}};
+            nextState = {...state, profile: requestSucceededValue(action.message)};
             return nextState || state;
         // Resolve event to set user check reset request store data
         case actions.STORE_USER_PROFILE_EDIT_REQUEST_RESET:
-            nextState = {...state, user: {...state.user, profile: initialState.user.profile}};
+            nextState = {...state, profile: initialState.profile};
             return nextState || state;
         // ======================================================== User avatar edit
         // Resolve event to set user check init request store data
         case actions.STORE_USER_AVATAR_EDIT_REQUEST_INIT:
-            nextState = {...state, user: {...state.user, avatar: getInitValue()}};
+            nextState = {...state, avatar: requestInitValue()};
             return nextState || state;
         // Resolve event to set user check failed request store data
         case actions.STORE_USER_AVATAR_EDIT_REQUEST_FAILED:
-            nextState = {...state, user: {...state.user, avatar: getFailedValue(action.message)}};
+            nextState = {...state, avatar: requestFailedValue(action.message)};
             return nextState || state;
         // Resolve event to set user check succeeded request store data
         case actions.STORE_USER_AVATAR_EDIT_REQUEST_SUCCEEDED:
-            nextState = {...state, user: {...state.user, avatar: getSucceededValue(action.message)}};
+            nextState = {...state, avatar: requestSucceededValue(action.message)};
             return nextState || state;
         // Resolve event to set user check reset request store data
         case actions.STORE_USER_AVATAR_EDIT_REQUEST_RESET:
-            nextState = {...state, user: {...state.user, avatar: initialState.user.avatar}};
-            return nextState || state;
-        // ======================================================== Settings
-        // Resolve event to set user check init request store data
-        case actions.STORE_SETTINGS_REQUEST_INIT:
-            nextState = {...state, settings: getInitValue()};
-            return nextState || state;
-        // Resolve event to set user check failed request store data
-        case actions.STORE_SETTINGS_REQUEST_FAILED:
-            nextState = {...state, settings: getFailedValue(action.message)};
-            return nextState || state;
-        // Resolve event to set user check succeeded request store data
-        case actions.STORE_SETTINGS_REQUEST_SUCCEEDED:
-            nextState = {...state, settings: getSucceededValue(action.message)};
-            return nextState || state;
-        // Resolve event to set user check reset request store data
-        case actions.STORE_SETTINGS_REQUEST_RESET:
-            nextState = {...state, settings: initialState.settings};
+            nextState = {...state, avatar: initialState.avatar};
             return nextState || state;
         // Unknown action
         default: return state;
     }
-}
-
-function getInitValue() {
-    return {failed: false, loading: true, succeeded: false, message: ""}
-}
-
-function getFailedValue(message) {
-    return {failed: true, loading: false, succeeded: false, message}
-}
-
-function getSucceededValue(message) {
-    return {failed: false, loading: false, succeeded: true, message}
 }
 
 export default reduce

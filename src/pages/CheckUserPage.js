@@ -7,7 +7,7 @@ import LoaderComponent from "../components/LoaderComponent";
 import ErrorAlertComponent from "../components/ErrorAlertComponent";
 import {emitAttemptUserAuthentication} from "../redux/user/actions";
 import {DEFAULT_GUEST_MESSAGE} from "../constants/defaultConstants";
-import {storeUserCheckRequestFailed} from "../redux/requests/actions";
+import {storeUserCheckRequestFailed} from "../redux/requests/user/actions";
 import {requestFailed, requestLoading} from "../functions/generalFunctions";
 
 // Component

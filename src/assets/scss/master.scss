@@ -139,6 +139,8 @@ code {
     background-color: #fbf5dd;
 }
 
+.float-left { float: left !important; }
+
 // Rewrite some colors
 #nprogress .bar { background: $themeColor; }
 .nav-pills .nav-link:not(.active):hover { color: $themeColor; }

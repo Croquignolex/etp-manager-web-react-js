@@ -4,7 +4,7 @@ import AppLayoutComponent from "../components/AppLayoutComponent";
 
 // Map state function to component props
 const mapStateToProps = (state) => ({
-    userCheckRequest: state.requests.user.check
+    userCheckRequest: state.userRequests.check
 });
 
 // Map dispatch function to component props
