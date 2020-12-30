@@ -11,11 +11,6 @@ import {NOTIFICATIONS_PAGE_PATH, PROFILE_PAGE_PATH, SETTINGS_PAGE_PATH} from "..
 
 // Component
 function NavBarComponent({userName, unreadNotifications, dispatch}) {
-
-    const handleNotificationItemDetails = (id) => {
-        dispatch(emitNotificationRead({id}));
-    }
-
     const handleLogout = () => {
         dispatch(emitUserLogout());
     }
@@ -54,7 +49,7 @@ function NavBarComponent({userName, unreadNotifications, dispatch}) {
                                 <Fragment key={index}>
                                     <Link to={item.url}
                                           className="dropdown-item"
-                                          onClick={handleNotificationItemDetails(item.id)}
+                                          onClick={() => dispatch(emitNotificationRead({id: item.id}))}
                                     >
                                         <div className="media">
                                             <div className="media-body">

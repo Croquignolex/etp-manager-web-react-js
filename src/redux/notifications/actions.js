@@ -1,5 +1,6 @@
 // Reducer action types
 export const STORE_SET_NOTIFICATIONS_DATA = 'STORE_SET_NOTIFICATIONS_DATA';
+export const STORE_DELETE_NOTIFICATION_DATA = 'STORE_DELETE_NOTIFICATION_DATA';
 export const STORE_SET_NOTIFICATION_ACTION_DATA = 'STORE_SET_USER_ACTION_DATA';
 export const STORE_SET_UNREAD_NOTIFICATIONS_DATA = 'STORE_SET_UNREAD_NOTIFICATIONS_DATA';
 
@@ -14,6 +15,12 @@ export const EMIT_UNREAD_NOTIFICATIONS_FETCH = 'EMIT_UNREAD_NOTIFICATIONS_FETCH'
 export const storeSetNotificationsData = ({notifications}) => ({
     notifications,
     type: STORE_SET_NOTIFICATIONS_DATA
+});
+
+// Set notifications data in store
+export const storeDeleteNotificationData = ({id}) => ({
+    id,
+    type: STORE_DELETE_NOTIFICATION_DATA
 });
 
 // Set notification data in store

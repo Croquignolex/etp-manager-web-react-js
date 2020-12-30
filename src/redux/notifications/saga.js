@@ -1,23 +1,54 @@
 import { all, takeLatest, put, fork, call } from 'redux-saga/effects'
 
+import * as api from "../../constants/apiConstants";
 import * as type from "../../constants/typeConstants";
 import * as path from "../../constants/pagePathConstants";
 import {BASE_URL} from "../../constants/generalConstants";
-import {apiGetRequest} from "../../functions/axiosFunctions";
-import {sortByCreationDate} from "../../functions/generalFunctions";
 import {playSuccessSound} from "../../functions/playSoundFunctions";
+import {apiGetRequest, apiPostRequest} from "../../functions/axiosFunctions";
 import {LOCAL_STORAGE_USER_RECEIVED_NOTIFICATIONS} from "../../constants/localStorageConstants";
 import {getLocaleStorageItem, setLocaleStorageItem} from "../../functions/localStorageFunctions";
-import {READ_NOTIFICATIONS_API_PATH, UNREAD_NOTIFICATIONS_API_PATH} from "../../constants/apiConstants";
-import {storeSetUnreadNotificationsData, EMIT_UNREAD_NOTIFICATIONS_FETCH, EMIT_READ_NOTIFICATION} from './actions'
+import {
+    EMIT_READ_NOTIFICATION,
+    EMIT_NOTIFICATION_DELETE,
+    EMIT_NOTIFICATIONS_FETCH,
+    storeSetNotificationsData,
+    storeDeleteNotificationData,
+    storeSetNotificationActionData,
+    storeSetUnreadNotificationsData,
+    EMIT_UNREAD_NOTIFICATIONS_FETCH
+} from './actions'
+import {
+    storeNotificationsRequestInit,
+    storeNotificationsRequestFailed,
+    storeNotificationsRequestSucceed
+} from "../requests/notifications/actions";
+
+// Fetch notifications from API
+export function* emitNotificationsFetch() {
+    yield takeLatest(EMIT_NOTIFICATIONS_FETCH, function*() {
+        try {
+            // Fire event for request
+            yield put(storeNotificationsRequestInit());
+            const apiResponse = yield call(apiGetRequest, api.NOTIFICATIONS_API_PATH);
+            // Extract data
+            const notifications = extractNotificationsData(apiResponse);
+            // Fire event to redux
+            yield put(storeSetNotificationsData({notifications}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeNotificationsRequestFailed({message}));
+        }
+    });
+}
 
 // Fetch unread notifications from API
 export function* emitUnreadNotificationsFetch() {
     yield takeLatest(EMIT_UNREAD_NOTIFICATIONS_FETCH, function*() {
         try {
             // Fire event for request
-            const apiResponse = yield call(apiGetRequest, UNREAD_NOTIFICATIONS_API_PATH);
-            const notifications = extractNotificationsData(apiResponse.notifications);
+            const apiResponse = yield call(apiGetRequest, api.UNREAD_NOTIFICATIONS_API_PATH);
+            const notifications = extractNotificationsData(apiResponse);
             const currentNotifications = notifications.length;
             // Notification sound
             const receivedNotifications = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_RECEIVED_NOTIFICATIONS);
@@ -57,13 +88,33 @@ export function* emitNotificationRead() {
     yield takeLatest(EMIT_READ_NOTIFICATION, function*({id}) {
         try {
             // API call
-            yield call(apiGetRequest, `${READ_NOTIFICATIONS_API_PATH}/${id}`);
+            yield call(apiGetRequest, `${api.READ_NOTIFICATIONS_API_PATH}/${id}`);
             // Update received notification number
             const receivedNotifications = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_RECEIVED_NOTIFICATIONS);
             if(receivedNotifications != null && receivedNotifications) {
                 yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_RECEIVED_NOTIFICATIONS, (receivedNotifications - 1));
             }
         } catch (message) {}
+    });
+}
+
+// Delete notification from API
+export function* emitNotificationDelete() {
+    yield takeLatest(EMIT_NOTIFICATION_DELETE, function*({id}) {
+        try {
+            // Fire event at redux to toggle action loader
+            yield put(storeSetNotificationActionData({id}));
+            // Fire event for request
+            const apiResponse = yield call(apiPostRequest, `${api.DELETE_NOTIFICATIONS_API_PATH}/${id}`);
+            // Fire event to redux
+            yield put(storeDeleteNotificationData({id}));
+            // Fire event for request
+            yield put(storeNotificationsRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeSetNotificationActionData({id}));
+            yield put(storeNotificationsRequestFailed({message}));
+        }
     });
 }
 
@@ -75,12 +126,12 @@ function extractNotificationData(apiNotification) {
     const notificationDetail = getNotificationDetail(apiNotification.type);
     if(apiNotification) {
         notification.actionLoader = false;
+        notification.url = notificationDetail.url;
         notification.id = apiNotification.id.toString();
         notification.creation = apiNotification.created_at;
         notification.read = apiNotification.read_at !== null;
         notification.className = notificationDetail.className;
         notification.message = apiNotification.data.Notification.message;
-        notification.url = notificationDetail.url;
     }
     return notification;
 }
@@ -93,7 +144,6 @@ function extractNotificationsData(apiNotifications) {
             notifications.push(extractNotificationData(data));
         });
     }
-    sortByCreationDate(notifications);
     return notifications;
 }
 
@@ -114,6 +164,8 @@ function getNotificationDetail(notificationType) {
 export default function* sagaNotifications() {
     yield all([
         fork(emitNotificationRead),
+        fork(emitNotificationDelete),
+        fork(emitNotificationsFetch),
         fork(emitUnreadNotificationsFetch),
     ]);
 }

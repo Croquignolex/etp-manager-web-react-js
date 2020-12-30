@@ -8,15 +8,6 @@ import {emitNotificationRead} from "../../redux/notifications/actions";
 
 // Component
 function NotificationsInfiniteScrollTabComponent({notifications, handleDeleteModalShow, dispatch}) {
-
-    const handleNotificationItemDetails = (id) => {
-        dispatch(emitNotificationRead({id}));
-    }
-
-    const handleNotificationItemDelete = (id) => {
-        handleDeleteModalShow(id)
-    }
-
     // Render
     return (
         <div className="table-responsive">
@@ -39,13 +30,13 @@ function NotificationsInfiniteScrollTabComponent({notifications, handleDeleteMod
                                         <>
                                             <Link to={item.url}
                                                   className='btn btn-sm btn-secondary'
-                                                  onClick={handleNotificationItemDetails(item.id)}
+                                                  onClick={() => dispatch(emitNotificationRead({id: item.id}))}
                                             >
                                                 <i className='fa fa-eye' />
                                             </Link>
                                             &nbsp;
                                             <button className='btn btn-sm btn-danger'
-                                                    onClick={handleNotificationItemDelete(item.id)}
+                                                    onClick={() => handleDeleteModalShow({id: item.id})}
                                             >
                                                 <i className='fa fa-trash' />
                                             </button>

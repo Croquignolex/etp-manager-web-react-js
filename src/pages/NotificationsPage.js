@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, {useEffect, useState} from 'react';
-import InfiniteScroll from "react-infinite-scroll-component";
 
 import {DANGER} from "../constants/typeConstants";
 import HeaderComponent from "../components/HeaderComponent";
@@ -38,10 +37,6 @@ function NotificationsPage({notifications, request, dispatch, location}) {
         setDeleteModal({...deleteModal, id, show: true})
     }
 
-    const handleNextNotificationsData = () => {
-       // Api call
-    }
-
     // Reset error alert
     const shouldResetErrorData = () => {
         requestFailed(request) && dispatch(storeNotificationsRequestReset());
@@ -64,17 +59,10 @@ function NotificationsPage({notifications, request, dispatch, location}) {
                                             {/* Search input */}
                                             <TableSearchComponent needle={needle} handleNeedle={handleNeedleInput} />
                                             {/* Infinite scroll list */}
-                                            <InfiniteScroll
-                                                next={handleNextNotificationsData}
-                                                hasMore={notifications.hasMoreData}
-                                                dataLength={notifications.list.length}
-                                                loader={<LoaderComponent little={true} />}
-                                            >
-                                                <NotificationsInfiniteScrollTabComponent dispatch={dispatch}
-                                                                                         notifications={notifications.list}
-                                                                                         handleDeleteModalShow={handleDeleteModalShow}
-                                                />
-                                            </InfiniteScroll>
+                                            <NotificationsInfiniteScrollTabComponent dispatch={dispatch}
+                                                                                     notifications={notifications.list}
+                                                                                     handleDeleteModalShow={handleDeleteModalShow}
+                                            />
                                         </div>
                                     </div>
                                 </div>

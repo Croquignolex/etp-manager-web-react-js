@@ -12,5 +12,7 @@ export const AUTHENTICATION_API_PATH = `${API_URL}/authentication`;
 export const EDIT_SETTING_API_PATH = `${API_URL}/edit_setting`;
 
 // Notifications
+export const NOTIFICATIONS_API_PATH = `${API_URL}/all_notifications`;
 export const READ_NOTIFICATIONS_API_PATH = `${API_URL}/read_notifications`;
 export const UNREAD_NOTIFICATIONS_API_PATH = `${API_URL}/unread_notifications`;
+export const DELETE_NOTIFICATIONS_API_PATH = `${API_URL}/delete_notifications`;
