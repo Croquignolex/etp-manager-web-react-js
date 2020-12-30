@@ -11,6 +11,15 @@ import {NOTIFICATIONS_PAGE_PATH, PROFILE_PAGE_PATH, SETTINGS_PAGE_PATH} from "..
 
 // Component
 function NavBarComponent({userName, unreadNotifications, dispatch}) {
+
+    const handleNotificationItemDetails = (id) => {
+        dispatch(emitNotificationRead({id}));
+    }
+
+    const handleLogout = () => {
+        dispatch(emitUserLogout());
+    }
+
     // Render
     return (
         <nav id="app-navbar" className="main-header navbar navbar-expand navbar-white navbar-light">
@@ -43,9 +52,9 @@ function NavBarComponent({userName, unreadNotifications, dispatch}) {
                         {unreadNotifications.map((item, index) => (
                             (index < 5) &&
                                 <Fragment key={index}>
-                                    <Link className="dropdown-item"
-                                          to={item.url}
-                                          onClick={() => dispatch(emitNotificationRead({id: item.id}))}
+                                    <Link to={item.url}
+                                          className="dropdown-item"
+                                          onClick={handleNotificationItemDetails(item.id)}
                                     >
                                         <div className="media">
                                             <div className="media-body">
@@ -66,7 +75,6 @@ function NavBarComponent({userName, unreadNotifications, dispatch}) {
                 </li>
                 {/* User menu */}
                 <li className="nav-item dropdown">
-                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                     <span className="nav-link hand-cursor" data-toggle="dropdown">
                         <i className="far fa-user"/>
                     </span>
@@ -80,10 +88,9 @@ function NavBarComponent({userName, unreadNotifications, dispatch}) {
                         </Link>
                         <div className="dropdown-divider"/>
                         {/* Logout */}
-                        <span className="dropdown-item dropdown-footer bg-danger text-white hand-cursor"
-                              onClick={() => dispatch(emitUserLogout())}>
-                                <i className='fa fa-sign-out' /> Deconnexion
-                            </span>
+                        <span className="dropdown-item dropdown-footer bg-danger text-white hand-cursor" onClick={handleLogout}>
+                            <i className='fa fa-sign-out' /> Deconnexion
+                        </span>
                     </div>
                 </li>
             </ul>

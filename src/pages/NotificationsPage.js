@@ -1,23 +1,45 @@
 import PropTypes from 'prop-types';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import InfiniteScroll from "react-infinite-scroll-component";
 
+import {DANGER} from "../constants/typeConstants";
 import HeaderComponent from "../components/HeaderComponent";
 import {requestFailed} from "../functions/generalFunctions";
+import LoaderComponent from "../components/LoaderComponent";
 import {NOTIFICATIONS_PAGE} from "../constants/pageNameConstants";
 import AppLayoutContainer from "../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../components/ErrorAlertComponent";
 import TableSearchComponent from "../components/TableSearchComponent";
+import {emitNotificationsFetch} from "../redux/notifications/actions";
 import {storeNotificationsRequestReset} from "../redux/requests/notifications/actions";
+import NotificationsInfiniteScrollTabComponent from "../components/notifications/NotificationsInfiniteScrollTabComponent";
 
 // Component
-function DashboardPage({notifications, request, dispatch, location}) {
+function NotificationsPage({notifications, request, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
-    const [deleteModal, setDeleteModal] = useState({show: false, header: '', body: '', type: '', id: 0});
+    const [deleteModal, setDeleteModal] = useState({show: false, header: 'Suppression', body: 'Supprimer cette notification?', type: DANGER, id: 0});
+
+    // Local effects
+    useEffect(() => {
+        dispatch(emitNotificationsFetch());
+        // Cleaner error alert while component did unmount without store dependency
+        return () => {
+            shouldResetErrorData();
+        };
+        // eslint-disable-next-line
+    }, []);
 
     const handleNeedleInput = (data) => {
         setNeedle(data)
+    }
+
+    const handleDeleteModalShow = (id) => {
+        setDeleteModal({...deleteModal, id, show: true})
+    }
+
+    const handleNextNotificationsData = () => {
+       // Api call
     }
 
     // Reset error alert
@@ -37,8 +59,22 @@ function DashboardPage({notifications, request, dispatch, location}) {
                                 <div className="card custom-card-outline">
                                     <div className="card-body">
                                         <div className="tab-content">
+                                            {/* Error message */}
                                             {requestFailed(request) && <ErrorAlertComponent message={request.message} />}
+                                            {/* Search input */}
                                             <TableSearchComponent needle={needle} handleNeedle={handleNeedleInput} />
+                                            {/* Infinite scroll list */}
+                                            <InfiniteScroll
+                                                next={handleNextNotificationsData}
+                                                hasMore={notifications.hasMoreData}
+                                                dataLength={notifications.list.length}
+                                                loader={<LoaderComponent little={true} />}
+                                            >
+                                                <NotificationsInfiniteScrollTabComponent dispatch={dispatch}
+                                                                                         notifications={notifications.list}
+                                                                                         handleDeleteModalShow={handleDeleteModalShow}
+                                                />
+                                            </InfiniteScroll>
                                         </div>
                                     </div>
                                 </div>
@@ -52,11 +88,11 @@ function DashboardPage({notifications, request, dispatch, location}) {
 }
 
 // Prop types to ensure destroyed props data type
-DashboardPage.propTypes = {
+NotificationsPage.propTypes = {
     dispatch: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     notifications: PropTypes.object.isRequired,
 };
 
-export default React.memo(DashboardPage);
+export default React.memo(NotificationsPage);

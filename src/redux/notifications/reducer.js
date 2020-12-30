@@ -2,9 +2,10 @@ import {STORE_SET_NOTIFICATIONS_DATA, STORE_SET_NOTIFICATION_ACTION_DATA, STORE_
 
 // Partial global store for users data management
 const initialState = {
+    page: 1,
     list: [],
     unread: [],
-    current: {id: '', url: '', message: '', creation: '', className: '', read: false}
+    hasMoreData: false,
 };
 
 // Reduce
