@@ -1,30 +1,15 @@
 import { all, takeLatest, put, fork, call } from 'redux-saga/effects'
 
+import * as type from "../../constants/typeConstants";
+import * as path from "../../constants/pagePathConstants";
 import {BASE_URL} from "../../constants/generalConstants";
 import {apiGetRequest} from "../../functions/axiosFunctions";
 import {sortByCreationDate} from "../../functions/generalFunctions";
 import {playSuccessSound} from "../../functions/playSoundFunctions";
-import {UNREAD_NOTIFICATIONS_API_PATH} from "../../constants/apiConstants";
-import {storeSetUnreadNotificationsData, EMIT_UNREAD_NOTIFICATIONS_FETCH} from './actions'
 import {LOCAL_STORAGE_USER_RECEIVED_NOTIFICATIONS} from "../../constants/localStorageConstants";
 import {getLocaleStorageItem, setLocaleStorageItem} from "../../functions/localStorageFunctions";
-import {
-    CASH_RECOVERY_NOTIFICATION,
-    REQUEST_FLEET_NOTIFICATION,
-    FLEET_RECOVERY_NOTIFICATION,
-    FLEET_OPERATION_NOTIFICATION,
-    REQUEST_CLEARANCE_NOTIFICATION,
-    CLEARANCE_OPERATION_NOTIFICATION
-} from "../../constants/typeConstants";
-import {
-    DASHBOARD_PAGE_PATH,
-    REQUESTS_FLEETS_PAGE_PATH,
-    RECOVERIES_CASH_PAGE_PATH,
-    RECOVERIES_FLEETS_PAGE_PATH,
-    OPERATIONS_FLEETS_PAGE_PATH,
-    REQUESTS_CLEARANCES_PAGE_PATH,
-    OPERATIONS_CLEARANCES_PAGE_PATH
-} from "../../constants/pagePathConstants";
+import {READ_NOTIFICATIONS_API_PATH, UNREAD_NOTIFICATIONS_API_PATH} from "../../constants/apiConstants";
+import {storeSetUnreadNotificationsData, EMIT_UNREAD_NOTIFICATIONS_FETCH, EMIT_READ_NOTIFICATION} from './actions'
 
 // Fetch unread notifications from API
 export function* emitUnreadNotificationsFetch() {
@@ -67,6 +52,21 @@ export function* emitUnreadNotificationsFetch() {
     });
 }
 
+// Fetch read notification from API
+export function* emitNotificationRead() {
+    yield takeLatest(EMIT_READ_NOTIFICATION, function*({id}) {
+        try {
+            // API call
+            yield call(apiGetRequest, `${READ_NOTIFICATIONS_API_PATH}/${id}`);
+            // Update received notification number
+            const receivedNotifications = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_RECEIVED_NOTIFICATIONS);
+            if(receivedNotifications != null && receivedNotifications) {
+                yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_RECEIVED_NOTIFICATIONS, (receivedNotifications - 1));
+            }
+        } catch (message) {}
+    });
+}
+
 // Extract notification data
 function extractNotificationData(apiNotification) {
     let notification = {
@@ -100,19 +100,20 @@ function extractNotificationsData(apiNotifications) {
 // URL
 function getNotificationDetail(notificationType) {
     switch (notificationType) {
-        case CASH_RECOVERY_NOTIFICATION: return {url: RECOVERIES_CASH_PAGE_PATH, className: 'text-primary'};
-        case REQUEST_FLEET_NOTIFICATION: return {url: REQUESTS_FLEETS_PAGE_PATH, className: 'text-dark'};
-        case FLEET_RECOVERY_NOTIFICATION: return {url: RECOVERIES_FLEETS_PAGE_PATH, className: 'text-info'};
-        case FLEET_OPERATION_NOTIFICATION: return {url: OPERATIONS_FLEETS_PAGE_PATH, className: 'text-warning'};
-        case REQUEST_CLEARANCE_NOTIFICATION: return {url: REQUESTS_CLEARANCES_PAGE_PATH, className: 'text-success'};
-        case CLEARANCE_OPERATION_NOTIFICATION: return {url: OPERATIONS_CLEARANCES_PAGE_PATH, className: 'text-danger'};
-        default: return {url: DASHBOARD_PAGE_PATH, className: 'text-secondary'};
+        case type.CASH_RECOVERY_NOTIFICATION: return {url: path.RECOVERIES_CASH_PAGE_PATH, className: 'text-primary'};
+        case type.REQUEST_FLEET_NOTIFICATION: return {url: path.REQUESTS_FLEETS_PAGE_PATH, className: 'text-dark'};
+        case type.FLEET_RECOVERY_NOTIFICATION: return {url: path.RECOVERIES_FLEETS_PAGE_PATH, className: 'text-info'};
+        case type.FLEET_OPERATION_NOTIFICATION: return {url: path.OPERATIONS_FLEETS_PAGE_PATH, className: 'text-warning'};
+        case type.REQUEST_CLEARANCE_NOTIFICATION: return {url: path.REQUESTS_CLEARANCES_PAGE_PATH, className: 'text-success'};
+        case type.CLEARANCE_OPERATION_NOTIFICATION: return {url: path.OPERATIONS_CLEARANCES_PAGE_PATH, className: 'text-danger'};
+        default: return {url: path.DASHBOARD_PAGE_PATH, className: 'text-secondary'};
     }
 }
 
 // Combine to export all functions at once
 export default function* sagaNotifications() {
     yield all([
+        fork(emitNotificationRead),
         fork(emitUnreadNotificationsFetch),
     ]);
 }
