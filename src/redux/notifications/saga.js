@@ -21,7 +21,10 @@ import {
 import {
     storeNotificationsRequestInit,
     storeNotificationsRequestFailed,
-    storeNotificationsRequestSucceed
+    storeNotificationsRequestSucceed,
+    storeNotificationsDeleteRequestInit,
+    storeNotificationsDeleteRequestFailed,
+    storeNotificationsDeleteRequestSucceed
 } from "../requests/notifications/actions";
 
 // Fetch notifications from API
@@ -32,9 +35,11 @@ export function* emitNotificationsFetch() {
             yield put(storeNotificationsRequestInit());
             const apiResponse = yield call(apiGetRequest, api.NOTIFICATIONS_API_PATH);
             // Extract data
-            const notifications = extractNotificationsData(apiResponse);
+            const notifications = extractNotificationsData(apiResponse.data);
             // Fire event to redux
             yield put(storeSetNotificationsData({notifications}));
+            // Fire event for request
+            yield put(storeNotificationsRequestSucceed({message: apiResponse.message}));
         } catch (message) {
             // Fire event for request
             yield put(storeNotificationsRequestFailed({message}));
@@ -48,7 +53,7 @@ export function* emitUnreadNotificationsFetch() {
         try {
             // Fire event for request
             const apiResponse = yield call(apiGetRequest, api.UNREAD_NOTIFICATIONS_API_PATH);
-            const notifications = extractNotificationsData(apiResponse);
+            const notifications = extractNotificationsData(apiResponse.data);
             const currentNotifications = notifications.length;
             // Notification sound
             const receivedNotifications = yield call(getLocaleStorageItem, LOCAL_STORAGE_USER_RECEIVED_NOTIFICATIONS);
@@ -105,15 +110,17 @@ export function* emitNotificationDelete() {
             // Fire event at redux to toggle action loader
             yield put(storeSetNotificationActionData({id}));
             // Fire event for request
+            yield put(storeNotificationsDeleteRequestInit());
+            // Fire event for request
             const apiResponse = yield call(apiPostRequest, `${api.DELETE_NOTIFICATIONS_API_PATH}/${id}`);
             // Fire event to redux
             yield put(storeDeleteNotificationData({id}));
             // Fire event for request
-            yield put(storeNotificationsRequestSucceed({message: apiResponse.message}));
+            yield put(storeNotificationsDeleteRequestSucceed({message: apiResponse.message}));
         } catch (message) {
             // Fire event for request
             yield put(storeSetNotificationActionData({id}));
-            yield put(storeNotificationsRequestFailed({message}));
+            yield put(storeNotificationsDeleteRequestFailed({message}));
         }
     });
 }

@@ -55,7 +55,8 @@ function NavBarComponent({userName, unreadNotifications, dispatch}) {
                                             <div className="media-body">
                                                 <p className="text-sm">{item.message}</p>
                                                 <p className="text-sm text-muted">
-                                                    <i className={`far fa-clock mr-1 ${item.className}`} /> {dateToString(item.creation)}
+                                                    <i className={`far fa-clock mr-2 ${item.className}`} />
+                                                    {dateToString(item.creation)}
                                                 </p>
                                             </div>
                                         </div>

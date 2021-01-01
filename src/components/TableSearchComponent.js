@@ -3,26 +3,22 @@ import PropTypes from 'prop-types';
 
 // Component
 function TableSearchComponent({needle, handleNeedle}) {
+
     const handleChange = (e) => {
         handleNeedle(e.target.value)
     }
 
     // Render
     return (
-        <div className="card-header">
-            <div className="card-tools float-left">
-                <div className="input-group input-group-sm">
-                    {/* Search input */}
-                    <input
-                        type="text"
-                        value={needle}
-                        name="tableSearch"
-                        onChange={handleChange}
-                        className="form-control"
-                        placeholder="Rechercher..."
-                    />
-                </div>
-            </div>
+        <div className="input-group input-group-sm">
+            {/* Search input */}
+            <input type="text"
+                   value={needle}
+                   name="tableSearch"
+                   onChange={handleChange}
+                   className="form-control"
+                   placeholder="Rechercher..."
+            />
         </div>
     )
 }

@@ -1,3 +1,5 @@
+import Lodash from "lodash";
+
 import * as actions from "./actions";
 
 // Partial global store for users data management
@@ -14,19 +16,23 @@ function reduce(state = initialState, action) {
         case actions.STORE_SET_NOTIFICATIONS_DATA:
             nextState = {...state, list: action.notifications};
             return nextState || state;
+        // Resolve event to delete notifications data
+        case actions.STORE_DELETE_NOTIFICATION_DATA:
+            nextState = {...state, list: Lodash.filter(state.list, (item) => item.id !== action.id)};
+            return nextState || state;
         // Resolve event to set notification data
         case actions.STORE_SET_UNREAD_NOTIFICATIONS_DATA:
             nextState = {...state, unread: action.notifications};
             return nextState || state;
         // Resolve event to set notification action data
         case actions.STORE_SET_NOTIFICATION_ACTION_DATA:
-            nextState = {...state, list: state.list.map(notification => {
-                    if(notification.id === action.id) {
-                        notification.actionLoader = !notification.actionLoader;
-                    }
-                    return notification;
-                }
-            )};
+            nextState = {
+                ...state,
+                list: Lodash.map(state.list, (item) => {
+                    if(item.id === action.id) item.actionLoader = !item.actionLoader;
+                    return item;
+                })
+            };
             return nextState || state;
         // Unknown action
         default: return state;

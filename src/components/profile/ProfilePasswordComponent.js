@@ -128,4 +128,5 @@ ProfilePasswordComponent.propTypes = {
     request: PropTypes.object.isRequired,
 };
 
-export default React.memo(ProfilePasswordComponent);
+export default
+React.memo(ProfilePasswordComponent);

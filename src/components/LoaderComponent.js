@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 function LoaderComponent({little}) {
     // Render
     return (
-        <div className='text-center'>
+        <div className={`${little ? 'text-right' : 'text-center'}`}>
             <img alt='loading...'
                  className={`${little && 'little-loader'} img-fluid`}
                  src={require('../assets/images/spinner-theme.svg')}

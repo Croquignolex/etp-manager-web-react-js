@@ -55,15 +55,6 @@ export function dateToString(date) {
     return date && moment(date).format('DD/MM/YYYY HH:mm');
 }
 
-// Sort by API creation date
-export function sortByCreationDate(array) {
-    return array.sort((a, b) => {
-        if(a.creation < b.creation) return 1;
-        if(a.creation > b.creation) return -1;
-        return 0;
-    });
-}
-
 // Format string to handle space
 export function formatString(text, maxCharacters) {
     // Extract
@@ -87,4 +78,12 @@ export function formatNumber(number) {
         if(process.env.NODE_ENV !== 'production') console.log({e});
     }
     return number;
+}
+
+// Search a needle in a string
+export function needleSearch(set, needle) {
+    if(set !== null && set !== '' && set !== undefined && set) {
+        return set.toString().toLowerCase().indexOf(needle.toLowerCase()) !== -1;
+    }
+    return false;
 }

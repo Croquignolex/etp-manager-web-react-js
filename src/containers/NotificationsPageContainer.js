@@ -8,8 +8,8 @@ setPageTitle(NOTIFICATIONS_PAGE);
 
 // Map state function to component props
 const mapStateToProps = (state) => ({
-    notifications: state.notifications,
-    request: state.notificationsRequests,
+    notifications: state.notifications.list,
+    notificationsRequests: state.notificationsRequests,
 });
 
 // Map dispatch function to component props
