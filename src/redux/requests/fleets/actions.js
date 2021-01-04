@@ -10,9 +10,9 @@ export const STORE_NEXT_FLEETS_REQUEST_FAILED = 'STORE_NEXT_FLEETS_REQUEST_FAILE
 export const STORE_NEXT_FLEETS_REQUEST_SUCCEEDED = 'STORE_NEXT_FLEETS_REQUEST_SUCCEEDED';
 
 export const STORE_FLEET_SUPPLY_REQUEST_INIT = 'STORE_FLEET_SUPPLY_REQUEST_INIT';
-export const STORE_FLEET_SUPPLY__REQUEST_RESET = 'STORE_FLEET_SUPPLY__REQUEST_RESET';
-export const STORE_FLEET_SUPPLY__REQUEST_FAILED = 'STORE_FLEET_SUPPLY__REQUEST_FAILED';
-export const STORE_FLEET_SUPPLY__REQUEST_SUCCEEDED = 'STORE_FLEET_SUPPLY__REQUEST_SUCCEEDED';
+export const STORE_FLEET_SUPPLY_REQUEST_RESET = 'STORE_FLEET_SUPPLY_REQUEST_RESET';
+export const STORE_FLEET_SUPPLY_REQUEST_FAILED = 'STORE_FLEET_SUPPLY_REQUEST_FAILED';
+export const STORE_FLEET_SUPPLY_REQUEST_SUCCEEDED = 'STORE_FLEET_SUPPLY_REQUEST_SUCCEEDED';
 
 // ======================================================== Fleets
 // Set fleets init data into store
@@ -67,16 +67,16 @@ export const storeFleetSupplyRequestInit = () => ({
 // Set fleet supply failed data into store
 export const storeFleetSupplyRequestFailed = ({message}) => ({
     message,
-    type: STORE_FLEET_SUPPLY__REQUEST_FAILED
+    type: STORE_FLEET_SUPPLY_REQUEST_FAILED
 });
 
 // Set fleet supply succeeded data into store
 export const storeFleetSupplyRequestSucceed = ({message}) => ({
     message,
-    type: STORE_FLEET_SUPPLY__REQUEST_SUCCEEDED
+    type: STORE_FLEET_SUPPLY_REQUEST_SUCCEEDED
 });
 
 // Set fleet supply reset data into store
 export const storeFleetSupplyRequestReset = () => ({
-    type: STORE_FLEET_SUPPLY__REQUEST_RESET
+    type: STORE_FLEET_SUPPLY_REQUEST_RESET
 });

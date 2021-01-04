@@ -1,6 +1,7 @@
 import Lodash from "lodash";
 
 import * as actions from "./actions";
+import {DONE, PROCESSING} from "../../constants/typeConstants";
 
 // Partial global store for users data management
 const initialState = {
@@ -30,7 +31,11 @@ function reduce(state = initialState, action) {
             nextState = {
                 ...state,
                 list: Lodash.map(state.list, (item) => {
-                    if(item.id === action.id) item.actionLoader = !item.actionLoader;
+                    if(item.id === action.id) {
+                        const remaining = item.amount - action.amount
+                        item.remaining = remaining;
+                        item.status = remaining > 0 ? PROCESSING : DONE;
+                    }
                     return item;
                 })
             };

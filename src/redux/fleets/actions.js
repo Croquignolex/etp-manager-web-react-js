@@ -7,6 +7,7 @@ export const STORE_STOP_INFINITE_SCROLL_FLEETS_DATA = 'STORE_STOP_INFINITE_SCROL
 
 // Middleware action types
 export const EMIT_FLEETS_FETCH = 'EMIT_FLEETS_FETCH';
+export const EMIT_FLEET_ADD_SUPPLY = 'EMIT_FLEET_ADD_SUPPLY';
 export const EMIT_NEXT_FLEETS_FETCH = 'EMIT_NEXT_FLEETS_FETCH';
 
 //====================== Reducer trigger actions
@@ -32,8 +33,9 @@ export const storeStopInfiniteScrollFleetData = () => ({
 });
 
 // Set update fleet data in store
-export const storeUpdateFleetData = ({id}) => ({
+export const storeUpdateFleetData = ({id, amount}) => ({
     id,
+    amount,
     type: STORE_UPDATE_FLEET_DATA
 });
 
@@ -53,4 +55,12 @@ export const emitFleetsFetch = () => ({
 export const emitNextFleetsFetch = ({page}) => ({
     page,
     type: EMIT_NEXT_FLEETS_FETCH
+});
+
+// Emit fleet add
+export const emitFleetAddSupply = ({id, amount, sim}) => ({
+    id,
+    sim,
+    amount,
+    type: EMIT_FLEET_ADD_SUPPLY
 });

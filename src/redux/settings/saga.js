@@ -22,10 +22,10 @@ export function* emitSettingsUpdate() {
             const apiResponse = yield call(apiPostRequest, EDIT_SETTING_API_PATH, data);
             // Set user data into local storage
             yield call(setLocaleStorageItem, LOCAL_STORAGE_SETTINGS, data);
-            // Fire event for request
-            yield put(storeSettingsRequestSucceed({message: apiResponse.message}));
             // Fire event to redux
             yield put(storeSetSettingsData(data));
+            // Fire event for request
+            yield put(storeSettingsRequestSucceed({message: apiResponse.message}));
         } catch (message) {
             // Fire event for request
             yield put(storeSettingsRequestFailed({message}));

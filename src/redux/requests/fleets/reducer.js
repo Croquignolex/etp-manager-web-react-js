@@ -52,15 +52,15 @@ function reduce(state = initialState, action) {
             nextState = {...state, supply: requestInitValue()};
             return nextState || state;
         // Resolve event to set fleet supply failed request store data
-        case actions.STORE_FLEET_SUPPLY__REQUEST_FAILED:
+        case actions.STORE_FLEET_SUPPLY_REQUEST_FAILED:
             nextState = {...state, supply: requestFailedValue(action.message)};
             return nextState || state;
         // Resolve event to set fleet supply succeeded request store data
-        case actions.STORE_FLEET_SUPPLY__REQUEST_SUCCEEDED:
+        case actions.STORE_FLEET_SUPPLY_REQUEST_SUCCEEDED:
             nextState = {...state, supply: requestSucceededValue(action.message)};
             return nextState || state;
         // Resolve event to set fleet supply reset request store data
-        case actions.STORE_FLEET_SUPPLY__REQUEST_RESET:
+        case actions.STORE_FLEET_SUPPLY_REQUEST_RESET:
             nextState = {...state, supply: initialState.supply};
             return nextState || state;
         // ========================================================

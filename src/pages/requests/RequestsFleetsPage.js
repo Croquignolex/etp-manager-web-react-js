@@ -110,7 +110,7 @@ function RequestsFleetsPage({fleets, fleetsRequests, sims, simsRequests, hasMore
             <FormModalComponent modal={supplyModal} handleClose={handleSupplyModalHide}>
                 <FleetsAddSupplyComponent sims={sims}
                                           dispatch={dispatch}
-                                          item={supplyModal.item}
+                                          fleet={supplyModal.item}
                                           simsRequests={simsRequests}
                                           request={fleetsRequests.supply}
                                           handleClose={handleSupplyModalHide}

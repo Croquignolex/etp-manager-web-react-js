@@ -6,6 +6,7 @@ import AmountComponent from "../form/AmountComponent";
 import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import {FLEET_SIMS_TYPE} from "../../constants/typeConstants";
+import {emitFleetAddSupply} from "../../redux/fleets/actions";
 import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
@@ -15,10 +16,10 @@ import {storeFleetSupplyRequestReset} from "../../redux/requests/fleets/actions"
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
-function FleetsAddSupplyComponent({item, request, sims, simsRequests, dispatch, handleClose}) {
+function FleetsAddSupplyComponent({fleet, request, sims, simsRequests, dispatch, handleClose}) {
     // Local state
     const [sim, setSim] = useState(DEFAULT_FORM_DATA);
-    const [amount, setAmount] = useState({...DEFAULT_FORM_DATA, data: item.remaining});
+    const [amount, setAmount] = useState({...DEFAULT_FORM_DATA, data: fleet.remaining});
 
     useEffect(() => {
         // Cleaner error alert while component did unmount without store dependency
@@ -70,11 +71,11 @@ function FleetsAddSupplyComponent({item, request, sims, simsRequests, dispatch, 
         const validationOK = _amount.isValid && _sim.isValid;
         // Check
         if(validationOK) {
-           /* dispatch(emitFleetAddSupplyByManager({
-                sim: _sim.val,
-                amount: _amount.val,
+            dispatch(emitFleetAddSupply({
+                sim: _sim.data,
+                amount: _amount.data,
                 id: fleet.id,
-            }));*/
+            }));
         }
         else playWarningSound();
     };
