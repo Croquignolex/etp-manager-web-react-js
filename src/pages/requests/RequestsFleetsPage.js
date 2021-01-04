@@ -13,10 +13,12 @@ import {emitFleetsFetch, emitNextFleetsFetch} from "../../redux/fleets/actions";
 import {storeFleetsRequestReset, storeNextFleetsRequestReset} from "../../redux/requests/fleets/actions";
 import {
     dateToString,
+    formatNumber,
     needleSearch,
     requestFailed,
     requestLoading,
 } from "../../functions/generalFunctions";
+import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 
 // Component
 function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch, location}) {
@@ -67,14 +69,18 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
                                         {/* Error message */}
                                         {requestFailed(fleetsRequests.list) && <ErrorAlertComponent message={fleetsRequests.list.message} />}
                                         {requestFailed(fleetsRequests.next) && <ErrorAlertComponent message={fleetsRequests.next.message} />}
-                                        {requestLoading(fleetsRequests.list) ? <LoaderComponent /> :
-                                            <InfiniteScroll hasMore={hasMoreData}
-                                                            dataLength={fleets.length}
-                                                            next={handleNextFleetsData}
-                                                            loader={<LoaderComponent />}
-                                            >
-                                                <FleetsCardsComponent handleFleetModalShow={dispatch} fleets={fleets} />
-                                            </InfiniteScroll>
+                                        {/* Search result & Infinite scroll */}
+                                        {(needle !== '' && needle !== undefined)
+                                            ? <FleetsCardsComponent handleFleetModalShow={dispatch} fleets={searchEngine(fleets, needle)} />
+                                            : (requestLoading(fleetsRequests.list) ? <LoaderComponent /> :
+                                                    <InfiniteScroll hasMore={hasMoreData}
+                                                                    dataLength={fleets.length}
+                                                                    next={handleNextFleetsData}
+                                                                    loader={<LoaderComponent />}
+                                                    >
+                                                        <FleetsCardsComponent handleFleetModalShow={dispatch} fleets={fleets} />
+                                                    </InfiniteScroll>
+                                            )
                                         }
                                     </div>
                                 </div>
@@ -94,8 +100,14 @@ function searchEngine(data, _needle) {
         // Filter
         data = data.filter((item) => {
             return (
-                needleSearch(item.message, _needle) ||
-                needleSearch(dateToString(item.creation), _needle)
+                needleSearch(item.number, _needle) ||
+                needleSearch(item.sim.number, _needle) ||
+                needleSearch(item.agent.name, _needle) ||
+                needleSearch(item.claimant.name, _needle) ||
+                needleSearch(formatNumber(item.amount), _needle) ||
+                needleSearch(dateToString(item.creation), _needle) ||
+                needleSearch(formatNumber(item.remaining), _needle) ||
+                needleSearch(fleetTypeBadgeColor(item.status).text, _needle)
             )
         });
     }
