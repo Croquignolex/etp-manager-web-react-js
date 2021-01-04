@@ -4,12 +4,14 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 import HeaderComponent from "../../components/HeaderComponent";
 import LoaderComponent from "../../components/LoaderComponent";
+import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
-import {REQUESTS_FLEETS_PAGE} from "../../constants/pageNameConstants";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
+import FormModalComponent from "../../components/modals/FormModalComponent";
 import FleetsCardsComponent from "../../components/fleets/FleetsCardsComponent";
 import {emitFleetsFetch, emitNextFleetsFetch} from "../../redux/fleets/actions";
+import FleetsAddSupplyComponent from "../../components/fleets/FleetsAddSupplyComponent";
 import {storeFleetsRequestReset, storeNextFleetsRequestReset} from "../../redux/requests/fleets/actions";
 import {
     dateToString,
@@ -18,12 +20,12 @@ import {
     requestFailed,
     requestLoading,
 } from "../../functions/generalFunctions";
-import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 
 // Component
 function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
+    const [supplyModal, setSupplyModal] = useState({show: false, header: '', item: {}});
 
     // Local effects
     useEffect(() => {
@@ -45,51 +47,72 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
         requestFailed(fleetsRequests.next) && dispatch(storeNextFleetsRequestReset());
     };
 
+    // Fetch next fleets data to enhance infinite scroll
     const handleNextFleetsData = () => {
         dispatch(emitNextFleetsFetch({page}));
     }
 
+    // Show supply modal form
+    const handleSupplyModalShow = (item) => {
+        setSupplyModal({...supplyModal, item, header: "EFFECTUER UN FLOTTAGE", show: true})
+    }
+
+    // Hide supply modal form
+    const handleSupplyModalHide = () => {
+        setSupplyModal({...supplyModal, show: false})
+    }
+
     // Render
     return (
-        <AppLayoutContainer pathname={location.pathname}>
-            <div className="content-wrapper">
-                <HeaderComponent title={REQUESTS_FLEETS_PAGE} icon={'fa fa-rss'} />
-                <section className="content">
-                    <div className='container-fluid'>
-                        <div className="row">
-                            <div className="col-12">
-                                <div className="card custom-card-outline">
-                                    {/* Search input */}
-                                    <div className="card-header">
-                                        <div className="card-tools">
-                                            <TableSearchComponent needle={needle} handleNeedle={handleNeedleInput} />
+        <>
+            <AppLayoutContainer pathname={location.pathname}>
+                <div className="content-wrapper">
+                    <HeaderComponent title="Demandes de flottes" icon={'fa fa-rss'} />
+                    <section className="content">
+                        <div className='container-fluid'>
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className="card custom-card-outline">
+                                        {/* Search input */}
+                                        <div className="card-header">
+                                            <div className="card-tools">
+                                                <TableSearchComponent needle={needle} handleNeedle={handleNeedleInput} />
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="card-body">
-                                        {/* Error message */}
-                                        {requestFailed(fleetsRequests.list) && <ErrorAlertComponent message={fleetsRequests.list.message} />}
-                                        {requestFailed(fleetsRequests.next) && <ErrorAlertComponent message={fleetsRequests.next.message} />}
-                                        {/* Search result & Infinite scroll */}
-                                        {(needle !== '' && needle !== undefined)
-                                            ? <FleetsCardsComponent handleFleetModalShow={dispatch} fleets={searchEngine(fleets, needle)} />
-                                            : (requestLoading(fleetsRequests.list) ? <LoaderComponent /> :
-                                                    <InfiniteScroll hasMore={hasMoreData}
-                                                                    dataLength={fleets.length}
-                                                                    next={handleNextFleetsData}
-                                                                    loader={<LoaderComponent />}
-                                                    >
-                                                        <FleetsCardsComponent handleFleetModalShow={dispatch} fleets={fleets} />
-                                                    </InfiniteScroll>
-                                            )
-                                        }
+                                        <div className="card-body">
+                                            {/* Error message */}
+                                            {requestFailed(fleetsRequests.list) && <ErrorAlertComponent message={fleetsRequests.list.message} />}
+                                            {requestFailed(fleetsRequests.next) && <ErrorAlertComponent message={fleetsRequests.next.message} />}
+                                            {/* Search result & Infinite scroll */}
+                                            {(needle !== '' && needle !== undefined)
+                                                ? <FleetsCardsComponent handleSupplyModalShow={handleSupplyModalShow} fleets={searchEngine(fleets, needle)} />
+                                                : (requestLoading(fleetsRequests.list) ? <LoaderComponent /> :
+                                                        <InfiniteScroll hasMore={hasMoreData}
+                                                                        dataLength={fleets.length}
+                                                                        next={handleNextFleetsData}
+                                                                        loader={<LoaderComponent />}
+                                                        >
+                                                            <FleetsCardsComponent handleSupplyModalShow={handleSupplyModalShow} fleets={fleets} />
+                                                        </InfiniteScroll>
+                                                )
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
-            </div>
-        </AppLayoutContainer>
+                    </section>
+                </div>
+            </AppLayoutContainer>
+            {/* Modal */}
+            <FormModalComponent modal={supplyModal} handleClose={handleSupplyModalHide}>
+                <FleetsAddSupplyComponent dispatch={dispatch}
+                                          item={supplyModal.item}
+                                          request={fleetsRequests.supply}
+                                          handleClose={handleSupplyModalHide}
+                />
+            </FormModalComponent>
+        </>
     )
 }
 

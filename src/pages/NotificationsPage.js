@@ -51,11 +51,12 @@ function NotificationsPage({notifications, notificationsRequests, dispatch, loca
         setNeedle(data)
     }
 
-    const handleDeleteModalShow = (item) => {
-        const {id, creation} = item;
+    // Show delete confirmation modal
+    const handleDeleteModalShow = ({id, creation}) => {
         setDeleteModal({...deleteModal, id, body: `Supprimer cette la notification du ${dateToString(creation)}?`, show: true})
     }
 
+    // Hide delete confirmation modal
     const handleDeleteModalHide = () => {
         setDeleteModal({...deleteModal, show: false})
     }
@@ -74,42 +75,42 @@ function NotificationsPage({notifications, notificationsRequests, dispatch, loca
 
     // Render
     return (
-        <AppLayoutContainer pathname={location.pathname}>
-            <div className="content-wrapper">
-                <HeaderComponent title={NOTIFICATIONS_PAGE} icon={'fa fa-bell'} />
-                <section className="content">
-                    <div className='container-fluid'>
-                        <div className="row">
-                            <div className="col-12">
-                                <div className="card custom-card-outline">
-                                    {/* Search input */}
-                                    <div className="card-header">
-                                        <div className="card-tools">
-                                            <TableSearchComponent needle={needle} handleNeedle={handleNeedleInput} />
+        <>
+            <AppLayoutContainer pathname={location.pathname}>
+                <div className="content-wrapper">
+                    <HeaderComponent title={NOTIFICATIONS_PAGE} icon={'fa fa-bell'} />
+                    <section className="content">
+                        <div className='container-fluid'>
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className="card custom-card-outline">
+                                        {/* Search input */}
+                                        <div className="card-header">
+                                            <div className="card-tools">
+                                                <TableSearchComponent needle={needle} handleNeedle={handleNeedleInput} />
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="card-body">
-                                        {/* Error message */}
-                                        {requestFailed(notificationsRequests.list) && <ErrorAlertComponent message={notificationsRequests.list.message} />}
-                                        {requestFailed(notificationsRequests.delete) && <ErrorAlertComponent message={notificationsRequests.delete.message} />}
-                                        {requestLoading(notificationsRequests.list) ? <LoaderComponent /> :
-                                            <NotificationsCardsComponent dispatch={dispatch}
-                                                                         handleDeleteModalShow={handleDeleteModalShow}
-                                                                         notifications={searchEngine(notifications, needle)}
-                                            />
-                                        }
+                                        <div className="card-body">
+                                            {/* Error message */}
+                                            {requestFailed(notificationsRequests.list) && <ErrorAlertComponent message={notificationsRequests.list.message} />}
+                                            {requestFailed(notificationsRequests.delete) && <ErrorAlertComponent message={notificationsRequests.delete.message} />}
+                                            {requestLoading(notificationsRequests.list) ? <LoaderComponent /> :
+                                                <NotificationsCardsComponent dispatch={dispatch}
+                                                                             handleDeleteModalShow={handleDeleteModalShow}
+                                                                             notifications={searchEngine(notifications, needle)}
+                                                />
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
-            </div>
-            <DeleteModalComponent modal={deleteModal}
-                                  handleModal={handleDelete}
-                                  handleClose={handleDeleteModalHide}
-            />
-        </AppLayoutContainer>
+                    </section>
+                </div>
+            </AppLayoutContainer>
+            {/* Modal */}
+            <DeleteModalComponent modal={deleteModal} handleModal={handleDelete} handleClose={handleDeleteModalHide} />
+        </>
     )
 }
 

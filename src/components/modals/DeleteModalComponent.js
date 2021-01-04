@@ -20,10 +20,10 @@ function CustomModal({modal, handleModal, handleClose}) {
             <Modal.Body className="bg-danger text-white">{body}</Modal.Body>
             {/* Footer */}
             <Modal.Footer>
-                <button onClick={handleConfirm} className="btn btn-danger btn-sm">
+                <button onClick={handleConfirm} className="btn btn-danger">
                     <i className='fa fa-check' /> Valider
                 </button>
-                <button onClick={handleClose} className='btn btn-sm btn-secondary'>
+                <button onClick={handleClose} className='btn btn-secondary'>
                     <i className='fa fa-times' /> Annuler
                 </button>
             </Modal.Footer>

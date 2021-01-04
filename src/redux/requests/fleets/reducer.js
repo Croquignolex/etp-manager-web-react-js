@@ -5,6 +5,7 @@ import {requestFailedValue, requestInitValue, requestSucceededValue} from "../..
 const initialState = {
     list: {failed: false, loading: false, succeeded: false, message: ""},
     next: {failed: false, loading: false, succeeded: false, message: ""},
+    supply: {failed: false, loading: false, succeeded: false, message: ""},
 };
 
 // Reduce
@@ -45,6 +46,24 @@ function reduce(state = initialState, action) {
         case actions.STORE_NEXT_FLEETS_REQUEST_RESET:
             nextState = {...state, next: initialState.next};
             return nextState || state;
+        // ======================================================== Fleet supply
+        // Resolve event to set fleet supply init request store data
+        case actions.STORE_FLEET_SUPPLY_REQUEST_INIT:
+            nextState = {...state, supply: requestInitValue()};
+            return nextState || state;
+        // Resolve event to set fleet supply failed request store data
+        case actions.STORE_FLEET_SUPPLY__REQUEST_FAILED:
+            nextState = {...state, supply: requestFailedValue(action.message)};
+            return nextState || state;
+        // Resolve event to set fleet supply succeeded request store data
+        case actions.STORE_FLEET_SUPPLY__REQUEST_SUCCEEDED:
+            nextState = {...state, supply: requestSucceededValue(action.message)};
+            return nextState || state;
+        // Resolve event to set fleet supply reset request store data
+        case actions.STORE_FLEET_SUPPLY__REQUEST_RESET:
+            nextState = {...state, supply: initialState.supply};
+            return nextState || state;
+        // ========================================================
         // Unknown action
         default: return state;
     }

@@ -6,7 +6,7 @@ import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
 
 // Component
-function FleetsCardsComponent({fleets, handleFleetModalShow}) {
+function FleetsCardsComponent({fleets, handleSupplyModalShow}) {
     // Render
     return (
         <div className="row">
@@ -52,7 +52,7 @@ function FleetsCardsComponent({fleets, handleFleetModalShow}) {
                                         {item.actionLoader ? <LoaderComponent little={true} /> :
                                             <button type="button"
                                                     className="btn btn-theme"
-                                                    onClick={() => handleFleetModalShow(item)}
+                                                    onClick={() => handleSupplyModalShow(item)}
                                             >
                                                 <i className="fa fa-plus" /> Effectuer un flottage
                                             </button>
@@ -78,7 +78,7 @@ function FleetsCardsComponent({fleets, handleFleetModalShow}) {
 // Prop types to ensure destroyed props data type
 FleetsCardsComponent.propTypes = {
     fleets: PropTypes.array.isRequired,
-    handleFleetModalShow: PropTypes.func.isRequired
+    handleSupplyModalShow: PropTypes.func.isRequired
 };
 
 export default React.memo(FleetsCardsComponent);
