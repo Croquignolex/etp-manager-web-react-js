@@ -3,6 +3,7 @@ export const STORE_SET_FLEETS_DATA = 'STORE_SET_FLEETS_DATA';
 export const STORE_UPDATE_FLEET_DATA = 'STORE_UPDATE_FLEET_DATA';
 export const STORE_SET_NEXT_FLEETS_DATA = 'STORE_SET_NEXT_FLEETS_DATA';
 export const STORE_SET_FLEET_ACTION_DATA = 'STORE_SET_USER_ACTION_DATA';
+export const STORE_STOP_INFINITE_SCROLL_FLEETS_DATA = 'STORE_STOP_INFINITE_SCROLL_FLEETS_DATA';
 
 // Middleware action types
 export const EMIT_FLEETS_FETCH = 'EMIT_FLEETS_FETCH';
@@ -23,6 +24,11 @@ export const storeSetNextFleetsData = ({fleets, hasMoreData, page}) => ({
     fleets,
     hasMoreData,
     type: STORE_SET_NEXT_FLEETS_DATA
+});
+
+// Stop infinite scroll
+export const storeStopInfiniteScrollFleetData = () => ({
+    type: STORE_STOP_INFINITE_SCROLL_FLEETS_DATA
 });
 
 // Set update fleet data in store

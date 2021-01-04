@@ -2,8 +2,21 @@ import { all, takeLatest, put, fork, call } from 'redux-saga/effects'
 
 import * as api from "../../constants/apiConstants";
 import {apiGetRequest} from "../../functions/axiosFunctions";
-import {EMIT_FLEETS_FETCH, storeSetFleetsData} from "./actions";
-import {storeFleetsRequestFailed, storeFleetsRequestInit, storeFleetsRequestSucceed} from "../requests/fleets/actions";
+import {
+    EMIT_FLEETS_FETCH,
+    storeSetFleetsData,
+    EMIT_NEXT_FLEETS_FETCH,
+    storeSetNextFleetsData,
+    storeStopInfiniteScrollFleetData
+} from "./actions";
+import {
+    storeFleetsRequestInit,
+    storeFleetsRequestFailed,
+    storeFleetsRequestSucceed,
+    storeNextFleetsRequestInit,
+    storeNextFleetsRequestFailed,
+    storeNextFleetsRequestSucceed
+} from "../requests/fleets/actions";
 
 // Fetch fleets from API
 export function* emitFleetsFetch() {
@@ -21,6 +34,27 @@ export function* emitFleetsFetch() {
         } catch (message) {
             // Fire event for request
             yield put(storeFleetsRequestFailed({message}));
+        }
+    });
+}
+
+// Fetch next fleets from API
+export function* emitNextFleetsFetch() {
+    yield takeLatest(EMIT_NEXT_FLEETS_FETCH, function*({page}) {
+        try {
+            // Fire event for request
+            yield put(storeNextFleetsRequestInit());
+            const apiResponse = yield call(apiGetRequest, `${api.FLEETS_API_PATH}?page=${page}`);
+            // Extract data
+            const fleets = extractFleetsData(apiResponse.data.demandes);
+            // Fire event to redux
+            yield put(storeSetNextFleetsData({fleets, hasMoreData: apiResponse.data.hasMoreData, page: page + 1}));
+            // Fire event for request
+            yield put(storeNextFleetsRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeNextFleetsRequestFailed({message}));
+            yield put(storeStopInfiniteScrollFleetData());
         }
     });
 }
@@ -97,10 +131,10 @@ function extractFleetsData(apiFleets) {
     return fleets;
 }
 
-
 // Combine to export all functions at once
 export default function* sagaNotifications() {
     yield all([
         fork(emitFleetsFetch),
+        fork(emitNextFleetsFetch),
     ]);
 }

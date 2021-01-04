@@ -11,3 +11,11 @@ export const INFO = 'INFO';
 export const DANGER = 'DANGER';
 export const WARNING = 'WARNING';
 export const SUCCESS = 'SUCCESS';
+
+// Status
+export const CANCEL = 'annule';
+export const DONE = 'effectue';
+export const DECLINE = 'decline';
+export const APPROVE = 'approuve';
+export const PENDING = 'en-attente';
+export const PROCESSING = 'en-cours';

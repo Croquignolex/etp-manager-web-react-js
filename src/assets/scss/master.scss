@@ -135,8 +135,29 @@ code {
     border: none;
 }
 
+.btn-theme:hover {
+    background-color: $themeDarkColor;
+    color: white;
+    border: none;
+}
+
 .bg-theme-light {
     background-color: #dcf0e0;
+}
+.bg-danger-light {
+    background-color: #ff9d92;
+}
+.bg-success-light {
+    background-color: #5bba6e;
+}
+.bg-secondary-light {
+    background-color: #b0b0b0;
+}
+.bg-warning-light {
+    background-color: #d4b35a;
+}
+.bg-primary-light {
+    background-color: #57c5e8;
 }
 
 .float-left { float: left !important; }

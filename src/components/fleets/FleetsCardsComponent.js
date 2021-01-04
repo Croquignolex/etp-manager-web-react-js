@@ -1,26 +1,65 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import {Link} from "react-router-dom";
-
-import {dateToString} from "../../functions/generalFunctions";
-import {emitNotificationRead} from "../../redux/notifications/actions";
+import LoaderComponent from "../LoaderComponent";
+import {PENDING, PROCESSING} from "../../constants/typeConstants";
+import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
+import {dateToString, formatNumber} from "../../functions/generalFunctions";
 
 // Component
-function FleetsCardsComponent({fleets, dispatch}) {
+function FleetsCardsComponent({fleets, handleFleetModalShow}) {
     // Render
     return (
         <div className="row">
             {fleets.map((item, key) => {
                 return (
                     <div className="col-lg-4 col-md-6" key={key}>
-                        <div className={`${item.read ? '' : 'bg-theme-light'} card`}>
-                            <div className="card-header">
-                                <h3 className="card-title">
-                                    <i className="far fa-clock mr-2" />
-                                    {item.amount}
-                                </h3>
+                        <div className={`${fleetTypeBadgeColor(item.status).color} card`}>
+                            <div className="card-body table-responsive">
+                                <table className="table table table-hover text-nowrap table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <td className="text-white">Date</td>
+                                            <td>{dateToString(item.creation)}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="text-white">Montant</td>
+                                            <td>{formatNumber(item.amount)}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="text-white">Reste</td>
+                                            <td>{formatNumber(item.remaining)}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="text-white">Puce à flotter</td>
+                                            <td>{item.sim.number}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="text-white">Agent/Ressource</td>
+                                            <td>{item.agent.name}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="text-white">Demandeur</td>
+                                            <td>{item.claimant.name}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="text-white">Status</td>
+                                            <td>{fleetTypeBadgeColor(item.status).text}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                {[PENDING, PROCESSING].includes(item.status) &&
+                                    <div className="mt-3 text-right">
+                                        {item.actionLoader ? <LoaderComponent little={true} /> :
+                                            <button type="button"
+                                                    className="btn btn-theme"
+                                                    onClick={() => handleFleetModalShow(item)}
+                                            >
+                                                <i className="fa fa-plus" /> Effectuer un flottage
+                                            </button>
+                                        }
+                                    </div>
+                                }
                             </div>
-                            <div className="card-body">{item.message}</div>
                         </div>
                     </div>
                 )
@@ -39,7 +78,7 @@ function FleetsCardsComponent({fleets, dispatch}) {
 // Prop types to ensure destroyed props data type
 FleetsCardsComponent.propTypes = {
     fleets: PropTypes.array.isRequired,
-    dispatch: PropTypes.func.isRequired
+    handleFleetModalShow: PropTypes.func.isRequired
 };
 
 export default React.memo(FleetsCardsComponent);

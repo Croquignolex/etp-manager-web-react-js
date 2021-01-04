@@ -26,11 +26,15 @@ function reduce(state = initialState, action) {
         case actions.STORE_SET_FLEETS_DATA:
             nextState = {list: action.fleets, page: action.page, hasMoreData: action.hasMoreData};
             return nextState || state;
-        // Resolve event to delete fleets data
+        // Resolve event to set next fleets data
         case actions.STORE_SET_NEXT_FLEETS_DATA:
             nextState = {list: [...state.list, ...action.fleets], page: action.page, hasMoreData: action.hasMoreData};
             return nextState || state;
-        // Resolve event to set fleet data
+        // Resolve event to stop infinite scroll fleets data
+        case actions.STORE_STOP_INFINITE_SCROLL_FLEETS_DATA:
+            nextState = {...state, hasMoreData: false};
+            return nextState || state;
+        // Resolve event to update fleet data
         case actions.STORE_UPDATE_FLEET_DATA:
             nextState = {
                 ...state,

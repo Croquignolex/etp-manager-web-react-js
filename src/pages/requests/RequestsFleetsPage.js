@@ -8,9 +8,9 @@ import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import {REQUESTS_FLEETS_PAGE} from "../../constants/pageNameConstants";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
-import {storeFleetsRequestReset} from "../../redux/requests/fleets/actions";
 import FleetsCardsComponent from "../../components/fleets/FleetsCardsComponent";
 import {emitFleetsFetch, emitNextFleetsFetch} from "../../redux/fleets/actions";
+import {storeFleetsRequestReset, storeNextFleetsRequestReset} from "../../redux/requests/fleets/actions";
 import {
     dateToString,
     needleSearch,
@@ -40,6 +40,7 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
     // Reset error alert
     const shouldResetErrorData = () => {
         requestFailed(fleetsRequests.list) && dispatch(storeFleetsRequestReset());
+        requestFailed(fleetsRequests.next) && dispatch(storeNextFleetsRequestReset());
     };
 
     const handleNextFleetsData = () => {
@@ -65,13 +66,14 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
                                     <div className="card-body">
                                         {/* Error message */}
                                         {requestFailed(fleetsRequests.list) && <ErrorAlertComponent message={fleetsRequests.list.message} />}
+                                        {requestFailed(fleetsRequests.next) && <ErrorAlertComponent message={fleetsRequests.next.message} />}
                                         {requestLoading(fleetsRequests.list) ? <LoaderComponent /> :
                                             <InfiniteScroll hasMore={hasMoreData}
                                                             dataLength={fleets.length}
                                                             next={handleNextFleetsData}
-                                                            loader={<LoaderComponent little={true} />}
+                                                            loader={<LoaderComponent />}
                                             >
-                                                <FleetsCardsComponent dispatch={dispatch} fleets={fleets} />
+                                                <FleetsCardsComponent handleFleetModalShow={dispatch} fleets={fleets} />
                                             </InfiniteScroll>
                                         }
                                     </div>
