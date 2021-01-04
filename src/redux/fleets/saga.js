@@ -1,0 +1,106 @@
+import { all, takeLatest, put, fork, call } from 'redux-saga/effects'
+
+import * as api from "../../constants/apiConstants";
+import {apiGetRequest} from "../../functions/axiosFunctions";
+import {EMIT_FLEETS_FETCH, storeSetFleetsData} from "./actions";
+import {storeFleetsRequestFailed, storeFleetsRequestInit, storeFleetsRequestSucceed} from "../requests/fleets/actions";
+
+// Fetch fleets from API
+export function* emitFleetsFetch() {
+    yield takeLatest(EMIT_FLEETS_FETCH, function*() {
+        try {
+            // Fire event for request
+            yield put(storeFleetsRequestInit());
+            const apiResponse = yield call(apiGetRequest, `${api.FLEETS_API_PATH}?page=1`);
+            // Extract data
+            const fleets = extractFleetsData(apiResponse.data.demandes);
+            // Fire event to redux
+            yield put(storeSetFleetsData({fleets, hasMoreData: apiResponse.data.hasMoreData, page: 2}));
+            // Fire event for request
+            yield put(storeFleetsRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeFleetsRequestFailed({message}));
+        }
+    });
+}
+
+// Extract fleet data
+function extractFleetData(apiSim, apiUser, apiAgent, apiClaimer, apiFleet, apiSupplies) {
+    let fleet = {
+        id: '', reference: '', amount: '', status: '', creation: '',
+
+        sim: {id: '', name: '', number: ''},
+        claimant: {id: '', name: '', phone: ''},
+        agent: {id: '', name: '', reference: ''},
+
+        supplies: []
+    };
+
+    if(apiAgent && apiUser) {
+        fleet.agent = {
+            name: apiUser.name,
+            id: apiAgent.id.toString(),
+            reference: apiAgent.reference,
+        };
+    }
+    if(apiSim) {
+        fleet.sim = {
+            name: apiSim.nom,
+            number: apiSim.numero,
+            id: apiSim.id.toString()
+        };
+    }
+    if(apiClaimer) {
+        fleet.claimant = {
+            name: apiClaimer.name,
+            phone: apiClaimer.phone,
+            id: apiClaimer.id.toString(),
+        }
+    }
+    if(apiFleet) {
+        fleet.actionLoader = false;
+        fleet.status = apiFleet.statut;
+        fleet.amount = apiFleet.montant;
+        fleet.remaining = apiFleet.reste;
+        fleet.id = apiFleet.id.toString();
+        fleet.creation = apiFleet.created_at;
+        fleet.reference = apiFleet.reference;
+    }
+    if(apiSupplies) {
+        apiSupplies.forEach(data => {
+            fleet.supplies.push({
+                amount: data.montant,
+                id: data.id.toString(),
+                reference: data.reference,
+                creation: data.created_at,
+            })
+        });
+    }
+    return fleet;
+}
+
+// Extract fleets data
+function extractFleetsData(apiFleets) {
+    const fleets = [];
+    if(apiFleets) {
+        apiFleets.forEach(data => {
+            fleets.push(extractFleetData(
+                data.puce,
+                data.user,
+                data.agent,
+                data.demandeur,
+                data.demande
+            ));
+        });
+    }
+    return fleets;
+}
+
+
+// Combine to export all functions at once
+export default function* sagaNotifications() {
+    yield all([
+        fork(emitFleetsFetch),
+    ]);
+}

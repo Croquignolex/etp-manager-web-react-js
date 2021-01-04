@@ -16,3 +16,6 @@ export const NOTIFICATIONS_API_PATH = `${API_URL}/all_notifications`;
 export const READ_NOTIFICATIONS_API_PATH = `${API_URL}/read_notifications`;
 export const UNREAD_NOTIFICATIONS_API_PATH = `${API_URL}/unread_notifications`;
 export const DELETE_NOTIFICATIONS_API_PATH = `${API_URL}/delete_notifications`;
+
+// Requests
+export const FLEETS_API_PATH = `${API_URL}/list_demandes_flote_general`;
