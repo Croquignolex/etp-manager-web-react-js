@@ -19,3 +19,14 @@ export const DECLINE = 'decline';
 export const APPROVE = 'approuve';
 export const PENDING = 'en-attente';
 export const PROCESSING = 'en-cours';
+
+// Sims type string
+export const AGENT_TYPE = 'AGENT';
+export const FLEET_TYPE = 'FLOTTAGE';
+export const MASTER_TYPE = 'MASTER SIM';
+export const ETP_AGENT_TYPE = 'AGENT ETP';
+export const CORPORATE_TYPE = 'CORPORATE';
+export const COLLECTOR_TYPE = 'RESPONSABLE';
+export const FLEET_SIMS_TYPE = [FLEET_TYPE, MASTER_TYPE];
+export const AGENT_SIMS_TYPE = [AGENT_TYPE, ETP_AGENT_TYPE];
+export const FLEET_COLLECTOR_TYPE = [FLEET_TYPE, COLLECTOR_TYPE];

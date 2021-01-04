@@ -2,6 +2,7 @@ import user from './user/reducer';
 import fleets from './fleets/reducer';
 import settings from './settings/reducer';
 import userRequests from './requests/user/reducer';
+import simsRequests from './requests/sims/reducer';
 import notifications from './notifications/reducer';
 import fleetsRequests from './requests/fleets/reducer';
 import settingsRequests from './requests/settings/reducer';
@@ -13,6 +14,7 @@ export default {
     fleets,
     settings,
     userRequests,
+    simsRequests,
     notifications,
     fleetsRequests,
     settingsRequests,

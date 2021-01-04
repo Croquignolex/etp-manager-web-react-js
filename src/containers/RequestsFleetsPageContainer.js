@@ -10,6 +10,7 @@ setPageTitle(REQUESTS_FLEETS_PAGE);
 const mapStateToProps = (state) => ({
     page: state.fleets.page,
     fleets: state.fleets.list,
+    simsRequests: state.simsRequests,
     fleetsRequests: state.fleetsRequests,
     hasMoreData: state.fleets.hasMoreData,
 });

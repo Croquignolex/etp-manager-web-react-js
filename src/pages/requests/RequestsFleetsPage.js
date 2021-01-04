@@ -22,13 +22,14 @@ import {
 } from "../../functions/generalFunctions";
 
 // Component
-function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch, location}) {
+function RequestsFleetsPage({fleets, simsRequests, fleetsRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
     const [supplyModal, setSupplyModal] = useState({show: false, header: '', item: {}});
 
     // Local effects
     useEffect(() => {
+        // dispatch(emitSimsFetch());
         dispatch(emitFleetsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
@@ -108,6 +109,7 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
             <FormModalComponent modal={supplyModal} handleClose={handleSupplyModalHide}>
                 <FleetsAddSupplyComponent dispatch={dispatch}
                                           item={supplyModal.item}
+                                          simsRequests={simsRequests}
                                           request={fleetsRequests.supply}
                                           handleClose={handleSupplyModalHide}
                 />
@@ -145,7 +147,8 @@ RequestsFleetsPage.propTypes = {
     dispatch: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     hasMoreData: PropTypes.bool.isRequired,
-    fleetsRequests: PropTypes.object.isRequired
+    simsRequests: PropTypes.object.isRequired,
+    fleetsRequests: PropTypes.object.isRequired,
 };
 
 export default React.memo(RequestsFleetsPage);
