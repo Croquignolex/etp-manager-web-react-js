@@ -10,7 +10,13 @@ import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {emitUserInformationUpdate} from "../../redux/user/actions";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {storeUserProfileEditRequestReset} from "../../redux/requests/user/actions";
-import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
+import {
+    applySuccess,
+    requestReset,
+    requestFailed,
+    requestLoading,
+    requestSucceeded
+} from "../../functions/generalFunctions";
 
 // Component
 function ProfileEditComponent({user, request, dispatch}) {
@@ -65,7 +71,7 @@ function ProfileEditComponent({user, request, dispatch}) {
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        requestFailed(request) && dispatch(storeUserProfileEditRequestReset());
+        !requestReset(request) && dispatch(storeUserProfileEditRequestReset());
     };
 
     // Trigger user information form submit

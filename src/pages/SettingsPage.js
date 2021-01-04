@@ -15,7 +15,13 @@ import TextareaComponent from "../components/form/TextareaComponent";
 import CheckBoxComponent from "../components/form/CheckBoxComponent";
 import {storeSettingsRequestReset} from "../redux/requests/settings/actions";
 import {DEFAULT_ARRAY_FORM_DATA, DEFAULT_FORM_DATA} from "../constants/defaultConstants";
-import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../functions/generalFunctions";
+import {
+    applySuccess,
+    requestReset,
+    requestFailed,
+    requestLoading,
+    requestSucceeded
+} from "../functions/generalFunctions";
 
 // Component
 function SettingsPage({settings, request, dispatch, location}) {
@@ -99,7 +105,7 @@ function SettingsPage({settings, request, dispatch, location}) {
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        requestFailed(request) && dispatch(storeSettingsRequestReset());
+        !requestReset(request) && dispatch(storeSettingsRequestReset());
     };
 
     // Trigger setting form submit

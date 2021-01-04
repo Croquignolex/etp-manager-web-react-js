@@ -17,6 +17,7 @@ import {
 import {
     applySuccess,
     dateToString,
+    requestReset,
     needleSearch,
     requestFailed,
     requestLoading,
@@ -63,8 +64,8 @@ function NotificationsPage({notifications, notificationsRequests, dispatch, loca
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        requestFailed(notificationsRequests.list) && dispatch(storeNotificationsRequestReset());
-        requestFailed(notificationsRequests.delete) && dispatch(storeNotificationsDeleteRequestReset());
+        !requestReset(notificationsRequests.list) && dispatch(storeNotificationsRequestReset());
+        !requestReset(notificationsRequests.delete) && dispatch(storeNotificationsDeleteRequestReset());
     };
 
     // Trigger when operator delete confirmed on modal

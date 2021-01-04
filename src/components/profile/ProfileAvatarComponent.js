@@ -9,7 +9,13 @@ import {playWarningSound} from "../../functions/playSoundFunctions";
 import {requiredImageChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_OBJECT_FORM_DATA} from "../../constants/defaultConstants";
 import {storeUserAvatarEditRequestReset} from "../../redux/requests/user/actions";
-import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
+import {
+    applySuccess,
+    requestReset,
+    requestFailed,
+    requestLoading,
+    requestSucceeded
+} from "../../functions/generalFunctions";
 
 // Component
 function ProfileAvatarComponent({dispatch, request}) {
@@ -40,7 +46,7 @@ function ProfileAvatarComponent({dispatch, request}) {
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        requestFailed(request) && dispatch(storeUserAvatarEditRequestReset());
+        !requestReset(request) && dispatch(storeUserAvatarEditRequestReset());
     };
 
     // Trigger avatar form submit

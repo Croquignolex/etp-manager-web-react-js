@@ -57,10 +57,12 @@ function reduce(state = initialState, action) {
             return nextState || state;
         // Resolve event to set fleet supply succeeded request store data
         case actions.STORE_FLEET_SUPPLY_REQUEST_SUCCEEDED:
+            console.log("fro success", action)
             nextState = {...state, supply: requestSucceededValue(action.message)};
             return nextState || state;
         // Resolve event to set fleet supply reset request store data
         case actions.STORE_FLEET_SUPPLY_REQUEST_RESET:
+            console.log("fro reset", action)
             nextState = {...state, supply: initialState.supply};
             return nextState || state;
         // ========================================================

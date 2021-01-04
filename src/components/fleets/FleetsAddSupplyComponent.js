@@ -13,7 +13,13 @@ import {playWarningSound} from "../../functions/playSoundFunctions";
 import {storeAllSimsRequestReset} from "../../redux/requests/sims/actions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
 import {storeFleetSupplyRequestReset} from "../../redux/requests/fleets/actions";
-import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
+import {
+    requestReset,
+    applySuccess,
+    requestFailed,
+    requestLoading,
+    requestSucceeded
+} from "../../functions/generalFunctions";
 
 // Component
 function FleetsAddSupplyComponent({fleet, request, sims, simsRequests, dispatch, handleClose}) {
@@ -55,8 +61,8 @@ function FleetsAddSupplyComponent({fleet, request, sims, simsRequests, dispatch,
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        requestFailed(request) && dispatch(storeFleetSupplyRequestReset());
-        requestFailed(simsRequests.all) && dispatch(storeAllSimsRequestReset());
+        !requestReset(request) && dispatch(storeFleetSupplyRequestReset());
+        !requestReset(simsRequests.all) && dispatch(storeAllSimsRequestReset());
     };
 
     // Trigger add supply form submit

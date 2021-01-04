@@ -16,6 +16,7 @@ import FleetsAddSupplyComponent from "../../components/fleets/FleetsAddSupplyCom
 import {storeFleetsRequestReset, storeNextFleetsRequestReset} from "../../redux/requests/fleets/actions";
 import {
     dateToString,
+    requestReset,
     formatNumber,
     needleSearch,
     requestFailed,
@@ -45,8 +46,8 @@ function RequestsFleetsPage({fleets, fleetsRequests, sims, simsRequests, hasMore
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        requestFailed(fleetsRequests.list) && dispatch(storeFleetsRequestReset());
-        requestFailed(fleetsRequests.next) && dispatch(storeNextFleetsRequestReset());
+        !requestReset(fleetsRequests.list) && dispatch(storeFleetsRequestReset());
+        !requestReset(fleetsRequests.next) && dispatch(storeNextFleetsRequestReset());
     };
 
     // Fetch next fleets data to enhance infinite scroll

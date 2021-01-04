@@ -38,6 +38,12 @@ export function requestLoading(requests) {
     return !succeeded && !failed && loading;
 }
 
+// Check if request is in reset
+export function requestReset(requests) {
+    const {failed, loading, succeeded} = requests
+    return !succeeded && !failed && !loading;
+}
+
 // Get user profile image
 export function getProfileImageFromServer(image) {
     const defaultImage = require('../assets/images/default.jpg');

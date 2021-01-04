@@ -32,7 +32,7 @@ function reduce(state = initialState, action) {
                 ...state,
                 list: Lodash.map(state.list, (item) => {
                     if(item.id === action.id) {
-                        const remaining = item.amount - action.amount
+                        const remaining = item.remaining - action.amount
                         item.remaining = remaining;
                         item.status = remaining > 0 ? PROCESSING : DONE;
                     }
