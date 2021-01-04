@@ -4,6 +4,7 @@ import React, {useMemo} from 'react';
 
 // Component
 function SelectComponent({id, multi, label, options, title, input, requestProcessing, handleInput}) {
+
     const handleChange = (selected) => {
         if(!multi) handleInput(selected.value);
         else {

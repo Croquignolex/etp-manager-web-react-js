@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, {useEffect, useState} from 'react';
 import InfiniteScroll from "react-infinite-scroll-component";
 
+import {emitAllSimsFetch} from "../../redux/sims/actions";
 import HeaderComponent from "../../components/HeaderComponent";
 import LoaderComponent from "../../components/LoaderComponent";
 import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
@@ -22,15 +23,15 @@ import {
 } from "../../functions/generalFunctions";
 
 // Component
-function RequestsFleetsPage({fleets, simsRequests, fleetsRequests, hasMoreData, page, dispatch, location}) {
+function RequestsFleetsPage({fleets, fleetsRequests, sims, simsRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
     const [supplyModal, setSupplyModal] = useState({show: false, header: '', item: {}});
 
     // Local effects
     useEffect(() => {
-        // dispatch(emitSimsFetch());
         dispatch(emitFleetsFetch());
+        dispatch(emitAllSimsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -107,7 +108,8 @@ function RequestsFleetsPage({fleets, simsRequests, fleetsRequests, hasMoreData, 
             </AppLayoutContainer>
             {/* Modal */}
             <FormModalComponent modal={supplyModal} handleClose={handleSupplyModalHide}>
-                <FleetsAddSupplyComponent dispatch={dispatch}
+                <FleetsAddSupplyComponent sims={sims}
+                                          dispatch={dispatch}
                                           item={supplyModal.item}
                                           simsRequests={simsRequests}
                                           request={fleetsRequests.supply}
@@ -142,6 +144,7 @@ function searchEngine(data, _needle) {
 
 // Prop types to ensure destroyed props data type
 RequestsFleetsPage.propTypes = {
+    sims: PropTypes.array.isRequired,
     page: PropTypes.number.isRequired,
     fleets: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,

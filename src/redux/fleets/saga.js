@@ -132,7 +132,7 @@ function extractFleetsData(apiFleets) {
 }
 
 // Combine to export all functions at once
-export default function* sagaNotifications() {
+export default function* sagaFleets() {
     yield all([
         fork(emitFleetsFetch),
         fork(emitNextFleetsFetch),

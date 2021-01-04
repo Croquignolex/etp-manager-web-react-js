@@ -6,16 +6,7 @@ import * as actions from "./actions";
 const initialState = {
     page: 1,
     list: [],
-    hasMoreData: false,
-    current: {
-        id: '', reference: '', amount: '', status: '', creation: '',
-
-        sim: {id: '', name: '', number: ''},
-        claimant: {id: '', name: '', phone: ''},
-        agent: {id: '', name: '', reference: ''},
-
-        supplies: []
-    }
+    hasMoreData: false
 };
 
 // Reduce

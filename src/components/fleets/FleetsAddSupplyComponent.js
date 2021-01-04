@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 
 import ButtonComponent from "../form/ButtonComponent";
 import AmountComponent from "../form/AmountComponent";
@@ -47,9 +47,10 @@ function FleetsAddSupplyComponent({item, request, sims, simsRequests, dispatch, 
         setAmount({...amount, isValid: true, data})
     }
 
-    const improveSimSelectOptions = () => {
+    // Build select options
+    const simSelectOptions = useMemo(() => {
         return dataToArrayForSelect(mappedSims(sims.filter(item => FLEET_SIMS_TYPE.includes(item.type.name))))
-    }
+    }, [sims]);
 
     // Reset error alert
     const shouldResetErrorData = () => {
@@ -64,6 +65,7 @@ function FleetsAddSupplyComponent({item, request, sims, simsRequests, dispatch, 
         const _sim = requiredChecker(sim);
         const _amount = requiredChecker(amount);
         // Set value
+        setSim(_sim);
         setAmount(_amount);
         const validationOK = _amount.isValid && _sim.isValid;
         // Check
@@ -89,8 +91,8 @@ function FleetsAddSupplyComponent({item, request, sims, simsRequests, dispatch, 
                                          label='Puce'
                                          id='inputSim'
                                          title='Choisir une puce'
+                                         options={simSelectOptions}
                                          handleInput={handleSimSelect}
-                                         options={improveSimSelectOptions}
                                          requestProcessing={requestLoading(simsRequests.all)}
                         />
                     </div>
