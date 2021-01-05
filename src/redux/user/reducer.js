@@ -1,9 +1,4 @@
-import {
-    STORE_RESET_USER_DATA,
-    STORE_SET_USER_FULL_DATA,
-    STORE_SET_USER_AVATAR_DATA,
-    STORE_SET_USER_INFORMATION_DATA,
-} from "./actions";
+import * as actions from "./actions";
 
 // Partial global store for user data management
 const initialState = {
@@ -13,6 +8,7 @@ const initialState = {
     phone: '',
     email: '',
     avatar: '',
+    balance: 0,
     address: '',
     creation: '',
     description: '',
@@ -24,15 +20,19 @@ function reduce(state = initialState, action) {
     let nextState;
     switch (action.type) {
         // Resolve event to reset user store data
-        case STORE_RESET_USER_DATA:
+        case actions.STORE_RESET_USER_DATA:
             nextState = {...state, ...initialState};
             return nextState || state;
         // Resolve event to set user store avatar
-        case STORE_SET_USER_AVATAR_DATA:
+        case actions.STORE_SET_USER_AVATAR_DATA:
             nextState = {...state, avatar: action.avatar};
             return nextState || state;
+        // Resolve event to set user store balance
+        case actions.STORE_SET_USER_BALANCE_DATA:
+            nextState = {...state, balance: action.balance};
+            return nextState || state;
         // Resolve event to set user store simple data
-        case STORE_SET_USER_INFORMATION_DATA:
+        case actions.STORE_SET_USER_INFORMATION_DATA:
             nextState = {
                 ...state,
                 name: action.name,
@@ -43,7 +43,7 @@ function reduce(state = initialState, action) {
             };
             return nextState || state;
         // Resolve event to fill user store data
-        case STORE_SET_USER_FULL_DATA:
+        case actions.STORE_SET_USER_FULL_DATA:
             nextState = {
                 ...state,
                 id: action.id,

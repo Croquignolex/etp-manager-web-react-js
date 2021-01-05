@@ -2,7 +2,7 @@ import { all, takeEvery, takeLatest, put, fork, call } from 'redux-saga/effects'
 
 import {AUTH_URL} from "../../constants/generalConstants";
 import {USER_ROLE} from "../../constants/defaultConstants";
-import {apiPostRequest} from "../../functions/axiosFunctions";
+import {apiGetRequest, apiPostRequest} from "../../functions/axiosFunctions";
 import {getProfileImageFromServer} from "../../functions/generalFunctions";
 import {storeResetSettingsData, storeSetSettingsData} from "../settings/actions";
 import {LOCAL_STORAGE_USER_DATA, LOCAL_STORAGE_SETTINGS} from "../../constants/localStorageConstants";
@@ -28,7 +28,7 @@ import {
     storeSetUserInformationData,
     EMIT_USER_INFORMATION_UPDATE,
     EMIT_CHECK_USER_AUTHENTICATION,
-    EMIT_ATTEMPT_USER_AUTHENTICATION
+    EMIT_ATTEMPT_USER_AUTHENTICATION, EMIT_FETCH_USER_BALANCE, storeSetUserBalanceData
 } from "./actions";
 import {
     storeUserCheckRequestInit,
@@ -42,8 +42,18 @@ import {
     storeUserAvatarEditRequestSucceed,
     storeUserPasswordEditRequestFailed,
     storeUserProfileEditRequestSucceed,
-    storeUserPasswordEditRequestSucceed
+    storeUserPasswordEditRequestSucceed,
+    storeUserBalanceFetchRequestInit,
+    storeUserBalanceFetchRequestSucceed,
+    storeUserBalanceFetchRequestFailed
 } from "../requests/user/actions";
+import {EMIT_ALL_FLEETS_FETCH, storeSetFleetsData} from "../fleets/actions";
+import {
+    storeAllFleetsRequestFailed,
+    storeAllFleetsRequestInit,
+    storeAllFleetsRequestSucceed
+} from "../requests/fleets/actions";
+import * as api from "../../constants/apiConstants";
 
 // Check user authentication from data in local storage
 export function* emitCheckUserAuthentication() {
@@ -164,6 +174,26 @@ export function* emitUserInformationUpdate() {
     });
 }
 
+// Fetch user balance from API
+export function* emitFetchUserBalance() {
+    yield takeLatest(EMIT_FETCH_USER_BALANCE, function*() {
+        try {
+            // Fire event for request
+            yield put(storeUserBalanceFetchRequestInit());
+            const apiResponse = yield call(apiGetRequest, api.FETCH_BALANCE_API_PATH);
+            // Extract data
+            const balance = apiResponse.data.balance;
+            // Fire event to redux
+            yield put(storeSetUserBalanceData({balance}));
+            // Fire event for request
+            yield put(storeUserBalanceFetchRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeUserBalanceFetchRequestFailed({message}));
+        }
+    });
+}
+
 // Remove user data present into local storage while logout from API
 export function* emitUserLogout() {
     yield takeLatest(EMIT_USER_LOGOUT, function*() {
@@ -234,6 +264,7 @@ function extractUserAndSettingsData(apiResponse) {
 export default function* sagaUser() {
     yield all([
         fork(emitUserLogout),
+        fork(emitFetchUserBalance),
         fork(emitUserAvatarUpdate),
         fork(emitUserPasswordUpdate),
         fork(emitUserInformationUpdate),

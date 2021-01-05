@@ -7,21 +7,22 @@ import {emitAllSimsFetch} from "../redux/sims/actions";
 import * as setting from "../constants/settingsConstants";
 import {emitAllFleetsFetch} from "../redux/fleets/actions";
 import {formatNumber} from "../functions/generalFunctions";
+import {emitFetchUserBalance} from "../redux/user/actions";
 import HeaderComponent from "../components/HeaderComponent";
 import {DASHBOARD_PAGE} from "../constants/pageNameConstants";
 import AppLayoutContainer from "../containers/AppLayoutContainer";
 import {emitAllClearancesFetch} from "../redux/clearances/actions";
 import {storeAllSimsRequestReset} from "../redux/requests/sims/actions";
 import DashboardCardComponent from "../components/dashboard/DashboardCardComponent";
-import {REQUESTS_CLEARANCES_PAGE_PATH, SIMS_PAGE_PATH} from "../constants/pagePathConstants";
 
 // Component
-function DashboardPage({fleets, sims, clearances, settings, clearancesRequests, fleetsRequests,
-                           simsRequests, dispatch, location}) {
+function DashboardPage({user, fleets, sims, clearances, settings, userRequests, clearancesRequests,
+                           fleetsRequests, simsRequests, dispatch, location}) {
     // Local effects
     useEffect(() => {
         dispatch(emitAllSimsFetch());
         dispatch(emitAllFleetsFetch());
+        dispatch(emitFetchUserBalance());
         dispatch(emitAllClearancesFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
@@ -50,14 +51,14 @@ console.log({clearances})
                 <section className="content">
                     <div className='container-fluid'>
                         <div className="row">
-                            {cardsData.includes(types.CARD_BALANCE) &&
+                            {cardsData.includes(setting.CARD_BALANCE) &&
                                 <div className="col-lg-3 col-md-4 col-sm-6">
-                                    <DashboardCards color='bg-dark'
-                                                    icon='fa fa-coin'
-                                                    url={PROFILE_PAGE_PATH}
-                                                    scope={USER_BALANCE_SCOPE}
-                                                    label={CASH_ACCOUNT_BALANCE}
-                                                    data={formatNumber(user.account.balance)}
+                                    <DashboardCardComponent color='bg-dark'
+                                                            icon='fa fa-coin'
+                                                            url={path.PROFILE_PAGE_PATH}
+                                                            label={setting.LABEL_BALANCE}
+                                                            request={userRequests.balance}
+                                                            data={formatNumber(user.balance)}
                                     />
                                 </div>
                             }
@@ -98,8 +99,8 @@ console.log({clearances})
                                 <div className="col-lg-3 col-md-4 col-sm-6">
                                     <DashboardCardComponent color='bg-success'
                                                             data={sims.length}
-                                                            url={SIMS_PAGE_PATH}
                                                             icon='fa fa-sim-card'
+                                                            url={path.SIMS_PAGE_PATH}
                                                             label={setting.LABEL_SIMS}
                                                             request={simsRequests.all}
                                     />
@@ -111,7 +112,7 @@ console.log({clearances})
                                                             icon='fa fa-rss-square'
                                                             data={clearances.length}
                                                             request={clearancesRequests.all}
-                                                            url={REQUESTS_CLEARANCES_PAGE_PATH}
+                                                            url={path.REQUESTS_CLEARANCES_PAGE_PATH}
                                                             label={setting.LABEL_CLEARANCES_REQUEST}
                                     />
                                 </div>
@@ -127,11 +128,13 @@ console.log({clearances})
 // Prop types to ensure destroyed props data type
 DashboardPage.propTypes = {
     sims: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired,
     fleets: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     settings: PropTypes.object.isRequired,
     clearances: PropTypes.array.isRequired,
+    userRequests: PropTypes.object.isRequired,
     simsRequests: PropTypes.object.isRequired,
     fleetsRequests: PropTypes.object.isRequired,
     clearancesRequests: PropTypes.object.isRequired,

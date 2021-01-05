@@ -2,10 +2,12 @@
 export const STORE_RESET_USER_DATA = 'STORE_RESET_USER_DATA';
 export const STORE_SET_USER_FULL_DATA = 'STORE_SET_USER_FULL_DATA';
 export const STORE_SET_USER_AVATAR_DATA = 'STORE_SET_USER_AVATAR_DATA';
+export const STORE_SET_USER_BALANCE_DATA = 'STORE_SET_USER_BALANCE_DATA';
 export const STORE_SET_USER_INFORMATION_DATA = 'STORE_SET_USER_INFORMATION_DATA';
 
 // Middleware action types
 export const EMIT_USER_LOGOUT = 'EMIT_USER_LOGOUT';
+export const EMIT_FETCH_USER_BALANCE = 'EMIT_FETCH_USER_BALANCE';
 export const EMIT_USER_AVATAR_UPDATE = 'EMIT_USER_AVATAR_UPDATE';
 export const EMIT_USER_PASSWORD_UPDATE = 'EMIT_USER_PASSWORD_UPDATE';
 export const EMIT_USER_INFORMATION_UPDATE = 'EMIT_USER_INFORMATION_UPDATE';
@@ -47,6 +49,13 @@ export const storeSetUserAvatarData = ({avatar}) => ({
     avatar,
     type: STORE_SET_USER_AVATAR_DATA
 });
+
+// Set user balance in store
+export const storeSetUserBalanceData = ({balance}) => ({
+    balance,
+    type: STORE_SET_USER_BALANCE_DATA
+});
+
 //====================== Middleware trigger actions
 // Emit user auth check
 export const emitCheckUserAuthentication = () => ({
@@ -57,6 +66,11 @@ export const emitCheckUserAuthentication = () => ({
 export const emitAttemptUserAuthentication = ({token}) => ({
     token,
     type: EMIT_ATTEMPT_USER_AUTHENTICATION
+});
+
+// Emit user balance
+export const emitFetchUserBalance = () => ({
+    type: EMIT_FETCH_USER_BALANCE
 });
 
 // Emit user auth attempt

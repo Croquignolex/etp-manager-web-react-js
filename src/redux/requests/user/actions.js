@@ -19,6 +19,11 @@ export const STORE_USER_AVATAR_EDIT_REQUEST_RESET = 'STORE_USER_AVATAR_EDIT_REQU
 export const STORE_USER_AVATAR_EDIT_REQUEST_FAILED = 'STORE_USER_AVATAR_EDIT_REQUEST_FAILED';
 export const STORE_USER_AVATAR_EDIT_REQUEST_SUCCEEDED = 'STORE_USER_AVATAR_EDIT_REQUEST_SUCCEEDED';
 
+export const STORE_USER_BALANCE_FETCH_REQUEST_INIT = 'STORE_USER_BALANCE_FETCH_REQUEST_INIT';
+export const STORE_USER_BALANCE_FETCH_REQUEST_RESET = 'STORE_USER_BALANCE_FETCH_REQUEST_RESET';
+export const STORE_USER_BALANCE_FETCH_REQUEST_FAILED = 'STORE_USER_BALANCE_FETCH_REQUEST_FAILED';
+export const STORE_USER_BALANCE_FETCH_REQUEST_SUCCEEDED = 'STORE_USER_BALANCE_FETCH_REQUEST_SUCCEEDED';
+
 // ======================================================== User check
 // Set user check init data into store
 export const storeUserCheckRequestInit = () => ({
@@ -106,4 +111,26 @@ export const storeUserAvatarEditRequestSucceed = ({message}) => ({
 // Set user password edit reset data into store
 export const storeUserAvatarEditRequestReset = () => ({
     type: STORE_USER_AVATAR_EDIT_REQUEST_RESET
+});
+// ======================================================== User balance fetch
+// Set user balance fetch init data into store
+export const storeUserBalanceFetchRequestInit = () => ({
+    type: STORE_USER_BALANCE_FETCH_REQUEST_INIT
+});
+
+// Set user balance fetch failed data into store
+export const storeUserBalanceFetchRequestFailed = ({message}) => ({
+    message,
+    type: STORE_USER_BALANCE_FETCH_REQUEST_FAILED
+});
+
+// Set user balance fetch succeeded data into store
+export const storeUserBalanceFetchRequestSucceed = ({message}) => ({
+    message,
+    type: STORE_USER_BALANCE_FETCH_REQUEST_SUCCEEDED
+});
+
+// Set user balance fetch reset data into store
+export const storeUserBalanceFetchRequestReset = () => ({
+    type: STORE_USER_BALANCE_FETCH_REQUEST_RESET
 });
