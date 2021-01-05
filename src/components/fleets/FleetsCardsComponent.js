@@ -30,7 +30,7 @@ function FleetsCardsComponent({fleets, handleSupplyModalShow}) {
                                         </tr>
                                         <tr>
                                             <td className="text-secondary">Reste</td>
-                                            <td className="text-danger">{formatNumber(item.remaining)}</td>
+                                            <td className="text-danger text-bold">{formatNumber(item.remaining)}</td>
                                         </tr>
                                         <tr>
                                             <td className="text-secondary">Puce à flotter</td>

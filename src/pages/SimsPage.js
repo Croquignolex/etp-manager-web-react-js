@@ -17,7 +17,7 @@ import {dateToString, needleSearch, requestFailed, requestLoading} from "../func
 function SimsPage({sims, simsRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
-console.log(sims)
+
     // Local effects
     useEffect(() => {
         dispatch(emitSimsFetch());
@@ -103,6 +103,7 @@ function searchEngine(data, _needle) {
                 needleSearch(item.type.name, _needle) ||
                 needleSearch(item.agent.name, _needle) ||
                 needleSearch(item.operator.name, _needle) ||
+                needleSearch(item.collector.name, _needle) ||
                 needleSearch(dateToString(item.creation), _needle)
             )
         });

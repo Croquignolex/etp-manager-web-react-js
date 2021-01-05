@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
-import {dateToString, formatNumber} from "../../functions/generalFunctions";
+
+import {simTypeBadgeColor} from "../../functions/typeFunctions";
+import {AGENT_COLLECTOR_TYPE, COLLECTOR_TYPE} from "../../constants/typeConstants";
+import {dateToString, formatNumber, upperFirstCase} from "../../functions/generalFunctions";
 
 // Component
 function SimsCardsComponent({sims}) {
@@ -12,8 +14,8 @@ function SimsCardsComponent({sims}) {
                 return (
                     <div className="col-lg-4 col-md-6" key={key}>
                         <div className="card">
-                            <div className={`${fleetTypeBadgeColor(item.status).background} card-header`}>
-                                <h3 className="card-title">{fleetTypeBadgeColor(item.status).text}</h3>
+                            <div className={`${simTypeBadgeColor(item.type.name).background} card-header`}>
+                                <h3 className="card-title">{simTypeBadgeColor(item.type.name).text}</h3>
                             </div>
                             <div className="table-responsive">
                                 <table className="table table-hover text-nowrap table-bordered">
@@ -23,13 +25,27 @@ function SimsCardsComponent({sims}) {
                                             <td>{dateToString(item.creation)}</td>
                                         </tr>
                                         <tr>
-                                            <td className="text-secondary">Montant</td>
-                                            <td>{formatNumber(item.amount)}</td>
+                                            <td className="text-secondary">Nom</td>
+                                            <td>{item.name}</td>
                                         </tr>
                                         <tr>
-                                            <td className="text-secondary">Reste</td>
-                                            <td className="text-danger">{formatNumber(item.remaining)}</td>
+                                            <td className="text-secondary">Numéro</td>
+                                            <td>{item.number}</td>
                                         </tr>
+                                        <tr>
+                                            <td className="text-secondary">Solde</td>
+                                            <td className="text-success text-bold">{formatNumber(item.balance)}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="text-secondary">Opérateur</td>
+                                            <td>{item.operator.name}</td>
+                                        </tr>
+                                        {AGENT_COLLECTOR_TYPE.includes(item.type.name) &&
+                                            <tr>
+                                                <td className="text-secondary">{upperFirstCase(item.type.name)}</td>
+                                                <td>{item.type.name === COLLECTOR_TYPE ? item.collector.name : item.agent.name}</td>
+                                            </tr>
+                                        }
                                     </tbody>
                                 </table>
                             </div>
