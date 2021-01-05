@@ -1,25 +1,43 @@
-import React, {useMemo} from 'react';
 import PropTypes from 'prop-types';
+import React, {useEffect, useMemo} from 'react';
 
+import * as types from "../constants/typeConstants";
+import * as path from "../constants/pagePathConstants";
+import {emitAllSimsFetch} from "../redux/sims/actions";
+import * as setting from "../constants/settingsConstants";
+import {emitAllFleetsFetch} from "../redux/fleets/actions";
+import {formatNumber} from "../functions/generalFunctions";
 import HeaderComponent from "../components/HeaderComponent";
 import {DASHBOARD_PAGE} from "../constants/pageNameConstants";
-import AppLayoutContainer from "../containers/AppLayoutContainer";
-import DashboardCardComponent from "../components/dashboard/DashboardCardComponent";
 import {SIMS_PAGE_PATH} from "../constants/pagePathConstants";
-import {FLEET_TYPE} from "../constants/typeConstants";
-import {formatNumber} from "../functions/generalFunctions";
+import AppLayoutContainer from "../containers/AppLayoutContainer";
+import {storeAllSimsRequestReset} from "../redux/requests/sims/actions";
+import DashboardCardComponent from "../components/dashboard/DashboardCardComponent";
 
 // Component
-function DashboardPage({settings, fleetsRequests, simsRequests, dispatch, location}) {
+function DashboardPage({fleets, sims, settings, fleetsRequests, simsRequests, dispatch, location}) {
+    // Local effects
+    useEffect(() => {
+        dispatch(emitAllSimsFetch());
+        dispatch(emitAllFleetsFetch());
+        // Cleaner error alert while component did unmount without store dependency
+        return () => {
+            shouldResetErrorData();
+        };
+        // eslint-disable-next-line
+    }, []);
+
+    // Reset error alert
+    const shouldResetErrorData = () => {
+        dispatch(storeAllSimsRequestReset());
+    };
+
     // Data
     const cardsData = settings.cards;
     const fleetSimsFleetsData = useMemo(() => {
-        return formatNumber(sims.list
-                .filter(sim => FLEET_TYPE === sim.type.name)
-                .reduce((acc, val) => acc + val.balance, 0)
-        )
+        return formatNumber(sims.filter(sim => types.FLEET_TYPE === sim.type.name).reduce((acc, val) => acc + val.balance, 0))
         // eslint-disable-next-line
-    }, []);
+    }, [sims]);
 
     // Render
     return (
@@ -29,7 +47,7 @@ function DashboardPage({settings, fleetsRequests, simsRequests, dispatch, locati
                 <section className="content">
                     <div className='container-fluid'>
                         <div className="row">
-                            {/*{cardsData.includes(0) &&
+                            {/*{cardsData.includes(types.CARD_BALANCE) &&
                                 <div className="col-lg-3 col-md-4 col-sm-6">
                                     <DashboardCards color='bg-dark'
                                                     icon='fa fa-coin'
@@ -40,28 +58,28 @@ function DashboardPage({settings, fleetsRequests, simsRequests, dispatch, locati
                                     />
                                 </div>
                             }*/}
-                            {cardsData.includes(1) &&
+                            {cardsData.includes(setting.CARD_FLEET_SIMS_FLEETS) &&
                                 <div className="col-lg-3 col-md-4 col-sm-6">
                                     <DashboardCardComponent icon='fa fa-phone'
                                                             color='bg-primary'
-                                                            request={simsRequests}
+                                                            url={path.SIMS_PAGE_PATH}
+                                                            request={simsRequests.all}
                                                             data={fleetSimsFleetsData}
-                                                            label='TOTAL FLOTTES PUCES DE FLOTTAGES'
-                                                            url={`${SIMS_PAGE_PATH}?search=${FLEET_TYPE}`}
+                                                            label={setting.LABEL_FLEET_SIMS_FLEETS}
                                     />
                                 </div>
                             }
-                            {/*{cardsData.includes(2) &&*/}
-                            {/*    <div className="col-lg-3 col-md-4 col-sm-6">*/}
-                            {/*        <DashboardCards icon='fa fa-rss'*/}
-                            {/*                        color='bg-warning'*/}
-                            {/*                        scope={FLEETS_SCOPE}*/}
-                            {/*                        data={fleets.list.length}*/}
-                            {/*                        label="Demandes de flotte"*/}
-                            {/*                        url={REQUESTS_FLEETS_PAGE_PATH}*/}
-                            {/*        />*/}
-                            {/*    </div>*/}
-                            {/*}*/}
+                            {cardsData.includes(setting.CARD_FLEETS_REQUESTS) &&
+                                <div className="col-lg-3 col-md-4 col-sm-6">
+                                    <DashboardCardComponent icon='fa fa-rss'
+                                                            color='bg-danger'
+                                                            data={fleets.length}
+                                                            request={fleetsRequests.all}
+                                                            url={path.REQUESTS_FLEETS_PAGE_PATH}
+                                                            label={setting.LABEL_FLEETS_REQUESTS}
+                                    />
+                                </div>
+                            }
                             {/*{cardsData.includes(3) &&
                                 <div className="col-lg-3 col-md-4 col-sm-6">
                                     <DashboardCards label="Agents"
@@ -73,17 +91,17 @@ function DashboardPage({settings, fleetsRequests, simsRequests, dispatch, locati
                                     />
                                 </div>
                             }*/}
-                            {/*{cardsData.includes(4) &&*/}
-                            {/*    <div className="col-lg-3 col-md-4 col-sm-6">*/}
-                            {/*        <DashboardCards label="Puces"*/}
-                            {/*                        color='bg-success'*/}
-                            {/*                        scope={SIMS_SCOPE}*/}
-                            {/*                        url={SIMS_PAGE_PATH}*/}
-                            {/*                        icon='fa fa-sim-card'*/}
-                            {/*                        data={sims.list.length}*/}
-                            {/*        />*/}
-                            {/*    </div>*/}
-                            {/*}*/}
+                            {cardsData.includes(setting.CARD_SIMS) &&
+                                <div className="col-lg-3 col-md-4 col-sm-6">
+                                    <DashboardCardComponent color='bg-success'
+                                                            data={sims.length}
+                                                            url={SIMS_PAGE_PATH}
+                                                            icon='fa fa-sim-card'
+                                                            label={setting.LABEL_SIMS}
+                                                            request={simsRequests.all}
+                                    />
+                                </div>
+                            }
                             {/*{cardsData.includes(5) &&
                                 <div className="col-lg-3 col-md-4 col-sm-6">
                                     <DashboardCards color='bg-info'
@@ -105,6 +123,8 @@ function DashboardPage({settings, fleetsRequests, simsRequests, dispatch, locati
 
 // Prop types to ensure destroyed props data type
 DashboardPage.propTypes = {
+    sims: PropTypes.array.isRequired,
+    fleets: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     settings: PropTypes.object.isRequired,

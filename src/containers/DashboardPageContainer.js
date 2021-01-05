@@ -8,7 +8,9 @@ setPageTitle(DASHBOARD_PAGE);
 
 // Map state function to component props
 const mapStateToProps = (state) => ({
+    sims: state.sims.list,
     settings: state.settings,
+    fleets: state.fleets.list,
     simsRequests: state.simsRequests,
     fleetsRequests: state.fleetsRequests,
 });

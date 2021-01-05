@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React, {useEffect, useMemo, useState} from 'react';
 
+import * as setting from "../constants/settingsConstants";
 import HeaderComponent from "../components/HeaderComponent";
 import {SETTINGS_PAGE} from "../constants/pageNameConstants";
 import {emitSettingsUpdate} from "../redux/settings/actions";
@@ -56,17 +57,17 @@ function SettingsPage({settings, request, dispatch, location}) {
                 // {value: 0, label: 'name'}
             ],
             cards: [
-                {value: 0, label: 'Mon solde'},
-                {value: 1, label: 'Flotte des PUCE DE FLOTTAGE'},
-                {value: 2, label: 'Demandes de flote'},
-                {value: 3, label: 'Agents'},
-                {value: 4, label: 'Puces'},
-                {value: 5, label: 'Demandes de déstockage'}
+                {value: setting.CARD_BALANCE, label: 'Mon solde'},
+                {value: setting.CARD_FLEET_SIMS_FLEETS, label: setting.LABEL_FLEET_SIMS_FLEETS},
+                {value: setting.CARD_FLEETS_REQUESTS, label: setting.LABEL_FLEETS_REQUESTS},
+                {value: setting.CARD_AGENTS, label: 'Agents'},
+                {value: setting.CARD_SIMS, label: setting.LABEL_SIMS},
+                {value: setting.CARD_CLEARANCES_REQUEST, label: 'Demandes de déstockage'}
             ],
             charts: [
-                {value: 0, label: 'Demandes de flote par status'},
-                {value: 1, label: 'Puces par types'},
-                {value: 2, label: 'Demandes de déstockage par status'},
+                {value: setting.CHART_FLEETS_REQUEST_PER_STATUS, label: 'Demandes de flote par status'},
+                {value: setting.CHART_SIMS_PER_TYPES, label: 'Puces par types'},
+                {value: setting.CHART_CLEARANCES_REQUEST_PER_STATUS, label: 'Demandes de déstockage par status'},
             ]
         };
         // eslint-disable-next-line

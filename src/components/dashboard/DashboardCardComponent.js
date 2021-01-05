@@ -11,18 +11,19 @@ function DashboardCardComponent({request, icon, label, color, data, url}) {
     // Render
     return (
         <>
-            {requestFailed(request) && <ErrorAlertComponent message={request.message} />}
-            {requestLoading(request) ? <div className='small-box'><LoaderComponent /></div> : (
-                <div className={`small-box ${color}`}>
-                    <div className="inner">
-                        <h3>{data}</h3>
-                        <p>{label}</p>
+            {requestLoading(request)  ? <div className='small-box'><LoaderComponent /></div> : (
+                requestFailed(request) ? <ErrorAlertComponent message={request.message} /> : (
+                    <div className={`small-box ${color}`}>
+                        <div className="inner">
+                            <h3>{data}</h3>
+                            <p>{label}</p>
+                        </div>
+                        <div className="icon"><i className={icon} /></div>
+                        <Link to={url} className="small-box-footer">
+                            Détails <i className="fas fa-arrow-circle-right" />
+                        </Link>
                     </div>
-                    <div className="icon"><i className={icon} /></div>
-                    <Link to={url} className="small-box-footer">
-                        Détails <i className="fas fa-arrow-circle-right" />
-                    </Link>
-                </div>
+                )
             )}
         </>
     )
