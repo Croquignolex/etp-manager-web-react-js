@@ -22,6 +22,7 @@ function AppRoutes({history}) {
                 <RestrictedRouteContainer exact path={path.NOTIFICATIONS_PAGE_PATH} component={asyncComponent(() => import('./containers/NotificationsPageContainer'))} />
                 {/* Requests Fleets pages */}
                 <RestrictedRouteContainer exact path={path.REQUESTS_FLEETS_PAGE_PATH} component={asyncComponent(() => import('./containers/RequestsFleetsPageContainer'))} />
+                <RestrictedRouteContainer exact path={path.REQUESTS_CLEARANCES_PAGE_PATH} component={asyncComponent(() => import('./containers/RequestsClearancesPageContainer'))} />
                 {/* Other pages */}
                 <RestrictedRouteContainer exact path={path.SIMS_PAGE_PATH} component={asyncComponent(() => import('./containers/SimsPageContainer'))} />
                 {/* 404 page */}
