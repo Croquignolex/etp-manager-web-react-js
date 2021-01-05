@@ -11,7 +11,6 @@ import {DEFAULT_OBJECT_FORM_DATA} from "../../constants/defaultConstants";
 import {storeUserAvatarEditRequestReset} from "../../redux/requests/user/actions";
 import {
     applySuccess,
-    requestReset,
     requestFailed,
     requestLoading,
     requestSucceeded
@@ -46,7 +45,7 @@ function ProfileAvatarComponent({dispatch, request}) {
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        !requestReset(request) && dispatch(storeUserAvatarEditRequestReset());
+        dispatch(storeUserAvatarEditRequestReset());
     };
 
     // Trigger avatar form submit

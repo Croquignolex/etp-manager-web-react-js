@@ -10,7 +10,6 @@ import {playWarningSound} from "../../functions/playSoundFunctions";
 import {storeUserPasswordEditRequestReset} from "../../redux/requests/user/actions";
 import {passwordChecker, passwordConfirmChecker} from "../../functions/checkerFunctions";
 import {
-    requestReset,
     applySuccess,
     requestFailed,
     requestLoading,
@@ -61,7 +60,7 @@ function ProfilePasswordComponent({request, dispatch}) {
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        !requestReset(request) && dispatch(storeUserPasswordEditRequestReset());
+        dispatch(storeUserPasswordEditRequestReset());
     };
 
     // Trigger password form submit

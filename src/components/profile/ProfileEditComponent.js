@@ -12,7 +12,6 @@ import {playWarningSound} from "../../functions/playSoundFunctions";
 import {storeUserProfileEditRequestReset} from "../../redux/requests/user/actions";
 import {
     applySuccess,
-    requestReset,
     requestFailed,
     requestLoading,
     requestSucceeded
@@ -71,7 +70,7 @@ function ProfileEditComponent({user, request, dispatch}) {
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        !requestReset(request) && dispatch(storeUserProfileEditRequestReset());
+        dispatch(storeUserProfileEditRequestReset());
     };
 
     // Trigger user information form submit

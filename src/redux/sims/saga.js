@@ -9,6 +9,7 @@ import {
     storeAllSimsRequestSucceed
 } from "../requests/sims/actions";
 
+// Fetch all sims from API
 export function* emitAllSimsFetch() {
     yield takeLatest(EMIT_ALL_SIMS_FETCH, function*() {
         try {

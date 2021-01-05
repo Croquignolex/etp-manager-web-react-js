@@ -10,19 +10,21 @@ import {
     EMIT_FLEET_ADD_SUPPLY,
     EMIT_NEXT_FLEETS_FETCH,
     storeSetNextFleetsData,
-    storeStopInfiniteScrollFleetData
+    storeStopInfiniteScrollFleetData, EMIT_ALL_FLEETS_FETCH
 } from "./actions";
 import {
     storeFleetsRequestInit,
     storeFleetsRequestFailed,
     storeFleetsRequestSucceed,
     storeNextFleetsRequestInit,
-    storeNextFleetsRequestFailed,
-    storeNextFleetsRequestSucceed,
     storeFleetSupplyRequestInit,
-    storeFleetSupplyRequestSucceed,
-    storeFleetSupplyRequestFailed
+    storeNextFleetsRequestFailed,
+    storeFleetSupplyRequestFailed,
+    storeNextFleetsRequestSucceed,
+    storeFleetSupplyRequestSucceed
 } from "../requests/fleets/actions";
+import {EMIT_ALL_SIMS_FETCH, storeSetSimsData} from "../sims/actions";
+import {storeAllSimsRequestFailed, storeAllSimsRequestInit, storeAllSimsRequestSucceed} from "../requests/sims/actions";
 
 // Fetch fleets from API
 export function* emitFleetsFetch() {
@@ -65,6 +67,26 @@ export function* emitNextFleetsFetch() {
     });
 }
 
+// Fetch all fleets from API
+export function* emitAllFleetsFetch() {
+    yield takeLatest(EMIT_ALL_FLEETS_FETCH, function*() {
+        try {
+            // Fire event for request
+            yield put(storeAllSimsRequestInit());
+            const apiResponse = yield call(apiGetRequest, api.All_SIMS_API_PATH);
+            // Extract data
+            const sims = extractSimsData(apiResponse.data.puces);
+            // Fire event to redux
+            yield put(storeSetSimsData({sims, hasMoreData: false, page: 0}));
+            // Fire event for request
+            yield put(storeAllSimsRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeAllSimsRequestFailed({message}));
+        }
+    });
+}
+
 // Fleet add supply from API
 export function* emitFleetAddSupply() {
     yield takeLatest(EMIT_FLEET_ADD_SUPPLY, function*({id, amount, sim}) {
@@ -72,11 +94,11 @@ export function* emitFleetAddSupply() {
             // Fire event for request
             yield put(storeFleetSupplyRequestInit());
             const data = {id_puce: sim, montant: amount, id_demande_flotte: id};
-            //const apiResponse = yield call(apiPostRequest, FLEET_ADD_SUPPLY_API_PATH, data);
+            const apiResponse = yield call(apiPostRequest, FLEET_ADD_SUPPLY_API_PATH, data);
             // Fire event to redux
             yield put(storeUpdateFleetData({id, amount}));
             // Fire event for request
-            yield put(storeFleetSupplyRequestSucceed({message: 'apiResponse.message'}));
+            yield put(storeFleetSupplyRequestSucceed({message: apiResponse.message}));
         } catch (message) {
             // Fire event for request
             yield put(storeFleetSupplyRequestFailed({message}));

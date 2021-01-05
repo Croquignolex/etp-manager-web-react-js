@@ -7,6 +7,7 @@ export const STORE_STOP_INFINITE_SCROLL_FLEETS_DATA = 'STORE_STOP_INFINITE_SCROL
 
 // Middleware action types
 export const EMIT_FLEETS_FETCH = 'EMIT_FLEETS_FETCH';
+export const EMIT_ALL_FLEETS_FETCH = 'EMIT_ALL_FLEETS_FETCH';
 export const EMIT_FLEET_ADD_SUPPLY = 'EMIT_FLEET_ADD_SUPPLY';
 export const EMIT_NEXT_FLEETS_FETCH = 'EMIT_NEXT_FLEETS_FETCH';
 
@@ -55,6 +56,11 @@ export const emitFleetsFetch = () => ({
 export const emitNextFleetsFetch = ({page}) => ({
     page,
     type: EMIT_NEXT_FLEETS_FETCH
+});
+
+// Emit all fleets fetch
+export const emitAllFleetsFetch = () => ({
+    type: EMIT_ALL_FLEETS_FETCH
 });
 
 // Emit fleet add

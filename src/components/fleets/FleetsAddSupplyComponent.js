@@ -14,7 +14,6 @@ import {storeAllSimsRequestReset} from "../../redux/requests/sims/actions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
 import {storeFleetSupplyRequestReset} from "../../redux/requests/fleets/actions";
 import {
-    requestReset,
     applySuccess,
     requestFailed,
     requestLoading,
@@ -61,8 +60,8 @@ function FleetsAddSupplyComponent({fleet, request, sims, simsRequests, dispatch,
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        !requestReset(request) && dispatch(storeFleetSupplyRequestReset());
-        !requestReset(simsRequests.all) && dispatch(storeAllSimsRequestReset());
+        dispatch(storeFleetSupplyRequestReset());
+        dispatch(storeAllSimsRequestReset());
     };
 
     // Trigger add supply form submit
@@ -122,7 +121,7 @@ function FleetsAddSupplyComponent({fleet, request, sims, simsRequests, dispatch,
 // Prop types to ensure destroyed props data type
 FleetsAddSupplyComponent.propTypes = {
     sims: PropTypes.array.isRequired,
-    item: PropTypes.object.isRequired,
+    fleet: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired,
     handleClose: PropTypes.func.isRequired,

@@ -17,7 +17,6 @@ import {storeSettingsRequestReset} from "../redux/requests/settings/actions";
 import {DEFAULT_ARRAY_FORM_DATA, DEFAULT_FORM_DATA} from "../constants/defaultConstants";
 import {
     applySuccess,
-    requestReset,
     requestFailed,
     requestLoading,
     requestSucceeded
@@ -105,7 +104,7 @@ function SettingsPage({settings, request, dispatch, location}) {
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        !requestReset(request) && dispatch(storeSettingsRequestReset());
+        dispatch(storeSettingsRequestReset());
     };
 
     // Trigger setting form submit
