@@ -7,24 +7,26 @@ import {
     EMIT_FLEETS_FETCH,
     storeSetFleetsData,
     storeUpdateFleetData,
+    EMIT_ALL_FLEETS_FETCH,
     EMIT_FLEET_ADD_SUPPLY,
     EMIT_NEXT_FLEETS_FETCH,
     storeSetNextFleetsData,
-    storeStopInfiniteScrollFleetData, EMIT_ALL_FLEETS_FETCH
+    storeStopInfiniteScrollFleetData
 } from "./actions";
 import {
     storeFleetsRequestInit,
     storeFleetsRequestFailed,
     storeFleetsRequestSucceed,
+    storeAllFleetsRequestInit,
     storeNextFleetsRequestInit,
     storeFleetSupplyRequestInit,
+    storeAllFleetsRequestFailed,
     storeNextFleetsRequestFailed,
+    storeAllFleetsRequestSucceed,
     storeFleetSupplyRequestFailed,
     storeNextFleetsRequestSucceed,
     storeFleetSupplyRequestSucceed
 } from "../requests/fleets/actions";
-import {EMIT_ALL_SIMS_FETCH, storeSetSimsData} from "../sims/actions";
-import {storeAllSimsRequestFailed, storeAllSimsRequestInit, storeAllSimsRequestSucceed} from "../requests/sims/actions";
 
 // Fetch fleets from API
 export function* emitFleetsFetch() {
@@ -72,17 +74,17 @@ export function* emitAllFleetsFetch() {
     yield takeLatest(EMIT_ALL_FLEETS_FETCH, function*() {
         try {
             // Fire event for request
-            yield put(storeAllSimsRequestInit());
-            const apiResponse = yield call(apiGetRequest, api.All_SIMS_API_PATH);
+            yield put(storeAllFleetsRequestInit());
+            const apiResponse = yield call(apiGetRequest, api.ALL_FLEETS_API_PATH);
             // Extract data
-            const sims = extractSimsData(apiResponse.data.puces);
+            const fleets = extractFleetsData(apiResponse.data.demandes);
             // Fire event to redux
-            yield put(storeSetSimsData({sims, hasMoreData: false, page: 0}));
+            yield put(storeSetFleetsData({fleets, hasMoreData: false, page: 0}));
             // Fire event for request
-            yield put(storeAllSimsRequestSucceed({message: apiResponse.message}));
+            yield put(storeAllFleetsRequestSucceed({message: apiResponse.message}));
         } catch (message) {
             // Fire event for request
-            yield put(storeAllSimsRequestFailed({message}));
+            yield put(storeAllFleetsRequestFailed({message}));
         }
     });
 }
@@ -182,6 +184,7 @@ function extractFleetsData(apiFleets) {
 export default function* sagaFleets() {
     yield all([
         fork(emitFleetsFetch),
+        fork(emitAllFleetsFetch),
         fork(emitFleetAddSupply),
         fork(emitNextFleetsFetch),
     ]);

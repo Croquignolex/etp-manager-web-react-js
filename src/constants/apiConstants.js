@@ -20,6 +20,7 @@ export const DELETE_NOTIFICATIONS_API_PATH = `${API_URL}/delete_notifications`;
 // Requests
 export const FLEET_ADD_SUPPLY_API_PATH = `${API_URL}/flottage`;
 export const FLEETS_API_PATH = `${API_URL}/list_demandes_flote_general`;
+export const ALL_FLEETS_API_PATH = `${API_URL}/list_demandes_flote_general_all`;
 
 // Sims
 export const SIMS_API_PATH = `${API_URL}/puce_list`;
