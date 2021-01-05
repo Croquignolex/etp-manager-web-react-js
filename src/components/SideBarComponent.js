@@ -128,12 +128,7 @@ function buildRequestsMenu() {
         icon: 'fa fa-paste',
         sub: [
             {name: page.REQUESTS_FLEETS_PAGE, path: path.REQUESTS_FLEETS_PAGE_PATH},
-            {name: page.REQUESTS_CLEARANCES_PAGE, path: path.REQUESTS_CLEARANCES_PAGE_PATH},
-
-            {name: INVISIBLE_MENU_ITEM, path: path.REQUESTS_FLEET_NEW_PAGE_PATH},
-            {name: INVISIBLE_MENU_ITEM, path: path.REQUESTS_CLEARANCE_NEW_PAGE_PATH},
-            {name: INVISIBLE_MENU_ITEM, path: `${path.REQUESTS_FLEET_EDIT_PAGE_PATH}/:id`},
-            {name: INVISIBLE_MENU_ITEM, path: `${path.REQUESTS_FLEET_EDIT_PAGE_PATH}/:id`},
+            {name: page.REQUESTS_CLEARANCES_PAGE, path: path.REQUESTS_CLEARANCES_PAGE_PATH}
         ]
     };
 }
@@ -194,12 +189,10 @@ function buildAuthorisedAgentMenu() {
 // Build sims menu
 function buildAuthorisedSimsMenu() {
     return {
-        name: page.SIMS,
+        name: page.SIMS_PAGE,
+        path: path.SIMS_PAGE_PATH,
         icon: 'fa fa-sim-card',
-        sub: [
-            {name: page.ALL_SIMS_PAGE, path: path.SIMS_PAGE_PATH},
-            {name: INVISIBLE_MENU_ITEM, path: `${path.SIM_EDIT_PAGE_PATH}/:id`}
-        ]
+        sub: []
     };
 }
 

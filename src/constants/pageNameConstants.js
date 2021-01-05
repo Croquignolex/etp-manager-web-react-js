@@ -10,8 +10,7 @@ export const AGENT_NEW_PAGE = 'Nouvel agent';
 export const ALL_AGENTS_PAGE = 'Tous les agents';
 
 // Sims
-export const SIMS = 'Puces';
-export const ALL_SIMS_PAGE = 'Toutes les puces';
+export const SIMS_PAGE = 'Puces';
 
 // Operations
 export const OPERATIONS = 'Opérations';

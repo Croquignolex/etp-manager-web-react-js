@@ -11,7 +11,6 @@ export const AGENT_EDIT_PAGE_PATH = "/agents/edit";
 
 // Sims
 export const SIMS_PAGE_PATH = "/sims";
-export const SIM_EDIT_PAGE_PATH = "/sims/edit";
 
 // Operations
 export const OPERATIONS_FLEETS_PAGE_PATH = "/operations/fleets";
@@ -31,7 +30,4 @@ export const CHECKOUT_PAYMENTS_PAGE_PATH = "/checkout/payments";
 
 // Requests
 export const REQUESTS_FLEETS_PAGE_PATH = "/requests/fleets";
-export const REQUESTS_FLEET_NEW_PAGE_PATH = "/requests/fleets/new";
 export const REQUESTS_CLEARANCES_PAGE_PATH = "/requests/clearances";
-export const REQUESTS_FLEET_EDIT_PAGE_PATH = "/requests/fleets/edit";
-export const REQUESTS_CLEARANCE_NEW_PAGE_PATH = "/requests/clearances/new";
