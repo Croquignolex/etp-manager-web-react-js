@@ -9,17 +9,20 @@ import {emitAllFleetsFetch} from "../redux/fleets/actions";
 import {formatNumber} from "../functions/generalFunctions";
 import HeaderComponent from "../components/HeaderComponent";
 import {DASHBOARD_PAGE} from "../constants/pageNameConstants";
-import {SIMS_PAGE_PATH} from "../constants/pagePathConstants";
 import AppLayoutContainer from "../containers/AppLayoutContainer";
+import {emitAllClearancesFetch} from "../redux/clearances/actions";
 import {storeAllSimsRequestReset} from "../redux/requests/sims/actions";
 import DashboardCardComponent from "../components/dashboard/DashboardCardComponent";
+import {REQUESTS_CLEARANCES_PAGE_PATH, SIMS_PAGE_PATH} from "../constants/pagePathConstants";
 
 // Component
-function DashboardPage({fleets, sims, settings, fleetsRequests, simsRequests, dispatch, location}) {
+function DashboardPage({fleets, sims, clearances, settings, clearancesRequests, fleetsRequests,
+                           simsRequests, dispatch, location}) {
     // Local effects
     useEffect(() => {
         dispatch(emitAllSimsFetch());
         dispatch(emitAllFleetsFetch());
+        dispatch(emitAllClearancesFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -31,7 +34,7 @@ function DashboardPage({fleets, sims, settings, fleetsRequests, simsRequests, di
     const shouldResetErrorData = () => {
         dispatch(storeAllSimsRequestReset());
     };
-
+console.log({clearances})
     // Data
     const cardsData = settings.cards;
     const fleetSimsFleetsData = useMemo(() => {
@@ -47,7 +50,7 @@ function DashboardPage({fleets, sims, settings, fleetsRequests, simsRequests, di
                 <section className="content">
                     <div className='container-fluid'>
                         <div className="row">
-                            {/*{cardsData.includes(types.CARD_BALANCE) &&
+                            {cardsData.includes(types.CARD_BALANCE) &&
                                 <div className="col-lg-3 col-md-4 col-sm-6">
                                     <DashboardCards color='bg-dark'
                                                     icon='fa fa-coin'
@@ -57,7 +60,7 @@ function DashboardPage({fleets, sims, settings, fleetsRequests, simsRequests, di
                                                     data={formatNumber(user.account.balance)}
                                     />
                                 </div>
-                            }*/}
+                            }
                             {cardsData.includes(setting.CARD_FLEET_SIMS_FLEETS) &&
                                 <div className="col-lg-3 col-md-4 col-sm-6">
                                     <DashboardCardComponent icon='fa fa-phone'
@@ -102,17 +105,17 @@ function DashboardPage({fleets, sims, settings, fleetsRequests, simsRequests, di
                                     />
                                 </div>
                             }
-                            {/*{cardsData.includes(5) &&
+                            {cardsData.includes(setting.CARD_CLEARANCES_REQUEST) &&
                                 <div className="col-lg-3 col-md-4 col-sm-6">
-                                    <DashboardCards color='bg-info'
-                                                    icon='fa fa-rss-square'
-                                                    scope={CLEARANCES_SCOPE}
-                                                    data={clearances.list.length}
-                                                    label="Demandes de déstockage"
-                                                    url={REQUESTS_CLEARANCES_PAGE_PATH}
+                                    <DashboardCardComponent color='bg-info'
+                                                            icon='fa fa-rss-square'
+                                                            data={clearances.length}
+                                                            request={clearancesRequests.all}
+                                                            url={REQUESTS_CLEARANCES_PAGE_PATH}
+                                                            label={setting.LABEL_CLEARANCES_REQUEST}
                                     />
                                 </div>
-                            }*/}
+                            }
                         </div>
                     </div>
                 </section>
@@ -128,8 +131,10 @@ DashboardPage.propTypes = {
     dispatch: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     settings: PropTypes.object.isRequired,
+    clearances: PropTypes.array.isRequired,
     simsRequests: PropTypes.object.isRequired,
     fleetsRequests: PropTypes.object.isRequired,
+    clearancesRequests: PropTypes.object.isRequired,
 };
 
 export default React.memo(DashboardPage);

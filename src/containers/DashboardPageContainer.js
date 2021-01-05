@@ -12,7 +12,9 @@ const mapStateToProps = (state) => ({
     settings: state.settings,
     fleets: state.fleets.list,
     simsRequests: state.simsRequests,
+    clearances: state.clearances.list,
     fleetsRequests: state.fleetsRequests,
+    clearancesRequests: state.clearancesRequests,
 });
 
 // Map dispatch function to component props
