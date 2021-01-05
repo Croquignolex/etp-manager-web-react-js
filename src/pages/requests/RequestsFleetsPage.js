@@ -10,13 +10,12 @@ import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import FormModalComponent from "../../components/modals/FormModalComponent";
-import FleetsCardsComponent from "../../components/fleets/FleetsCardsComponent";
+import FleetsCardsComponent from "../../components/requests/FleetsCardsComponent";
 import {emitFleetsFetch, emitNextFleetsFetch} from "../../redux/fleets/actions";
-import FleetsAddSupplyComponent from "../../components/fleets/FleetsAddSupplyComponent";
+import FleetsAddSupplyComponent from "../../components/requests/FleetsAddSupplyComponent";
 import {storeFleetsRequestReset, storeNextFleetsRequestReset} from "../../redux/requests/fleets/actions";
 import {
     dateToString,
-    formatNumber,
     needleSearch,
     requestFailed,
     requestLoading,
@@ -129,12 +128,12 @@ function searchEngine(data, _needle) {
         data = data.filter((item) => {
             return (
                 needleSearch(item.number, _needle) ||
+                needleSearch(item.amount, _needle) ||
+                needleSearch(item.remaining, _needle) ||
                 needleSearch(item.sim.number, _needle) ||
-                needleSearch(item.agent.name, _needle) ||
+                needleSearch(item.agent.number, _needle) ||
                 needleSearch(item.claimant.name, _needle) ||
-                needleSearch(formatNumber(item.amount), _needle) ||
                 needleSearch(dateToString(item.creation), _needle) ||
-                needleSearch(formatNumber(item.remaining), _needle) ||
                 needleSearch(fleetTypeBadgeColor(item.status).text, _needle)
             )
         });

@@ -2,21 +2,17 @@ import PropTypes from 'prop-types';
 import React, {useEffect, useState} from 'react';
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import {emitAllSimsFetch} from "../../redux/sims/actions";
 import HeaderComponent from "../../components/HeaderComponent";
 import LoaderComponent from "../../components/LoaderComponent";
 import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
-import FormModalComponent from "../../components/modals/FormModalComponent";
-import FleetsCardsComponent from "../../components/fleets/FleetsCardsComponent";
-import {emitFleetsFetch, emitNextFleetsFetch} from "../../redux/fleets/actions";
-import FleetsAddSupplyComponent from "../../components/fleets/FleetsAddSupplyComponent";
-import {storeFleetsRequestReset, storeNextFleetsRequestReset} from "../../redux/requests/fleets/actions";
+import ClearancesCardsComponent from "../../components/requests/ClearancesCardsComponent";
+import {emitClearancesFetch, emitNextClearancesFetch} from "../../redux/clearances/actions";
+import {storeClearancesRequestReset, storeNextClearancesRequestReset} from "../../redux/requests/clearances/actions";
 import {
     dateToString,
-    formatNumber,
     needleSearch,
     requestFailed,
     requestLoading,
@@ -43,23 +39,13 @@ function RequestsClearancesPage({clearances, clearancesRequests, hasMoreData, pa
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        dispatch(storeFleetsRequestReset());
-        dispatch(storeNextFleetsRequestReset());
+        dispatch(storeClearancesRequestReset());
+        dispatch(storeNextClearancesRequestReset());
     };
 
-    // Fetch next fleets data to enhance infinite scroll
-    const handleNextFleetsData = () => {
-        dispatch(emitNextFleetsFetch({page}));
-    }
-
-    // Show supply modal form
-    const handleSupplyModalShow = (item) => {
-        setSupplyModal({...supplyModal, item, header: "EFFECTUER UN FLOTTAGE", show: true})
-    }
-
-    // Hide supply modal form
-    const handleSupplyModalHide = () => {
-        setSupplyModal({...supplyModal, show: false})
+    // Fetch next clearances data to enhance infinite scroll
+    const handleNextClearancesData = () => {
+        dispatch(emitNextClearancesFetch({page}));
     }
 
     // Render
@@ -67,7 +53,7 @@ function RequestsClearancesPage({clearances, clearancesRequests, hasMoreData, pa
         <>
             <AppLayoutContainer pathname={location.pathname}>
                 <div className="content-wrapper">
-                    <HeaderComponent title="Demandes de flottes" icon={'fa fa-rss'} />
+                    <HeaderComponent title="Demandes de déstockages" icon={'fa fa-rss-square'} />
                     <section className="content">
                         <div className='container-fluid'>
                             <div className="row">
@@ -81,19 +67,19 @@ function RequestsClearancesPage({clearances, clearancesRequests, hasMoreData, pa
                                         </div>
                                         <div className="card-body">
                                             {/* Error message */}
-                                            {requestFailed(fleetsRequests.list) && <ErrorAlertComponent message={fleetsRequests.list.message} />}
-                                            {requestFailed(fleetsRequests.next) && <ErrorAlertComponent message={fleetsRequests.next.message} />}
+                                            {requestFailed(clearancesRequests.list) && <ErrorAlertComponent message={clearancesRequests.list.message} />}
+                                            {requestFailed(clearancesRequests.next) && <ErrorAlertComponent message={clearancesRequests.next.message} />}
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
-                                                ? <FleetsCardsComponent handleSupplyModalShow={handleSupplyModalShow} fleets={searchEngine(fleets, needle)} />
-                                                : (requestLoading(fleetsRequests.list) ? <LoaderComponent /> :
+                                                ? <ClearancesCardsComponent clearances={searchEngine(clearances, needle)} />
+                                                : (requestLoading(clearancesRequests.list) ? <LoaderComponent /> :
                                                         <InfiniteScroll hasMore={hasMoreData}
-                                                                        dataLength={fleets.length}
-                                                                        next={handleNextFleetsData}
                                                                         loader={<LoaderComponent />}
+                                                                        dataLength={clearances.length}
                                                                         style={{ overflow: 'hidden' }}
+                                                                        next={handleNextClearancesData}
                                                         >
-                                                            <FleetsCardsComponent handleSupplyModalShow={handleSupplyModalShow} fleets={fleets} />
+                                                            <ClearancesCardsComponent clearances={clearances} />
                                                         </InfiniteScroll>
                                                 )
                                             }
@@ -105,16 +91,6 @@ function RequestsClearancesPage({clearances, clearancesRequests, hasMoreData, pa
                     </section>
                 </div>
             </AppLayoutContainer>
-            {/* Modal */}
-            <FormModalComponent modal={supplyModal} handleClose={handleSupplyModalHide}>
-                <FleetsAddSupplyComponent sims={sims}
-                                          dispatch={dispatch}
-                                          fleet={supplyModal.item}
-                                          simsRequests={simsRequests}
-                                          request={fleetsRequests.supply}
-                                          handleClose={handleSupplyModalHide}
-                />
-            </FormModalComponent>
         </>
     )
 }
@@ -127,12 +103,12 @@ function searchEngine(data, _needle) {
         data = data.filter((item) => {
             return (
                 needleSearch(item.number, _needle) ||
+                needleSearch(item.amount, _needle) ||
+                needleSearch(item.remaining, _needle) ||
                 needleSearch(item.sim.number, _needle) ||
-                needleSearch(item.agent.name, _needle) ||
+                needleSearch(item.agent.number, _needle) ||
                 needleSearch(item.claimant.name, _needle) ||
-                needleSearch(formatNumber(item.amount), _needle) ||
                 needleSearch(dateToString(item.creation), _needle) ||
-                needleSearch(formatNumber(item.remaining), _needle) ||
                 needleSearch(fleetTypeBadgeColor(item.status).text, _needle)
             )
         });

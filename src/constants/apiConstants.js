@@ -22,6 +22,9 @@ export const FLEET_ADD_SUPPLY_API_PATH = `${API_URL}/flottage`;
 export const FLEETS_API_PATH = `${API_URL}/list_demandes_flote_general`;
 export const ALL_FLEETS_API_PATH = `${API_URL}/list_demandes_flote_general_all`;
 
+export const CLEARANCES_API_PATH = `${API_URL}/list_demandes_destockage`;
+export const ALL_CLEARANCES_API_PATH = `${API_URL}/list_demandes_destockage_all`;
+
 // Sims
 export const SIMS_API_PATH = `${API_URL}/puce_list`;
 export const All_SIMS_API_PATH = `${API_URL}/puce_list_all`;

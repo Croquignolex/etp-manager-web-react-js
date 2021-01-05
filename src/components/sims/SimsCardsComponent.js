@@ -21,7 +21,7 @@ function SimsCardsComponent({sims}) {
                                 <table className="table table-hover text-nowrap table-bordered">
                                     <tbody>
                                         <tr>
-                                            <td className="text-secondary">Date</td>
+                                            <td className="text-secondary">Date de création</td>
                                             <td>{dateToString(item.creation)}</td>
                                         </tr>
                                         <tr>

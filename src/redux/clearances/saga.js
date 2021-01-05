@@ -1,115 +1,90 @@
 import { all, takeLatest, put, fork, call } from 'redux-saga/effects'
 
 import * as api from "../../constants/apiConstants";
-import {FLEET_ADD_SUPPLY_API_PATH} from "../../constants/apiConstants";
-import {apiGetRequest, apiPostRequest} from "../../functions/axiosFunctions";
+import {apiGetRequest} from "../../functions/axiosFunctions";
+import {storeStopInfiniteScrollFleetData} from "../fleets/actions";
 import {
-    EMIT_FLEETS_FETCH,
-    storeSetFleetsData,
-    storeUpdateFleetData,
-    EMIT_ALL_FLEETS_FETCH,
-    EMIT_FLEET_ADD_SUPPLY,
-    EMIT_NEXT_FLEETS_FETCH,
-    storeSetNextFleetsData,
-    storeStopInfiniteScrollFleetData
+    EMIT_CLEARANCES_FETCH,
+    storeSetClearancesData,
+    EMIT_ALL_CLEARANCES_FETCH,
+    storeSetNextClearancesData,
+    EMIT_NEXT_CLEARANCES_FETCH
 } from "./actions";
 import {
-    storeFleetsRequestInit,
-    storeFleetsRequestFailed,
-    storeFleetsRequestSucceed,
-    storeAllFleetsRequestInit,
-    storeNextFleetsRequestInit,
-    storeFleetSupplyRequestInit,
-    storeAllFleetsRequestFailed,
-    storeNextFleetsRequestFailed,
-    storeAllFleetsRequestSucceed,
-    storeFleetSupplyRequestFailed,
-    storeNextFleetsRequestSucceed,
-    storeFleetSupplyRequestSucceed
-} from "../requests/fleets/actions";
+    storeClearancesRequestInit,
+    storeClearancesRequestFailed,
+    storeClearancesRequestSucceed,
+    storeAllClearancesRequestInit,
+    storeNextClearancesRequestInit,
+    storeAllClearancesRequestFailed,
+    storeNextClearancesRequestFailed,
+    storeAllClearancesRequestSucceed,
+    storeNextClearancesRequestSucceed
+} from "../requests/clearances/actions";
 
-// Fetch fleets from API
-export function* emitFleetsFetch() {
-    yield takeLatest(EMIT_FLEETS_FETCH, function*() {
+// Fetch clearances from API
+export function* emitClearancesFetch() {
+    yield takeLatest(EMIT_CLEARANCES_FETCH, function*() {
         try {
             // Fire event for request
-            yield put(storeFleetsRequestInit());
-            const apiResponse = yield call(apiGetRequest, `${api.FLEETS_API_PATH}?page=1`);
+            yield put(storeClearancesRequestInit());
+            const apiResponse = yield call(apiGetRequest, `${api.CLEARANCES_API_PATH}?page=1`);
             // Extract data
-            const fleets = extractFleetsData(apiResponse.data.demandes);
+            const clearances = extractClearancesData(apiResponse.data.demandes);
             // Fire event to redux
-            yield put(storeSetFleetsData({fleets, hasMoreData: apiResponse.data.hasMoreData, page: 2}));
+            yield put(storeSetClearancesData({clearances, hasMoreData: apiResponse.data.hasMoreData, page: 2}));
             // Fire event for request
-            yield put(storeFleetsRequestSucceed({message: apiResponse.message}));
+            yield put(storeClearancesRequestSucceed({message: apiResponse.message}));
         } catch (message) {
             // Fire event for request
-            yield put(storeFleetsRequestFailed({message}));
+            yield put(storeClearancesRequestFailed({message}));
         }
     });
 }
 
-// Fetch next fleets from API
-export function* emitNextFleetsFetch() {
-    yield takeLatest(EMIT_NEXT_FLEETS_FETCH, function*({page}) {
+// Fetch next clearances from API
+export function* emitNextClearancesFetch() {
+    yield takeLatest(EMIT_NEXT_CLEARANCES_FETCH, function*({page}) {
         try {
             // Fire event for request
-            yield put(storeNextFleetsRequestInit());
-            const apiResponse = yield call(apiGetRequest, `${api.FLEETS_API_PATH}?page=${page}`);
+            yield put(storeNextClearancesRequestInit());
+            const apiResponse = yield call(apiGetRequest, `${api.CLEARANCES_API_PATH}?page=${page}`);
             // Extract data
-            const fleets = extractFleetsData(apiResponse.data.demandes);
+            const clearances = extractClearancesData(apiResponse.data.demandes);
             // Fire event to redux
-            yield put(storeSetNextFleetsData({fleets, hasMoreData: apiResponse.data.hasMoreData, page: page + 1}));
+            yield put(storeSetNextClearancesData({clearances, hasMoreData: apiResponse.data.hasMoreData, page: page + 1}));
             // Fire event for request
-            yield put(storeNextFleetsRequestSucceed({message: apiResponse.message}));
+            yield put(storeNextClearancesRequestSucceed({message: apiResponse.message}));
         } catch (message) {
             // Fire event for request
-            yield put(storeNextFleetsRequestFailed({message}));
+            yield put(storeNextClearancesRequestFailed({message}));
             yield put(storeStopInfiniteScrollFleetData());
         }
     });
 }
 
-// Fetch all fleets from API
-export function* emitAllFleetsFetch() {
-    yield takeLatest(EMIT_ALL_FLEETS_FETCH, function*() {
+// Fetch all clearances from API
+export function* emitAllClearancesFetch() {
+    yield takeLatest(EMIT_ALL_CLEARANCES_FETCH, function*() {
         try {
             // Fire event for request
-            yield put(storeAllFleetsRequestInit());
-            const apiResponse = yield call(apiGetRequest, api.ALL_FLEETS_API_PATH);
+            yield put(storeAllClearancesRequestInit());
+            const apiResponse = yield call(apiGetRequest, api.ALL_CLEARANCES_API_PATH);
             // Extract data
-            const fleets = extractFleetsData(apiResponse.data.demandes);
+            const clearances = extractClearancesData(apiResponse.data.demandes);
             // Fire event to redux
-            yield put(storeSetFleetsData({fleets, hasMoreData: false, page: 0}));
+            yield put(storeSetClearancesData({clearances, hasMoreData: false, page: 0}));
             // Fire event for request
-            yield put(storeAllFleetsRequestSucceed({message: apiResponse.message}));
+            yield put(storeAllClearancesRequestSucceed({message: apiResponse.message}));
         } catch (message) {
             // Fire event for request
-            yield put(storeAllFleetsRequestFailed({message}));
+            yield put(storeAllClearancesRequestFailed({message}));
         }
     });
 }
 
-// Fleet add supply from API
-export function* emitFleetAddSupply() {
-    yield takeLatest(EMIT_FLEET_ADD_SUPPLY, function*({id, amount, sim}) {
-        try {
-            // Fire event for request
-            yield put(storeFleetSupplyRequestInit());
-            const data = {id_puce: sim, montant: amount, id_demande_flotte: id};
-            const apiResponse = yield call(apiPostRequest, FLEET_ADD_SUPPLY_API_PATH, data);
-            // Fire event to redux
-            yield put(storeUpdateFleetData({id, amount}));
-            // Fire event for request
-            yield put(storeFleetSupplyRequestSucceed({message: apiResponse.message}));
-        } catch (message) {
-            // Fire event for request
-            yield put(storeFleetSupplyRequestFailed({message}));
-        }
-    });
-}
-
-// Extract fleet data
-function extractFleetData(apiSim, apiUser, apiAgent, apiClaimer, apiFleet, apiSupplies) {
+// Extract clearance data
+function extractClearanceData(apiSim, apiUser, apiAgent, apiClaimer, apiFleet, apiSupplies) {
     let fleet = {
         id: '', reference: '', amount: '', status: '', creation: '',
 
@@ -163,12 +138,12 @@ function extractFleetData(apiSim, apiUser, apiAgent, apiClaimer, apiFleet, apiSu
     return fleet;
 }
 
-// Extract fleets data
-function extractFleetsData(apiFleets) {
-    const fleets = [];
-    if(apiFleets) {
-        apiFleets.forEach(data => {
-            fleets.push(extractFleetData(
+// Extract clearances data
+function extractClearancesData(apiClearances) {
+    const clearances = [];
+    if(apiClearances) {
+        apiClearances.forEach(data => {
+            clearances.push(extractClearanceData(
                 data.puce,
                 data.user,
                 data.agent,
@@ -177,15 +152,14 @@ function extractFleetsData(apiFleets) {
             ));
         });
     }
-    return fleets;
+    return clearances;
 }
 
 // Combine to export all functions at once
-export default function* sagaFleets() {
+export default function* sagaClearances() {
     yield all([
-        fork(emitFleetsFetch),
-        fork(emitAllFleetsFetch),
-        fork(emitFleetAddSupply),
-        fork(emitNextFleetsFetch),
+        fork(emitClearancesFetch),
+        fork(emitAllClearancesFetch),
+        fork(emitNextClearancesFetch),
     ]);
 }
