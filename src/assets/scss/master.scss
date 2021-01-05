@@ -162,7 +162,6 @@ code {
 
 .float-left { float: left !important; }
 
-// Rewrite some colors
 #nprogress .bar { background: $themeColor; }
 .nav-pills .nav-link:not(.active):hover { color: $themeColor; }
 #nprogress .peg {box-shadow: 0 0 10px $themeColor, 0 0 5px $themeColor}
@@ -179,4 +178,8 @@ code {
 .center {
     margin-top: auto;
     margin-bottom: auto;
+}
+
+.table {
+    margin-bottom: 0 !important;
 }

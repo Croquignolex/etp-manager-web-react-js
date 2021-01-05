@@ -93,6 +93,7 @@ function RequestsFleetsPage({fleets, fleetsRequests, sims, simsRequests, hasMore
                                                                         dataLength={fleets.length}
                                                                         next={handleNextFleetsData}
                                                                         loader={<LoaderComponent />}
+                                                                        style={{ overflow: 'hidden' }}
                                                         >
                                                             <FleetsCardsComponent handleSupplyModalShow={handleSupplyModalShow} fleets={fleets} />
                                                         </InfiniteScroll>

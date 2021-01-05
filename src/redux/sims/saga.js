@@ -2,8 +2,11 @@ import { all, takeLatest, put, fork, call } from 'redux-saga/effects'
 
 import * as api from "../../constants/apiConstants";
 import {apiGetRequest} from "../../functions/axiosFunctions";
-import {EMIT_ALL_SIMS_FETCH, storeSetSimsData} from "./actions";
+import {EMIT_ALL_SIMS_FETCH, EMIT_SIMS_FETCH, storeSetSimsData} from "./actions";
 import {
+    storeSimsRequestInit,
+    storeSimsRequestFailed,
+    storeSimsRequestSucceed,
     storeAllSimsRequestInit,
     storeAllSimsRequestFailed,
     storeAllSimsRequestSucceed
@@ -30,24 +33,24 @@ export function* emitAllSimsFetch() {
 }
 
 // Fetch sims from API
-/*export function* emitSimsFetch() {
+export function* emitSimsFetch() {
     yield takeLatest(EMIT_SIMS_FETCH, function*() {
         try {
             // Fire event for request
-            yield put(storeFleetsRequestInit());
-            const apiResponse = yield call(apiGetRequest, `${api.FLEETS_API_PATH}?page=1`);
+            yield put(storeSimsRequestInit());
+            const apiResponse = yield call(apiGetRequest, `${api.SIMS_API_PATH}?page=1`);
             // Extract data
-            const fleets = extractFleetsData(apiResponse.data.demandes);
+            const sims = extractSimsData(apiResponse.data.puces);
             // Fire event to redux
-            yield put(storeSetFleetsData({fleets, hasMoreData: apiResponse.data.hasMoreData, page: 2}));
+            yield put(storeSetSimsData({sims, hasMoreData: apiResponse.data.hasMoreData, page: 2}));
             // Fire event for request
-            yield put(storeFleetsRequestSucceed({message: apiResponse.message}));
+            yield put(storeSimsRequestSucceed({message: apiResponse.message}));
         } catch (message) {
             // Fire event for request
-            yield put(storeFleetsRequestFailed({message}));
+            yield put(storeSimsRequestFailed({message}));
         }
     });
-}*/
+}
 
 // Fetch next sims from API
 /*export function* emitNextSimsFetch() {
@@ -145,6 +148,7 @@ function extractSimsData(apiSims) {
 // Combine to export all functions at once
 export default function* sagaSims() {
     yield all([
-        fork(emitAllSimsFetch)
+        fork(emitSimsFetch),
+        fork(emitAllSimsFetch),
     ]);
 }

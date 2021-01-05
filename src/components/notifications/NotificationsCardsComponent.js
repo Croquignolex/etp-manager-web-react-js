@@ -10,7 +10,7 @@ import {emitNotificationRead} from "../../redux/notifications/actions";
 function NotificationsCardsComponent({notifications, handleDeleteModalShow, dispatch}) {
     // Render
     return (
-        <div className="row">
+        <div className="row m-1">
             {notifications.map((item, key) => {
                 return (
                     <div className="col-lg-4 col-md-6" key={key}>

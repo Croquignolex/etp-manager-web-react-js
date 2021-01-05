@@ -5,7 +5,7 @@ import ButtonComponent from "../form/ButtonComponent";
 import AmountComponent from "../form/AmountComponent";
 import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
-import {FLEET_SIMS_TYPE} from "../../constants/typeConstants";
+import {FLEET_TYPE} from "../../constants/typeConstants";
 import {emitFleetAddSupply} from "../../redux/fleets/actions";
 import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
@@ -55,7 +55,7 @@ function FleetsAddSupplyComponent({fleet, request, sims, simsRequests, dispatch,
 
     // Build select options
     const simSelectOptions = useMemo(() => {
-        return dataToArrayForSelect(mappedSims(sims.filter(item => FLEET_SIMS_TYPE.includes(item.type.name))))
+        return dataToArrayForSelect(mappedSims(sims.filter(item => FLEET_TYPE === item.type.name)))
     }, [sims]);
 
     // Reset error alert
@@ -94,9 +94,9 @@ function FleetsAddSupplyComponent({fleet, request, sims, simsRequests, dispatch,
                 <div className='row'>
                     <div className='col-sm-6'>
                         <SelectComponent input={sim}
-                                         label='Puce'
                                          id='inputSim'
                                          title='Choisir une puce'
+                                         label='Puce de flottage'
                                          options={simSelectOptions}
                                          handleInput={handleSimSelect}
                                          requestProcessing={requestLoading(simsRequests.all)}

@@ -9,46 +9,45 @@ import {dateToString, formatNumber} from "../../functions/generalFunctions";
 function FleetsCardsComponent({fleets, handleSupplyModalShow}) {
     // Render
     return (
-        <div className="row">
+        <div className="row m-1">
             {fleets.map((item, key) => {
                 return (
                     <div className="col-lg-4 col-md-6" key={key}>
-                        <div className={`${fleetTypeBadgeColor(item.status).color} card`}>
-                            <div className="card-body table-responsive">
-                                <table className="table table table-hover text-nowrap table-bordered">
+                        <div className="card">
+                            <div className={`${fleetTypeBadgeColor(item.status).background} card-header`}>
+                                <h3 className="card-title">{fleetTypeBadgeColor(item.status).text}</h3>
+                            </div>
+                            <div className="table-responsive">
+                                <table className="table table-hover text-nowrap table-bordered">
                                     <tbody>
                                         <tr>
-                                            <td className="text-white">Date</td>
+                                            <td className="text-secondary">Date</td>
                                             <td>{dateToString(item.creation)}</td>
                                         </tr>
                                         <tr>
-                                            <td className="text-white">Montant</td>
+                                            <td className="text-secondary">Montant</td>
                                             <td>{formatNumber(item.amount)}</td>
                                         </tr>
                                         <tr>
-                                            <td className="text-white">Reste</td>
-                                            <td>{formatNumber(item.remaining)}</td>
+                                            <td className="text-secondary">Reste</td>
+                                            <td className="text-danger">{formatNumber(item.remaining)}</td>
                                         </tr>
                                         <tr>
-                                            <td className="text-white">Puce à flotter</td>
+                                            <td className="text-secondary">Puce à flotter</td>
                                             <td>{item.sim.number}</td>
                                         </tr>
                                         <tr>
-                                            <td className="text-white">Agent/Ressource</td>
+                                            <td className="text-secondary">Agent/Ressource</td>
                                             <td>{item.agent.name}</td>
                                         </tr>
                                         <tr>
-                                            <td className="text-white">Demandeur</td>
+                                            <td className="text-secondary">Demandeur</td>
                                             <td>{item.claimant.name}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="text-white">Status</td>
-                                            <td>{fleetTypeBadgeColor(item.status).text}</td>
                                         </tr>
                                     </tbody>
                                 </table>
                                 {[PENDING, PROCESSING].includes(item.status) &&
-                                    <div className="mt-3 text-right">
+                                    <div className="my-3 text-center">
                                         {item.actionLoader ? <LoaderComponent little={true} /> :
                                             <button type="button"
                                                     className="btn btn-theme"

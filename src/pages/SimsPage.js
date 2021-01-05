@@ -17,7 +17,7 @@ import {dateToString, needleSearch, requestFailed, requestLoading} from "../func
 function SimsPage({sims, simsRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
-
+console.log(sims)
     // Local effects
     useEffect(() => {
         dispatch(emitSimsFetch());
@@ -72,6 +72,7 @@ function SimsPage({sims, simsRequests, hasMoreData, page, dispatch, location}) {
                                                                         dataLength={sims.length}
                                                                         next={handleNextSimsData}
                                                                         loader={<LoaderComponent />}
+                                                                        style={{ overflow: 'hidden' }}
                                                         >
                                                             <SimsCardsComponent sims={sims} />
                                                         </InfiniteScroll>

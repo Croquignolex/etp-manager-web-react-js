@@ -7,29 +7,28 @@ import {dateToString, formatNumber} from "../../functions/generalFunctions";
 function SimsCardsComponent({sims}) {
     // Render
     return (
-        <div className="row">
+        <div className="row m-1">
             {sims.map((item, key) => {
                 return (
                     <div className="col-lg-4 col-md-6" key={key}>
-                        <div className={`${fleetTypeBadgeColor(item.status).color} card`}>
-                            <div className="card-body table-responsive">
-                                <table className="table table table-hover text-nowrap table-bordered">
+                        <div className="card">
+                            <div className={`${fleetTypeBadgeColor(item.status).background} card-header`}>
+                                <h3 className="card-title">{fleetTypeBadgeColor(item.status).text}</h3>
+                            </div>
+                            <div className="table-responsive">
+                                <table className="table table-hover text-nowrap table-bordered">
                                     <tbody>
                                         <tr>
-                                            <td className="text-white">Date</td>
+                                            <td className="text-secondary">Date</td>
                                             <td>{dateToString(item.creation)}</td>
                                         </tr>
                                         <tr>
-                                            <td className="text-white">Montant</td>
+                                            <td className="text-secondary">Montant</td>
                                             <td>{formatNumber(item.amount)}</td>
                                         </tr>
                                         <tr>
-                                            <td className="text-white">Reste</td>
-                                            <td>{formatNumber(item.remaining)}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="text-white">Status</td>
-                                            <td>{fleetTypeBadgeColor(item.status).text}</td>
+                                            <td className="text-secondary">Reste</td>
+                                            <td className="text-danger">{formatNumber(item.remaining)}</td>
                                         </tr>
                                     </tbody>
                                 </table>
