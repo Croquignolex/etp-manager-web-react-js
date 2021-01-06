@@ -1,27 +1,35 @@
 import { all, takeLatest, put, fork, call } from 'redux-saga/effects'
 
 import * as api from "../../constants/apiConstants";
-import {apiGetRequest} from "../../functions/axiosFunctions";
+import {APPROVE} from "../../constants/typeConstants";
+import {EMIT_ALL_AGENTS_FETCH, storeSetAgentsData} from "./actions";
+import {AGENT_SCOPE, PROFILE_SCOPE} from "../../constants/defaultConstants";
+import {apiGetRequest, getFileFromServer, getImageFromServer} from "../../functions/axiosFunctions";
+import {
+    storeAllAgentsRequestInit,
+    storeAllAgentsRequestFailed,
+    storeAllAgentsRequestSucceed
+} from "../requests/agents/actions";
 
 // Fetch all agents from API
-// export function* emitAllAgentsFetch() {
-//     yield takeLatest(EMIT_ALL_AGENTS_FETCH, function*() {
-//         try {
-//             // Fire event for request
-//             yield put(storeAllAgentsRequestInit());
-//             const apiResponse = yield call(apiGetRequest, api.All_AGENTS_API_PATH);
-//             // Extract data
-//             const agents = extractAgentsData(apiResponse.data.puces);
-//             // Fire event to redux
-//             yield put(storeSetAgentsData({agents, hasMoreData: false, page: 0}));
-//             // Fire event for request
-//             yield put(storeAllAgentsRequestSucceed({message: apiResponse.message}));
-//         } catch (message) {
-//             // Fire event for request
-//             yield put(storeAllAgentsRequestFailed({message}));
-//         }
-//     });
-// }
+export function* emitAllAgentsFetch() {
+    yield takeLatest(EMIT_ALL_AGENTS_FETCH, function*() {
+        try {
+            // Fire event for request
+            yield put(storeAllAgentsRequestInit());
+            const apiResponse = yield call(apiGetRequest, api.ALL_AGENTS_API_PATH);
+            // Extract data
+            const agents = extractAgentsData(apiResponse.data.agents);
+            // Fire event to redux
+            yield put(storeSetAgentsData({agents, hasMoreData: false, page: 0}));
+            // Fire event for request
+            yield put(storeAllAgentsRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeAllAgentsRequestFailed({message}));
+        }
+    });
+}
 
 // Fetch agents from API
 /*export function* emitAgentsFetch() {
@@ -65,82 +73,81 @@ import {apiGetRequest} from "../../functions/axiosFunctions";
 }*/
 
 // Extract sim data
-function extractAgentData(apiAgent, apiType, apiUser, apiCompany, apiOperator, apiCollector) {
-    let sim = {
-        id: '', name: '', reference: '', number: '', balance: '', description: '', creation: '',
+function extractAgentData(apiAgent, apiUser, apiZone, apiSims, apiAccount, apiCreator) {
+    let agent = {
+        id: '', name: '', address: '',
+        salePoint: '', frontIDCard: '', backIDCard: '',
+        description: '', phone: '', email: '', creation: '',
+        avatar: '', status: '', reference: '', town: '', country: '',
 
-        type: {id: '', name: ''},
-        company: {id: '', name: ''},
-        operator: {id: '', name: ''},
-        collector: {id: '', name: ''},
-        agent: {id: '', name: '', reference: ''}
+        creator: {id: '', name: ''},
+        account: {id: '', balance: ''},
+        zone: {id: '', name: '', map: ''},
     };
+    if(apiZone) {
+        agent.zone = {
+            map: apiZone.map,
+            name: apiZone.nom,
+            id: apiZone.id.toString()
+        }
+    }
+    if(apiAccount) {
+        agent.account = {
+            balance: apiAccount.solde,
+            id: apiAccount.id.toString(),
+        }
+    }
+    if(apiCreator) {
+        agent.creator = {
+            name: apiCreator.name,
+            id: apiCreator.id.toString(),
+        }
+    }
     if(apiAgent && apiUser) {
-        sim.agent = {
-            name: apiUser.name,
-            id: apiUser.id.toString(),
-            reference: apiAgent.reference
-        };
+        agent.name = apiUser.name;
+        agent.actionLoader = false;
+        agent.toggleLoader = false;
+        agent.phone = apiUser.phone;
+        agent.email = apiUser.email;
+        agent.town = apiAgent.ville;
+        agent.country = apiAgent.pays;
+        agent.address = apiUser.adresse;
+        agent.id = apiAgent.id.toString();
+        agent.creation = apiUser.created_at;
+        agent.reference = apiAgent.reference;
+        agent.description = apiUser.description;
+        agent.status = apiUser.statut === APPROVE;
+        agent.document = getFileFromServer(apiAgent.dossier);
+        agent.avatar = getImageFromServer(apiUser.avatar, PROFILE_SCOPE);
+        agent.frontIDCard = getImageFromServer(apiAgent.img_cni, AGENT_SCOPE);
+        agent.backIDCard = getImageFromServer(apiAgent.img_cni_back, AGENT_SCOPE);
     }
-    if(apiCollector) {
-        sim.collector = {
-            name: apiCollector.name,
-            id: apiCollector.id.toString(),
-        };
-    }
-    if(apiCompany) {
-        sim.company = {
-            name: apiCompany.nom,
-            id: apiCompany.id.toString()
-        };
-    }
-    if(apiOperator) {
-        sim.operator = {
-            name: apiOperator.nom,
-            id: apiOperator.id.toString()
-        };
-    }
-    if(apiType) {
-        sim.type = {
-            name: apiType.name,
-            id: apiType.id.toString()
-        };
-    }
-    if(apiAgent) {
-        sim.name = apiAgent.nom;
-        sim.actionLoader = false;
-        sim.number = apiAgent.numero;
-        sim.balance = apiAgent.solde;
-        sim.id = apiAgent.id.toString();
-        sim.creation = apiAgent.created_at;
-        sim.reference = apiAgent.reference;
-        sim.description = apiAgent.description;
-    }
-    return sim;
+    return agent;
 }
 
 // Extract agents data
 function extractAgentsData(apiAgents) {
     const agents = [];
-    apiAgents.forEach(data => {
-        agents.push(extractAgentData(
-            data.puce,
-            data.type,
-            data.user,
-            data.agent,
-            data.corporate,
-            data.flote,
-            data.recouvreur
-        ))
-    });
+    if(apiAgents) {
+        apiAgents.forEach(data => {
+            agents.push(extractAgentData(
+                data.agent,
+                data.user,
+                data.zone,
+                data.puces,
+                data.caisse,
+                data.createur
+            ));
+        });
+    }
     return agents;
 }
 
 // Combine to export all functions at once
 export default function* sagaAgents() {
     yield all([
-        /*fork(emitAgentsFetch),
+        // fork(emitAgentsFetch),
         fork(emitAllAgentsFetch),
-        fork(emitNextAgentsFetch),*/
+        // fork(emitNextAgentsFetch),
     ]);
 }

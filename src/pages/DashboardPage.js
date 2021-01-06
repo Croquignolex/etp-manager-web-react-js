@@ -8,6 +8,7 @@ import * as setting from "../constants/settingsConstants";
 import {emitAllFleetsFetch} from "../redux/fleets/actions";
 import {formatNumber} from "../functions/generalFunctions";
 import {emitFetchUserBalance} from "../redux/user/actions";
+import {emitAllAgentsFetch} from "../redux/agents/actions";
 import HeaderComponent from "../components/HeaderComponent";
 import {DASHBOARD_PAGE} from "../constants/pageNameConstants";
 import AppLayoutContainer from "../containers/AppLayoutContainer";
@@ -16,11 +17,13 @@ import {storeAllSimsRequestReset} from "../redux/requests/sims/actions";
 import DashboardCardComponent from "../components/dashboard/DashboardCardComponent";
 
 // Component
-function DashboardPage({user, fleets, sims, clearances, settings, userRequests, clearancesRequests,
-                           fleetsRequests, simsRequests, dispatch, location}) {
+function DashboardPage({user, fleets, sims, clearances, agents, resources, settings, userRequests,
+                           clearancesRequests, agentsRequests, resourceRequests, fleetsRequests,
+                           simsRequests, dispatch, location}) {
     // Local effects
     useEffect(() => {
         dispatch(emitAllSimsFetch());
+        dispatch(emitAllAgentsFetch());
         dispatch(emitAllFleetsFetch());
         dispatch(emitFetchUserBalance());
         dispatch(emitAllClearancesFetch());
@@ -65,11 +68,33 @@ console.log({clearances})
                             {cardsData.includes(setting.CARD_FLEET_SIMS_FLEETS) &&
                                 <div className="col-lg-3 col-md-4 col-sm-6">
                                     <DashboardCardComponent icon='fa fa-phone'
-                                                            color='bg-primary'
+                                                            color='bg-secondary'
                                                             url={path.SIMS_PAGE_PATH}
                                                             request={simsRequests.all}
                                                             data={fleetSimsFleetsData}
                                                             label={setting.LABEL_FLEET_SIMS_FLEETS}
+                                    />
+                                </div>
+                            }
+                            {cardsData.includes(setting.CARD_AGENTS) &&
+                                <div className="col-lg-3 col-md-4 col-sm-6">
+                                    <DashboardCardComponent label={setting.LABEL_AGENTS}
+                                                            color='bg-primary'
+                                                            icon='fa fa-user-cog'
+                                                            data={agents.length}
+                                                            url={path.AGENTS_PAGE_PATH}
+                                                            request={agentsRequests.all}
+                                    />
+                                </div>
+                            }
+                            {cardsData.includes(setting.CARD_SIMS) &&
+                                <div className="col-lg-3 col-md-4 col-sm-6">
+                                    <DashboardCardComponent color='bg-success'
+                                                            data={sims.length}
+                                                            icon='fa fa-sim-card'
+                                                            url={path.SIMS_PAGE_PATH}
+                                                            label={setting.LABEL_SIMS}
+                                                            request={simsRequests.all}
                                     />
                                 </div>
                             }
@@ -84,31 +109,9 @@ console.log({clearances})
                                     />
                                 </div>
                             }
-                            {/*{cardsData.includes(3) &&
-                                <div className="col-lg-3 col-md-4 col-sm-6">
-                                    <DashboardCards label="Agents"
-                                                    color='bg-danger'
-                                                    icon='fa fa-user-cog'
-                                                    scope={AGENTS_SCOPE}
-                                                    url={AGENTS_PAGE_PATH}
-                                                    data={agents.list.length}
-                                    />
-                                </div>
-                            }*/}
-                            {cardsData.includes(setting.CARD_SIMS) &&
-                                <div className="col-lg-3 col-md-4 col-sm-6">
-                                    <DashboardCardComponent color='bg-success'
-                                                            data={sims.length}
-                                                            icon='fa fa-sim-card'
-                                                            url={path.SIMS_PAGE_PATH}
-                                                            label={setting.LABEL_SIMS}
-                                                            request={simsRequests.all}
-                                    />
-                                </div>
-                            }
                             {cardsData.includes(setting.CARD_CLEARANCES_REQUEST) &&
                                 <div className="col-lg-3 col-md-4 col-sm-6">
-                                    <DashboardCardComponent color='bg-info'
+                                    <DashboardCardComponent color='bg-warning'
                                                             icon='fa fa-rss-square'
                                                             data={clearances.length}
                                                             request={clearancesRequests.all}
@@ -130,13 +133,17 @@ DashboardPage.propTypes = {
     sims: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
     fleets: PropTypes.array.isRequired,
+    agents: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
+    resources: PropTypes.array.isRequired,
     settings: PropTypes.object.isRequired,
     clearances: PropTypes.array.isRequired,
     userRequests: PropTypes.object.isRequired,
     simsRequests: PropTypes.object.isRequired,
     fleetsRequests: PropTypes.object.isRequired,
+    agentsRequests: PropTypes.object.isRequired,
+    resourcesRequests: PropTypes.object.isRequired,
     clearancesRequests: PropTypes.object.isRequired,
 };
 

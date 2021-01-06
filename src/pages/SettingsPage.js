@@ -57,16 +57,17 @@ function SettingsPage({settings, request, dispatch, location}) {
                 // {value: 0, label: 'name'}
             ],
             cards: [
-                {value: setting.CARD_BALANCE, label: 'Mon solde'},
-                {value: setting.CARD_FLEET_SIMS_FLEETS, label: setting.LABEL_FLEET_SIMS_FLEETS},
-                {value: setting.CARD_FLEETS_REQUESTS, label: setting.LABEL_FLEETS_REQUESTS},
-                {value: setting.CARD_AGENTS, label: 'Agents'},
                 {value: setting.CARD_SIMS, label: setting.LABEL_SIMS},
-                {value: setting.CARD_CLEARANCES_REQUEST, label: 'Demandes de déstockage'}
+                {value: setting.CARD_AGENTS, label: setting.LABEL_AGENTS},
+                {value: setting.CARD_BALANCE, label: setting.LABEL_BALANCE},
+                {value: setting.CARD_RESOURCES, label: setting.LABEL_RESOURCES},
+                {value: setting.CARD_FLEETS_REQUESTS, label: setting.LABEL_FLEETS_REQUESTS},
+                {value: setting.CARD_FLEET_SIMS_FLEETS, label: setting.LABEL_FLEET_SIMS_FLEETS},
+                {value: setting.CARD_CLEARANCES_REQUEST, label: setting.LABEL_CLEARANCES_REQUEST}
             ],
             charts: [
-                {value: setting.CHART_FLEETS_REQUEST_PER_STATUS, label: 'Demandes de flote par status'},
                 {value: setting.CHART_SIMS_PER_TYPES, label: 'Puces par types'},
+                {value: setting.CHART_FLEETS_REQUEST_PER_STATUS, label: 'Demandes de flote par status'},
                 {value: setting.CHART_CLEARANCES_REQUEST_PER_STATUS, label: 'Demandes de déstockage par status'},
             ]
         };

@@ -21,7 +21,8 @@ function SideBarComponent({user, pathname}) {
             buildAuthorisedOperationsMenu(),
             buildAuthorisedRecoveriesMenu(),
             buildAuthorisedCheckoutMenu(),
-            buildAuthorisedAgentMenu(),
+            buildAuthorisedResourcesMenu(),
+            buildAuthorisedAgentsMenu(),
             buildAuthorisedSimsMenu(),
         ];
         // eslint-disable-next-line
@@ -173,16 +174,23 @@ function buildAuthorisedCheckoutMenu() {
     }
 }
 
+// Build resources menu
+function buildAuthorisedResourcesMenu() {
+    return {
+        name: page.RESOURCES,
+        path: path.RESOURCES_PAGE_PATH,
+        icon: 'fa fa-user-clock',
+        sub: []
+    };
+}
+
 // Build agents menu
-function buildAuthorisedAgentMenu() {
+function buildAuthorisedAgentsMenu() {
     return {
         name: page.AGENTS,
+        path: path.AGENTS_PAGE_PATH,
         icon: 'fa fa-user-cog',
-        sub: [
-            {name: page.ALL_AGENTS_PAGE, path: path.AGENTS_PAGE_PATH},
-            {name: page.AGENT_NEW_PAGE, path: path.AGENT_NEW_PAGE_PATH},
-            {name: INVISIBLE_MENU_ITEM, path: `${path.AGENT_EDIT_PAGE_PATH}/:id`}
-        ]
+        sub: []
     };
 }
 

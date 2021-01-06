@@ -84,22 +84,19 @@ export function* emitAllClearancesFetch() {
 }
 
 // Extract clearance data
-function extractClearanceData(apiSim, apiUser, apiAgent, apiClaimer, apiFleet, apiSupplies) {
+function extractClearanceData(apiSim, apiUser, apiAgent, apiClaimer, apiFleet) {
     let fleet = {
-        id: '', reference: '', amount: '', status: '', creation: '',
+        id: '', amount: '', status: '', creation: '',
 
+        agent: {id: '', name: ''},
         sim: {id: '', name: '', number: ''},
         claimant: {id: '', name: '', phone: ''},
-        agent: {id: '', name: '', reference: ''},
-
-        supplies: []
     };
 
     if(apiAgent && apiUser) {
         fleet.agent = {
             name: apiUser.name,
-            id: apiAgent.id.toString(),
-            reference: apiAgent.reference,
+            id: apiAgent.id.toString()
         };
     }
     if(apiSim) {
@@ -123,17 +120,6 @@ function extractClearanceData(apiSim, apiUser, apiAgent, apiClaimer, apiFleet, a
         fleet.remaining = apiFleet.reste;
         fleet.id = apiFleet.id.toString();
         fleet.creation = apiFleet.created_at;
-        fleet.reference = apiFleet.reference;
-    }
-    if(apiSupplies) {
-        apiSupplies.forEach(data => {
-            fleet.supplies.push({
-                amount: data.montant,
-                id: data.id.toString(),
-                reference: data.reference,
-                creation: data.created_at,
-            })
-        });
     }
     return fleet;
 }
