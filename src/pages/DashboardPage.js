@@ -46,7 +46,7 @@ function DashboardPage({user, fleets, sims, clearances, agents, settings, userRe
         // eslint-disable-next-line
     }, [sims]);
     const resourcesData = useMemo(() => {
-        return formatNumber(agents.filter(agent => types.RESOURCE === agent.reference).length)
+        return formatNumber(agents.filter(agent => types.RESOURCE_TYPE === agent.reference).length)
         // eslint-disable-next-line
     }, [agents]);
 

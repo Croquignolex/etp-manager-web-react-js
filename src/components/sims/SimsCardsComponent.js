@@ -33,7 +33,7 @@ function SimsCardsComponent({sims}) {
                                             <td>{item.number}</td>
                                         </tr>
                                         <tr>
-                                            <td className="text-secondary">Solde</td>
+                                            <td className="text-secondary">Solde flotte</td>
                                             <td className="text-success text-bold">{formatNumber(item.balance)}</td>
                                         </tr>
                                         <tr>

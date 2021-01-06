@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from "prop-types";
 
-import {simTypeBadgeColor} from "../../functions/typeFunctions";
+import {agentTypeBadgeColor} from "../../functions/typeFunctions";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
 
 // Component
@@ -13,8 +13,8 @@ function AgentsCardsComponent({agents}) {
                 return (
                     <div className="col-lg-4 col-md-6" key={key}>
                         <div className="card">
-                            <div className={`${simTypeBadgeColor(item.type.name).background} card-header`}>
-                                <h3 className="card-title">{simTypeBadgeColor(item.type.name).text}</h3>
+                            <div className={`${agentTypeBadgeColor(item.reference).background} card-header`}>
+                                <h3 className="card-title">{agentTypeBadgeColor(item.reference).text}</h3>
                             </div>
                             <div className="table-responsive">
                                 <table className="table table-hover text-nowrap table-bordered">
@@ -28,16 +28,20 @@ function AgentsCardsComponent({agents}) {
                                             <td>{item.name}</td>
                                         </tr>
                                         <tr>
-                                            <td className="text-secondary">Numéro</td>
-                                            <td>{item.number}</td>
+                                            <td className="text-secondary">Téléphone</td>
+                                            <td>{item.phone}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="text-secondary">Zone</td>
+                                            <td>{item.zone.name}</td>
                                         </tr>
                                         <tr>
                                             <td className="text-secondary">Solde</td>
-                                            <td className="text-success text-bold">{formatNumber(item.balance)}</td>
+                                            <td className="text-success text-bold">{formatNumber(item.account.balance)}</td>
                                         </tr>
                                         <tr>
-                                            <td className="text-secondary">Opérateur</td>
-                                            <td>{item.operator.name}</td>
+                                            <td className="text-secondary">Créateur</td>
+                                            <td>{item.creator.name}</td>
                                         </tr>
                                     </tbody>
                                 </table>

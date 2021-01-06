@@ -4,6 +4,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 import HeaderComponent from "../../components/HeaderComponent";
 import LoaderComponent from "../../components/LoaderComponent";
+import {agentTypeBadgeColor} from "../../functions/typeFunctions";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
@@ -97,13 +98,13 @@ function searchEngine(data, _needle) {
         data = data.filter((item) => {
             return (
                 needleSearch(item.name, _needle) ||
-                needleSearch(item.number, _needle) ||
-                needleSearch(item.balance, _needle) ||
-                needleSearch(item.type.name, _needle) ||
-                needleSearch(item.agent.name, _needle) ||
-                needleSearch(item.operator.name, _needle) ||
-                needleSearch(item.collector.name, _needle) ||
-                needleSearch(dateToString(item.creation), _needle)
+                needleSearch(item.phone, _needle) ||
+                needleSearch(item.reference, _needle) ||
+                needleSearch(item.zone.name, _needle) ||
+                needleSearch(item.creator.name, _needle) ||
+                needleSearch(item.zone.reference, _needle) ||
+                needleSearch(dateToString(item.creation), _needle) ||
+                needleSearch(agentTypeBadgeColor(item.reference).text, _needle)
             )
         });
     }

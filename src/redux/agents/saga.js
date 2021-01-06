@@ -2,13 +2,26 @@ import { all, takeLatest, put, fork, call } from 'redux-saga/effects'
 
 import * as api from "../../constants/apiConstants";
 import {APPROVE} from "../../constants/typeConstants";
-import {EMIT_ALL_AGENTS_FETCH, storeSetAgentsData} from "./actions";
 import {AGENT_SCOPE, PROFILE_SCOPE} from "../../constants/defaultConstants";
 import {apiGetRequest, getFileFromServer, getImageFromServer} from "../../functions/axiosFunctions";
 import {
+    EMIT_AGENTS_FETCH,
+    storeSetAgentsData,
+    EMIT_ALL_AGENTS_FETCH,
+    EMIT_NEXT_AGENTS_FETCH,
+    storeSetNextAgentsData,
+    storeStopInfiniteScrollAgentData
+} from "./actions";
+import {
+    storeAgentsRequestInit,
+    storeAgentsRequestFailed,
     storeAllAgentsRequestInit,
+    storeAgentsRequestSucceed,
+    storeNextAgentsRequestInit,
     storeAllAgentsRequestFailed,
-    storeAllAgentsRequestSucceed
+    storeNextAgentsRequestFailed,
+    storeAllAgentsRequestSucceed,
+    storeNextAgentsRequestSucceed
 } from "../requests/agents/actions";
 
 // Fetch all agents from API
@@ -32,14 +45,14 @@ export function* emitAllAgentsFetch() {
 }
 
 // Fetch agents from API
-/*export function* emitAgentsFetch() {
+export function* emitAgentsFetch() {
     yield takeLatest(EMIT_AGENTS_FETCH, function*() {
         try {
             // Fire event for request
             yield put(storeAgentsRequestInit());
             const apiResponse = yield call(apiGetRequest, `${api.AGENTS_API_PATH}?page=1`);
             // Extract data
-            const agents = extractAgentsData(apiResponse.data.puces);
+            const agents = extractAgentsData(apiResponse.data.agents);
             // Fire event to redux
             yield put(storeSetAgentsData({agents, hasMoreData: apiResponse.data.hasMoreData, page: 2}));
             // Fire event for request
@@ -49,10 +62,10 @@ export function* emitAllAgentsFetch() {
             yield put(storeAgentsRequestFailed({message}));
         }
     });
-}*/
+}
 
 // Fetch next agents from API
-/*export function* emitNextAgentsFetch() {
+export function* emitNextAgentsFetch() {
     yield takeLatest(EMIT_NEXT_AGENTS_FETCH, function*({page}) {
         try {
             // Fire event for request
@@ -70,7 +83,7 @@ export function* emitAllAgentsFetch() {
             yield put(storeStopInfiniteScrollAgentData());
         }
     });
-}*/
+}
 
 // Extract sim data
 function extractAgentData(apiAgent, apiUser, apiZone, apiSims, apiAccount, apiCreator) {
@@ -146,8 +159,8 @@ function extractAgentsData(apiAgents) {
 // Combine to export all functions at once
 export default function* sagaAgents() {
     yield all([
-        // fork(emitAgentsFetch),
+        fork(emitAgentsFetch),
         fork(emitAllAgentsFetch),
-        // fork(emitNextAgentsFetch),
+        fork(emitNextAgentsFetch),
     ]);
 }
