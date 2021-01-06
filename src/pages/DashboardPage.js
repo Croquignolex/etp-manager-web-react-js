@@ -17,8 +17,8 @@ import {storeAllSimsRequestReset} from "../redux/requests/sims/actions";
 import DashboardCardComponent from "../components/dashboard/DashboardCardComponent";
 
 // Component
-function DashboardPage({user, fleets, sims, clearances, agents, resources, settings, userRequests,
-                           clearancesRequests, agentsRequests, resourceRequests, fleetsRequests,
+function DashboardPage({user, fleets, sims, clearances, agents, settings, userRequests,
+                           clearancesRequests, agentsRequests, fleetsRequests,
                            simsRequests, dispatch, location}) {
     // Local effects
     useEffect(() => {
@@ -38,13 +38,17 @@ function DashboardPage({user, fleets, sims, clearances, agents, resources, setti
     const shouldResetErrorData = () => {
         dispatch(storeAllSimsRequestReset());
     };
-console.log({clearances})
+
     // Data
     const cardsData = settings.cards;
     const fleetSimsFleetsData = useMemo(() => {
         return formatNumber(sims.filter(sim => types.FLEET_TYPE === sim.type.name).reduce((acc, val) => acc + val.balance, 0))
         // eslint-disable-next-line
     }, [sims]);
+    const resourcesData = useMemo(() => {
+        return formatNumber(agents.filter(agent => types.RESOURCE === agent.reference).length)
+        // eslint-disable-next-line
+    }, [agents]);
 
     // Render
     return (
@@ -78,12 +82,23 @@ console.log({clearances})
                             }
                             {cardsData.includes(setting.CARD_AGENTS) &&
                                 <div className="col-lg-3 col-md-4 col-sm-6">
-                                    <DashboardCardComponent label={setting.LABEL_AGENTS}
-                                                            color='bg-primary'
+                                    <DashboardCardComponent color='bg-primary'
                                                             icon='fa fa-user-cog'
-                                                            data={agents.length}
+                                                            url={path.AGENTS_PAGE_PATH}
+                                                            label={setting.LABEL_AGENTS}
+                                                            request={agentsRequests.all}
+                                                            data={agents.length - resourcesData}
+                                    />
+                                </div>
+                            }
+                            {cardsData.includes(setting.CARD_RESOURCES) &&
+                                <div className="col-lg-3 col-md-4 col-sm-6">
+                                    <DashboardCardComponent color='bg-info'
+                                                            data={resourcesData}
+                                                            icon='fa fa-user-clock'
                                                             url={path.AGENTS_PAGE_PATH}
                                                             request={agentsRequests.all}
+                                                            label={setting.LABEL_RESOURCES}
                                     />
                                 </div>
                             }

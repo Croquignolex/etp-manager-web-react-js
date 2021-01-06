@@ -4,18 +4,9 @@ export const SETTINGS_PAGE = 'Paramètres';
 export const DASHBOARD_PAGE = 'Tableau de bord';
 export const NOTIFICATIONS_PAGE = 'Notifications';
 
-// Agents
-export const AGENTS = 'Agents/Resources';
-export const AGENT_NEW_PAGE = 'Nouvel agent/resource';
-export const ALL_AGENTS_PAGE = 'Tous les agents/resources';
-
-// Resources
-export const RESOURCES = 'Resources';
-export const RESOURCE_NEW_PAGE = 'Nouvelle resource';
-export const ALL_RESOURCES_PAGE = 'Toutes les resources';
-
-// Sims
+// Commons
 export const SIMS_PAGE = 'Puces';
+export const AGENTS = 'Agents/Resources';
 
 // Operations
 export const OPERATIONS = 'Opérations';

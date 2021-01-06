@@ -21,7 +21,6 @@ function SideBarComponent({user, pathname}) {
             buildAuthorisedOperationsMenu(),
             buildAuthorisedRecoveriesMenu(),
             buildAuthorisedCheckoutMenu(),
-            buildAuthorisedResourcesMenu(),
             buildAuthorisedAgentsMenu(),
             buildAuthorisedSimsMenu(),
         ];
@@ -172,16 +171,6 @@ function buildAuthorisedCheckoutMenu() {
             {name: page.HANDING_OVER_PAGE, path: path.HANDING_OVER_PAGE_PATH},
         ]
     }
-}
-
-// Build resources menu
-function buildAuthorisedResourcesMenu() {
-    return {
-        name: page.RESOURCES,
-        path: path.RESOURCES_PAGE_PATH,
-        icon: 'fa fa-user-clock',
-        sub: []
-    };
 }
 
 // Build agents menu

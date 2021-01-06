@@ -4,7 +4,6 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 import HeaderComponent from "../../components/HeaderComponent";
 import LoaderComponent from "../../components/LoaderComponent";
-import {ALL_AGENTS_PAGE} from "../../constants/pageNameConstants";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
@@ -48,7 +47,7 @@ function AgentsPage({agents, agentsRequests, hasMoreData, page, dispatch, locati
         <>
             <AppLayoutContainer pathname={location.pathname}>
                 <div className="content-wrapper">
-                    <HeaderComponent title={ALL_AGENTS_PAGE} icon={'fa fa-user-cog'} />
+                    <HeaderComponent title="Tous les agents/ressources" icon={'fa fa-user-cog'} />
                     <section className="content">
                         <div className='container-fluid'>
                             <div className="row">
