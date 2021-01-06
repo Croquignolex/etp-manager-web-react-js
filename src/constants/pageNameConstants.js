@@ -5,9 +5,9 @@ export const DASHBOARD_PAGE = 'Tableau de bord';
 export const NOTIFICATIONS_PAGE = 'Notifications';
 
 // Agents
-export const AGENTS = 'Agents';
-export const AGENT_NEW_PAGE = 'Nouvel agent';
-export const ALL_AGENTS_PAGE = 'Tous les agents';
+export const AGENTS = 'Agents/Resources';
+export const AGENT_NEW_PAGE = 'Nouvel agent/resource';
+export const ALL_AGENTS_PAGE = 'Tous les agents/resources';
 
 // Sims
 export const SIMS_PAGE = 'Puces';
