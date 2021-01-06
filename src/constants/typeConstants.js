@@ -23,8 +23,8 @@ export const PROCESSING = 'en-cours';
 // Sims type string
 export const AGENT_TYPE = 'AGENT';
 export const FLEET_TYPE = 'FLOTTAGE';
-export const RESOURCE_TYPE = 'RESOURCE';
 export const MASTER_TYPE = 'MASTER SIM';
+export const RESOURCE_TYPE = 'RESSOURCE';
 export const CORPORATE_TYPE = 'CORPORATE';
 export const COLLECTOR_TYPE = 'RESPONSABLE';
 export const FLEET_SIMS_TYPE = [FLEET_TYPE, MASTER_TYPE];

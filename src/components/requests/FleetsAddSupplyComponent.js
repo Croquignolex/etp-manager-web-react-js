@@ -21,7 +21,7 @@ import {
 } from "../../functions/generalFunctions";
 
 // Component
-function FleetsAddSupplyComponent({fleet, request, sims, simsRequests, dispatch, handleClose}) {
+function FleetsAddSupplyComponent({fleet, request, simsList, simsRequests, dispatch, handleClose}) {
     // Local state
     const [sim, setSim] = useState(DEFAULT_FORM_DATA);
     const [amount, setAmount] = useState({...DEFAULT_FORM_DATA, data: fleet.remaining});
@@ -55,8 +55,8 @@ function FleetsAddSupplyComponent({fleet, request, sims, simsRequests, dispatch,
 
     // Build select options
     const simSelectOptions = useMemo(() => {
-        return dataToArrayForSelect(mappedSims(sims.filter(item => FLEET_TYPE === item.type.name)))
-    }, [sims]);
+        return dataToArrayForSelect(mappedSims(simsList.filter(item => FLEET_TYPE === item.type.name)))
+    }, [simsList]);
 
     // Reset error alert
     const shouldResetErrorData = () => {
@@ -120,9 +120,9 @@ function FleetsAddSupplyComponent({fleet, request, sims, simsRequests, dispatch,
 
 // Prop types to ensure destroyed props data type
 FleetsAddSupplyComponent.propTypes = {
-    sims: PropTypes.array.isRequired,
     fleet: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
+    simsList: PropTypes.array.isRequired,
     request: PropTypes.object.isRequired,
     handleClose: PropTypes.func.isRequired,
     simsRequests: PropTypes.object.isRequired,

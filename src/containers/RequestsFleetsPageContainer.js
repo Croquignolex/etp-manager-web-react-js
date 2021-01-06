@@ -8,9 +8,10 @@ setPageTitle(REQUESTS_FLEETS_PAGE);
 
 // Map state function to component props
 const mapStateToProps = (state) => ({
-    sims: state.sims.list,
     page: state.fleets.page,
     fleets: state.fleets.list,
+    simsList: state.sims.list,
+    selectedSim: state.sims.current,
     simsRequests: state.simsRequests,
     fleetsRequests: state.fleetsRequests,
     hasMoreData: state.fleets.hasMoreData,

@@ -10,8 +10,8 @@ import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import FormModalComponent from "../../components/modals/FormModalComponent";
-import FleetsCardsComponent from "../../components/requests/FleetsCardsComponent";
 import {emitFleetsFetch, emitNextFleetsFetch} from "../../redux/fleets/actions";
+import FleetsCardsComponent from "../../components/requests/FleetsCardsComponent";
 import FleetsAddSupplyComponent from "../../components/requests/FleetsAddSupplyComponent";
 import {storeFleetsRequestReset, storeNextFleetsRequestReset} from "../../redux/requests/fleets/actions";
 import {
@@ -22,7 +22,8 @@ import {
 } from "../../functions/generalFunctions";
 
 // Component
-function RequestsFleetsPage({fleets, fleetsRequests, sims, simsRequests, hasMoreData, page, dispatch, location}) {
+function RequestsFleetsPage({fleets, fleetsRequests, simsList, selectedSim, simsRequests, hasMoreData,
+                                page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
     const [supplyModal, setSupplyModal] = useState({show: false, header: '', item: {}});
@@ -86,7 +87,10 @@ function RequestsFleetsPage({fleets, fleetsRequests, sims, simsRequests, hasMore
                                             {requestFailed(fleetsRequests.next) && <ErrorAlertComponent message={fleetsRequests.next.message} />}
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
-                                                ? <FleetsCardsComponent handleSupplyModalShow={handleSupplyModalShow} fleets={searchEngine(fleets, needle)} />
+                                                ? <FleetsCardsComponent selectedSim={selectedSim}
+                                                                        fleets={searchEngine(fleets, needle)}
+                                                                        handleSupplyModalShow={handleSupplyModalShow}
+                                                />
                                                 : (requestLoading(fleetsRequests.list) ? <LoaderComponent /> :
                                                         <InfiniteScroll hasMore={hasMoreData}
                                                                         dataLength={fleets.length}
@@ -94,7 +98,10 @@ function RequestsFleetsPage({fleets, fleetsRequests, sims, simsRequests, hasMore
                                                                         loader={<LoaderComponent />}
                                                                         style={{ overflow: 'hidden' }}
                                                         >
-                                                            <FleetsCardsComponent handleSupplyModalShow={handleSupplyModalShow} fleets={fleets} />
+                                                            <FleetsCardsComponent fleets={fleets}
+                                                                                  selectedSim={selectedSim}
+                                                                                  handleSupplyModalShow={handleSupplyModalShow}
+                                                            />
                                                         </InfiniteScroll>
                                                 )
                                             }
@@ -108,8 +115,8 @@ function RequestsFleetsPage({fleets, fleetsRequests, sims, simsRequests, hasMore
             </AppLayoutContainer>
             {/* Modal */}
             <FormModalComponent modal={supplyModal} handleClose={handleSupplyModalHide}>
-                <FleetsAddSupplyComponent sims={sims}
-                                          dispatch={dispatch}
+                <FleetsAddSupplyComponent dispatch={dispatch}
+                                          simsList={simsList.list}
                                           fleet={supplyModal.item}
                                           simsRequests={simsRequests}
                                           request={fleetsRequests.supply}
@@ -144,12 +151,13 @@ function searchEngine(data, _needle) {
 
 // Prop types to ensure destroyed props data type
 RequestsFleetsPage.propTypes = {
-    sims: PropTypes.array.isRequired,
     page: PropTypes.number.isRequired,
     fleets: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
+    simsList: PropTypes.array.isRequired,
     location: PropTypes.object.isRequired,
     hasMoreData: PropTypes.bool.isRequired,
+    selectedSim: PropTypes.object.isRequired,
     simsRequests: PropTypes.object.isRequired,
     fleetsRequests: PropTypes.object.isRequired,
 };
