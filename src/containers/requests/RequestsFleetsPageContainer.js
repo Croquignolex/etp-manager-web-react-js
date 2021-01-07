@@ -1,8 +1,8 @@
 import {connect} from "react-redux";
 
-import {setPageTitle} from "../functions/generalFunctions";
-import {REQUESTS_FLEETS_PAGE} from "../constants/pageNameConstants";
-import RequestsFleetsPage from "../pages/requests/RequestsFleetsPage";
+import {setPageTitle} from "../../functions/generalFunctions";
+import {REQUESTS_FLEETS_PAGE} from "../../constants/pageNameConstants";
+import RequestsFleetsPage from "../../pages/requests/RequestsFleetsPage";
 
 setPageTitle(REQUESTS_FLEETS_PAGE);
 
@@ -10,9 +10,6 @@ setPageTitle(REQUESTS_FLEETS_PAGE);
 const mapStateToProps = (state) => ({
     page: state.fleets.page,
     fleets: state.fleets.list,
-    simsList: state.sims.list,
-    selectedSim: state.sims.current,
-    simsRequests: state.simsRequests,
     fleetsRequests: state.fleetsRequests,
     hasMoreData: state.fleets.hasMoreData,
 });

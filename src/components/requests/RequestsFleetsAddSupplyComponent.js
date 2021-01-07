@@ -21,7 +21,7 @@ import {
 } from "../../functions/generalFunctions";
 
 // Component
-function FleetsAddSupplyComponent({fleet, request, simsList, simsRequests, dispatch, handleClose}) {
+function RequestsFleetsAddSupplyComponent({fleet, request, sims, allSimsRequests, dispatch, handleClose}) {
     // Local state
     const [sim, setSim] = useState(DEFAULT_FORM_DATA);
     const [amount, setAmount] = useState({...DEFAULT_FORM_DATA, data: fleet.remaining});
@@ -55,8 +55,8 @@ function FleetsAddSupplyComponent({fleet, request, simsList, simsRequests, dispa
 
     // Build select options
     const simSelectOptions = useMemo(() => {
-        return dataToArrayForSelect(mappedSims(simsList.filter(item => FLEET_TYPE === item.type.name)))
-    }, [simsList]);
+        return dataToArrayForSelect(mappedSims(sims.filter(item => FLEET_TYPE === item.type.name)))
+    }, [sims]);
 
     // Reset error alert
     const shouldResetErrorData = () => {
@@ -89,7 +89,7 @@ function FleetsAddSupplyComponent({fleet, request, simsList, simsRequests, dispa
     return (
         <>
             {requestFailed(request) && <ErrorAlertComponent message={request.message} />}
-            {requestFailed(simsRequests.all) && <ErrorAlertComponent message={simsRequests.all.message} />}
+            {requestFailed(allSimsRequests) && <ErrorAlertComponent message={allSimsRequests.message} />}
             <form onSubmit={handleSubmit}>
                 <div className='row'>
                     <div className='col-sm-6'>
@@ -99,7 +99,7 @@ function FleetsAddSupplyComponent({fleet, request, simsList, simsRequests, dispa
                                          label='Puce de flottage'
                                          options={simSelectOptions}
                                          handleInput={handleSimSelect}
-                                         requestProcessing={requestLoading(simsRequests.all)}
+                                         requestProcessing={requestLoading(allSimsRequests)}
                         />
                     </div>
                     <div className='col-sm-6'>
@@ -119,13 +119,13 @@ function FleetsAddSupplyComponent({fleet, request, simsList, simsRequests, dispa
 }
 
 // Prop types to ensure destroyed props data type
-FleetsAddSupplyComponent.propTypes = {
+RequestsFleetsAddSupplyComponent.propTypes = {
+    sims: PropTypes.array.isRequired,
     fleet: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
-    simsList: PropTypes.array.isRequired,
     request: PropTypes.object.isRequired,
     handleClose: PropTypes.func.isRequired,
-    simsRequests: PropTypes.object.isRequired,
+    allSimsRequests: PropTypes.object.isRequired,
 };
 
-export default React.memo(FleetsAddSupplyComponent);
+export default React.memo(RequestsFleetsAddSupplyComponent);

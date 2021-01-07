@@ -5,7 +5,7 @@ import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
 
 // Component
-function ClearancesCardsComponent({clearances}) {
+function RequestsClearancesCardsComponent({clearances}) {
     // Render
     return (
         <div className="row m-1">
@@ -62,8 +62,8 @@ function ClearancesCardsComponent({clearances}) {
 }
 
 // Prop types to ensure destroyed props data type
-ClearancesCardsComponent.propTypes = {
+RequestsClearancesCardsComponent.propTypes = {
     clearances: PropTypes.array.isRequired,
 };
 
-export default React.memo(ClearancesCardsComponent);
+export default React.memo(RequestsClearancesCardsComponent);

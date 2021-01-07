@@ -9,7 +9,7 @@ import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
 
 // Component
-function FleetsCardsComponent({fleets, selectedSim, handleSupplyModalShow}) {
+function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {
     // Local states
     const [simDetailModal, setSimDetailModal] = useState({show: false, header: 'DETAIL DE LA PUCE'});
 
@@ -92,7 +92,7 @@ function FleetsCardsComponent({fleets, selectedSim, handleSupplyModalShow}) {
             {/* Modal */}
             <FormModalComponent modal={simDetailModal} handleClose={handleSimDetailModalHide}>
                 {
-                    <SimsCardComponent sim={selectedSim} />
+                    <SimsCardComponent />
                 }
             </FormModalComponent>
         </>
@@ -100,10 +100,9 @@ function FleetsCardsComponent({fleets, selectedSim, handleSupplyModalShow}) {
 }
 
 // Prop types to ensure destroyed props data type
-FleetsCardsComponent.propTypes = {
+RequestsFleetsCardsComponent.propTypes = {
     fleets: PropTypes.array.isRequired,
-    selectedSim: PropTypes.object.isRequired,
     handleSupplyModalShow: PropTypes.func.isRequired
 };
 
-export default React.memo(FleetsCardsComponent);
+export default React.memo(RequestsFleetsCardsComponent);

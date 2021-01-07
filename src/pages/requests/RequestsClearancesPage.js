@@ -8,8 +8,8 @@ import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
-import ClearancesCardsComponent from "../../components/requests/ClearancesCardsComponent";
 import {emitClearancesFetch, emitNextClearancesFetch} from "../../redux/clearances/actions";
+import RequestsClearancesCardsComponent from "../../components/requests/RequestsClearancesCardsComponent";
 import {storeClearancesRequestReset, storeNextClearancesRequestReset} from "../../redux/requests/clearances/actions";
 import {
     dateToString,
@@ -71,7 +71,7 @@ function RequestsClearancesPage({clearances, clearancesRequests, hasMoreData, pa
                                             {requestFailed(clearancesRequests.next) && <ErrorAlertComponent message={clearancesRequests.next.message} />}
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
-                                                ? <ClearancesCardsComponent clearances={searchEngine(clearances, needle)} />
+                                                ? <RequestsClearancesCardsComponent clearances={searchEngine(clearances, needle)} />
                                                 : (requestLoading(clearancesRequests.list) ? <LoaderComponent /> :
                                                         <InfiniteScroll hasMore={hasMoreData}
                                                                         loader={<LoaderComponent />}
@@ -79,7 +79,7 @@ function RequestsClearancesPage({clearances, clearancesRequests, hasMoreData, pa
                                                                         style={{ overflow: 'hidden' }}
                                                                         next={handleNextClearancesData}
                                                         >
-                                                            <ClearancesCardsComponent clearances={clearances} />
+                                                            <RequestsClearancesCardsComponent clearances={clearances} />
                                                         </InfiniteScroll>
                                                 )
                                             }

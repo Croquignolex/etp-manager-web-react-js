@@ -1,8 +1,8 @@
 import {connect} from "react-redux";
 
-import {setPageTitle} from "../functions/generalFunctions";
-import {REQUESTS_CLEARANCES_PAGE} from "../constants/pageNameConstants";
-import RequestsClearancesPage from "../pages/requests/RequestsClearancesPage";
+import {setPageTitle} from "../../functions/generalFunctions";
+import {REQUESTS_CLEARANCES_PAGE} from "../../constants/pageNameConstants";
+import RequestsClearancesPage from "../../pages/requests/RequestsClearancesPage";
 
 setPageTitle(REQUESTS_CLEARANCES_PAGE);
 

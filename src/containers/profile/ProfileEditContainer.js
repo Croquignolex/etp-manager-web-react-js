@@ -1,15 +1,11 @@
 import {connect} from "react-redux";
 
-import ProfilePage from "../pages/ProfilePage";
-import {setPageTitle} from "../functions/generalFunctions";
-import {PROFILE_PAGE} from "../constants/pageNameConstants";
-
-setPageTitle(PROFILE_PAGE);
+import ProfileEditComponent from "../../components/profile/ProfileEditComponent";
 
 // Map state function to component props
 const mapStateToProps = (state) => ({
     user: state.user,
-    userRequests: state.userRequests
+    request: state.userRequests.profile
 });
 
 // Map dispatch function to component props
@@ -18,4 +14,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 // Connect component to Redux
-export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileEditComponent);

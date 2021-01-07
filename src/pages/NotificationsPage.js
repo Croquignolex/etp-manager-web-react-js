@@ -9,7 +9,7 @@ import ErrorAlertComponent from "../components/ErrorAlertComponent";
 import TableSearchComponent from "../components/TableSearchComponent";
 import DeleteModalComponent from "../components/modals/DeleteModalComponent";
 import {emitNotificationDelete, emitNotificationsFetch} from "../redux/notifications/actions";
-import NotificationsCardsComponent from "../components/notifications/NotificationsCardsComponent";
+import NotificationsCardsContainer from "../containers/notifications/NotificationsCardsContainer";
 import {
     storeNotificationsRequestReset,
     storeNotificationsDeleteRequestReset
@@ -95,8 +95,7 @@ function NotificationsPage({notifications, notificationsRequests, dispatch, loca
                                             {requestFailed(notificationsRequests.list) && <ErrorAlertComponent message={notificationsRequests.list.message} />}
                                             {requestFailed(notificationsRequests.delete) && <ErrorAlertComponent message={notificationsRequests.delete.message} />}
                                             {requestLoading(notificationsRequests.list) ? <LoaderComponent /> :
-                                                <NotificationsCardsComponent dispatch={dispatch}
-                                                                             handleDeleteModalShow={handleDeleteModalShow}
+                                                <NotificationsCardsContainer handleDeleteModalShow={handleDeleteModalShow}
                                                                              notifications={searchEngine(notifications, needle)}
                                                 />
                                             }
@@ -134,7 +133,7 @@ function searchEngine(data, _needle) {
 NotificationsPage.propTypes = {
     dispatch: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
-    notifications: PropTypes.object.isRequired,
+    notifications: PropTypes.array.isRequired,
     notificationsRequests: PropTypes.object.isRequired,
 };
 

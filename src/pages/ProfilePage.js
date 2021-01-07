@@ -4,13 +4,13 @@ import PropTypes from "prop-types";
 import HeaderComponent from "../components/HeaderComponent";
 import {PROFILE_PAGE} from "../constants/pageNameConstants";
 import AppLayoutContainer from "../containers/AppLayoutContainer";
-import ProfileEditComponent from "../components/profile/ProfileEditComponent";
-import ProfileAvatarComponent from "../components/profile/ProfileAvatarComponent";
-import ProfileDetailComponent from "../components/profile/ProfileDetailComponent";
-import ProfilePasswordComponent from "../components/profile/ProfilePasswordComponent";
+import ProfileEditContainer from "../containers/profile/ProfileEditContainer";
+import ProfileAvatarContainer from "../containers/profile/ProfileAvatarContainer";
+import ProfileDetailContainer from "../containers/profile/ProfileDetailContainer";
+import ProfilePasswordContainer from "../containers/profile/ProfilePasswordContainer";
 
 // Component
-function ProfilePage({user, userRequests, dispatch, location}) {
+function ProfilePage({location}) {
     // Render
     return (
         <AppLayoutContainer pathname={location.pathname}>
@@ -21,7 +21,7 @@ function ProfilePage({user, userRequests, dispatch, location}) {
                         <div className='row'>
                             <div className="col-lg-4 col-md-5 col-sm-6">
                                 {/* User information */}
-                                <ProfileDetailComponent user={user} />
+                                <ProfileDetailContainer />
                             </div>
                             <div className="col-lg-8 col-md-7 col-sm-6">
                                 <div className="card custom-card-outline">
@@ -50,15 +50,15 @@ function ProfilePage({user, userRequests, dispatch, location}) {
                                         <div className="tab-content">
                                             <div className="active tab-pane" id="password">
                                                 {/*Password update form*/}
-                                                <ProfilePasswordComponent request={userRequests.password} dispatch={dispatch} />
+                                                <ProfilePasswordContainer />
                                             </div>
                                             <div className="tab-pane" id="info">
                                                 {/*Information update form*/}
-                                                <ProfileEditComponent user={user} request={userRequests.profile} dispatch={dispatch} />
+                                                <ProfileEditContainer />
                                             </div>
                                             <div className="tab-pane" id="avatar">
                                                 {/* Avatar update form */}
-                                                <ProfileAvatarComponent request={userRequests.avatar} dispatch={dispatch} />
+                                                <ProfileAvatarContainer />
                                             </div>
                                         </div>
                                     </div>
@@ -74,10 +74,7 @@ function ProfilePage({user, userRequests, dispatch, location}) {
 
 // Prop types to ensure destroyed props data type
 ProfilePage.propTypes = {
-    user: PropTypes.object.isRequired,
-    dispatch: PropTypes.func.isRequired,
-    location: PropTypes.object.isRequired,
-    userRequests: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired
 };
 
 export default React.memo(ProfilePage);
