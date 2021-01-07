@@ -3,6 +3,8 @@ import { all, takeLatest, put, fork, call } from 'redux-saga/effects'
 import * as api from "../../constants/apiConstants";
 import {apiGetRequest} from "../../functions/axiosFunctions";
 import {
+    EMIT_SIM_FETCH,
+    storeSetSimData,
     EMIT_SIMS_FETCH,
     storeSetSimsData,
     EMIT_ALL_SIMS_FETCH,
@@ -11,7 +13,10 @@ import {
     storeStopInfiniteScrollSimData
 } from "./actions";
 import {
+    storeSimRequestInit,
     storeSimsRequestInit,
+    storeSimRequestFailed,
+    storeSimRequestSucceed,
     storeSimsRequestFailed,
     storeSimsRequestSucceed,
     storeAllSimsRequestInit,
@@ -79,6 +84,34 @@ export function* emitNextSimsFetch() {
             // Fire event for request
             yield put(storeNextSimsRequestFailed({message}));
             yield put(storeStopInfiniteScrollSimData());
+        }
+    });
+}
+
+// Fetch sim from API
+export function* emitSimFetch() {
+    yield takeLatest(EMIT_SIM_FETCH, function*({id}) {
+        try {
+            // Fire event for request
+            yield put(storeSimRequestInit());
+            const apiResponse = yield call(apiGetRequest, `${api.SIM_API_PATH}/${id}`);
+            // Extract data
+            const sim = extractSimData(
+                apiResponse.data.puce,
+                apiResponse.data.type,
+                apiResponse.data.user,
+                apiResponse.data.agent,
+                apiResponse.data.corporate,
+                apiResponse.data.flote,
+                apiResponse.data.recouvreur
+            );
+            // Fire event to redux
+            yield put(storeSetSimData({sim}));
+            // Fire event for request
+            yield put(storeSimRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeSimRequestFailed({message}));
         }
     });
 }
@@ -158,6 +191,7 @@ function extractSimsData(apiSims) {
 // Combine to export all functions at once
 export default function* sagaSims() {
     yield all([
+        fork(emitSimFetch),
         fork(emitSimsFetch),
         fork(emitAllSimsFetch),
         fork(emitNextSimsFetch),

@@ -26,6 +26,10 @@ function reduce(state = initialState, action) {
         case actions.STORE_SET_SIMS_DATA:
             nextState = {...state, list: action.sims, page: action.page, hasMoreData: action.hasMoreData};
             return nextState || state;
+        // Resolve event to set sim data
+        case actions.STORE_SET_SIM_DATA:
+            nextState = {...state, current: action.sim};
+            return nextState || state;
         // Resolve event to set next sims data
         case actions.STORE_SET_NEXT_SIMS_DATA:
             nextState = {...state, list: [...state.list, ...action.sims], page: action.page, hasMoreData: action.hasMoreData};

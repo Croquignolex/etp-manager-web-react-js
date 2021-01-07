@@ -5,7 +5,7 @@ import {AGENT_COLLECTOR_TYPE, COLLECTOR_TYPE} from "../../constants/typeConstant
 import {dateToString, formatNumber, upperFirstCase} from "../../functions/generalFunctions";
 
 // Component
-function SimsCardComponent({sim}) {
+function SimCardComponent({sim}) {
     // Render
     return (
         <ul className="list-group list-group-unbordered">
@@ -42,8 +42,8 @@ function SimsCardComponent({sim}) {
 }
 
 // Prop types to ensure destroyed props data type
-SimsCardComponent.propTypes = {
+SimCardComponent.propTypes = {
     sim: PropTypes.object.isRequired
 };
 
-export default React.memo(SimsCardComponent);
+export default React.memo(SimCardComponent);

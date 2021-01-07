@@ -1,39 +1,17 @@
 import PropTypes from "prop-types";
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 
 import LoaderComponent from "../LoaderComponent";
-import ErrorAlertComponent from "../ErrorAlertComponent";
-import SimsCardComponent from "../sims/SimsCardComponent";
 import FormModalComponent from "../modals/FormModalComponent";
 import {PENDING, PROCESSING} from "../../constants/typeConstants";
 import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
-import {storeSimRequestReset} from "../../redux/requests/sims/actions";
-import {dateToString, formatNumber, requestFailed, requestLoading} from "../../functions/generalFunctions";
+import {dateToString, formatNumber} from "../../functions/generalFunctions";
+import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
 
 // Component
-function RequestsFleetsCardsComponent({sim, fleets, dispatch, itemSimsRequests, handleSupplyModalShow}) {
+function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {
     // Local states
-    const [simDetailModal, setSimDetailModal] = useState({show: false, header: 'DETAIL DE LA PUCE'});
-
-    // Local effects
-    useEffect(() => {
-        //dispatch(emitFleetsFetch());
-        // Cleaner error alert while component did unmount without store dependency
-        return () => {
-            shouldResetErrorData();
-        };
-        // eslint-disable-next-line
-    }, []);
-
-    // Reset error alert
-    const shouldResetErrorData = () => {
-        dispatch(storeSimRequestReset());
-    };
-
-    // Show supply modal form
-    const handleSimDetailModalShow = () => {
-        setSimDetailModal({...simDetailModal, show: true})
-    }
+    const [simDetailModal, setSimDetailModal] = useState({show: false, header: 'DETAIL DE LA PUCE', id: ''});
 
     // Hide sim details modal form
     const handleSimDetailModalHide = () => {
@@ -69,7 +47,9 @@ function RequestsFleetsCardsComponent({sim, fleets, dispatch, itemSimsRequests, 
                                             <b>Puce à flotter</b>
                                             <span className="float-right">
                                             {item.sim.number}
-                                            <i className="fa fa-question-circle small ml-1 hand-cursor text-theme" onClick={handleSimDetailModalShow} />
+                                            <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
+                                               onClick={() => setSimDetailModal({...simDetailModal, show: true, id: item.sim.id})}
+                                            />
                                         </span>
                                         </li>
                                         <li className="list-group-item">
@@ -107,12 +87,8 @@ function RequestsFleetsCardsComponent({sim, fleets, dispatch, itemSimsRequests, 
                 }
             </div>
             {/* Modal */}
-            <FormModalComponent modal={simDetailModal} handleClose={handleSimDetailModalHide}>
-                {requestLoading(itemSimsRequests)  ? <LoaderComponent /> : (
-                    requestFailed(itemSimsRequests) ? <ErrorAlertComponent message={itemSimsRequests.message} /> : (
-                        <SimsCardComponent sim={sim} />
-                    )
-                )}
+            <FormModalComponent small={true} modal={simDetailModal} handleClose={handleSimDetailModalHide}>
+               <SimDetailsContainer id={simDetailModal.id} />
             </FormModalComponent>
         </>
     )

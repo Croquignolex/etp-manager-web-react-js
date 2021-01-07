@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from "prop-types";
 
-import SimsCardComponent from "./SimsCardComponent";
+import SimCardComponent from "./SimCardComponent";
 import {simTypeBadgeColor} from "../../functions/typeFunctions";
 
 // Component
@@ -16,7 +16,7 @@ function SimsCardsComponent({sims}) {
                             <div className={`${simTypeBadgeColor(item.type.name).background} card-header`}>
                                 <h3 className="card-title">PUCE {simTypeBadgeColor(item.type.name).text}</h3>
                             </div>
-                            <div className="card-body"><SimsCardComponent sim={item} /></div>
+                            <div className="card-body"><SimCardComponent sim={item} /></div>
                         </div>
                     </div>
                 )
