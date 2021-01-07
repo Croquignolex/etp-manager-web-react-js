@@ -11,7 +11,7 @@ import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import FormModalComponent from "../../components/modals/FormModalComponent";
 import {emitFleetsFetch, emitNextFleetsFetch} from "../../redux/fleets/actions";
-import RequestsFleetsCardsComponent from "../../components/requests/RequestsFleetsCardsComponent";
+import RequestsFleetsCardsContainer from "../../containers/requests/RequestsFleetsCardsContainer";
 import {storeFleetsRequestReset, storeNextFleetsRequestReset} from "../../redux/requests/fleets/actions";
 import RequestsFleetsAddSupplyContainer from "../../containers/requests/RequestsFleetsAddSupplyContainer";
 import {
@@ -86,7 +86,7 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
                                             {requestFailed(fleetsRequests.next) && <ErrorAlertComponent message={fleetsRequests.next.message} />}
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
-                                                ? <RequestsFleetsCardsComponent fleets={searchEngine(fleets, needle)}
+                                                ? <RequestsFleetsCardsContainer fleets={searchEngine(fleets, needle)}
                                                                                 handleSupplyModalShow={handleSupplyModalShow}
                                                 />
                                                 : (requestLoading(fleetsRequests.list) ? <LoaderComponent /> :
@@ -96,7 +96,7 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
                                                                         loader={<LoaderComponent />}
                                                                         style={{ overflow: 'hidden' }}
                                                         >
-                                                            <RequestsFleetsCardsComponent fleets={fleets}
+                                                            <RequestsFleetsCardsContainer fleets={fleets}
                                                                                           handleSupplyModalShow={handleSupplyModalShow}
                                                             />
                                                         </InfiniteScroll>

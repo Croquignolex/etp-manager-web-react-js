@@ -1,17 +1,34 @@
-import React, {useState} from 'react';
 import PropTypes from "prop-types";
+import React, {useEffect, useState} from 'react';
 
 import LoaderComponent from "../LoaderComponent";
+import ErrorAlertComponent from "../ErrorAlertComponent";
 import SimsCardComponent from "../sims/SimsCardComponent";
 import FormModalComponent from "../modals/FormModalComponent";
 import {PENDING, PROCESSING} from "../../constants/typeConstants";
 import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
-import {dateToString, formatNumber} from "../../functions/generalFunctions";
+import {storeSimRequestReset} from "../../redux/requests/sims/actions";
+import {dateToString, formatNumber, requestFailed, requestLoading} from "../../functions/generalFunctions";
 
 // Component
-function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {
+function RequestsFleetsCardsComponent({sim, fleets, dispatch, itemSimsRequests, handleSupplyModalShow}) {
     // Local states
     const [simDetailModal, setSimDetailModal] = useState({show: false, header: 'DETAIL DE LA PUCE'});
+
+    // Local effects
+    useEffect(() => {
+        //dispatch(emitFleetsFetch());
+        // Cleaner error alert while component did unmount without store dependency
+        return () => {
+            shouldResetErrorData();
+        };
+        // eslint-disable-next-line
+    }, []);
+
+    // Reset error alert
+    const shouldResetErrorData = () => {
+        dispatch(storeSimRequestReset());
+    };
 
     // Show supply modal form
     const handleSimDetailModalShow = () => {
@@ -91,9 +108,11 @@ function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {
             </div>
             {/* Modal */}
             <FormModalComponent modal={simDetailModal} handleClose={handleSimDetailModalHide}>
-                {
-                    <SimsCardComponent />
-                }
+                {requestLoading(itemSimsRequests)  ? <LoaderComponent /> : (
+                    requestFailed(itemSimsRequests) ? <ErrorAlertComponent message={itemSimsRequests.message} /> : (
+                        <SimsCardComponent sim={sim} />
+                    )
+                )}
             </FormModalComponent>
         </>
     )
@@ -101,7 +120,10 @@ function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {
 
 // Prop types to ensure destroyed props data type
 RequestsFleetsCardsComponent.propTypes = {
+    sim: PropTypes.object.isRequired,
     fleets: PropTypes.array.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    itemSimsRequests: PropTypes.object.isRequired,
     handleSupplyModalShow: PropTypes.func.isRequired
 };
 

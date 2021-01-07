@@ -6,6 +6,7 @@ const initialState = {
     all: {failed: false, loading: false, succeeded: false, message: ""},
     list: {failed: false, loading: false, succeeded: false, message: ""},
     next: {failed: false, loading: false, succeeded: false, message: ""},
+    item: {failed: false, loading: false, succeeded: false, message: ""},
 };
 
 // Reduce
@@ -46,7 +47,7 @@ function reduce(state = initialState, action) {
         case actions.STORE_NEXT_SIMS_REQUEST_RESET:
             nextState = {...state, next: initialState.next};
             return nextState || state;
-        // ======================================================== All simss
+        // ======================================================== All sims
         // Resolve event to set all sims  init request store data
         case actions.STORE_ALL_SIMS_REQUEST_INIT:
             nextState = {...state, all: requestInitValue()};
@@ -62,6 +63,23 @@ function reduce(state = initialState, action) {
         // Resolve event to set all sims reset request store data
         case actions.STORE_ALL_SIMS_REQUEST_RESET:
             nextState = {...state, all: initialState.all};
+            return nextState || state;
+        // ======================================================== Sim
+        // Resolve event to set sim init request store data
+        case actions.STORE_SIM_REQUEST_INIT:
+            nextState = {...state, item: requestInitValue()};
+            return nextState || state;
+        // Resolve event to set sim failed request store data
+        case actions.STORE_SIM_REQUEST_FAILED:
+            nextState = {...state, item: requestFailedValue(action.message)};
+            return nextState || state;
+        // Resolve event to set sim succeeded request store data
+        case actions.STORE_SIM_REQUEST_SUCCEEDED:
+            nextState = {...state, item: requestSucceededValue(action.message)};
+            return nextState || state;
+        // Resolve event to set sim reset request store data
+        case actions.STORE_SIM_REQUEST_RESET:
+            nextState = {...state, item: initialState.item};
             return nextState || state;
         // ========================================================
         // Unknown action
