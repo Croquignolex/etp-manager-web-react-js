@@ -7,6 +7,7 @@ import {emitSimFetch} from "../../redux/sims/actions";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import {storeSimRequestReset} from "../../redux/requests/sims/actions";
 import {requestFailed, requestLoading} from "../../functions/generalFunctions";
+import {simTypeBadgeColor} from "../../functions/typeFunctions";
 
 // Component
 function SimDetailsComponent({id, sim, dispatch, request}) {
@@ -31,7 +32,12 @@ function SimDetailsComponent({id, sim, dispatch, request}) {
         <>
             {requestLoading(request)  ? <LoaderComponent /> : (
                 requestFailed(request) ? <ErrorAlertComponent message={request.message} /> : (
-                    <div className="card"><div className="card-body"><SimCardComponent sim={sim} /></div></div>
+                    <div className="card">
+                        <div className={`${simTypeBadgeColor(sim.type.name).background} card-header`}>
+                            <h3 className="card-title">PUCE {simTypeBadgeColor(sim.type.name).text}</h3>
+                        </div>
+                        <div className="card-body"><SimCardComponent sim={sim} /></div>
+                    </div>
                 )
             )}
         </>

@@ -151,14 +151,12 @@ DashboardPage.propTypes = {
     agents: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
-    resources: PropTypes.array.isRequired,
     settings: PropTypes.object.isRequired,
     clearances: PropTypes.array.isRequired,
     userRequests: PropTypes.object.isRequired,
     simsRequests: PropTypes.object.isRequired,
     fleetsRequests: PropTypes.object.isRequired,
     agentsRequests: PropTypes.object.isRequired,
-    resourcesRequests: PropTypes.object.isRequired,
     clearancesRequests: PropTypes.object.isRequired,
 };
 

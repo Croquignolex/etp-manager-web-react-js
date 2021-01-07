@@ -96,10 +96,7 @@ function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {
 
 // Prop types to ensure destroyed props data type
 RequestsFleetsCardsComponent.propTypes = {
-    sim: PropTypes.object.isRequired,
     fleets: PropTypes.array.isRequired,
-    dispatch: PropTypes.func.isRequired,
-    itemSimsRequests: PropTypes.object.isRequired,
     handleSupplyModalShow: PropTypes.func.isRequired
 };
 
