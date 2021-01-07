@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from "prop-types";
 
+import AgentCardComponent from "./AgentCardComponent";
 import {agentTypeBadgeColor} from "../../functions/typeFunctions";
-import {dateToString, formatNumber} from "../../functions/generalFunctions";
 
 // Component
 function AgentsCardsComponent({agents}) {
@@ -16,36 +16,7 @@ function AgentsCardsComponent({agents}) {
                             <div className={`${agentTypeBadgeColor(item.reference).background} card-header`}>
                                 <h3 className="card-title">{agentTypeBadgeColor(item.reference).text}</h3>
                             </div>
-                            <div className="table-responsive">
-                                <table className="table table-hover text-nowrap table-bordered">
-                                    <tbody>
-                                        <tr>
-                                            <td className="text-secondary">Date de création</td>
-                                            <td>{dateToString(item.creation)}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="text-secondary">Nom</td>
-                                            <td>{item.name}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="text-secondary">Téléphone</td>
-                                            <td>{item.phone}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="text-secondary">Zone</td>
-                                            <td>{item.zone.name}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="text-secondary">Solde</td>
-                                            <td className="text-success text-bold">{formatNumber(item.account.balance)}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="text-secondary">Créateur</td>
-                                            <td>{item.creator.name}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            <div className="card-body"><AgentCardComponent agent={item} /></div>
                         </div>
                     </div>
                 )
