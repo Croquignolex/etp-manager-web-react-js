@@ -6,6 +6,7 @@ import AgentNewComponent from "../../components/agents/AgentNewComponent";
 const mapStateToProps = (state) => ({
     zones: state.zones.list,
     request: state.agentsRequests.add,
+    allZonesRequests: state.zonesRequests.all,
 });
 
 // Map dispatch function to component props

@@ -1,5 +1,6 @@
 import user from './user/reducer';
 import sims from './sims/reducer';
+import zones from './zones/reducer';
 import fleets from './fleets/reducer';
 import agents from './agents/reducer';
 import settings from './settings/reducer';
@@ -7,6 +8,7 @@ import clearances from './clearances/reducer';
 import userRequests from './requests/user/reducer';
 import simsRequests from './requests/sims/reducer';
 import notifications from './notifications/reducer';
+import zonesRequests from './requests/zones/reducer';
 import agentsRequests from './requests/agents/reducer';
 import fleetsRequests from './requests/fleets/reducer';
 import settingsRequests from './requests/settings/reducer';
@@ -17,12 +19,14 @@ import notificationsRequests from './requests/notifications/reducer';
 export default {
     user,
     sims,
+    zones,
     agents,
     fleets,
     settings,
     clearances,
     simsRequests,
     userRequests,
+    zonesRequests,
     notifications,
     fleetsRequests,
     agentsRequests,

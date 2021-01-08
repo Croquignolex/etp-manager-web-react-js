@@ -2,6 +2,7 @@ import { all } from 'redux-saga/effects';
 
 import user from './user/saga';
 import sims from './sims/saga';
+import zones from './zones/saga';
 import agents from './agents/saga';
 import fleets from './fleets/saga';
 import settings from './settings/saga';
@@ -13,6 +14,7 @@ export default function* sagas() {
     yield all([
         user(),
         sims(),
+        zones(),
         agents(),
         fleets(),
         settings(),
