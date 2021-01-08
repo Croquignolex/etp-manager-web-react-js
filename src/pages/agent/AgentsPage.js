@@ -7,9 +7,12 @@ import LoaderComponent from "../../components/LoaderComponent";
 import {agentTypeBadgeColor} from "../../functions/typeFunctions";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
+import {AGENT_TYPE, RESOURCE_TYPE} from "../../constants/typeConstants";
 import TableSearchComponent from "../../components/TableSearchComponent";
-import {emitAgentsFetch, emitNextAgentsFetch} from "../../redux/agents/actions";
+import AgentNewContainer from "../../containers/agents/AgentNewContainer";
+import FormModalComponent from "../../components/modals/FormModalComponent";
 import AgentsCardsComponent from "../../components/agents/AgentsCardsComponent";
+import {emitAgentsFetch, emitNextAgentsFetch} from "../../redux/agents/actions";
 import {storeAgentsRequestReset, storeNextAgentsRequestReset} from "../../redux/requests/agents/actions";
 import {dateToString, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
 
@@ -17,6 +20,8 @@ import {dateToString, needleSearch, requestFailed, requestLoading} from "../../f
 function AgentsPage({agents, agentsRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
+    const [newAgentModal, setNewAgentModal] = useState({show: false, header: '', type: ''});
+    // const [agentDetailsModal, setAgentDetailsModal] = useState({show: false, header: '', id: ''});
 
     // Local effects
     useEffect(() => {
@@ -43,6 +48,21 @@ function AgentsPage({agents, agentsRequests, hasMoreData, page, dispatch, locati
         dispatch(emitNextAgentsFetch({page}));
     }
 
+    // Show new agent modal form
+    const handleNewAgentModalShow = () => {
+        setNewAgentModal({newAgentModal, type: AGENT_TYPE, header: "NOUVEL AGENT", show: true})
+    }
+
+    // Show new resource modal form
+    const handleNewResourceModalShow = () => {
+        setNewAgentModal({newAgentModal, type: RESOURCE_TYPE, header: "NOUVELLE RESSOURCE", show: true})
+    }
+
+    // Hide new agent modal form
+    const handleNewAgentModalHide = () => {
+        setNewAgentModal({...newAgentModal, show: false})
+    }
+
     // Render
     return (
         <>
@@ -64,6 +84,20 @@ function AgentsPage({agents, agentsRequests, hasMoreData, page, dispatch, locati
                                             {/* Error message */}
                                             {requestFailed(agentsRequests.list) && <ErrorAlertComponent message={agentsRequests.list.message} />}
                                             {requestFailed(agentsRequests.next) && <ErrorAlertComponent message={agentsRequests.next.message} />}
+                                            <div className="mb-2">
+                                                <button type="button"
+                                                        className="btn btn-primary mr-2"
+                                                        onClick={handleNewAgentModalShow}
+                                                >
+                                                    <i className="fa fa-plus" /> Nouvel agent
+                                                </button>
+                                                <button type="button"
+                                                        className="btn btn-info"
+                                                        onClick={handleNewResourceModalShow}
+                                                >
+                                                    <i className="fa fa-plus" /> Nouvelle ressource
+                                                </button>
+                                            </div>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
                                                 ? <AgentsCardsComponent agents={searchEngine(agents, needle)} />
@@ -86,6 +120,12 @@ function AgentsPage({agents, agentsRequests, hasMoreData, page, dispatch, locati
                     </section>
                 </div>
             </AppLayoutContainer>
+            {/* Modal */}
+            <FormModalComponent modal={newAgentModal} handleClose={handleNewAgentModalHide}>
+                <AgentNewContainer type={newAgentModal.type}
+                                   handleClose={handleNewAgentModalHide}
+                />
+            </FormModalComponent>
         </>
     )
 }
