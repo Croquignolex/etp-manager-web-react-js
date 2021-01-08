@@ -1,10 +1,12 @@
 // Reducer action types
 export const STORE_SET_AGENTS_DATA = 'STORE_SET_AGENTS_DATA';
-export const STORE_SET_NEXT_AGENTS_DATA = 'STORE_SET_NEXT_AGENTS_DATA';
+export const STORE_SET_NEW_AGENT_DATA = 'STORE_SET_NEW_AGENT_DATA';
 export const STORE_SET_SIM_ACTION_DATA = 'STORE_SET_SIM_ACTION_DATA';
+export const STORE_SET_NEXT_AGENTS_DATA = 'STORE_SET_NEXT_AGENTS_DATA';
 export const STORE_STOP_INFINITE_SCROLL_AGENTS_DATA = 'STORE_STOP_INFINITE_SCROLL_AGENTS_DATA';
 
 // Middleware action types
+export const EMIT_NEW_AGENT = 'EMIT_NEW_AGENT';
 export const EMIT_AGENTS_FETCH = 'EMIT_AGENTS_FETCH';
 export const EMIT_ALL_AGENTS_FETCH = 'EMIT_ALL_AGENTS_FETCH';
 export const EMIT_NEXT_AGENTS_FETCH = 'EMIT_NEXT_SIMS_FETCH';
@@ -17,6 +19,13 @@ export const storeSetAgentsData = ({agents, hasMoreData, page}) => ({
     hasMoreData,
     type: STORE_SET_AGENTS_DATA
 });
+
+// Set new agent data in store
+export const storeSetNewAgentData = ({agent}) => ({
+    agent,
+    type: STORE_SET_NEW_AGENT_DATA
+});
+
 
 // Set next agents data in store
 export const storeSetNextAgentsData = ({agents, hasMoreData, page}) => ({
@@ -52,4 +61,24 @@ export const emitNextAgentsFetch = ({page}) => ({
 // Emit all agents fetch
 export const emitAllAgentsFetch = () => ({
     type: EMIT_ALL_AGENTS_FETCH
+});
+
+// Emit new agent fetch
+export const emitNewAgent = ({name, address, phone, zone, reference, town,
+                                 country, email, password, description,
+                                 backIDCard, frontIDCard, document}) => ({
+    name,
+    zone,
+    town,
+    phone,
+    email,
+    country,
+    address,
+    document,
+    password,
+    reference,
+    backIDCard,
+    frontIDCard,
+    description,
+    type: EMIT_NEW_AGENT
 });

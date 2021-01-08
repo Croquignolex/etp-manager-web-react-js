@@ -1,4 +1,5 @@
 import * as types from "../constants/typeConstants";
+import {UNKNOWN} from "../constants/defaultConstants";
 
 // Badge color for fleet type
 export function fleetTypeBadgeColor(type) {
@@ -20,7 +21,7 @@ export function simTypeBadgeColor(type) {
         case types.MASTER_TYPE: return {background: 'bg-danger', border: 'border border-danger', text: types.MASTER_TYPE};
         case types.COLLECTOR_TYPE: return {background: 'bg-success', border: 'border border-success', text: types.COLLECTOR_TYPE};
         case types.CORPORATE_TYPE: return {background: 'bg-secondary', border: 'border border-secondary', text: types.CORPORATE_TYPE};
-        default: return {background: 'bg-default', border: 'border border-default', text: 'INCONNU'};
+        default: return {background: 'bg-default', border: 'border border-default', text: UNKNOWN};
     }
 }
 
@@ -28,6 +29,7 @@ export function simTypeBadgeColor(type) {
 export function agentTypeBadgeColor(type) {
     switch (type) {
         case types.RESOURCE_TYPE: return {background: 'bg-info', border: 'border border-info', text: types.RESOURCE_TYPE};
-        default: return {background: 'bg-primary', border: 'border border-primary', text: types.AGENT_TYPE};
+        case types.AGENT_TYPE: return {background: 'bg-primary', border: 'border border-primary', text: types.AGENT_TYPE};
+        default: return {background: 'bg-default', border: 'border border-default', text: UNKNOWN};
     }
 }

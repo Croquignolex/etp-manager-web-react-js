@@ -26,6 +26,7 @@ function RequestsFleetsAddSupplyComponent({fleet, request, sims, allSimsRequests
     const [sim, setSim] = useState(DEFAULT_FORM_DATA);
     const [amount, setAmount] = useState({...DEFAULT_FORM_DATA, data: fleet.remaining});
 
+    // Local effects
     useEffect(() => {
         // Cleaner error alert while component did unmount without store dependency
         return () => {
@@ -34,6 +35,7 @@ function RequestsFleetsAddSupplyComponent({fleet, request, sims, allSimsRequests
         // eslint-disable-next-line
     }, []);
 
+    // Local effects
     useEffect(() => {
         // Reset inputs while toast (well done) into current scope
         if(requestSucceeded(request)) {

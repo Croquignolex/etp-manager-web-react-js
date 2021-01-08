@@ -52,7 +52,7 @@ function reduce(state = initialState, action) {
         case actions.STORE_ALL_AGENTS_REQUEST_INIT:
             nextState = {...state, all: requestInitValue()};
             return nextState || state;
-        // Resolve event to setall agents failed request store data
+        // Resolve event to set all agents failed request store data
         case actions.STORE_ALL_AGENTS_REQUEST_FAILED:
             nextState = {...state, all: requestFailedValue(action.message)};
             return nextState || state;
@@ -63,6 +63,23 @@ function reduce(state = initialState, action) {
         // Resolve event to set all agents reset request store data
         case actions.STORE_ALL_AGENTS_REQUEST_RESET:
             nextState = {...state, all: initialState.all};
+            return nextState || state;
+        // ======================================================== Add agent
+        // Resolve event to set add agent init request store data
+        case actions.STORE_ADD_AGENT_REQUEST_INIT:
+            nextState = {...state, add: requestInitValue()};
+            return nextState || state;
+        // Resolve event to set add agent failed request store data
+        case actions.STORE_ADD_AGENT_REQUEST_FAILED:
+            nextState = {...state, add: requestFailedValue(action.message)};
+            return nextState || state;
+        // Resolve event to set add agent succeeded request store data
+        case actions.STORE_ADD_AGENT_REQUEST_SUCCEEDED:
+            nextState = {...state, add: requestSucceededValue(action.message)};
+            return nextState || state;
+        // Resolve event to set add agent reset request store data
+        case actions.STORE_ADD_AGENT_REQUEST_RESET:
+            nextState = {...state, add: initialState.add};
             return nextState || state;
         // ========================================================
         // Unknown action

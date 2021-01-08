@@ -15,11 +15,15 @@ function reduce(state = initialState, action) {
     switch (action.type) {
         // Resolve event to set agents data
         case actions.STORE_SET_AGENTS_DATA:
-            nextState = {list: action.agents, page: action.page, hasMoreData: action.hasMoreData};
+            nextState = {...state, list: action.agents, page: action.page, hasMoreData: action.hasMoreData};
+            return nextState || state;
+        // Resolve event to set new agent data
+        case actions.STORE_SET_NEW_AGENT_DATA:
+            nextState = {...state, list: state.list.unshift(action.agent)};
             return nextState || state;
         // Resolve event to set next agents data
         case actions.STORE_SET_NEXT_AGENTS_DATA:
-            nextState = {list: [...state.list, ...action.agents], page: action.page, hasMoreData: action.hasMoreData};
+            nextState = {...state, list: [...state.list, ...action.agents], page: action.page, hasMoreData: action.hasMoreData};
             return nextState || state;
         // Resolve event to stop infinite scroll agents data
         case actions.STORE_STOP_INFINITE_SCROLL_AGENTS_DATA:

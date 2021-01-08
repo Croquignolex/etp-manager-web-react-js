@@ -3,10 +3,12 @@ import { all, takeLatest, put, fork, call } from 'redux-saga/effects'
 import * as api from "../../constants/apiConstants";
 import {APPROVE} from "../../constants/typeConstants";
 import {AGENT_SCOPE, PROFILE_SCOPE} from "../../constants/defaultConstants";
-import {apiGetRequest, getFileFromServer, getImageFromServer} from "../../functions/axiosFunctions";
+import {apiGetRequest, apiPostRequest, getFileFromServer, getImageFromServer} from "../../functions/axiosFunctions";
 import {
+    EMIT_NEW_AGENT,
     EMIT_AGENTS_FETCH,
     storeSetAgentsData,
+    storeSetNewAgentData,
     EMIT_ALL_AGENTS_FETCH,
     EMIT_NEXT_AGENTS_FETCH,
     storeSetNextAgentsData,
@@ -15,10 +17,13 @@ import {
 import {
     storeAgentsRequestInit,
     storeAgentsRequestFailed,
+    storeAddAgentRequestInit,
     storeAllAgentsRequestInit,
     storeAgentsRequestSucceed,
+    storeAddAgentRequestFailed,
     storeNextAgentsRequestInit,
     storeAllAgentsRequestFailed,
+    storeAddAgentRequestSucceed,
     storeNextAgentsRequestFailed,
     storeAllAgentsRequestSucceed,
     storeNextAgentsRequestSucceed
@@ -85,8 +90,54 @@ export function* emitNextAgentsFetch() {
     });
 }
 
+// New agent into API
+export function* emitNewAgent() {
+    yield takeLatest(EMIT_NEW_AGENT, function*({name, address, phone, zone, reference,
+                                                   town, country, email, password, description,
+                                                   frontIDCard, backIDCard, document}) {
+        try {
+            // Fire event for request
+            yield put(storeAddAgentRequestInit());
+            // From data
+            const data = new FormData();
+            data.append('name', name);
+            data.append('ville', town);
+            data.append('phone', phone);
+            data.append('email', email);
+            data.append('pays', country);
+            data.append('id_zone', zone);
+            data.append('adresse', address);
+            data.append('document', document);
+            data.append('password', password);
+            data.append('reference', reference);
+            data.append('description', description);
+            data.append('base_64_image', frontIDCard);
+            data.append('base_64_image_back', backIDCard);
+            data.append('base_64_image_back', backIDCard);
+            // API request
+            const apiResponse = yield call(apiPostRequest, api.CREATE_AGENT_API_PATH, data);
+            // Extract data
+            // apiResponse.agent, apiResponse.user, apiResponse.zone, apiResponse.puces, apiResponse.caisse
+            const agent = extractAgentData(
+                apiResponse.data.agent,
+                apiResponse.data.user,
+                apiResponse.data.zone,
+                apiResponse.data.caisse,
+                apiResponse.data.createur,
+            );
+            // Fire event to redux
+            yield put(storeSetNewAgentData({agent}));
+            // Fire event for request
+            yield put(storeAddAgentRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeAddAgentRequestFailed({message}));
+        }
+    });
+}
+
 // Extract sim data
-function extractAgentData(apiAgent, apiUser, apiZone, apiSims, apiAccount, apiCreator) {
+function extractAgentData(apiAgent, apiUser, apiZone, apiAccount, apiCreator) {
     let agent = {
         id: '', name: '', address: '',
         salePoint: '', frontIDCard: '', backIDCard: '',
@@ -147,7 +198,6 @@ function extractAgentsData(apiAgents) {
                 data.agent,
                 data.user,
                 data.zone,
-                data.puces,
                 data.caisse,
                 data.createur
             ));

@@ -5,7 +5,7 @@ import SimDetailsComponent from "../../components/sims/SimDetailsComponent";
 // Map state function to component props
 const mapStateToProps = (state) => ({
     sim: state.sims.current,
-    request: state.simsRequests.item,
+    request: state.simsRequests.show,
 });
 
 // Map dispatch function to component props
