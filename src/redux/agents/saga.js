@@ -77,7 +77,7 @@ export function* emitNextAgentsFetch() {
             yield put(storeNextAgentsRequestInit());
             const apiResponse = yield call(apiGetRequest, `${api.AGENTS_API_PATH}?page=${page}`);
             // Extract data
-            const agents = extractAgentsData(apiResponse.data.puces);
+            const agents = extractAgentsData(apiResponse.data.agents);
             // Fire event to redux
             yield put(storeSetNextAgentsData({agents, hasMoreData: apiResponse.data.hasMoreData, page: page + 1}));
             // Fire event for request
@@ -209,6 +209,7 @@ function extractAgentsData(apiAgents) {
 // Combine to export all functions at once
 export default function* sagaAgents() {
     yield all([
+        fork(emitNewAgent),
         fork(emitAgentsFetch),
         fork(emitAllAgentsFetch),
         fork(emitNextAgentsFetch),

@@ -2,20 +2,20 @@ import PropTypes from 'prop-types';
 import React, {useEffect, useState} from 'react';
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import {emitAllZonesFetch} from "../../redux/zones/actions";
-import HeaderComponent from "../../components/HeaderComponent";
-import LoaderComponent from "../../components/LoaderComponent";
-import {agentTypeBadgeColor} from "../../functions/typeFunctions";
-import AppLayoutContainer from "../../containers/AppLayoutContainer";
-import ErrorAlertComponent from "../../components/ErrorAlertComponent";
-import {AGENT_TYPE, RESOURCE_TYPE} from "../../constants/typeConstants";
-import TableSearchComponent from "../../components/TableSearchComponent";
-import AgentNewContainer from "../../containers/agents/AgentNewContainer";
-import FormModalComponent from "../../components/modals/FormModalComponent";
-import AgentsCardsComponent from "../../components/agents/AgentsCardsComponent";
-import {emitAgentsFetch, emitNextAgentsFetch} from "../../redux/agents/actions";
-import {storeAgentsRequestReset, storeNextAgentsRequestReset} from "../../redux/requests/agents/actions";
-import {dateToString, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
+import {emitAllZonesFetch} from "../redux/zones/actions";
+import HeaderComponent from "../components/HeaderComponent";
+import LoaderComponent from "../components/LoaderComponent";
+import {agentTypeBadgeColor} from "../functions/typeFunctions";
+import AppLayoutContainer from "../containers/AppLayoutContainer";
+import ErrorAlertComponent from "../components/ErrorAlertComponent";
+import {AGENT_TYPE, RESOURCE_TYPE} from "../constants/typeConstants";
+import TableSearchComponent from "../components/TableSearchComponent";
+import AgentNewContainer from "../containers/agents/AgentNewContainer";
+import FormModalComponent from "../components/modals/FormModalComponent";
+import AgentsCardsComponent from "../components/agents/AgentsCardsComponent";
+import {emitAgentsFetch, emitNextAgentsFetch} from "../redux/agents/actions";
+import {storeAgentsRequestReset, storeNextAgentsRequestReset} from "../redux/requests/agents/actions";
+import {dateToString, needleSearch, requestFailed, requestLoading} from "../functions/generalFunctions";
 
 // Component
 function AgentsPage({agents, agentsRequests, hasMoreData, page, dispatch, location}) {

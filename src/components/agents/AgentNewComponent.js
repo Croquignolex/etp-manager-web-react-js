@@ -1,18 +1,24 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import PropTypes from "prop-types";
 
 import InputComponent from "../form/InputComponent";
 import ButtonComponent from "../form/ButtonComponent";
+import SelectComponent from "../form/SelectComponent";
 import {emitNewAgent} from "../../redux/agents/actions";
+import TextareaComponent from "../form/TextareaComponent";
+import FileImageComponent from "../form/FileImageComponent";
 import * as constants from "../../constants/defaultConstants";
+import FileDocumentComponent from "../form/FileDocumentComponent";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {storeAllZonesRequestReset} from "../../redux/requests/zones/actions";
 import {storeAddAgentRequestReset} from "../../redux/requests/agents/actions";
-import {applySuccess, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
+import {dataToArrayForSelect, mappedZones} from "../../functions/arrayFunctions";
+import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 import {fileChecker, imageChecker, phoneChecker, requiredChecker} from "../../functions/checkerFunctions";
+import ErrorAlertComponent from "../ErrorAlertComponent";
 
 // Component
-function AgentCardComponent({type, zones, request, dispatch, handleClose}) {
+function AgentCardComponent({type, zones, request, allZonesRequests, dispatch, handleClose}) {
     // Local state
     const [doc, setDoc] = useState(constants.DEFAULT_FORM_DATA);
     const [zone, setZone] = useState(constants.DEFAULT_FORM_DATA);
@@ -47,6 +53,51 @@ function AgentCardComponent({type, zones, request, dispatch, handleClose}) {
         shouldResetErrorData();
         setName({...name, isValid: true, data})
     }
+
+    const handlePhoneInput = (data) => {
+        shouldResetErrorData();
+        setPhone({...phone, isValid: true, data})
+    }
+
+    const handleEmailInput = (data) => {
+        shouldResetErrorData();
+        setEmail({...email, isValid: true, data})
+    }
+
+    const handleAddressInput = (data) => {
+        shouldResetErrorData();
+        setAddress({...address, isValid: true, data})
+    }
+
+    const handleDescriptionInput = (data) => {
+        shouldResetErrorData();
+        setDescription({...description, isValid: true, data})
+    }
+
+    const handleFrontIDCardInput = (data) => {
+        shouldResetErrorData();
+        setFrontIDCard({...frontIDCard, isValid: true, data})
+    }
+
+    const handleBackIDCardInput = (data) => {
+        shouldResetErrorData();
+        setBackIDCard({...backIDCard, isValid: true, data})
+    }
+
+    const handleZoneSelect = (data) => {
+        shouldResetErrorData();
+        setZone({...zone,  isValid: true, data})
+    }
+
+    const handleFileInput = (data) => {
+        shouldResetErrorData();
+        setDoc({...doc, isValid: true, data})
+    }
+
+    // Build select options
+    const zoneSelectOptions = useMemo(() => {
+        return dataToArrayForSelect(mappedZones(zones))
+    }, [zones]);
 
     // Reset error alert
     const shouldResetErrorData = () => {
@@ -98,123 +149,96 @@ function AgentCardComponent({type, zones, request, dispatch, handleClose}) {
 
     // Render
     return (
-         <div className="row">
-             <div className="col">
-                 <form onSubmit={handleSubmit}>
-                     <div className='row'>
-                         <div className='col-sm-6'>
-                             <InputComponent type='text'
-                                             label='Nom'
-                                             input={name}
-                                             id='inputName'
-                                             handleInput={handleNameInput}
-                             />
-                         </div>
-                     </div>
-                     {/*<div className='row'>*/}
-                     {/*    <div className='col-sm-6'>*/}
-                     {/*        <InputComponent label='Nom'*/}
-                     {/*               type='text'*/}
-                     {/*               input={name}*/}
-                     {/*               id='inputName'*/}
-                     {/*               handleInput={(isValid, val) => {*/}
-                     {/*                   shouldResetErrorData();*/}
-                     {/*                   setName({...name, isValid, val})*/}
-                     {/*               }}*/}
-                     {/*        />*/}
-                     {/*    </div>*/}
-                     {/*    <div className='col-sm-6'>*/}
-                     {/*        <InputComponent type='number'*/}
-                     {/*               input={phone}*/}
-                     {/*               id='inputPhone'*/}
-                     {/*               label='Téléphone'*/}
-                     {/*               handleInput={(isValid, val) => {*/}
-                     {/*                   shouldResetErrorData();*/}
-                     {/*                   setPhone({...phone, isValid, val})*/}
-                     {/*               }}*/}
-                     {/*        />*/}
-                     {/*    </div>*/}
-                     {/*</div>*/}
-                     {/*<div className='row'>*/}
-                     {/*    <div className='col-sm-6'>*/}
-                     {/*        <InputComponent type='text'*/}
-                     {/*               label='Email'*/}
-                     {/*               input={email}*/}
-                     {/*               id='inputEmail'*/}
-                     {/*               handleInput={(isValid, val) => {*/}
-                     {/*                   shouldResetErrorData();*/}
-                     {/*                   setEmail({...email, isValid, val})*/}
-                     {/*               }}*/}
-                     {/*        />*/}
-                     {/*    </div>*/}
-                     {/*    <div className='col-sm-6'>*/}
-                     {/*        <Select label='Zone'*/}
-                     {/*                input={zone}*/}
-                     {/*                id='inputZone'*/}
-                     {/*                title='Choisir une zone'*/}
-                     {/*                data={dataToArrayForSelect(mappedZones(zones.list))}*/}
-                     {/*                requestProcessing={processingRequest(ZONES_SCOPE, requests.list)}*/}
-                     {/*                handleInput={(isValid, val) => {*/}
-                     {/*                    shouldResetErrorData();*/}
-                     {/*                    setZone({...zone, isValid, val})*/}
-                     {/*                }}*/}
-                     {/*        />*/}
-                     {/*    </div>*/}
-                     {/*</div>*/}
-                     {/*<div className='row'>*/}
-                     {/*    <div className='col-sm-6'>*/}
-                     {/*        <TextArea label='Adresse'*/}
-                     {/*                  input={address}*/}
-                     {/*                  id='inputAddress'*/}
-                     {/*                  handleInput={(isValid, val) => {*/}
-                     {/*                      shouldResetErrorData();*/}
-                     {/*                      setAddress({...address, isValid, val})*/}
-                     {/*                  }}*/}
-                     {/*        />*/}
-                     {/*    </div>*/}
-                     {/*    <div className='col-sm-6'>*/}
-                     {/*        <TextArea label='Description'*/}
-                     {/*                  input={description}*/}
-                     {/*                  id='inputDescription'*/}
-                     {/*                  handleInput={(isValid, val) => {*/}
-                     {/*                      shouldResetErrorData();*/}
-                     {/*                      setDescription({...description, isValid, val})*/}
-                     {/*                  }}*/}
-                     {/*        />*/}
-                     {/*    </div>*/}
-                     {/*</div>*/}
-                     {/*<div className='row'>*/}
-                     {/*    <FileImageType id='inputFrontIDCard' label='Image avant CNI' input={frontIDCard}*/}
-                     {/*                   handleInput={(isValid, val) => {*/}
-                     {/*                       shouldResetErrorData();*/}
-                     {/*                       setFrontIDCard({...frontIDCard, val});*/}
-                     {/*                   }}*/}
-                     {/*    />*/}
-                     {/*</div>*/}
-                     {/*<div className='row'>*/}
-                     {/*    <FileImageType id='inputBackIDCard' label='Image arrière CNI' input={backIDCard}*/}
-                     {/*                   handleInput={(isValid, val) => {*/}
-                     {/*                       shouldResetErrorData();*/}
-                     {/*                       setBackIDCard({...backIDCard, isValid, val});*/}
-                     {/*                   }}*/}
-                     {/*    />*/}
-                     {/*</div>*/}
-                     {/*<div className='row'>*/}
-                     {/*    <div className='col-sm-6'>*/}
-                     {/*        <FileDocumentType id='file' label='Document' input={doc}*/}
-                     {/*                          handleInput={(isValid, val) => {*/}
-                     {/*                              shouldResetErrorData();*/}
-                     {/*                              setDoc({...doc, isValid, val});*/}
-                     {/*                          }}*/}
-                     {/*        />*/}
-                     {/*    </div>*/}
-                     {/*</div>*/}
-                     <div className="form-group row">
-                         <ButtonComponent processing={requestLoading(request)} />
-                     </div>
-                 </form>
-             </div>
-         </div>
+        <div>
+            {requestFailed(request) && <ErrorAlertComponent message={request.message} />}
+            {requestFailed(allZonesRequests) && <ErrorAlertComponent message={allZonesRequests.message} />}
+            <div className="row">
+                <div className="col">
+                    <form onSubmit={handleSubmit}>
+                        <div className='row'>
+                            <div className='col-sm-6'>
+                                <InputComponent label='Nom'
+                                                type='text'
+                                                input={name}
+                                                id='inputName'
+                                                handleInput={handleNameInput}
+                                />
+                            </div>
+                            <div className='col-sm-6'>
+                                <InputComponent type='text'
+                                                input={phone}
+                                                id='inputPhone'
+                                                label='Téléphone'
+                                                handleInput={handlePhoneInput}
+                                />
+                            </div>
+                        </div>
+                        <div className='row'>
+                            <div className='col-sm-6'>
+                                <InputComponent type='text'
+                                                label='Email'
+                                                input={email}
+                                                id='inputEmail'
+                                                handleInput={handleEmailInput}
+                                />
+                            </div>
+                            <div className='col-sm-6'>
+                                <SelectComponent label='Zone'
+                                                 input={zone}
+                                                 id='inputZone'
+                                                 title='Choisir une zone'
+                                                 options={zoneSelectOptions}
+                                                 handleInput={handleZoneSelect}
+                                                 requestProcessing={requestLoading(allZonesRequests)}
+                                />
+                            </div>
+                        </div>
+                        <div className='row'>
+                            <div className='col-sm-6'>
+                                <TextareaComponent label='Adresse'
+                                                   input={address}
+                                                   id='inputAddress'
+                                                   handleInput={handleAddressInput}
+                                />
+                            </div>
+                            <div className='col-sm-6'>
+                                <TextareaComponent label='Description'
+                                                   input={description}
+                                                   id='inputDescription'
+                                                   handleInput={handleDescriptionInput}
+                                />
+                            </div>
+                        </div>
+                        <div className='row'>
+                            <FileImageComponent input={frontIDCard}
+                                                id='inputFrontIDCard'
+                                                label='Image avant CNI'
+                                                handleInput={handleFrontIDCardInput}
+                            />
+                        </div>
+                        <div className='row'>
+                            <FileImageComponent input={backIDCard}
+                                                id='inputBackIDCard'
+                                                label='Image arrière CNI'
+                                                handleInput={handleBackIDCardInput}
+                            />
+                        </div>
+                        <div className='row'>
+                            <div className='col-sm-6'>
+                                <FileDocumentComponent id='file'
+                                                       input={doc}
+                                                       label='Document'
+                                                       handleInput={handleFileInput}
+                                />
+                            </div>
+                        </div>
+                        <div className="form-group row">
+                            <ButtonComponent processing={requestLoading(request)} />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     )
 }
 
@@ -225,6 +249,7 @@ AgentCardComponent.propTypes = {
     dispatch: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired,
     handleClose: PropTypes.func.isRequired,
+    allZonesRequests: PropTypes.object.isRequired,
 };
 
 export default React.memo(AgentCardComponent);

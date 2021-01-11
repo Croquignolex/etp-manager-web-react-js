@@ -19,13 +19,13 @@ function reduce(state = initialState, action) {
             return nextState || state;
         // Resolve event to set new agent data
         case actions.STORE_SET_NEW_AGENT_DATA:
-            nextState = {...state, list: state.list.unshift(action.agent)};
+            nextState = {...state, list: [action.agent, ...state.list]}
             return nextState || state;
         // Resolve event to set next agents data
         case actions.STORE_SET_NEXT_AGENTS_DATA:
             nextState = {...state, list: [...state.list, ...action.agents], page: action.page, hasMoreData: action.hasMoreData};
             return nextState || state;
-        // Resolve event to stop infinite scroll agents data
+        // Resolve event to stop infinite scroll agents data,
         case actions.STORE_STOP_INFINITE_SCROLL_AGENTS_DATA:
             nextState = {...state, hasMoreData: false};
             return nextState || state;
