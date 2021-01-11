@@ -18,9 +18,9 @@ function SideBarComponent({user, pathname}) {
         return [
             buildDashboardMenu(),
             buildRequestsMenu(),
-            buildAuthorisedOperationsMenu(),
-            buildAuthorisedRecoveriesMenu(),
-            buildAuthorisedCheckoutMenu(),
+            // buildAuthorisedOperationsMenu(),
+            // buildAuthorisedRecoveriesMenu(),
+            // buildAuthorisedCheckoutMenu(),
             buildAuthorisedAgentsMenu(),
             buildAuthorisedSimsMenu(),
         ];

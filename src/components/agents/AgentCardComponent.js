@@ -8,7 +8,7 @@ import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer
 // Component
 function AgentCardComponent({agent}) {
     // Local states
-    const [agentDetailsModal, setAgentDetailsModal] = useState({show: false, header: "DETAIL DE L'AGENT", id: ''});
+    const [agentDetailsModal, setAgentDetailsModal] = useState({show: false, header: "DETAIL DE L'AGENT/RESSOURCE", id: ''});
 
     // Hide agent details modal form
     const handleAgentDetailsModalHide = () => {

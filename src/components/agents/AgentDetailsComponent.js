@@ -34,7 +34,7 @@ function AgentDetailsComponent({id, agent, dispatch, request}) {
                 requestFailed(request) ? <ErrorAlertComponent message={request.message} /> : (
                     <div className="card">
                         <div className={`${agentTypeBadgeColor(agent.reference).background} card-header`}>
-                            <h3 className="card-title">PUCE {agentTypeBadgeColor(agent.reference).text}</h3>
+                            <h3 className="card-title">{agentTypeBadgeColor(agent.reference).text}</h3>
                         </div>
                         <div className="card-body"><AgentCompleteCardComponent agent={agent} /></div>
                     </div>
