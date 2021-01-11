@@ -1,8 +1,11 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React, {useState} from 'react';
 
 // Component
 function AgentCNIComponent({frontIDCard, backIDCard}) {
+    // Local states
+    const [cniEditModal, setCNIEditModal] = useState({show: false, header: 'MODIFIER LA CNI'});
+
     // Data
     const Ribbon = ({text, image}) => {
         return (

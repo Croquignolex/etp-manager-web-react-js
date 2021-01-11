@@ -1,10 +1,13 @@
-import React from 'react';
 import PropTypes from "prop-types";
+import React, {useState} from 'react';
 
 import {formatNumber} from "../../functions/generalFunctions";
 
 // Component
 function AgentSimsListComponent({sims}) {
+    // Local states
+    const [addSimModal, setAddSimEditModal] = useState({show: false, header: 'AJOUTER UNE SIM'});
+
     // Render
     return (
         <div className="card">

@@ -1,8 +1,12 @@
-import React from 'react';
 import PropTypes from "prop-types";
+import React, {useState} from 'react';
 
 // Component
 function AgentSecondaryInfoComponent({agent}) {
+    // Local states;
+    const [zoneEditModal, setZoneEditModal] = useState({show: false, header: 'MODIFIER LA ZONE'});
+    const [docEditModal, setDocEditModal] = useState({show: false, header: 'MODIFIER LE DOSSIER'});
+
     // Render
     return (
         <div className="card">

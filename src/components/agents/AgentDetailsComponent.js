@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
 import PropTypes from "prop-types";
+import React, {useEffect} from 'react';
 
 import LoaderComponent from "../LoaderComponent";
 import AgentCNIComponent from "./AgentCNIComponent";
@@ -13,7 +13,6 @@ import {requestFailed, requestLoading} from "../../functions/generalFunctions";
 
 // Component
 function AgentDetailsComponent({id, agent, dispatch, request}) {
-
     // Local effects
     useEffect(() => {
         dispatch(emitAgentFetch({id}));
@@ -36,15 +35,30 @@ function AgentDetailsComponent({id, agent, dispatch, request}) {
                 requestFailed(request) ? <ErrorAlertComponent message={request.message} /> : (
                     <div className="row">
                         <div className="col-lg-6 col-md-6">
+                            <button type="button" className="btn btn-theme mb-1">
+                                <i className="fa fa-pencil" /> Modifier les info
+                            </button>
                             <AgentPrimaryInfoComponent agent={agent} />
                         </div>
                         <div className="col-lg-6 col-md-6">
+                            <button type="button" className="btn btn-theme mt-1 mb-1">
+                                <i className="fa fa-pencil" /> Modifier la zone
+                            </button>
+                            <button type="button" className="btn btn-theme mb-1">
+                                <i className="fa fa-pencil" /> Modifier le dossier
+                            </button>
                             <AgentSecondaryInfoComponent agent={agent} />
                         </div>
                         <div className="col-lg-12 col-md-12">
+                            <button type="button" className="btn btn-theme mb-1">
+                                <i className="fa fa-pencil" /> Modifier la CNI
+                            </button>
                             <AgentCNIComponent frontIDCard={agent.frontIDCard} backIDCard={agent.backIDCard} />
                         </div>
                         <div className="col-lg-12 col-md-12">
+                            <button type="button" className="btn btn-theme mb-1">
+                                <i className="fa fa-plus" /> Ajouter une sim
+                            </button>
                             <AgentSimsListComponent sims={agent.sims} />
                         </div>
                     </div>

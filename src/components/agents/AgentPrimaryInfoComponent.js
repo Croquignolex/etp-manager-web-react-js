@@ -1,11 +1,14 @@
-import React from 'react';
 import PropTypes from "prop-types";
+import React, {useState} from 'react';
 
 import {agentTypeBadgeColor} from "../../functions/typeFunctions";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
 
 // Component
 function AgentPrimaryInfoComponent({agent}) {
+    // Local states
+    const [infoEditModal, setInfoEditModal] = useState({show: false, header: 'MODIFIER LES INFO'});
+
     // Render
     return (
         <div className="card">
