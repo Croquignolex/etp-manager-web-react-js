@@ -74,16 +74,16 @@ function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {
                                         </li>
                                     </ul>
                                     {[PENDING, PROCESSING].includes(item.status) &&
-                                    <div className="mt-3 text-center">
-                                        {item.actionLoader ? <LoaderComponent little={true} /> :
-                                            <button type="button"
-                                                    className="btn btn-theme"
-                                                    onClick={() => handleSupplyModalShow(item)}
-                                            >
-                                                <i className="fa fa-plus" /> Effectuer un flottage
-                                            </button>
-                                        }
-                                    </div>
+                                        <div className="mt-3 text-center">
+                                            {item.actionLoader ? <LoaderComponent little={true} /> :
+                                                <button type="button"
+                                                        className="btn btn-theme"
+                                                        onClick={() => handleSupplyModalShow(item)}
+                                                >
+                                                    <i className="fa fa-plus" /> Effectuer un flottage
+                                                </button>
+                                            }
+                                        </div>
                                     }
                                 </div>
                             </div>

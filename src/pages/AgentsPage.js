@@ -12,8 +12,8 @@ import {AGENT_TYPE, RESOURCE_TYPE} from "../constants/typeConstants";
 import TableSearchComponent from "../components/TableSearchComponent";
 import AgentNewContainer from "../containers/agents/AgentNewContainer";
 import FormModalComponent from "../components/modals/FormModalComponent";
-import AgentsCardsComponent from "../components/agents/AgentsCardsComponent";
 import {emitAgentsFetch, emitNextAgentsFetch} from "../redux/agents/actions";
+import AgentsCardsContainer from "../containers/agents/AgentsCardsContainer";
 import {storeAgentsRequestReset, storeNextAgentsRequestReset} from "../redux/requests/agents/actions";
 import {dateToString, needleSearch, requestFailed, requestLoading} from "../functions/generalFunctions";
 
@@ -101,7 +101,7 @@ function AgentsPage({agents, agentsRequests, hasMoreData, page, dispatch, locati
                                             </div>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
-                                                ? <AgentsCardsComponent agents={searchEngine(agents, needle)} />
+                                                ? <AgentsCardsContainer agents={searchEngine(agents, needle)} />
                                                 : (requestLoading(agentsRequests.list) ? <LoaderComponent /> :
                                                         <InfiniteScroll hasMore={hasMoreData}
                                                                         dataLength={agents.length}
@@ -109,7 +109,7 @@ function AgentsPage({agents, agentsRequests, hasMoreData, page, dispatch, locati
                                                                         loader={<LoaderComponent />}
                                                                         style={{ overflow: 'hidden' }}
                                                         >
-                                                            <AgentsCardsComponent agents={agents} />
+                                                            <AgentsCardsContainer agents={agents} />
                                                         </InfiniteScroll>
                                                 )
                                             }

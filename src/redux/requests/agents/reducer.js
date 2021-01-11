@@ -8,6 +8,7 @@ const initialState = {
     list: {failed: false, loading: false, succeeded: false, message: ""},
     next: {failed: false, loading: false, succeeded: false, message: ""},
     show: {failed: false, loading: false, succeeded: false, message: ""},
+    status: {failed: false, loading: false, succeeded: false, message: ""},
 };
 
 // Reduce
@@ -98,6 +99,23 @@ function reduce(state = initialState, action) {
         // Resolve event to set agent reset request store data
         case actions.STORE_AGENT_REQUEST_RESET:
             nextState = {...state, show: initialState.show};
+            return nextState || state;
+        // ======================================================== Agent status toggle
+        // Resolve event to set agent status toggle init request store data
+        case actions.STORE_AGENT_STATUS_TOGGLE_REQUEST_INIT:
+            nextState = {...state, status: requestInitValue()};
+            return nextState || state;
+        // Resolve event to set agent status toggle failed request store data
+        case actions.STORE_AGENT_STATUS_TOGGLE_REQUEST_FAILED:
+            nextState = {...state, status: requestFailedValue(action.message)};
+            return nextState || state;
+        // Resolve event to set agent status toggle succeeded request store data
+        case actions.STORE_AGENT_STATUS_TOGGLE_REQUEST_SUCCEEDED:
+            nextState = {...state, status: requestSucceededValue(action.message)};
+            return nextState || state;
+        // Resolve event to set agent status toggle reset request store data
+        case actions.STORE_AGENT_STATUS_TOGGLE_REQUEST_RESET:
+            nextState = {...state, status: initialState.status};
             return nextState || state;
         // ========================================================
         // Unknown action

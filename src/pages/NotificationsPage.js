@@ -7,8 +7,7 @@ import {NOTIFICATIONS_PAGE} from "../constants/pageNameConstants";
 import AppLayoutContainer from "../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../components/ErrorAlertComponent";
 import TableSearchComponent from "../components/TableSearchComponent";
-import DeleteModalComponent from "../components/modals/DeleteModalComponent";
-import {emitNotificationDelete, emitNotificationsFetch} from "../redux/notifications/actions";
+import {emitNotificationsFetch} from "../redux/notifications/actions";
 import NotificationsCardsContainer from "../containers/notifications/NotificationsCardsContainer";
 import {
     storeNotificationsRequestReset,
@@ -27,7 +26,6 @@ import {
 function NotificationsPage({notifications, notificationsRequests, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
-    const [deleteModal, setDeleteModal] = useState({show: false, body: '', id: 0});
 
     // Local effects
     useEffect(() => {
@@ -51,26 +49,10 @@ function NotificationsPage({notifications, notificationsRequests, dispatch, loca
         setNeedle(data)
     }
 
-    // Show delete confirmation modal
-    const handleDeleteModalShow = ({id, creation}) => {
-        setDeleteModal({...deleteModal, id, body: `Supprimer cette la notification du ${dateToString(creation)}?`, show: true})
-    }
-
-    // Hide delete confirmation modal
-    const handleDeleteModalHide = () => {
-        setDeleteModal({...deleteModal, show: false})
-    }
-
     // Reset error alert
     const shouldResetErrorData = () => {
         dispatch(storeNotificationsRequestReset());
         dispatch(storeNotificationsDeleteRequestReset());
-    };
-
-    // Trigger when operator delete confirmed on modal
-    const handleDelete = (id) => {
-        handleDeleteModalHide();
-        dispatch(emitNotificationDelete({id}));
     };
 
     // Render
@@ -95,9 +77,7 @@ function NotificationsPage({notifications, notificationsRequests, dispatch, loca
                                             {requestFailed(notificationsRequests.list) && <ErrorAlertComponent message={notificationsRequests.list.message} />}
                                             {requestFailed(notificationsRequests.delete) && <ErrorAlertComponent message={notificationsRequests.delete.message} />}
                                             {requestLoading(notificationsRequests.list) ? <LoaderComponent /> :
-                                                <NotificationsCardsContainer handleDeleteModalShow={handleDeleteModalShow}
-                                                                             notifications={searchEngine(notifications, needle)}
-                                                />
+                                                <NotificationsCardsContainer notifications={searchEngine(notifications, needle)} />
                                             }
                                         </div>
                                     </div>
@@ -107,8 +87,6 @@ function NotificationsPage({notifications, notificationsRequests, dispatch, loca
                     </section>
                 </div>
             </AppLayoutContainer>
-            {/* Modal */}
-            <DeleteModalComponent modal={deleteModal} handleModal={handleDelete} handleClose={handleDeleteModalHide} />
         </>
     )
 }

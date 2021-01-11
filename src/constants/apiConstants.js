@@ -43,7 +43,7 @@ export const AGENT_REMOVE_SIM = `${API_URL}/delete_puce_agent`;
 export const ALL_AGENTS_API_PATH = `${API_URL}/list_agents_all`;
 export const EDIT_AGENT_FILE_API_PATH = `${API_URL}/edit_folder`;
 export const AGENT_ZONE_UPDATE_API_PATH = `${API_URL}/edit_zone_agent`;
-export const EDIT_STATUS_AGENT_API_PATH = `${API_URL}/edit_agent_status`;
+export const TOGGLE_AGENT_STATUS_API_PATH = `${API_URL}/edit_agent_status`;
 
 // Zones
 export const All_ZONES_API_PATH = `${API_URL}/zone_list_all`;

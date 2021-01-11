@@ -4,6 +4,7 @@ export const STORE_SET_AGENTS_DATA = 'STORE_SET_AGENTS_DATA';
 export const STORE_SET_NEW_AGENT_DATA = 'STORE_SET_NEW_AGENT_DATA';
 export const STORE_SET_SIM_ACTION_DATA = 'STORE_SET_SIM_ACTION_DATA';
 export const STORE_SET_NEXT_AGENTS_DATA = 'STORE_SET_NEXT_AGENTS_DATA';
+export const STORE_SET_AGENT_TOGGLE_DATA = 'STORE_SET_AGENT_TOGGLE_DATA';
 export const STORE_STOP_INFINITE_SCROLL_AGENTS_DATA = 'STORE_STOP_INFINITE_SCROLL_AGENTS_DATA';
 
 // Middleware action types
@@ -12,6 +13,7 @@ export const EMIT_AGENT_FETCH = 'EMIT_AGENT_FETCH';
 export const EMIT_AGENTS_FETCH = 'EMIT_AGENTS_FETCH';
 export const EMIT_ALL_AGENTS_FETCH = 'EMIT_ALL_AGENTS_FETCH';
 export const EMIT_NEXT_AGENTS_FETCH = 'EMIT_NEXT_SIMS_FETCH';
+export const EMIT_TOGGLE_AGENT_STATUS = 'EMIT_TOGGLE_AGENT_STATUS';
 
 //====================== Reducer trigger actions
 // Set agents data in store
@@ -53,6 +55,12 @@ export const storeSetAgentActionData = ({id}) => ({
     type: STORE_SET_SIM_ACTION_DATA
 });
 
+// Set agent toggle data in store
+export const storeSetAgentToggleData = ({id}) => ({
+    id,
+    type: STORE_SET_AGENT_TOGGLE_DATA
+});
+
 //====================== Middleware trigger actions
 // Emit agents fetch
 export const emitAgentsFetch = () => ({
@@ -74,6 +82,12 @@ export const emitAllAgentsFetch = () => ({
 export const emitAgentFetch = ({id}) => ({
     id,
     type: EMIT_AGENT_FETCH
+});
+
+// Emit toggle agent status
+export const emitToggleAgentStatus = ({id}) => ({
+    id,
+    type: EMIT_TOGGLE_AGENT_STATUS
 });
 
 // Emit new agent fetch

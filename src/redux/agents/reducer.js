@@ -46,6 +46,16 @@ function reduce(state = initialState, action) {
         case actions.STORE_STOP_INFINITE_SCROLL_AGENTS_DATA:
             nextState = {...state, hasMoreData: false};
             return nextState || state;
+        // Resolve event to toggle agent status data,
+        case actions.STORE_SET_AGENT_TOGGLE_DATA:
+            nextState = {
+                ...state,
+                list: Lodash.map(state.list, (item) => {
+                    if(item.id === action.id) item.status = !item.status;
+                    return item;
+                })
+            };
+            return nextState || state;
         // Resolve event to set sim action data
         case actions.STORE_SET_SIM_ACTION_DATA:
             nextState = {

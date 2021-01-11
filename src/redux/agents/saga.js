@@ -14,7 +14,7 @@ import {
     EMIT_ALL_AGENTS_FETCH,
     EMIT_NEXT_AGENTS_FETCH,
     storeSetNextAgentsData,
-    storeStopInfiniteScrollAgentData
+    storeStopInfiniteScrollAgentData, EMIT_TOGGLE_AGENT_STATUS, storeSetAgentActionData, storeSetAgentToggleData
 } from "./actions";
 import {
     storeAgentRequestInit,
@@ -31,8 +31,16 @@ import {
     storeAddAgentRequestSucceed,
     storeNextAgentsRequestFailed,
     storeAllAgentsRequestSucceed,
-    storeNextAgentsRequestSucceed
+    storeNextAgentsRequestSucceed,
+    storeAgentStatusToggleRequestInit,
+    storeAgentStatusToggleRequestSucceed,
+    storeAgentStatusToggleRequestFailed
 } from "../requests/agents/actions";
+import {
+    storeNotificationsDeleteRequestFailed,
+    storeNotificationsDeleteRequestSucceed
+} from "../requests/notifications/actions";
+import {storeSetNotificationActionData} from "../notifications/actions";
 
 // Fetch all agents from API
 export function* emitAllAgentsFetch() {
@@ -168,6 +176,26 @@ export function* emitAgentFetch() {
     });
 }
 
+// Toggle agent status into API
+export function* emitToggleAgentStatus() {
+    yield takeLatest(EMIT_TOGGLE_AGENT_STATUS, function*({id}) {
+        try {
+            // Fire event for request
+            yield put(storeSetAgentActionData({id}));
+            yield put(storeAgentStatusToggleRequestInit());
+            const apiResponse = yield call(apiPostRequest, `${api.TOGGLE_AGENT_STATUS_API_PATH}/${id}`);
+            // Fire event to redux
+            yield put(storeSetAgentToggleData({id}));
+            // Fire event for request
+            yield put(storeAgentStatusToggleRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeSetAgentActionData({id}));
+            yield put(storeAgentStatusToggleRequestFailed({message}));
+        }
+    });
+}
+
 // Extract sim data
 function extractAgentData(apiAgent, apiUser, apiZone, apiAccount, apiCreator, apiSims) {
     let agent = {
@@ -262,5 +290,6 @@ export default function* sagaAgents() {
         fork(emitAgentsFetch),
         fork(emitAllAgentsFetch),
         fork(emitNextAgentsFetch),
+        fork(emitToggleAgentStatus),
     ]);
 }

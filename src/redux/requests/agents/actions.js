@@ -24,6 +24,11 @@ export const STORE_AGENT_REQUEST_RESET = 'STORE_AGENT_REQUEST_RESET';
 export const STORE_AGENT_REQUEST_FAILED = 'STORE_AGENT_REQUEST_FAILED';
 export const STORE_AGENT_REQUEST_SUCCEEDED = 'STORE_AGENT_REQUEST_SUCCEEDED';
 
+export const STORE_AGENT_STATUS_TOGGLE_REQUEST_INIT = 'STORE_AGENT_STATUS_TOGGLE_REQUEST_INIT';
+export const STORE_AGENT_STATUS_TOGGLE_REQUEST_RESET = 'STORE_AGENT_STATUS_TOGGLE_REQUEST_RESET';
+export const STORE_AGENT_STATUS_TOGGLE_REQUEST_FAILED = 'STORE_AGENT_STATUS_TOGGLE_REQUEST_FAILED';
+export const STORE_AGENT_STATUS_TOGGLE_REQUEST_SUCCEEDED = 'STORE_AGENT_STATUS_TOGGLE_REQUEST_SUCCEEDED';
+
 // ======================================================== Agents
 // Set agents init data into store
 export const storeAgentsRequestInit = () => ({
@@ -133,4 +138,26 @@ export const storeAgentRequestSucceed = ({message}) => ({
 // Set agent reset data into store
 export const storeAgentRequestReset = () => ({
     type: STORE_AGENT_REQUEST_RESET
+});
+// ======================================================== Agent status toggle
+// Set agent status toggle init data into store
+export const storeAgentStatusToggleRequestInit = () => ({
+    type: STORE_AGENT_STATUS_TOGGLE_REQUEST_INIT
+});
+
+// Set agent status toggle failed data into store
+export const storeAgentStatusToggleRequestFailed = ({message}) => ({
+    message,
+    type: STORE_AGENT_STATUS_TOGGLE_REQUEST_FAILED
+});
+
+// Set agent status toggle succeeded data into store
+export const storeAgentStatusToggleRequestSucceed = ({message}) => ({
+    message,
+    type: STORE_AGENT_STATUS_TOGGLE_REQUEST_SUCCEEDED
+});
+
+// Set agent status toggle reset data into store
+export const storeAgentStatusToggleRequestReset = () => ({
+    type: STORE_AGENT_STATUS_TOGGLE_REQUEST_RESET
 });

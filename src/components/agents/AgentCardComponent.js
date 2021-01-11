@@ -4,6 +4,7 @@ import React, {useState} from 'react';
 import FormModalComponent from "../modals/FormModalComponent";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
 import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer";
+import LoaderComponent from "../LoaderComponent";
 
 // Component
 function AgentCardComponent({agent}) {
@@ -45,12 +46,14 @@ function AgentCardComponent({agent}) {
                 </li>
             </ul>
             <div className="mt-2 text-center">
-                <button type="button"
-                        className="btn-theme btn"
-                        onClick={() => setAgentDetailsModal({...agentDetailsModal, show: true, id: agent.id})}
-                >
-                    <i className="fa fa-eye" /> Détails
-                </button>
+                {agent.actionLoader ? <LoaderComponent little={true} /> : (
+                    <button type="button"
+                            className="btn-theme btn"
+                            onClick={() => setAgentDetailsModal({...agentDetailsModal, show: true, id: agent.id})}
+                    >
+                        <i className="fa fa-eye" /> Détails
+                    </button>
+                )}
             </div>
             {/* Modal */}
             <FormModalComponent modal={agentDetailsModal} handleClose={handleAgentDetailsModalHide}>
