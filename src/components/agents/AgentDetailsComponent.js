@@ -2,19 +2,19 @@ import React, {useEffect} from 'react';
 import PropTypes from "prop-types";
 
 import LoaderComponent from "../LoaderComponent";
-import SimCardComponent from "./SimCardComponent";
-import {emitSimFetch} from "../../redux/sims/actions";
 import ErrorAlertComponent from "../ErrorAlertComponent";
-import {storeSimRequestReset} from "../../redux/requests/sims/actions";
+import {emitAgentFetch} from "../../redux/agents/actions";
+import {agentTypeBadgeColor} from "../../functions/typeFunctions";
+import AgentCompleteCardComponent from "./AgentCompleteCardComponent";
+import {storeAgentRequestReset} from "../../redux/requests/agents/actions";
 import {requestFailed, requestLoading} from "../../functions/generalFunctions";
-import {simTypeBadgeColor} from "../../functions/typeFunctions";
 
 // Component
-function SimDetailsComponent({id, agent, dispatch, request}) {
+function AgentDetailsComponent({id, agent, dispatch, request}) {
 
     // Local effects
     useEffect(() => {
-        dispatch(emitSimFetch({id}));
+        dispatch(emitAgentFetch({id}));
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -24,7 +24,7 @@ function SimDetailsComponent({id, agent, dispatch, request}) {
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        dispatch(storeSimRequestReset());
+        dispatch(storeAgentRequestReset());
     };
 
     // Render
@@ -33,10 +33,10 @@ function SimDetailsComponent({id, agent, dispatch, request}) {
             {requestLoading(request)  ? <LoaderComponent /> : (
                 requestFailed(request) ? <ErrorAlertComponent message={request.message} /> : (
                     <div className="card">
-                        <div className={`${simTypeBadgeColor(sim.type.name).background} card-header`}>
-                            <h3 className="card-title">PUCE {simTypeBadgeColor(sim.type.name).text}</h3>
+                        <div className={`${agentTypeBadgeColor(agent.reference).background} card-header`}>
+                            <h3 className="card-title">PUCE {agentTypeBadgeColor(agent.reference).text}</h3>
                         </div>
-                        <div className="card-body"><SimCardComponent sim={sim} /></div>
+                        <div className="card-body"><AgentCompleteCardComponent agent={agent} /></div>
                     </div>
                 )
             )}
@@ -45,11 +45,11 @@ function SimDetailsComponent({id, agent, dispatch, request}) {
 }
 
 // Prop types to ensure destroyed props data type
-SimDetailsComponent.propTypes = {
+AgentDetailsComponent.propTypes = {
     id: PropTypes.string.isRequired,
-    sim: PropTypes.object.isRequired,
+    agent: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired,
 };
 
-export default React.memo(SimDetailsComponent);
+export default React.memo(AgentDetailsComponent);

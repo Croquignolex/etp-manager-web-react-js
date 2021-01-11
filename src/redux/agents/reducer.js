@@ -6,7 +6,20 @@ import * as actions from "./actions";
 const initialState = {
     page: 1,
     list: [],
-    hasMoreData: false
+    hasMoreData: false,
+
+    current: {
+        id: '', name: '', address: '',
+        salePoint: '', frontIDCard: '', backIDCard: '',
+        description: '', phone: '', email: '', creation: '',
+        avatar: '', status: '', reference: '', town: '', country: '',
+
+        creator: {id: '', name: ''},
+        account: {id: '', balance: ''},
+        zone: {id: '', name: '', map: ''},
+
+        sims: []
+    },
 };
 
 // Reduce
@@ -16,6 +29,10 @@ function reduce(state = initialState, action) {
         // Resolve event to set agents data
         case actions.STORE_SET_AGENTS_DATA:
             nextState = {...state, list: action.agents, page: action.page, hasMoreData: action.hasMoreData};
+            return nextState || state;
+        // Resolve event to set agent data
+        case actions.STORE_SET_AGENT_DATA:
+            nextState = {...state, current: action.agent};
             return nextState || state;
         // Resolve event to set new agent data
         case actions.STORE_SET_NEW_AGENT_DATA:

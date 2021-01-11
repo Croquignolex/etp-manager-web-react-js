@@ -7,6 +7,7 @@ const initialState = {
     page: 1,
     list: [],
     hasMoreData: false,
+
     current: {
         id: '', name: '', reference: '', number: '', balance: '', description: '', creation: '',
 

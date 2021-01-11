@@ -11,11 +11,11 @@ import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
 // Component
 function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {
     // Local states
-    const [simDetailModal, setSimDetailModal] = useState({show: false, header: 'DETAIL DE LA PUCE', id: ''});
+    const [simDetailsModal, setSimDetailsModal] = useState({show: false, header: 'DETAIL DE LA PUCE', id: ''});
 
     // Hide sim details modal form
     const handleSimDetailModalHide = () => {
-        setSimDetailModal({...simDetailModal, show: false})
+        setSimDetailsModal({...simDetailsModal, show: false})
     }
 
     // Render
@@ -48,7 +48,7 @@ function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {
                                             <span className="float-right">
                                             {item.sim.number}
                                             <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
-                                               onClick={() => setSimDetailModal({...simDetailModal, show: true, id: item.sim.id})}
+                                               onClick={() => setSimDetailsModal({...simDetailsModal, show: true, id: item.sim.id})}
                                             />
                                         </span>
                                         </li>
@@ -87,8 +87,8 @@ function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {
                 }
             </div>
             {/* Modal */}
-            <FormModalComponent small={true} modal={simDetailModal} handleClose={handleSimDetailModalHide}>
-               <SimDetailsContainer id={simDetailModal.id} />
+            <FormModalComponent small={true} modal={simDetailsModal} handleClose={handleSimDetailModalHide}>
+               <SimDetailsContainer id={simDetailsModal.id} />
             </FormModalComponent>
         </>
     )

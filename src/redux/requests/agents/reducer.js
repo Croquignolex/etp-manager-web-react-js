@@ -7,6 +7,7 @@ const initialState = {
     add: {failed: false, loading: false, succeeded: false, message: ""},
     list: {failed: false, loading: false, succeeded: false, message: ""},
     next: {failed: false, loading: false, succeeded: false, message: ""},
+    show: {failed: false, loading: false, succeeded: false, message: ""},
 };
 
 // Reduce
@@ -80,6 +81,23 @@ function reduce(state = initialState, action) {
         // Resolve event to set add agent reset request store data
         case actions.STORE_ADD_AGENT_REQUEST_RESET:
             nextState = {...state, add: initialState.add};
+            return nextState || state;
+        // ======================================================== Agent
+        // Resolve event to set agent init request store data
+        case actions.STORE_AGENT_REQUEST_INIT:
+            nextState = {...state, show: requestInitValue()};
+            return nextState || state;
+        // Resolve event to set agent failed request store data
+        case actions.STORE_AGENT_REQUEST_FAILED:
+            nextState = {...state, show: requestFailedValue(action.message)};
+            return nextState || state;
+        // Resolve event to set agent succeeded request store data
+        case actions.STORE_AGENT_REQUEST_SUCCEEDED:
+            nextState = {...state, show: requestSucceededValue(action.message)};
+            return nextState || state;
+        // Resolve event to set agent reset request store data
+        case actions.STORE_AGENT_REQUEST_RESET:
+            nextState = {...state, show: initialState.show};
             return nextState || state;
         // ========================================================
         // Unknown action

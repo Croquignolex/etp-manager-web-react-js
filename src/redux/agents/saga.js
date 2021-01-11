@@ -6,7 +6,9 @@ import {AGENT_SCOPE, PROFILE_SCOPE} from "../../constants/defaultConstants";
 import {apiGetRequest, apiPostRequest, getFileFromServer, getImageFromServer} from "../../functions/axiosFunctions";
 import {
     EMIT_NEW_AGENT,
+    EMIT_AGENT_FETCH,
     EMIT_AGENTS_FETCH,
+    storeSetAgentData,
     storeSetAgentsData,
     storeSetNewAgentData,
     EMIT_ALL_AGENTS_FETCH,
@@ -15,8 +17,11 @@ import {
     storeStopInfiniteScrollAgentData
 } from "./actions";
 import {
+    storeAgentRequestInit,
     storeAgentsRequestInit,
+    storeAgentRequestFailed,
     storeAgentsRequestFailed,
+    storeAgentRequestSucceed,
     storeAddAgentRequestInit,
     storeAllAgentsRequestInit,
     storeAgentsRequestSucceed,
@@ -136,8 +141,35 @@ export function* emitNewAgent() {
     });
 }
 
+// Fetch agent from API
+export function* emitAgentFetch() {
+    yield takeLatest(EMIT_AGENT_FETCH, function*({id}) {
+        try {
+            // Fire event for request
+            yield put(storeAgentRequestInit());
+            const apiResponse = yield call(apiGetRequest, `${api.AGENT_API_PATH}/${id}`);
+            // Extract data
+            const agent = extractAgentData(
+                apiResponse.data.agent,
+                apiResponse.data.user,
+                apiResponse.data.zone,
+                apiResponse.data.caisse,
+                apiResponse.data.createur,
+                apiResponse.data.puces
+            );
+            // Fire event to redux
+            yield put(storeSetAgentData({agent}));
+            // Fire event for request
+            yield put(storeAgentRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeAgentRequestFailed({message}));
+        }
+    });
+}
+
 // Extract sim data
-function extractAgentData(apiAgent, apiUser, apiZone, apiAccount, apiCreator) {
+function extractAgentData(apiAgent, apiUser, apiZone, apiAccount, apiCreator, apiSims) {
     let agent = {
         id: '', name: '', address: '',
         salePoint: '', frontIDCard: '', backIDCard: '',
@@ -147,7 +179,22 @@ function extractAgentData(apiAgent, apiUser, apiZone, apiAccount, apiCreator) {
         creator: {id: '', name: ''},
         account: {id: '', balance: ''},
         zone: {id: '', name: '', map: ''},
+
+        sims: [],
     };
+    if(apiSims) {
+        apiSims.forEach(data => {
+            agent.sims.push({
+                name: data.nom,
+                number: data.numero,
+                actionLoader: false,
+                balance: data.solde,
+                id: data.id.toString(),
+                reference: data.reference,
+                creation: data.created_at
+            })
+        });
+    }
     if(apiZone) {
         agent.zone = {
             map: apiZone.map,
@@ -199,7 +246,8 @@ function extractAgentsData(apiAgents) {
                 data.user,
                 data.zone,
                 data.caisse,
-                data.createur
+                data.createur,
+                data.puces
             ));
         });
     }
@@ -210,6 +258,7 @@ function extractAgentsData(apiAgents) {
 export default function* sagaAgents() {
     yield all([
         fork(emitNewAgent),
+        fork(emitAgentFetch),
         fork(emitAgentsFetch),
         fork(emitAllAgentsFetch),
         fork(emitNextAgentsFetch),

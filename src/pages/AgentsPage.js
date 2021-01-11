@@ -22,7 +22,6 @@ function AgentsPage({agents, agentsRequests, hasMoreData, page, dispatch, locati
     // Local states
     const [needle, setNeedle] = useState('');
     const [newAgentModal, setNewAgentModal] = useState({show: false, header: '', type: ''});
-    // const [agentDetailsModal, setAgentDetailsModal] = useState({show: false, header: '', id: ''});
 
     // Local effects
     useEffect(() => {

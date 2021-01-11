@@ -1,20 +1,10 @@
+import React from 'react';
 import PropTypes from "prop-types";
-import React, {useState} from 'react';
 
-import FormModalComponent from "../modals/FormModalComponent";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
-import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer";
 
 // Component
-function AgentCardComponent({agent}) {
-    // Local states
-    const [agentDetailsModal, setAgentDetailsModal] = useState({show: false, header: "DETAIL DE L'AGENT", id: ''});
-
-    // Hide agent details modal form
-    const handleAgentDetailsModalHide = () => {
-        setAgentDetailsModal({...agentDetailsModal, show: false})
-    }
-
+function AgentCardCompleteComponent({agent}) {
     // Render
     return (
         <>
@@ -44,25 +34,13 @@ function AgentCardComponent({agent}) {
                     <span className="float-right">{agent.creator.name}</span>
                 </li>
             </ul>
-            <div className="mt-2 text-center">
-                <button type="button"
-                        className="btn-theme btn"
-                        onClick={() => setAgentDetailsModal({...agentDetailsModal, show: true, id: agent.id})}
-                >
-                    <i className="fa fa-eye" /> Détails
-                </button>
-            </div>
-            {/* Modal */}
-            <FormModalComponent modal={agentDetailsModal} handleClose={handleAgentDetailsModalHide}>
-                <AgentDetailsContainer id={agentDetailsModal.id} />
-            </FormModalComponent>
         </>
     )
 }
 
 // Prop types to ensure destroyed props data type
-AgentCardComponent.propTypes = {
+AgentCardCompleteComponent.propTypes = {
     agent: PropTypes.object.isRequired
 };
 
-export default React.memo(AgentCardComponent);
+export default React.memo(AgentCardCompleteComponent);

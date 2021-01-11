@@ -19,6 +19,11 @@ export const STORE_ADD_AGENT_REQUEST_RESET = 'STORE_ADD_AGENT_REQUEST_RESET';
 export const STORE_ADD_AGENT_REQUEST_FAILED = 'STORE_ADD_AGENT_REQUEST_FAILED';
 export const STORE_ADD_AGENT_REQUEST_SUCCEEDED = 'STORE_ADD_AGENT_REQUEST_SUCCEEDED';
 
+export const STORE_AGENT_REQUEST_INIT = 'STORE_AGENT_REQUEST_INIT';
+export const STORE_AGENT_REQUEST_RESET = 'STORE_AGENT_REQUEST_RESET';
+export const STORE_AGENT_REQUEST_FAILED = 'STORE_AGENT_REQUEST_FAILED';
+export const STORE_AGENT_REQUEST_SUCCEEDED = 'STORE_AGENT_REQUEST_SUCCEEDED';
+
 // ======================================================== Agents
 // Set agents init data into store
 export const storeAgentsRequestInit = () => ({
@@ -106,4 +111,26 @@ export const storeAddAgentRequestSucceed = ({message}) => ({
 // Set add agent reset data into store
 export const storeAddAgentRequestReset = () => ({
     type: STORE_ADD_AGENT_REQUEST_RESET
+});
+// ======================================================== Agent
+// Set agent init data into store
+export const storeAgentRequestInit = () => ({
+    type: STORE_AGENT_REQUEST_INIT
+});
+
+// Set agent failed data into store
+export const storeAgentRequestFailed = ({message}) => ({
+    message,
+    type: STORE_AGENT_REQUEST_FAILED
+});
+
+// Set agent succeeded data into store
+export const storeAgentRequestSucceed = ({message}) => ({
+    message,
+    type: STORE_AGENT_REQUEST_SUCCEEDED
+});
+
+// Set agent reset data into store
+export const storeAgentRequestReset = () => ({
+    type: STORE_AGENT_REQUEST_RESET
 });
