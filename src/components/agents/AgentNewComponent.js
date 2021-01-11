@@ -227,7 +227,7 @@ function AgentCardComponent({type, zones, request, allZonesRequests, dispatch, h
                             <div className='col-sm-6'>
                                 <FileDocumentComponent id='file'
                                                        input={doc}
-                                                       label='Document'
+                                                       label='Dossier agent'
                                                        handleInput={handleFileInput}
                                 />
                             </div>

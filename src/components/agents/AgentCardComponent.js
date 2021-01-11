@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 import React, {useState} from 'react';
 
+import LoaderComponent from "../LoaderComponent";
 import FormModalComponent from "../modals/FormModalComponent";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
 import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer";
-import LoaderComponent from "../LoaderComponent";
 
 // Component
 function AgentCardComponent({agent}) {

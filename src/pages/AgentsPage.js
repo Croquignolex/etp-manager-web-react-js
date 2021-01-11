@@ -85,20 +85,18 @@ function AgentsPage({agents, agentsRequests, hasMoreData, page, dispatch, locati
                                             {/* Error message */}
                                             {requestFailed(agentsRequests.list) && <ErrorAlertComponent message={agentsRequests.list.message} />}
                                             {requestFailed(agentsRequests.next) && <ErrorAlertComponent message={agentsRequests.next.message} />}
-                                            <div className="mb-2">
-                                                <button type="button"
-                                                        className="btn btn-primary mr-2"
-                                                        onClick={handleNewAgentModalShow}
-                                                >
-                                                    <i className="fa fa-plus" /> Nouvel agent
-                                                </button>
-                                                <button type="button"
-                                                        className="btn btn-info"
-                                                        onClick={handleNewResourceModalShow}
-                                                >
-                                                    <i className="fa fa-plus" /> Nouvelle ressource
-                                                </button>
-                                            </div>
+                                            <button type="button"
+                                                    className="btn btn-primary mr-2 mb-2"
+                                                    onClick={handleNewAgentModalShow}
+                                            >
+                                                <i className="fa fa-plus" /> Nouvel agent
+                                            </button>
+                                            <button type="button"
+                                                    className="btn btn-info mb-2"
+                                                    onClick={handleNewResourceModalShow}
+                                            >
+                                                <i className="fa fa-plus" /> Nouvelle ressource
+                                            </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
                                                 ? <AgentsCardsContainer agents={searchEngine(agents, needle)} />

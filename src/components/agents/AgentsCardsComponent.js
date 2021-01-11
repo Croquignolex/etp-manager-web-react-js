@@ -1,16 +1,31 @@
 import PropTypes from "prop-types";
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import LoaderComponent from "../LoaderComponent";
 import AgentCardComponent from "./AgentCardComponent";
 import BlockModalComponent from "../modals/BlockModalComponent";
 import {emitToggleAgentStatus} from "../../redux/agents/actions";
 import {agentTypeBadgeColor} from "../../functions/typeFunctions";
+import {storeAgentStatusToggleRequestReset} from "../../redux/requests/agents/actions";
 
 // Component
 function AgentsCardsComponent({agents, dispatch}) {
     // Local states
     const [blockModal, setBlockModal] = useState({show: false, body: '', id: 0});
+
+    // Local effects
+    useEffect(() => {
+        // Cleaner error alert while component did unmount without store dependency
+        return () => {
+            shouldResetErrorData();
+        };
+        // eslint-disable-next-line
+    }, []);
+
+    // Reset error alert
+    const shouldResetErrorData = () => {
+        dispatch(storeAgentStatusToggleRequestReset());
+    };
 
     // Trigger when user block status confirmed on modal
     const handleBlockStatus = (id, name) => {

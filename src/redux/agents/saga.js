@@ -3,7 +3,12 @@ import { all, takeLatest, put, fork, call } from 'redux-saga/effects'
 import * as api from "../../constants/apiConstants";
 import {APPROVE} from "../../constants/typeConstants";
 import {AGENT_SCOPE, PROFILE_SCOPE} from "../../constants/defaultConstants";
-import {apiGetRequest, apiPostRequest, getFileFromServer, getImageFromServer} from "../../functions/axiosFunctions";
+import {
+    apiGetRequest,
+    apiPostRequest,
+    getFileFromServer,
+    getImageFromServer
+} from "../../functions/axiosFunctions";
 import {
     EMIT_NEW_AGENT,
     EMIT_AGENT_FETCH,
@@ -14,7 +19,10 @@ import {
     EMIT_ALL_AGENTS_FETCH,
     EMIT_NEXT_AGENTS_FETCH,
     storeSetNextAgentsData,
-    storeStopInfiniteScrollAgentData, EMIT_TOGGLE_AGENT_STATUS, storeSetAgentActionData, storeSetAgentToggleData
+    storeSetAgentActionData,
+    storeSetAgentToggleData,
+    EMIT_TOGGLE_AGENT_STATUS,
+    storeStopInfiniteScrollAgentData
 } from "./actions";
 import {
     storeAgentRequestInit,
@@ -33,14 +41,9 @@ import {
     storeAllAgentsRequestSucceed,
     storeNextAgentsRequestSucceed,
     storeAgentStatusToggleRequestInit,
-    storeAgentStatusToggleRequestSucceed,
-    storeAgentStatusToggleRequestFailed
+    storeAgentStatusToggleRequestFailed,
+    storeAgentStatusToggleRequestSucceed
 } from "../requests/agents/actions";
-import {
-    storeNotificationsDeleteRequestFailed,
-    storeNotificationsDeleteRequestSucceed
-} from "../requests/notifications/actions";
-import {storeSetNotificationActionData} from "../notifications/actions";
 
 // Fetch all agents from API
 export function* emitAllAgentsFetch() {
@@ -188,6 +191,7 @@ export function* emitToggleAgentStatus() {
             yield put(storeSetAgentToggleData({id}));
             // Fire event for request
             yield put(storeAgentStatusToggleRequestSucceed({message: apiResponse.message}));
+            yield put(storeSetAgentActionData({id}));
         } catch (message) {
             // Fire event for request
             yield put(storeSetAgentActionData({id}));

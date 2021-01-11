@@ -2,10 +2,12 @@ import React, {useEffect} from 'react';
 import PropTypes from "prop-types";
 
 import LoaderComponent from "../LoaderComponent";
+import AgentCNIComponent from "./AgentCNIComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import {emitAgentFetch} from "../../redux/agents/actions";
-import {agentTypeBadgeColor} from "../../functions/typeFunctions";
-import AgentCompleteCardComponent from "./AgentCompleteCardComponent";
+import AgentSimsListComponent from "./AgentSimsListComponent";
+import AgentPrimaryInfoComponent from "./AgentPrimaryInfoComponent";
+import AgentSecondaryInfoComponent from "./AgentSecondaryInfoComponent";
 import {storeAgentRequestReset} from "../../redux/requests/agents/actions";
 import {requestFailed, requestLoading} from "../../functions/generalFunctions";
 
@@ -32,11 +34,19 @@ function AgentDetailsComponent({id, agent, dispatch, request}) {
         <>
             {requestLoading(request)  ? <LoaderComponent /> : (
                 requestFailed(request) ? <ErrorAlertComponent message={request.message} /> : (
-                    <div className="card">
-                        <div className={`${agentTypeBadgeColor(agent.reference).background} card-header`}>
-                            <h3 className="card-title">{agentTypeBadgeColor(agent.reference).text}</h3>
+                    <div className="row">
+                        <div className="col-lg-6 col-md-6">
+                            <AgentPrimaryInfoComponent agent={agent} />
                         </div>
-                        <div className="card-body"><AgentCompleteCardComponent agent={agent} /></div>
+                        <div className="col-lg-6 col-md-6">
+                            <AgentSecondaryInfoComponent agent={agent} />
+                        </div>
+                        <div className="col-lg-12 col-md-12">
+                            <AgentCNIComponent frontIDCard={agent.frontIDCard} backIDCard={agent.backIDCard} />
+                        </div>
+                        <div className="col-lg-12 col-md-12">
+                            <AgentSimsListComponent sims={agent.sims} />
+                        </div>
                     </div>
                 )
             )}
