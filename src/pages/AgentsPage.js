@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React, {useEffect, useState} from 'react';
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import {emitAllZonesFetch} from "../redux/zones/actions";
 import HeaderComponent from "../components/HeaderComponent";
 import LoaderComponent from "../components/LoaderComponent";
 import {agentTypeBadgeColor} from "../functions/typeFunctions";
@@ -26,7 +25,6 @@ function AgentsPage({agents, agentsRequests, hasMoreData, page, dispatch, locati
     // Local effects
     useEffect(() => {
         dispatch(emitAgentsFetch());
-        dispatch(emitAllZonesFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();

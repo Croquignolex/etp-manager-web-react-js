@@ -79,9 +79,9 @@ function RequestsFleetsAddSupplyComponent({fleet, request, sims, allSimsRequests
         // Check
         if(validationOK) {
             dispatch(emitFleetAddSupply({
+                id: fleet.id,
                 sim: _sim.data,
                 amount: _amount.data,
-                id: fleet.id,
             }));
         }
         else playWarningSound();

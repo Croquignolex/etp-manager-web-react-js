@@ -1,24 +1,21 @@
 import PropTypes from "prop-types";
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 
-import InputComponent from "../form/InputComponent";
+import SelectComponent from "../form/SelectComponent";
 import ButtonComponent from "../form/ButtonComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
-import TextareaComponent from "../form/TextareaComponent";
-import {emitUpdateAgentInfo} from "../../redux/agents/actions";
+import {emitUpdateAgentZone} from "../../redux/agents/actions";
 import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
-import {storeAgentEditInfoRequestReset} from "../../redux/requests/agents/actions";
+import {dataToArrayForSelect, mappedZones} from "../../functions/arrayFunctions";
+import {storeAgentEditZoneRequestReset} from "../../redux/requests/agents/actions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
-function AgentZoneEditComponent({request, agent, dispatch, handleClose}) {
+function AgentZoneEditComponent({request, agent, zones, allZonesRequests, dispatch, handleClose}) {
     // Local state
-    const [name, setName] = useState({...DEFAULT_FORM_DATA, data: agent.name});
-    const [email, setEmail] = useState({...DEFAULT_FORM_DATA, data: agent.email});
-    const [address, setAddress] = useState({...DEFAULT_FORM_DATA, data: agent.address});
-    const [description, setDescription] = useState({...DEFAULT_FORM_DATA, data: agent.description});
+    const [zone, setZone] = useState({...DEFAULT_FORM_DATA, data: agent.zone.id});
 
     // Local effects
     useEffect(() => {
@@ -41,47 +38,31 @@ function AgentZoneEditComponent({request, agent, dispatch, handleClose}) {
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        dispatch(storeAgentEditInfoRequestReset());
+        dispatch(storeAgentEditZoneRequestReset());
     };
 
-    const handleNameInput = (data) => {
-        shouldResetErrorData();
-        setName({...name, isValid: true, data})
-    }
+    // Build select options
+    const zonesSelectOptions = useMemo(() => {
+        return dataToArrayForSelect(mappedZones(zones))
+    }, [zones]);
 
-    const handleEmailInput = (data) => {
+    const handleZoneSelect = (data) => {
         shouldResetErrorData();
-        setEmail({...email, isValid: true, data})
-    }
-
-    const handleAddressInput = (data) => {
-        shouldResetErrorData();
-        setAddress({...address, isValid: true, data})
-    }
-
-    const handleDescriptionInput = (data) => {
-        shouldResetErrorData();
-        setDescription({...description, isValid: true, data})
+        setZone({...zone,  isValid: true, data})
     }
 
     // Trigger user information form submit
     const handleSubmit = (e) => {
         e.preventDefault();
         shouldResetErrorData();
-        const _name = requiredChecker(name);
+        const _zone = requiredChecker(zone);
         // Set value
-        setName(_name);
-        const validationOK = _name.isValid;
+        setZone(_zone);
+        const validationOK = _zone.isValid;
         // Check
-        if(validationOK)
-            dispatch(emitUpdateAgentInfo({
-                id: agent.id,
-                name: _name.data,
-                email: email.data,
-                address: address.data,
-                description: description.data
-            }));
-        else playWarningSound();
+        if(validationOK) {
+            dispatch(emitUpdateAgentZone({id: agent.id, zone: _zone.data}))
+        } else playWarningSound();
     };
 
     // Render
@@ -91,35 +72,13 @@ function AgentZoneEditComponent({request, agent, dispatch, handleClose}) {
             <form onSubmit={handleSubmit}>
                 <div className='row'>
                     <div className='col-sm-6'>
-                        <InputComponent label='Nom'
-                                        type='text'
-                                        input={name}
-                                        id='inputName'
-                                        handleInput={handleNameInput}
-                        />
-                    </div>
-                    <div className='col-sm-6'>
-                        <InputComponent type='text'
-                                        label='Email'
-                                        input={email}
-                                        id='inputEmail'
-                                        handleInput={handleEmailInput}
-                        />
-                    </div>
-                </div>
-                <div className='row'>
-                    <div className='col-sm-6'>
-                        <TextareaComponent label='Adresse'
-                                           input={address}
-                                           id='inputAddress'
-                                           handleInput={handleAddressInput}
-                        />
-                    </div>
-                    <div className='col-sm-6'>
-                        <TextareaComponent label='Description'
-                                           input={description}
-                                           id='inputDescription'
-                                           handleInput={handleDescriptionInput}
+                        <SelectComponent input={zone}
+                                         label='Zone'
+                                         id='inputZone'
+                                         title='Choisir une zone'
+                                         options={zonesSelectOptions}
+                                         handleInput={handleZoneSelect}
+                                         requestProcessing={requestLoading(allZonesRequests)}
                         />
                     </div>
                 </div>
@@ -133,10 +92,12 @@ function AgentZoneEditComponent({request, agent, dispatch, handleClose}) {
 
 // Prop types to ensure destroyed props data type
 AgentZoneEditComponent.propTypes = {
+    zones: PropTypes.array.isRequired,
     agent: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired,
     handleClose: PropTypes.func.isRequired,
+    allZonesRequests: PropTypes.object.isRequired,
 };
 
 export default React.memo(AgentZoneEditComponent);

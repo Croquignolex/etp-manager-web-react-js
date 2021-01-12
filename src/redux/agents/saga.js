@@ -17,9 +17,12 @@ import {
     storeSetAgentsData,
     storeSetNewAgentData,
     EMIT_ALL_AGENTS_FETCH,
+    EMIT_UPDATE_AGENT_DOC,
+    EMIT_UPDATE_AGENT_CNI,
     EMIT_NEXT_AGENTS_FETCH,
     storeSetNextAgentsData,
     EMIT_UPDATE_AGENT_INFO,
+    EMIT_UPDATE_AGENT_ZONE,
     storeSetAgentActionData,
     storeSetAgentToggleData,
     EMIT_TOGGLE_AGENT_STATUS,
@@ -40,10 +43,19 @@ import {
     storeAddAgentRequestSucceed,
     storeNextAgentsRequestFailed,
     storeAllAgentsRequestSucceed,
+    storeAgentEditCniRequestInit,
+    storeAgentEditDocRequestInit,
     storeNextAgentsRequestSucceed,
     storeAgentEditInfoRequestInit,
+    storeAgentEditZoneRequestInit,
+    storeAgentEditDocRequestFailed,
+    storeAgentEditCniRequestFailed,
     storeAgentEditInfoRequestFailed,
+    storeAgentEditDocRequestSucceed,
+    storeAgentEditCniRequestSucceed,
+    storeAgentEditZoneRequestFailed,
     storeAgentEditInfoRequestSucceed,
+    storeAgentEditZoneRequestSucceed,
     storeAgentStatusToggleRequestInit,
     storeAgentStatusToggleRequestFailed,
     storeAgentStatusToggleRequestSucceed
@@ -204,7 +216,7 @@ export function* emitToggleAgentStatus() {
     });
 }
 
-// Fleet add supply from API
+// Update agent info
 export function* emitUpdateAgentInfo() {
     yield takeLatest(EMIT_UPDATE_AGENT_INFO, function*({id, email, name, address, description}) {
         try {
@@ -228,6 +240,93 @@ export function* emitUpdateAgentInfo() {
         } catch (message) {
             // Fire event for request
             yield put(storeAgentEditInfoRequestFailed({message}));
+        }
+    });
+}
+
+// Update agent zone
+export function* emitUpdateAgentZone() {
+    yield takeLatest(EMIT_UPDATE_AGENT_ZONE, function*({id, zone}) {
+        try {
+            // Fire event for request
+            yield put(storeAgentEditZoneRequestInit());
+            const data = {id_zone: zone};
+            const apiResponse = yield call(apiPostRequest, `${api.AGENT_ZONE_UPDATE_API_PATH}/${id}`, data);
+            // Extract data
+            const agent = extractAgentData(
+                apiResponse.data.agent,
+                apiResponse.data.user,
+                apiResponse.data.zone,
+                apiResponse.data.caisse,
+                apiResponse.data.createur,
+                apiResponse.data.puces
+            );
+            // Fire event to redux
+            yield put(storeSetAgentData({agent, alsoInList: true}));
+            // Fire event for request
+            yield put(storeAgentEditZoneRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeAgentEditZoneRequestFailed({message}));
+        }
+    });
+}
+
+// Update agent doc
+export function* emitUpdateAgentDoc() {
+    yield takeLatest(EMIT_UPDATE_AGENT_DOC, function*({id, doc}) {
+        try {
+            // Fire event for request
+            yield put(storeAgentEditDocRequestInit());
+            const data = new FormData();
+            data.append('document', doc);
+            const apiResponse = yield call(apiPostRequest, `${api.EDIT_AGENT_DOC_API_PATH}/${id}`, data);
+            // Extract data
+            const agent = extractAgentData(
+                apiResponse.data.agent,
+                apiResponse.data.user,
+                apiResponse.data.zone,
+                apiResponse.data.caisse,
+                apiResponse.data.createur,
+                apiResponse.data.puces
+            );
+            // Fire event to redux
+            yield put(storeSetAgentData({agent, alsoInList: true}));
+            // Fire event for request
+            yield put(storeAgentEditDocRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeAgentEditDocRequestFailed({message}));
+        }
+    });
+}
+
+// Update agent cni
+export function* emitUpdateAgentCNI() {
+    yield takeLatest(EMIT_UPDATE_AGENT_CNI, function*({id, frontIDCard, backIDCard}) {
+        try {
+            // Fire event for request
+            yield put(storeAgentEditCniRequestInit());
+            const data = new FormData();
+            data.append('base_64_image', frontIDCard);
+            data.append('base_64_image_back', backIDCard);
+            const apiResponse = yield call(apiPostRequest, `${api.AGENT_ZONE_UPDATE_API_PATH}/${id}`, data);
+            // Extract data
+            const agent = extractAgentData(
+                apiResponse.data.agent,
+                apiResponse.data.user,
+                apiResponse.data.zone,
+                apiResponse.data.caisse,
+                apiResponse.data.createur,
+                apiResponse.data.puces
+            );
+            // Fire event to redux
+            yield put(storeSetAgentData({agent, alsoInList: true}));
+            // Fire event for request
+            yield put(storeAgentEditCniRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeAgentEditCniRequestFailed({message}));
         }
     });
 }
@@ -324,7 +423,10 @@ export default function* sagaAgents() {
         fork(emitNewAgent),
         fork(emitAgentFetch),
         fork(emitAgentsFetch),
+        fork(emitUpdateAgentCNI),
+        fork(emitUpdateAgentDoc),
         fork(emitAllAgentsFetch),
+        fork(emitUpdateAgentZone),
         fork(emitNextAgentsFetch),
         fork(emitUpdateAgentInfo),
         fork(emitToggleAgentStatus),

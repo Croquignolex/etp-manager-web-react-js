@@ -4,8 +4,10 @@ import AgentZoneEditComponent from "../../components/agents/AgentZoneEditCompone
 
 // Map state function to component props
 const mapStateToProps = (state) => ({
+    zones: state.zones.list,
     agent: state.agents.current,
     request: state.agentsRequests.edit.zone,
+    allZonesRequests: state.zonesRequests.all,
 });
 
 // Map dispatch function to component props
