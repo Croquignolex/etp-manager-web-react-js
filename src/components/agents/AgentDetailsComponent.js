@@ -35,13 +35,10 @@ function AgentDetailsComponent({id, agent, dispatch, request}) {
                 requestFailed(request) ? <ErrorAlertComponent message={request.message} /> : (
                     <div className="row">
                         <div className="col-lg-6 col-md-6">
-                            <button type="button" className="btn btn-theme mb-1">
-                                <i className="fa fa-pencil" /> Modifier les info
-                            </button>
                             <AgentPrimaryInfoComponent agent={agent} />
                         </div>
                         <div className="col-lg-6 col-md-6">
-                            <button type="button" className="btn btn-theme mt-1 mb-1">
+                            <button type="button" className="btn btn-theme mr-1 mb-1">
                                 <i className="fa fa-pencil" /> Modifier la zone
                             </button>
                             <button type="button" className="btn btn-theme mb-1">

@@ -9,6 +9,13 @@ const initialState = {
     next: {failed: false, loading: false, succeeded: false, message: ""},
     show: {failed: false, loading: false, succeeded: false, message: ""},
     status: {failed: false, loading: false, succeeded: false, message: ""},
+    edit: {
+        doc: {failed: false, loading: false, succeeded: false, message: ""},
+        cni: {failed: false, loading: false, succeeded: false, message: ""},
+        sim: {failed: false, loading: false, succeeded: false, message: ""},
+        info: {failed: false, loading: false, succeeded: false, message: ""},
+        zone: {failed: false, loading: false, succeeded: false, message: ""},
+    }
 };
 
 // Reduce
@@ -116,6 +123,91 @@ function reduce(state = initialState, action) {
         // Resolve event to set agent status toggle reset request store data
         case actions.STORE_AGENT_STATUS_TOGGLE_REQUEST_RESET:
             nextState = {...state, status: initialState.status};
+            return nextState || state;
+        // ======================================================== Agent edit info
+        // Resolve event to set agent edit info init request store data
+        case actions.STORE_AGENT_EDIT_INFO_REQUEST_INIT:
+            nextState = {...state, edit: {...state.edit, info: requestInitValue()}};
+            return nextState || state;
+        // Resolve event to set agent edit info failed request store data
+        case actions.STORE_AGENT_EDIT_INFO_REQUEST_FAILED:
+            nextState = {...state, edit: {...state.edit, info: requestFailedValue(action.message)}};
+            return nextState || state;
+        // Resolve event to set agent edit info succeeded request store data
+        case actions.STORE_AGENT_EDIT_INFO_REQUEST_SUCCEEDED:
+            nextState = {...state, edit: {...state.edit, info: requestSucceededValue(action.message)}};
+            return nextState || state;
+        // Resolve event to set agent edit info reset request store data
+        case actions.STORE_AGENT_EDIT_INFO_REQUEST_RESET:
+            nextState = {...state, edit: {...state.edit, info: initialState.edit.info}};
+            return nextState || state;
+        // ======================================================== Agent edit zone
+        // Resolve event to set agent edit zone init request store data
+        case actions.STORE_AGENT_EDIT_ZONE_REQUEST_INIT:
+            nextState = {...state, edit: {...state.edit, zone: requestInitValue()}};
+            return nextState || state;
+        // Resolve event to set agent edit zone failed request store data
+        case actions.STORE_AGENT_EDIT_ZONE_REQUEST_FAILED:
+            nextState = {...state, edit: {...state.edit, zone: requestFailedValue(action.message)}};
+            return nextState || state;
+        // Resolve event to set agent edit zone succeeded request store data
+        case actions.STORE_AGENT_EDIT_ZONE_REQUEST_SUCCEEDED:
+            nextState = {...state, edit: {...state.edit, zone: requestSucceededValue(action.message)}};
+            return nextState || state;
+        // Resolve event to set agent edit zone reset request store data
+        case actions.STORE_AGENT_EDIT_ZONE_REQUEST_RESET:
+            nextState = {...state, edit: {...state.edit, zone: initialState.edit.zone}};
+            return nextState || state;
+        // ======================================================== Agent edit doc
+        // Resolve event to set agent edit info init request store data
+        case actions.STORE_AGENT_EDIT_INFO_REQUEST_INIT:
+            nextState = {...state, edit: {...state.edit, info: requestInitValue()}};
+            return nextState || state;
+        // Resolve event to set agent edit info failed request store data
+        case actions.STORE_AGENT_EDIT_INFO_REQUEST_FAILED:
+            nextState = {...state, edit: {...state.edit, info: requestFailedValue(action.message)}};
+            return nextState || state;
+        // Resolve event to set agent edit info succeeded request store data
+        case actions.STORE_AGENT_EDIT_INFO_REQUEST_SUCCEEDED:
+            nextState = {...state, edit: {...state.edit, info: requestSucceededValue(action.message)}};
+            return nextState || state;
+        // Resolve event to set agent edit info reset request store data
+        case actions.STORE_AGENT_EDIT_INFO_REQUEST_RESET:
+            nextState = {...state, edit: {...state.edit, info: initialState.edit.info}};
+            return nextState || state;
+        // ======================================================== Agent edit info
+        // Resolve event to set agent edit info init request store data
+        case actions.STORE_AGENT_EDIT_INFO_REQUEST_INIT:
+            nextState = {...state, edit: {...state.edit, info: requestInitValue()}};
+            return nextState || state;
+        // Resolve event to set agent edit info failed request store data
+        case actions.STORE_AGENT_EDIT_INFO_REQUEST_FAILED:
+            nextState = {...state, edit: {...state.edit, info: requestFailedValue(action.message)}};
+            return nextState || state;
+        // Resolve event to set agent edit info succeeded request store data
+        case actions.STORE_AGENT_EDIT_INFO_REQUEST_SUCCEEDED:
+            nextState = {...state, edit: {...state.edit, info: requestSucceededValue(action.message)}};
+            return nextState || state;
+        // Resolve event to set agent edit info reset request store data
+        case actions.STORE_AGENT_EDIT_INFO_REQUEST_RESET:
+            nextState = {...state, edit: {...state.edit, info: initialState.edit.info}};
+            return nextState || state;
+        // ======================================================== Agent edit info
+        // Resolve event to set agent edit info init request store data
+        case actions.STORE_AGENT_EDIT_INFO_REQUEST_INIT:
+            nextState = {...state, edit: {...state.edit, info: requestInitValue()}};
+            return nextState || state;
+        // Resolve event to set agent edit info failed request store data
+        case actions.STORE_AGENT_EDIT_INFO_REQUEST_FAILED:
+            nextState = {...state, edit: {...state.edit, info: requestFailedValue(action.message)}};
+            return nextState || state;
+        // Resolve event to set agent edit info succeeded request store data
+        case actions.STORE_AGENT_EDIT_INFO_REQUEST_SUCCEEDED:
+            nextState = {...state, edit: {...state.edit, info: requestSucceededValue(action.message)}};
+            return nextState || state;
+        // Resolve event to set agent edit info reset request store data
+        case actions.STORE_AGENT_EDIT_INFO_REQUEST_RESET:
+            nextState = {...state, edit: {...state.edit, info: initialState.edit.info}};
             return nextState || state;
         // ========================================================
         // Unknown action
