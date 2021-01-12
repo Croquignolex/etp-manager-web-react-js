@@ -8,7 +8,6 @@ import AgentPrimaryInfoEditContainer from "../../containers/agents/AgentPrimaryI
 
 // Component
 function AgentPrimaryInfoComponent({agent}) {
-    console.log(agent)
     // Local states
     const [infoEditModal, setInfoEditModal] = useState({show: false, header: 'MODIFIER LES INFO DE ' + agent.name});
 

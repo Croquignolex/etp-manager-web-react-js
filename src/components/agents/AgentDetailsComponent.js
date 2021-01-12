@@ -38,12 +38,6 @@ function AgentDetailsComponent({id, agent, dispatch, request}) {
                             <AgentPrimaryInfoComponent agent={agent} />
                         </div>
                         <div className="col-lg-6 col-md-6">
-                            <button type="button" className="btn btn-theme mr-1 mb-1">
-                                <i className="fa fa-pencil" /> Modifier la zone
-                            </button>
-                            <button type="button" className="btn btn-theme mb-1">
-                                <i className="fa fa-pencil" /> Modifier le dossier
-                            </button>
                             <AgentSecondaryInfoComponent agent={agent} />
                         </div>
                         <div className="col-lg-12 col-md-12">

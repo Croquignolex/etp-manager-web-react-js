@@ -1,51 +1,90 @@
 import PropTypes from "prop-types";
 import React, {useState} from 'react';
 
+import FormModalComponent from "../modals/FormModalComponent";
+import AgentCniEditContainer from "../../containers/agents/AgentCniEditContainer";
+import AgentZoneEditContainer from "../../containers/agents/AgentZoneEditContainer";
+
 // Component
 function AgentSecondaryInfoComponent({agent}) {
     // Local states;
     const [zoneEditModal, setZoneEditModal] = useState({show: false, header: 'MODIFIER LA ZONE'});
     const [docEditModal, setDocEditModal] = useState({show: false, header: 'MODIFIER LE DOSSIER'});
 
+    // Show zone edit modal form
+    const handleZoneEditModalShow = () => {
+        setZoneEditModal({...zoneEditModal, show: true})
+    }
+
+    // Hide zone edit modal form
+    const handleZoneEditModalHide = () => {
+        setZoneEditModal({...zoneEditModal, show: false})
+    }
+
+    // Show doc edit modal form
+    const handleDocEditModalShow = () => {
+        setDocEditModal({...docEditModal, show: true})
+    }
+
+    // Hide doc edit modal form
+    const handleDocEditModalHide = () => {
+        setDocEditModal({...docEditModal, show: false})
+    }
+
     // Render
     return (
-        <div className="card">
-            <div className="card-body">
-                <ul className="list-group list-group-unbordered mb-3">
-                    <li className="list-group-item">
-                        <b>Créer par</b>
-                        <span className="float-right">{agent.creator.name}</span>
-                    </li>
-                    <li className="list-group-item">
-                        <b>Ville</b>
-                        <span className="float-right">{agent.town}</span>
-                    </li>
-                    <li className="list-group-item">
-                        <b>Pays</b>
-                        <span className="float-right">{agent.country}</span>
-                    </li>
-                    <li className="list-group-item">
-                        <b>Zone</b>
-                        <span className="float-right">{agent.zone.name}</span>
-                    </li>
-                    <li className="list-group-item">
-                        <b>Address</b>
-                        <p>{agent.address}</p>
-                    </li>
-                    <li className="list-group-item">
-                        <b>Description</b>
-                        <p>{agent.description}</p>
-                    </li>
-                    {agent.document && (
-                        <li className="list-group-item text-center">
-                            <a download target='_blank' href={agent.document} rel='noopener noreferrer' className="btn btn-theme">
-                                Dossier agent
-                            </a>
+        <>
+            <button type="button" className="btn btn-theme mr-1 mb-1" onClick={handleZoneEditModalShow}>
+                <i className="fa fa-pencil" /> Modifier la zone
+            </button>
+            <button type="button" className="btn btn-theme mb-1" onClick={handleDocEditModalShow}>
+                <i className="fa fa-pencil" /> Modifier le dossier
+            </button>
+            <div className="card">
+                <div className="card-body">
+                    <ul className="list-group list-group-unbordered mb-3">
+                        <li className="list-group-item">
+                            <b>Créer par</b>
+                            <span className="float-right">{agent.creator.name}</span>
                         </li>
-                    )}
-                </ul>
+                        <li className="list-group-item">
+                            <b>Ville</b>
+                            <span className="float-right">{agent.town}</span>
+                        </li>
+                        <li className="list-group-item">
+                            <b>Pays</b>
+                            <span className="float-right">{agent.country}</span>
+                        </li>
+                        <li className="list-group-item">
+                            <b>Zone</b>
+                            <span className="float-right">{agent.zone.name}</span>
+                        </li>
+                        <li className="list-group-item">
+                            <b>Address</b>
+                            <p>{agent.address}</p>
+                        </li>
+                        <li className="list-group-item">
+                            <b>Description</b>
+                            <p>{agent.description}</p>
+                        </li>
+                        {agent.document && (
+                            <li className="list-group-item text-center">
+                                <a download target='_blank' href={agent.document} rel='noopener noreferrer' className="btn btn-theme">
+                                    Dossier agent
+                                </a>
+                            </li>
+                        )}
+                    </ul>
+                </div>
             </div>
-        </div>
+            {/* Modal */}
+            <FormModalComponent modal={zoneEditModal} handleClose={handleZoneEditModalHide}>
+                <AgentZoneEditContainer handleClose={handleZoneEditModalHide} />
+            </FormModalComponent>
+            <FormModalComponent modal={docEditModal} handleClose={handleDocEditModalHide}>
+                <AgentCniEditContainer handleClose={handleDocEditModalHide} />
+            </FormModalComponent>
+        </>
     )
 }
 
