@@ -73,7 +73,7 @@ function AgentPrimaryInfoEditComponent({request, agent, dispatch, handleClose}) 
         setName(_name);
         const validationOK = _name.isValid;
         // Check
-        if(validationOK)
+        if(validationOK) {
             dispatch(emitUpdateAgentInfo({
                 id: agent.id,
                 name: _name.data,
@@ -81,6 +81,7 @@ function AgentPrimaryInfoEditComponent({request, agent, dispatch, handleClose}) 
                 address: address.data,
                 description: description.data
             }));
+        }
         else playWarningSound();
     };
 

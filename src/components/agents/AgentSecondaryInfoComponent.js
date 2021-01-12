@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React, {useState} from 'react';
 
 import FormModalComponent from "../modals/FormModalComponent";
-import AgentCniEditContainer from "../../containers/agents/AgentCniEditContainer";
+import AgentDocEditContainer from "../../containers/agents/AgentDocEditContainer";
 import AgentZoneEditContainer from "../../containers/agents/AgentZoneEditContainer";
 
 // Component
@@ -82,7 +82,7 @@ function AgentSecondaryInfoComponent({agent}) {
                 <AgentZoneEditContainer handleClose={handleZoneEditModalHide} />
             </FormModalComponent>
             <FormModalComponent modal={docEditModal} handleClose={handleDocEditModalHide}>
-                <AgentCniEditContainer handleClose={handleDocEditModalHide} />
+                <AgentDocEditContainer handleClose={handleDocEditModalHide} />
             </FormModalComponent>
         </>
     )

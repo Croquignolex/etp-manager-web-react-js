@@ -3,15 +3,18 @@ import React, {useEffect, useState} from 'react';
 
 import ButtonComponent from "../form/ButtonComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
+import {emitUpdateAgentDoc} from "../../redux/agents/actions";
+import FileDocumentComponent from "../form/FileDocumentComponent";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
-import {storeAgentEditInfoRequestReset} from "../../redux/requests/agents/actions";
+import {playWarningSound} from "../../functions/playSoundFunctions";
+import {requiredFileChecker} from "../../functions/checkerFunctions";
+import {storeAgentEditDocRequestReset} from "../../redux/requests/agents/actions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
-function AgentCniEditComponent({request, agent, dispatch, handleClose}) {
+function AgentDocEditComponent({request, agent, dispatch, handleClose}) {
     // Local state
-    const [backIDCard, setBackIDCard] = useState(DEFAULT_FORM_DATA);
-    const [frontIDCard, setFrontIDCard] = useState(DEFAULT_FORM_DATA);
+    const [doc, setDoc] = useState(DEFAULT_FORM_DATA);
 
     // Local effects
     useEffect(() => {
@@ -34,13 +37,26 @@ function AgentCniEditComponent({request, agent, dispatch, handleClose}) {
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        dispatch(storeAgentEditInfoRequestReset());
+        dispatch(storeAgentEditDocRequestReset());
     };
 
+    const handleFileInput = (data) => {
+        shouldResetErrorData();
+        setDoc({...doc, isValid: true, data})
+    }
 
     // Trigger user information form submit
     const handleSubmit = (e) => {
-
+        e.preventDefault();
+        shouldResetErrorData();
+        const _doc = requiredFileChecker(doc);
+        // Set value
+        setDoc(_doc);
+        const validationOK = _doc.isValid;
+        // Check
+        if(validationOK) {
+            dispatch(emitUpdateAgentDoc({id: agent.id, doc: _doc.data}));
+        } else playWarningSound();
     };
 
     // Render
@@ -48,7 +64,15 @@ function AgentCniEditComponent({request, agent, dispatch, handleClose}) {
         <>
             {requestFailed(request) && <ErrorAlertComponent message={request.message} />}
             <form onSubmit={handleSubmit}>
-
+                <div className='row'>
+                    <div className='col'>
+                        <FileDocumentComponent id='file'
+                                               input={doc}
+                                               label='Dossier agent'
+                                               handleInput={handleFileInput}
+                        />
+                    </div>
+                </div>
                 <div className="form-group row">
                     <ButtonComponent processing={requestLoading(request)} />
                 </div>
@@ -58,11 +82,11 @@ function AgentCniEditComponent({request, agent, dispatch, handleClose}) {
 }
 
 // Prop types to ensure destroyed props data type
-AgentCniEditComponent.propTypes = {
+AgentDocEditComponent.propTypes = {
     agent: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired,
     handleClose: PropTypes.func.isRequired,
 };
 
-export default React.memo(AgentCniEditComponent);
+export default React.memo(AgentDocEditComponent);
