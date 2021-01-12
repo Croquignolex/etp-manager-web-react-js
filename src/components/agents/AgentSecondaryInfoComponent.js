@@ -8,8 +8,8 @@ import AgentZoneEditContainer from "../../containers/agents/AgentZoneEditContain
 // Component
 function AgentSecondaryInfoComponent({agent}) {
     // Local states;
-    const [zoneEditModal, setZoneEditModal] = useState({show: false, header: 'MODIFIER LA ZONE'});
-    const [docEditModal, setDocEditModal] = useState({show: false, header: 'MODIFIER LE DOSSIER'});
+    const [zoneEditModal, setZoneEditModal] = useState({show: false, header: 'MODIFIER LA ZONE DE ' + agent.name});
+    const [docEditModal, setDocEditModal] = useState({show: false, header: 'MODIFIER LE DOSSIER DE ' + agent.name});
 
     // Show zone edit modal form
     const handleZoneEditModalShow = () => {

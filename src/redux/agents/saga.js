@@ -310,7 +310,7 @@ export function* emitUpdateAgentCNI() {
             const data = new FormData();
             data.append('base_64_image', frontIDCard);
             data.append('base_64_image_back', backIDCard);
-            const apiResponse = yield call(apiPostRequest, `${api.AGENT_ZONE_UPDATE_API_PATH}/${id}`, data);
+            const apiResponse = yield call(apiPostRequest, `${api.EDIT_AGENT_CNI_API_PATH}/${id}`, data);
             // Extract data
             const agent = extractAgentData(
                 apiResponse.data.agent,

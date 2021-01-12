@@ -45,10 +45,7 @@ function AgentDetailsComponent({id, agent, dispatch, request}) {
                             <AgentSecondaryInfoComponent agent={agent} />
                         </div>
                         <div className="col-lg-12 col-md-12">
-                            <button type="button" className="btn btn-theme mb-1">
-                                <i className="fa fa-pencil" /> Modifier la CNI
-                            </button>
-                            <AgentCNIComponent frontIDCard={agent.frontIDCard} backIDCard={agent.backIDCard} />
+                            <AgentCNIComponent agent={agent} />
                         </div>
                         <div className="col-lg-12 col-md-12">
                             <button type="button" className="btn btn-theme mb-1">

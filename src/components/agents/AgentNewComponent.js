@@ -86,7 +86,7 @@ function AgentCardComponent({type, zones, request, allZonesRequests, dispatch, h
 
     const handleZoneSelect = (data) => {
         shouldResetErrorData();
-        setZone({...zone,  isValid: true, data})
+        setZone({...zone, isValid: true, data})
     }
 
     const handleFileInput = (data) => {
@@ -127,6 +127,7 @@ function AgentCardComponent({type, zones, request, allZonesRequests, dispatch, h
             _document.isValid && _zone.isValid &&
             _backIDCard.isValid && _frontIDCard.isValid
         );
+        console.log(_backIDCard)
         // Check
         if(validationOK)
             dispatch(emitNewAgent({
@@ -137,11 +138,11 @@ function AgentCardComponent({type, zones, request, allZonesRequests, dispatch, h
                 phone: _phone.data,
                 address: address.data,
                 document: _document.data,
-                backIDCard: _backIDCard.data,
                 town: constants.DEFAULT_TOWN,
                 description: description.data,
-                frontIDCard: _frontIDCard.data,
+                backIDCard: _backIDCard.data.file,
                 country: constants.DEFAULT_COUNTRY,
+                frontIDCard: _frontIDCard.data.file,
                 password: constants.DEFAULT_PASSWORD,
             }));
         else playWarningSound();
