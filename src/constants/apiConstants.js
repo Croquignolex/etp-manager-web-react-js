@@ -47,3 +47,6 @@ export const TOGGLE_AGENT_STATUS_API_PATH = `${API_URL}/edit_agent_status`;
 
 // Zones
 export const All_ZONES_API_PATH = `${API_URL}/zone_list_all`;
+
+// Operators
+export const All_OPERATORS_API_PATH = `${API_URL}/flote_list_all`;

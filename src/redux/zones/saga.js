@@ -30,7 +30,7 @@ export function* emitAllZonesFetch() {
 }
 
 // Extract zone data
-function extractZoneData(apiZone, apiAgents, apiCollector) {
+function extractZoneData(apiZone, apiCollector) {
     let zone = {
         id: '', name: '', reference: '', map: '', description: '', creation: '',
 
@@ -60,7 +60,7 @@ function extractZonesData(apiZones) {
     const zones = [];
     if(apiZones) {
         apiZones.forEach(data => {
-            zones.push(extractZoneData(data.zone, data.agents, data.recouvreur));
+            zones.push(extractZoneData(data.zone, data.recouvreur));
         });
     }
     return zones;

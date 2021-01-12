@@ -2,73 +2,62 @@ import { all, takeLatest, put, fork, call } from 'redux-saga/effects'
 
 import * as api from "../../constants/apiConstants";
 import {apiGetRequest} from "../../functions/axiosFunctions";
-import {EMIT_ALL_ZONES_FETCH, storeSetZonesData} from "./actions";
+import {EMIT_ALL_OPERATORS_FETCH, storeSetOperatorsData} from "./actions";
 import {
-    storeAllZonesRequestInit,
-    storeAllZonesRequestFailed,
-    storeAllZonesRequestSucceed
-} from "../requests/zones/actions";
+    storeAllOperatorsRequestInit,
+    storeAllOperatorsRequestFailed,
+    storeAllOperatorsRequestSucceed
+} from "../requests/operators/actions";
 
-// Fetch all zones from API
-export function* emitAllZonesFetch() {
-    yield takeLatest(EMIT_ALL_ZONES_FETCH, function*() {
+// Fetch all operators from API
+export function* emitAllOperatorsFetch() {
+    yield takeLatest(EMIT_ALL_OPERATORS_FETCH, function*() {
         try {
             // Fire event for request
-            yield put(storeAllZonesRequestInit());
-            const apiResponse = yield call(apiGetRequest, api.All_ZONES_API_PATH);
+            yield put(storeAllOperatorsRequestInit());
+            const apiResponse = yield call(apiGetRequest, api.All_OPERATORS_API_PATH);
             // Extract data
-            const zones = extractZonesData(apiResponse.data.zones);
+            const operators = extractOperatorsData(apiResponse.data.flotes);
             // Fire event to redux
-            yield put(storeSetZonesData({zones, hasMoreData: false, page: 0}));
+            yield put(storeSetOperatorsData({operators, hasMoreData: false, page: 0}));
             // Fire event for request
-            yield put(storeAllZonesRequestSucceed({message: apiResponse.message}));
+            yield put(storeAllOperatorsRequestSucceed({message: apiResponse.message}));
         } catch (message) {
             // Fire event for request
-            yield put(storeAllZonesRequestFailed({message}));
+            yield put(storeAllOperatorsRequestFailed({message}));
         }
     });
 }
 
 // Extract zone data
-function extractZoneData(apiZone, apiAgents, apiCollector) {
-    let zone = {
-        id: '', name: '', reference: '', map: '', description: '', creation: '',
-
-        collector: {id: '', name: '', phone: ''},
+function extractOperatorData(apiOperator) {
+    let operator = {
+        id: '', name: '', description: '', creation: '',
     };
-    if(apiCollector) {
-        zone.collector = {
-            name: apiCollector.name,
-            phone: apiCollector.phone,
-            id: apiCollector.id.toString()
-        }
+    if(apiOperator) {
+        operator.actionLoader = false;
+        operator.name = apiOperator.nom;
+        operator.id = apiOperator.id.toString();
+        operator.creation = apiOperator.created_at;
+        operator.description = apiOperator.description;
     }
-    if(apiZone) {
-        zone.map = apiZone.map;
-        zone.name = apiZone.nom;
-        zone.actionLoader = false;
-        zone.id = apiZone.id.toString();
-        zone.reference = apiZone.reference;
-        zone.creation = apiZone.created_at;
-        zone.description = apiZone.description;
-    }
-    return zone;
+    return operator;
 }
 
 // Extract zones data
-function extractZonesData(apiZones) {
-    const zones = [];
-    if(apiZones) {
-        apiZones.forEach(data => {
-            zones.push(extractZoneData(data.zone, data.agents, data.recouvreur));
+function extractOperatorsData(apiOperators) {
+    const operators = [];
+    if(apiOperators) {
+        apiOperators.forEach(data => {
+            operators.push(extractOperatorData(data.flote));
         });
     }
-    return zones;
+    return operators;
 }
 
 // Combine to export all functions at once
 export default function* sagaZones() {
     yield all([
-        fork(emitAllZonesFetch),
+        fork(emitAllOperatorsFetch),
     ]);
 }

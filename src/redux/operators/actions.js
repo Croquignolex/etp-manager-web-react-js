@@ -1,20 +1,20 @@
 // Reducer action types
-export const STORE_SET_ZONES_DATA = 'STORE_SET_ZONES_DATA';
+export const STORE_SET_OPERATORS_DATA = 'STORE_SET_OPERATORS_DATA';
 
 // Middleware action types
-export const EMIT_ALL_ZONES_FETCH = 'EMIT_ALL_ZONES_FETCH';
+export const EMIT_ALL_OPERATORS_FETCH = 'EMIT_ALL_OPERATORS_FETCH';
 
 //====================== Reducer trigger actions
-// Set zones data in store
-export const storeSetZonesData = ({zones, hasMoreData, page}) => ({
+// Set operators data in store
+export const storeSetOperatorsData = ({operators, hasMoreData, page}) => ({
     page,
-    zones,
+    operators,
     hasMoreData,
-    type: STORE_SET_ZONES_DATA
+    type: STORE_SET_OPERATORS_DATA
 });
 
 //====================== Middleware trigger actions
-// Emit all zones fetch
-export const emitAllZonesFetch = () => ({
-    type: EMIT_ALL_ZONES_FETCH
+// Emit all operators fetch
+export const emitAllOperatorsFetch = () => ({
+    type: EMIT_ALL_OPERATORS_FETCH
 });

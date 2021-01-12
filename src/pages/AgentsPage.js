@@ -6,6 +6,7 @@ import {emitAllZonesFetch} from "../redux/zones/actions";
 import HeaderComponent from "../components/HeaderComponent";
 import LoaderComponent from "../components/LoaderComponent";
 import {agentTypeBadgeColor} from "../functions/typeFunctions";
+import {emitAllOperatorsFetch} from "../redux/operators/actions";
 import AppLayoutContainer from "../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../components/ErrorAlertComponent";
 import {AGENT_TYPE, RESOURCE_TYPE} from "../constants/typeConstants";
@@ -15,6 +16,7 @@ import FormModalComponent from "../components/modals/FormModalComponent";
 import {storeAllZonesRequestReset} from "../redux/requests/zones/actions";
 import {emitAgentsFetch, emitNextAgentsFetch} from "../redux/agents/actions";
 import AgentsCardsContainer from "../containers/agents/AgentsCardsContainer";
+import {storeAllOperatorsRequestReset} from "../redux/requests/operators/actions";
 import {storeAgentsRequestReset, storeNextAgentsRequestReset} from "../redux/requests/agents/actions";
 import {dateToString, needleSearch, requestFailed, requestLoading} from "../functions/generalFunctions";
 
@@ -28,6 +30,7 @@ function AgentsPage({agents, agentsRequests, hasMoreData, page, dispatch, locati
     useEffect(() => {
         dispatch(emitAgentsFetch());
         dispatch(emitAllZonesFetch());
+        dispatch(emitAllOperatorsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -44,6 +47,7 @@ function AgentsPage({agents, agentsRequests, hasMoreData, page, dispatch, locati
         dispatch(storeAgentsRequestReset());
         dispatch(storeAllZonesRequestReset());
         dispatch(storeNextAgentsRequestReset());
+        dispatch(storeAllOperatorsRequestReset());
     };
 
     // Fetch next agents data to enhance infinite scroll
