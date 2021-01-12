@@ -68,7 +68,7 @@ function AgentPrimaryInfoComponent({agent}) {
             </div>
             {/* Modal */}
             <FormModalComponent modal={infoEditModal} handleClose={handleInfoEditModalHide}>
-                <AgentPrimaryInfoEditContainer />
+                <AgentPrimaryInfoEditContainer handleClose={handleInfoEditModalHide} />
             </FormModalComponent>
         </>
     )

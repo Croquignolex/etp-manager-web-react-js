@@ -13,6 +13,7 @@ export const EMIT_AGENT_FETCH = 'EMIT_AGENT_FETCH';
 export const EMIT_AGENTS_FETCH = 'EMIT_AGENTS_FETCH';
 export const EMIT_ALL_AGENTS_FETCH = 'EMIT_ALL_AGENTS_FETCH';
 export const EMIT_NEXT_AGENTS_FETCH = 'EMIT_NEXT_SIMS_FETCH';
+export const EMIT_UPDATE_AGENT_INFO = 'EMIT_UPDATE_AGENT_INFO';
 export const EMIT_TOGGLE_AGENT_STATUS = 'EMIT_TOGGLE_AGENT_STATUS';
 
 //====================== Reducer trigger actions
@@ -31,8 +32,9 @@ export const storeSetNewAgentData = ({agent}) => ({
 });
 
 // Set agent data in store
-export const storeSetAgentData = ({agent}) => ({
+export const storeSetAgentData = ({agent, alsoInList = false}) => ({
     agent,
+    alsoInList,
     type: STORE_SET_AGENT_DATA
 });
 
@@ -108,4 +110,14 @@ export const emitNewAgent = ({name, address, phone, zone, reference, town,
     frontIDCard,
     description,
     type: EMIT_NEW_AGENT
+});
+
+// Emit update agent info
+export const emitUpdateAgentInfo = ({id, email, name, address, description}) => ({
+    id,
+    name,
+    email,
+    address,
+    description,
+    type: EMIT_UPDATE_AGENT_INFO
 });

@@ -19,6 +19,7 @@ import {
     EMIT_ALL_AGENTS_FETCH,
     EMIT_NEXT_AGENTS_FETCH,
     storeSetNextAgentsData,
+    EMIT_UPDATE_AGENT_INFO,
     storeSetAgentActionData,
     storeSetAgentToggleData,
     EMIT_TOGGLE_AGENT_STATUS,
@@ -40,6 +41,9 @@ import {
     storeNextAgentsRequestFailed,
     storeAllAgentsRequestSucceed,
     storeNextAgentsRequestSucceed,
+    storeAgentEditInfoRequestInit,
+    storeAgentEditInfoRequestFailed,
+    storeAgentEditInfoRequestSucceed,
     storeAgentStatusToggleRequestInit,
     storeAgentStatusToggleRequestFailed,
     storeAgentStatusToggleRequestSucceed
@@ -200,6 +204,34 @@ export function* emitToggleAgentStatus() {
     });
 }
 
+// Fleet add supply from API
+export function* emitUpdateAgentInfo() {
+    yield takeLatest(EMIT_UPDATE_AGENT_INFO, function*({id, email, name, address, description}) {
+        try {
+            // Fire event for request
+            yield put(storeAgentEditInfoRequestInit());
+            const data = {email, name, adresse: address, description};
+            const apiResponse = yield call(apiPostRequest, `${api.EDIT_AGENT_INFO_API_PATH}/${id}`, data);
+            // Extract data
+            const agent = extractAgentData(
+                apiResponse.data.agent,
+                apiResponse.data.user,
+                apiResponse.data.zone,
+                apiResponse.data.caisse,
+                apiResponse.data.createur,
+                apiResponse.data.puces
+            );
+            // Fire event to redux
+            yield put(storeSetAgentData({agent, alsoInList: true}));
+            // Fire event for request
+            yield put(storeAgentEditInfoRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeAgentEditInfoRequestFailed({message}));
+        }
+    });
+}
+
 // Extract sim data
 function extractAgentData(apiAgent, apiUser, apiZone, apiAccount, apiCreator, apiSims) {
     let agent = {
@@ -294,6 +326,7 @@ export default function* sagaAgents() {
         fork(emitAgentsFetch),
         fork(emitAllAgentsFetch),
         fork(emitNextAgentsFetch),
+        fork(emitUpdateAgentInfo),
         fork(emitToggleAgentStatus),
     ]);
 }

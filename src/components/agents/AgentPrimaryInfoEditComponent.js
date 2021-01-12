@@ -5,12 +5,15 @@ import InputComponent from "../form/InputComponent";
 import ButtonComponent from "../form/ButtonComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import TextareaComponent from "../form/TextareaComponent";
+import {emitUpdateAgentInfo} from "../../redux/agents/actions";
 import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
-import {requestFailed, requestLoading} from "../../functions/generalFunctions";
+import {playWarningSound} from "../../functions/playSoundFunctions";
+import {storeAgentEditInfoRequestReset} from "../../redux/requests/agents/actions";
+import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
-function AgentPrimaryInfoEditComponent({request, agent, dispatch}) {
+function AgentPrimaryInfoEditComponent({request, agent, dispatch, handleClose}) {
     // Local state
     const [name, setName] = useState({...DEFAULT_FORM_DATA, data: agent.name});
     const [email, setEmail] = useState({...DEFAULT_FORM_DATA, data: agent.email});
@@ -26,9 +29,19 @@ function AgentPrimaryInfoEditComponent({request, agent, dispatch}) {
         // eslint-disable-next-line
     }, []);
 
+    // Local effects
+    useEffect(() => {
+        // Reset inputs while toast (well done) into current scope
+        if(requestSucceeded(request)) {
+            applySuccess(request.message);
+            handleClose()
+        }
+        // eslint-disable-next-line
+    }, [request]);
+
     // Reset error alert
     const shouldResetErrorData = () => {
-        //dispatch(storeAgentRequestReset());
+        dispatch(storeAgentEditInfoRequestReset());
     };
 
     const handleNameInput = (data) => {
@@ -60,18 +73,15 @@ function AgentPrimaryInfoEditComponent({request, agent, dispatch}) {
         setName(_name);
         const validationOK = _name.isValid;
         // Check
-        /*if(validationOK)
-            dispatch(emitUpdateAgent({
-                id: userData.id,
-                name: _name.val,
-                email: email.val,
-                town: DEFAULT_TOWN,
-                address: address.val,
-                reference: reference.val,
-                country: DEFAULT_COUNTRY,
-                description: description.val
+        if(validationOK)
+            dispatch(emitUpdateAgentInfo({
+                id: agent.id,
+                name: _name.data,
+                email: email.data,
+                address: address.data,
+                description: description.data
             }));
-        else playWarningSound();*/
+        else playWarningSound();
     };
 
     // Render
@@ -126,6 +136,7 @@ AgentPrimaryInfoEditComponent.propTypes = {
     agent: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired,
+    handleClose: PropTypes.func.isRequired,
 };
 
 export default React.memo(AgentPrimaryInfoEditComponent);

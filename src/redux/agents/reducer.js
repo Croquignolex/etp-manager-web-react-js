@@ -33,6 +33,15 @@ function reduce(state = initialState, action) {
         // Resolve event to set agent data
         case actions.STORE_SET_AGENT_DATA:
             nextState = {...state, current: action.agent};
+            if(action.alsoInList) {
+                nextState = {
+                    ...nextState,
+                    list: Lodash.map(nextState.list, (item) => {
+                        if(item.id === action.agent.id) item = action.agent;
+                        return item;
+                    })
+                };
+            }
             return nextState || state;
         // Resolve event to set new agent data
         case actions.STORE_SET_NEW_AGENT_DATA:
