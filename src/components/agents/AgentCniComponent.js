@@ -38,7 +38,7 @@ function AgentCniComponent({agent}) {
     // Render
     return (
         <>
-            <button type="button" className="btn btn-theme mb-1"  onClick={handleCniEditModalShow}>
+            <button type="button" className="btn btn-theme mb-1" onClick={handleCniEditModalShow}>
                 <i className="fa fa-pencil" /> Modifier la CNI
             </button>
             <div className='row'>

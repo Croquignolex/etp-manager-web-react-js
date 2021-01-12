@@ -4,6 +4,7 @@ import zones from './zones/reducer';
 import fleets from './fleets/reducer';
 import agents from './agents/reducer';
 import settings from './settings/reducer';
+import operators from './operators/reducer';
 import clearances from './clearances/reducer';
 import userRequests from './requests/user/reducer';
 import simsRequests from './requests/sims/reducer';
@@ -12,6 +13,7 @@ import zonesRequests from './requests/zones/reducer';
 import agentsRequests from './requests/agents/reducer';
 import fleetsRequests from './requests/fleets/reducer';
 import settingsRequests from './requests/settings/reducer';
+import operatorsRequests from './requests/operators/reducer';
 import clearancesRequests from './requests/clearances/reducer';
 import notificationsRequests from './requests/notifications/reducer';
 
@@ -23,6 +25,7 @@ export default {
     agents,
     fleets,
     settings,
+    operators,
     clearances,
     simsRequests,
     userRequests,
@@ -31,6 +34,7 @@ export default {
     fleetsRequests,
     agentsRequests,
     settingsRequests,
+    operatorsRequests,
     clearancesRequests,
     notificationsRequests,
 };

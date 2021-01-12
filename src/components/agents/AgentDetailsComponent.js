@@ -44,10 +44,7 @@ function AgentDetailsComponent({id, agent, dispatch, request}) {
                             <AgentCniComponent agent={agent} />
                         </div>
                         <div className="col-lg-12 col-md-12">
-                            <button type="button" className="btn btn-theme mb-1">
-                                <i className="fa fa-plus" /> Ajouter une sim
-                            </button>
-                            <AgentSimsListComponent sims={agent.sims} />
+                            <AgentSimsListComponent agent={agent} />
                         </div>
                     </div>
                 )
