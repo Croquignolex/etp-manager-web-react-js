@@ -15,6 +15,7 @@ import {
     EMIT_AGENTS_FETCH,
     storeSetAgentData,
     storeSetAgentsData,
+    EMIT_ADD_AGENT_SIMS,
     storeSetNewAgentData,
     EMIT_ALL_AGENTS_FETCH,
     EMIT_UPDATE_AGENT_DOC,
@@ -40,6 +41,7 @@ import {
     storeAddAgentRequestFailed,
     storeNextAgentsRequestInit,
     storeAllAgentsRequestFailed,
+    storeAgentAddSimRequestInit,
     storeAddAgentRequestSucceed,
     storeNextAgentsRequestFailed,
     storeAllAgentsRequestSucceed,
@@ -47,9 +49,11 @@ import {
     storeAgentEditDocRequestInit,
     storeNextAgentsRequestSucceed,
     storeAgentEditInfoRequestInit,
+    storeAgentAddSimRequestFailed,
     storeAgentEditZoneRequestInit,
     storeAgentEditDocRequestFailed,
     storeAgentEditCniRequestFailed,
+    storeAgentAddSimRequestSucceed,
     storeAgentEditInfoRequestFailed,
     storeAgentEditDocRequestSucceed,
     storeAgentEditCniRequestSucceed,
@@ -331,6 +335,34 @@ export function* emitUpdateAgentCNI() {
     });
 }
 
+// Add agent sim
+export function* emitAddAgentSims() {
+    yield takeLatest(EMIT_ADD_AGENT_SIMS, function*({id, name, reference, number, description, operator}) {
+        try {
+            // Fire event for request
+            yield put(storeAgentAddSimRequestInit());
+            const data = {reference, nom: name, description, numero: number, id_flotte: operator,}
+            const apiResponse = yield call(apiPostRequest, `${api.AGENT_ADD_SIM}/${id}`, data);
+            // Extract data
+            const agent = extractAgentData(
+                apiResponse.data.agent,
+                apiResponse.data.user,
+                apiResponse.data.zone,
+                apiResponse.data.caisse,
+                apiResponse.data.createur,
+                apiResponse.data.puces
+            );
+            // Fire event to redux
+            yield put(storeSetAgentData({agent, alsoInList: true}));
+            // Fire event for request
+            yield put(storeAgentAddSimRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeAgentAddSimRequestFailed({message}));
+        }
+    });
+}
+
 // Extract sim data
 function extractAgentData(apiAgent, apiUser, apiZone, apiAccount, apiCreator, apiSims) {
     let agent = {
@@ -386,7 +418,7 @@ function extractAgentData(apiAgent, apiUser, apiZone, apiAccount, apiCreator, ap
         agent.town = apiAgent.ville;
         agent.country = apiAgent.pays;
         agent.address = apiUser.adresse;
-        agent.id = apiAgent.id.toString();
+        agent.id = apiUser.id.toString();
         agent.creation = apiUser.created_at;
         agent.reference = apiAgent.reference;
         agent.description = apiUser.description;
@@ -423,6 +455,7 @@ export default function* sagaAgents() {
         fork(emitNewAgent),
         fork(emitAgentFetch),
         fork(emitAgentsFetch),
+        fork(emitAddAgentSims),
         fork(emitUpdateAgentCNI),
         fork(emitUpdateAgentDoc),
         fork(emitAllAgentsFetch),

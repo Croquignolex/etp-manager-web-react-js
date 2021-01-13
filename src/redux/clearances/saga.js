@@ -96,7 +96,7 @@ function extractClearanceData(apiSim, apiUser, apiAgent, apiClaimer, apiFleet) {
     if(apiAgent && apiUser) {
         fleet.agent = {
             name: apiUser.name,
-            id: apiAgent.id.toString()
+            id: apiUser.id.toString()
         };
     }
     if(apiSim) {

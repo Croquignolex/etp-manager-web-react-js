@@ -11,6 +11,7 @@ export const STORE_STOP_INFINITE_SCROLL_AGENTS_DATA = 'STORE_STOP_INFINITE_SCROL
 export const EMIT_NEW_AGENT = 'EMIT_NEW_AGENT';
 export const EMIT_AGENT_FETCH = 'EMIT_AGENT_FETCH';
 export const EMIT_AGENTS_FETCH = 'EMIT_AGENTS_FETCH';
+export const EMIT_ADD_AGENT_SIMS = 'EMIT_ADD_AGENT_SIMS';
 export const EMIT_ALL_AGENTS_FETCH = 'EMIT_ALL_AGENTS_FETCH';
 export const EMIT_UPDATE_AGENT_CNI = 'EMIT_UPDATE_AGENT_CNI';
 export const EMIT_NEXT_AGENTS_FETCH = 'EMIT_NEXT_SIMS_FETCH';
@@ -145,4 +146,15 @@ export const emitUpdateAgentCNI = ({id, frontIDCard, backIDCard}) => ({
     backIDCard,
     frontIDCard,
     type: EMIT_UPDATE_AGENT_CNI
+});
+
+// Emit add agent sims
+export const emitAddAgentSims = ({id, name, reference, number, description, operator}) => ({
+    id,
+    name,
+    number,
+    operator,
+    reference,
+    description,
+    type: EMIT_ADD_AGENT_SIMS
 });

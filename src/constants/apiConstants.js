@@ -38,7 +38,6 @@ export const EDIT_AGENT_CNI_API_PATH = `${API_URL}/edit_cni`;
 export const AGENT_ADD_SIM = `${API_URL}/ajouter_puce_agent`;
 export const CREATE_AGENT_API_PATH = `${API_URL}/create_agent`;
 export const DELETE_AGENT_API_PATH = `${API_URL}/delete_agent`;
-export const AGENT_REMOVE_SIM = `${API_URL}/delete_puce_agent`;
 export const EDIT_AGENT_INFO_API_PATH = `${API_URL}/edit_agent`;
 export const ALL_AGENTS_API_PATH = `${API_URL}/list_agents_all`;
 export const EDIT_AGENT_DOC_API_PATH = `${API_URL}/edit_folder`;

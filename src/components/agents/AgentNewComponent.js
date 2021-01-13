@@ -18,7 +18,7 @@ import {fileChecker, imageChecker, phoneChecker, requiredChecker} from "../../fu
 import ErrorAlertComponent from "../ErrorAlertComponent";
 
 // Component
-function AgentCardComponent({type, zones, request, allZonesRequests, dispatch, handleClose}) {
+function AgentNewComponent({type, zones, request, allZonesRequests, dispatch, handleClose}) {
     // Local state
     const [doc, setDoc] = useState(constants.DEFAULT_FORM_DATA);
     const [zone, setZone] = useState(constants.DEFAULT_FORM_DATA);
@@ -244,7 +244,7 @@ function AgentCardComponent({type, zones, request, allZonesRequests, dispatch, h
 }
 
 // Prop types to ensure destroyed props data type
-AgentCardComponent.propTypes = {
+AgentNewComponent.propTypes = {
     zones: PropTypes.array.isRequired,
     type: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
@@ -253,4 +253,4 @@ AgentCardComponent.propTypes = {
     allZonesRequests: PropTypes.object.isRequired,
 };
 
-export default React.memo(AgentCardComponent);
+export default React.memo(AgentNewComponent);

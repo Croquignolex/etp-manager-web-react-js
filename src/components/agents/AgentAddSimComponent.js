@@ -1,10 +1,17 @@
 import PropTypes from "prop-types";
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 
+import InputComponent from "../form/InputComponent";
 import ButtonComponent from "../form/ButtonComponent";
+import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
+import TextareaComponent from "../form/TextareaComponent";
+import {emitAddAgentSims} from "../../redux/agents/actions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
-import {storeAgentEditCniRequestReset} from "../../redux/requests/agents/actions";
+import {dataToArrayForSelect} from "../../functions/arrayFunctions";
+import {playWarningSound} from "../../functions/playSoundFunctions";
+import {phoneChecker, requiredChecker} from "../../functions/checkerFunctions";
+import {storeAgentAddSimRequestReset} from "../../redux/requests/agents/actions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
@@ -36,15 +43,59 @@ function AgentAddSimComponent({request, agent, operators, allOperatorsRequests, 
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        dispatch(storeAgentEditCniRequestReset());
+        dispatch(storeAgentAddSimRequestReset());
     };
 
+    const handleDescriptionInput = (data) => {
+        shouldResetErrorData();
+        setDescription({...description, isValid: true, data})
+    }
 
+    const handleNameInput = (data) => {
+        shouldResetErrorData();
+        setName({...name, isValid: true, data})
+    }
+
+    const handleNumberInput = (data) => {
+        shouldResetErrorData();
+        setNumber({...number, isValid: true, data})
+    }
+
+    const handleOperatorSelect = (data) => {
+        shouldResetErrorData();
+        setOperator({...operator,  isValid: true, data})
+    }
+
+    // Build select options
+    const operatorSelectOptions = useMemo(() => {
+        return dataToArrayForSelect(operators);
+    }, [operators]);
 
     // Trigger user information form submit
     const handleSubmit = (e) => {
         e.preventDefault();
+        shouldResetErrorData();
+        const _name = requiredChecker(name);
+        const _number = phoneChecker(number);
+        const _operator = requiredChecker(operator);
+        // Set value
+        setName(_name);
+        setOperator(_operator);
+        setNumber(_number);
+        const validationOK = (_name.isValid && _number.isValid && _operator.isValid);
 
+        // Check
+        if(validationOK) {
+            dispatch(emitAddAgentSims({
+                id: agent.id,
+                name: _name.data,
+                number: _number.data,
+                operator: _operator.data,
+                reference: agent.reference,
+                description: description.data
+            }));
+        }
+        else playWarningSound();
     };
 
     // Render
@@ -52,7 +103,43 @@ function AgentAddSimComponent({request, agent, operators, allOperatorsRequests, 
         <>
             {requestFailed(request) && <ErrorAlertComponent message={request.message} />}
             <form onSubmit={handleSubmit}>
-
+                <div className='row'>
+                    <div className='col-sm-6'>
+                        <InputComponent label='Nom'
+                                        type='text'
+                                        input={name}
+                                        id='inputName'
+                                        handleInput={handleNameInput}
+                        />
+                    </div>
+                    <div className='col-sm-6'>
+                        <InputComponent type='text'
+                                        label='Numéro'
+                                        input={number}
+                                        id='inputNumber'
+                                        handleInput={handleNumberInput}
+                        />
+                    </div>
+                </div>
+                <div className='row'>
+                    <div className='col-sm-6'>
+                        <SelectComponent input={operator}
+                                         label='Opérateur'
+                                         id='inputOperator'
+                                         title='Choisir un oprétateur'
+                                         options={operatorSelectOptions}
+                                         handleInput={handleOperatorSelect}
+                                         requestProcessing={requestLoading(allOperatorsRequests)}
+                        />
+                    </div>
+                    <div className='col-sm-6'>
+                        <TextareaComponent label='Description'
+                                           input={description}
+                                           id='inputDescription'
+                                           handleInput={handleDescriptionInput}
+                        />
+                    </div>
+                </div>
                 <div className="form-group row">
                     <ButtonComponent processing={requestLoading(request)} />
                 </div>
