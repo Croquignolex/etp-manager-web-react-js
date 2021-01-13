@@ -6,6 +6,7 @@ import zones from './zones/saga';
 import agents from './agents/saga';
 import fleets from './fleets/saga';
 import settings from './settings/saga';
+import payments from './payments/saga';
 import operators from './operators/saga';
 import clearances from './clearances/saga';
 import notifications from './notifications/saga';
@@ -18,6 +19,7 @@ export default function* sagas() {
         zones(),
         agents(),
         fleets(),
+        payments(),
         settings(),
         operators(),
         clearances(),

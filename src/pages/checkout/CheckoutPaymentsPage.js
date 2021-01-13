@@ -2,36 +2,30 @@ import PropTypes from 'prop-types';
 import React, {useEffect, useState} from 'react';
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import {emitAllSimsFetch} from "../../redux/sims/actions";
 import HeaderComponent from "../../components/HeaderComponent";
 import LoaderComponent from "../../components/LoaderComponent";
-import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
+import {CHECKOUT_PAYMENTS_PAGE} from "../../constants/pageNameConstants";
 import TableSearchComponent from "../../components/TableSearchComponent";
-import {storeAllSimsRequestReset} from "../../redux/requests/sims/actions";
 import FormModalComponent from "../../components/modals/FormModalComponent";
-import {emitFleetsFetch, emitNextFleetsFetch} from "../../redux/fleets/actions";
 import RequestsFleetsCardsComponent from "../../components/requests/RequestsFleetsCardsComponent";
-import {storeFleetsRequestReset, storeNextFleetsRequestReset} from "../../redux/requests/fleets/actions";
-import RequestsFleetsAddSupplyContainer from "../../containers/requests/RequestsFleetsAddSupplyContainer";
 import {
-    dateToString,
     needleSearch,
     requestFailed,
     requestLoading,
 } from "../../functions/generalFunctions";
 
 // Component
-function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch, location}) {
+function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
-    const [supplyModal, setSupplyModal] = useState({show: false, header: 'EFFECTUER UN FLOTTAGE', item: {}});
+    const [paymentModal, setPaymentModal] = useState({show: false, header: 'EFFECTUER UN ENCAISSEMENT'});
 
     // Local effects
     useEffect(() => {
-        dispatch(emitFleetsFetch());
-        dispatch(emitAllSimsFetch());
+        // dispatch(emitFleetsFetch());
+        // dispatch(emitAllSimsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -45,24 +39,24 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        dispatch(storeFleetsRequestReset());
-        dispatch(storeAllSimsRequestReset());
-        dispatch(storeNextFleetsRequestReset());
+        // dispatch(storeFleetsRequestReset());
+        // dispatch(storeAllSimsRequestReset());
+        // dispatch(storeNextFleetsRequestReset());
     };
 
     // Fetch next fleets data to enhance infinite scroll
     const handleNextFleetsData = () => {
-        dispatch(emitNextFleetsFetch({page}));
+        // dispatch(emitNextFleetsFetch({page}));
     }
 
-    // Show supply modal form
-    const handleSupplyModalShow = (item) => {
-        setSupplyModal({...supplyModal, item, show: true})
+    // Show payment modal form
+    const handlePaymentModalShow = (item) => {
+        setPaymentModal({...paymentModal, item, show: true})
     }
 
-    // Hide supply modal form
-    const handleSupplyModalHide = () => {
-        setSupplyModal({...supplyModal, show: false})
+    // Hide payment modal form
+    const handlePaymentModalHide = () => {
+        setPaymentModal({...paymentModal, show: false})
     }
 
     // Render
@@ -70,7 +64,7 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
         <>
             <AppLayoutContainer pathname={location.pathname}>
                 <div className="content-wrapper">
-                    <HeaderComponent title="Demandes de flottes" icon={'fa fa-rss'} />
+                    <HeaderComponent title={CHECKOUT_PAYMENTS_PAGE} icon={'fa fa-arrow-circle-up'} />
                     <section className="content">
                         <div className='container-fluid'>
                             <div className="row">
@@ -84,23 +78,23 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
                                         </div>
                                         <div className="card-body">
                                             {/* Error message */}
-                                            {requestFailed(fleetsRequests.list) && <ErrorAlertComponent message={fleetsRequests.list.message} />}
-                                            {requestFailed(fleetsRequests.next) && <ErrorAlertComponent message={fleetsRequests.next.message} />}
+                                            {requestFailed(paymentsRequests.list) && <ErrorAlertComponent message={paymentsRequests.list.message} />}
+                                            {requestFailed(paymentsRequests.next) && <ErrorAlertComponent message={paymentsRequests.next.message} />}
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
                                                 ? <RequestsFleetsCardsComponent fleets={searchEngine(fleets, needle)}
                                                                                 handleSupplyModalShow={handleSupplyModalShow}
                                                 />
-                                                : (requestLoading(fleetsRequests.list) ? <LoaderComponent /> :
+                                                : (requestLoading(paymentsRequests.list) ? <LoaderComponent /> :
                                                         <InfiniteScroll hasMore={hasMoreData}
-                                                                        dataLength={fleets.length}
                                                                         next={handleNextFleetsData}
                                                                         loader={<LoaderComponent />}
+                                                                        dataLength={payments.length}
                                                                         style={{ overflow: 'hidden' }}
                                                         >
-                                                            <RequestsFleetsCardsComponent fleets={fleets}
+                                                           {/* <RequestsFleetsCardsComponent fleets={fleets}
                                                                                           handleSupplyModalShow={handleSupplyModalShow}
-                                                            />
+                                                            />*/}
                                                         </InfiniteScroll>
                                                 )
                                             }
@@ -113,10 +107,10 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
                 </div>
             </AppLayoutContainer>
             {/* Modal */}
-            <FormModalComponent modal={supplyModal} handleClose={handleSupplyModalHide}>
-                <RequestsFleetsAddSupplyContainer fleet={supplyModal.item}
+            <FormModalComponent modal={paymentModal} handleClose={handlePaymentModalHide}>
+               {/* <RequestsFleetsAddSupplyContainer fleet={supplyModal.item}
                                                   handleClose={handleSupplyModalHide}
-                />
+                />*/}
             </FormModalComponent>
         </>
     )
@@ -129,14 +123,9 @@ function searchEngine(data, _needle) {
         // Filter
         data = data.filter((item) => {
             return (
-                needleSearch(item.number, _needle) ||
                 needleSearch(item.amount, _needle) ||
-                needleSearch(item.remaining, _needle) ||
-                needleSearch(item.sim.number, _needle) ||
-                needleSearch(item.agent.number, _needle) ||
-                needleSearch(item.claimant.name, _needle) ||
-                needleSearch(dateToString(item.creation), _needle) ||
-                needleSearch(fleetTypeBadgeColor(item.status).text, _needle)
+                needleSearch(item.manager.name, _needle) ||
+                needleSearch(item.collector.name, _needle)
             )
         });
     }
@@ -145,13 +134,13 @@ function searchEngine(data, _needle) {
 }
 
 // Prop types to ensure destroyed props data type
-RequestsFleetsPage.propTypes = {
+CheckoutPaymentsPage.propTypes = {
     page: PropTypes.number.isRequired,
-    fleets: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
+    payments: PropTypes.array.isRequired,
     location: PropTypes.object.isRequired,
     hasMoreData: PropTypes.bool.isRequired,
-    fleetsRequests: PropTypes.object.isRequired,
+    paymentsRequests: PropTypes.object.isRequired,
 };
 
-export default React.memo(RequestsFleetsPage);
+export default React.memo(CheckoutPaymentsPage);
