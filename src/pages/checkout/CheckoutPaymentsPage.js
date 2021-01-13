@@ -12,6 +12,7 @@ import FormModalComponent from "../../components/modals/FormModalComponent";
 import {emitNextPaymentsFetch, emitPaymentsFetch} from "../../redux/payments/actions";
 import CheckoutPaymentsCardsComponent from "../../components/checkout/CheckoutPaymentsCardsComponent";
 import {storeNextPaymentsRequestReset, storePaymentsRequestReset} from "../../redux/requests/payments/actions";
+import CheckoutPaymentsAddPaymentContainer from "../../containers/checkout/CheckoutPaymentsAddPaymentContainer";
 import {
     dateToString,
     needleSearch,
@@ -111,9 +112,7 @@ function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, di
             </AppLayoutContainer>
             {/* Modal */}
             <FormModalComponent modal={paymentModal} handleClose={handlePaymentModalHide}>
-               {/* <RequestsFleetsAddSupplyContainer fleet={supplyModal.item}
-                                                  handleClose={handleSupplyModalHide}
-                />*/}
+                <CheckoutPaymentsAddPaymentContainer handleClose={handlePaymentModalHide} />
             </FormModalComponent>
         </>
     )

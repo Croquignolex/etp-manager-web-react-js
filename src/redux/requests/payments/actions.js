@@ -58,7 +58,7 @@ export const storeNextPaymentsRequestSucceed = ({message}) => ({
 export const storeNextPaymentsRequestReset = () => ({
     type: STORE_NEXT_PAYMENTS_REQUEST_RESET
 });
-// ======================================================== Fleet supply
+// ======================================================== Add payment
 // Set add payment init data into store
 export const storeAddPaymentRequestInit = () => ({
     type: STORE_ADD_PAYMENT_REQUEST_INIT

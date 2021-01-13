@@ -9,6 +9,7 @@ import settings from './settings/saga';
 import payments from './payments/saga';
 import operators from './operators/saga';
 import clearances from './clearances/saga';
+import collectors from './collectors/saga';
 import notifications from './notifications/saga';
 
 // Combine all saga middleware
@@ -23,6 +24,7 @@ export default function* sagas() {
         settings(),
         operators(),
         clearances(),
+        collectors(),
         notifications(),
     ]);
 }
