@@ -9,8 +9,11 @@ import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import {CHECKOUT_PAYMENTS_PAGE} from "../../constants/pageNameConstants";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import FormModalComponent from "../../components/modals/FormModalComponent";
-import RequestsFleetsCardsComponent from "../../components/requests/RequestsFleetsCardsComponent";
+import {emitNextPaymentsFetch, emitPaymentsFetch} from "../../redux/payments/actions";
+import CheckoutPaymentsCardsComponent from "../../components/checkout/CheckoutPaymentsCardsComponent";
+import {storeNextPaymentsRequestReset, storePaymentsRequestReset} from "../../redux/requests/payments/actions";
 import {
+    dateToString,
     needleSearch,
     requestFailed,
     requestLoading,
@@ -24,8 +27,7 @@ function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, di
 
     // Local effects
     useEffect(() => {
-        // dispatch(emitFleetsFetch());
-        // dispatch(emitAllSimsFetch());
+        dispatch(emitPaymentsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -39,14 +41,13 @@ function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, di
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        // dispatch(storeFleetsRequestReset());
-        // dispatch(storeAllSimsRequestReset());
-        // dispatch(storeNextFleetsRequestReset());
+        dispatch(storePaymentsRequestReset());
+        dispatch(storeNextPaymentsRequestReset());
     };
 
     // Fetch next fleets data to enhance infinite scroll
     const handleNextFleetsData = () => {
-        // dispatch(emitNextFleetsFetch({page}));
+        dispatch(emitNextPaymentsFetch({page}));
     }
 
     // Show payment modal form
@@ -80,11 +81,15 @@ function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, di
                                             {/* Error message */}
                                             {requestFailed(paymentsRequests.list) && <ErrorAlertComponent message={paymentsRequests.list.message} />}
                                             {requestFailed(paymentsRequests.next) && <ErrorAlertComponent message={paymentsRequests.next.message} />}
+                                            <button type="button"
+                                                    className="btn btn-info mb-2"
+                                                    onClick={handlePaymentModalShow}
+                                            >
+                                                <i className="fa fa-plus" /> Effectuer un encaissement
+                                            </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
-                                                ? <RequestsFleetsCardsComponent fleets={searchEngine(fleets, needle)}
-                                                                                handleSupplyModalShow={handleSupplyModalShow}
-                                                />
+                                                ? <CheckoutPaymentsCardsComponent payments={searchEngine(payments, needle)} />
                                                 : (requestLoading(paymentsRequests.list) ? <LoaderComponent /> :
                                                         <InfiniteScroll hasMore={hasMoreData}
                                                                         next={handleNextFleetsData}
@@ -92,9 +97,7 @@ function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, di
                                                                         dataLength={payments.length}
                                                                         style={{ overflow: 'hidden' }}
                                                         >
-                                                           {/* <RequestsFleetsCardsComponent fleets={fleets}
-                                                                                          handleSupplyModalShow={handleSupplyModalShow}
-                                                            />*/}
+                                                            <CheckoutPaymentsCardsComponent payments={payments} />
                                                         </InfiniteScroll>
                                                 )
                                             }
@@ -125,7 +128,8 @@ function searchEngine(data, _needle) {
             return (
                 needleSearch(item.amount, _needle) ||
                 needleSearch(item.manager.name, _needle) ||
-                needleSearch(item.collector.name, _needle)
+                needleSearch(item.collector.name, _needle) ||
+                needleSearch(dateToString(item.creation), _needle)
             )
         });
     }

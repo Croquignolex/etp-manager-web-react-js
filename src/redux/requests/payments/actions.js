@@ -1,109 +1,82 @@
 // Reducer action types
-export const STORE_FLEETS_REQUEST_INIT = 'STORE_FLEETS_REQUEST_INIT';
-export const STORE_FLEETS_REQUEST_RESET = 'STORE_FLEETS_REQUEST_RESET';
-export const STORE_FLEETS_REQUEST_FAILED = 'STORE_FLEETS_REQUEST_FAILED';
-export const STORE_FLEETS_REQUEST_SUCCEEDED = 'STORE_FLEETS_REQUEST_SUCCEEDED';
+export const STORE_PAYMENTS_REQUEST_INIT = 'STORE_PAYMENTS_REQUEST_INIT';
+export const STORE_PAYMENTS_REQUEST_RESET = 'STORE_PAYMENTS_REQUEST_RESET';
+export const STORE_PAYMENTS_REQUEST_FAILED = 'STORE_PAYMENTS_REQUEST_FAILED';
+export const STORE_PAYMENTS_REQUEST_SUCCEEDED = 'STORE_PAYMENTS_REQUEST_SUCCEEDED';
 
-export const STORE_NEXT_FLEETS_REQUEST_INIT = 'STORE_NEXT_FLEETS_REQUEST_INIT';
-export const STORE_NEXT_FLEETS_REQUEST_RESET = 'STORE_NEXT_FLEETS_REQUEST_RESET';
-export const STORE_NEXT_FLEETS_REQUEST_FAILED = 'STORE_NEXT_FLEETS_REQUEST_FAILED';
-export const STORE_NEXT_FLEETS_REQUEST_SUCCEEDED = 'STORE_NEXT_FLEETS_REQUEST_SUCCEEDED';
+export const STORE_NEXT_PAYMENTS_REQUEST_INIT = 'STORE_NEXT_PAYMENTS_REQUEST_INIT';
+export const STORE_NEXT_PAYMENTS_REQUEST_RESET = 'STORE_NEXT_PAYMENTS_REQUEST_RESET';
+export const STORE_NEXT_PAYMENTS_REQUEST_FAILED = 'STORE_NEXT_PAYMENTS_REQUEST_FAILED';
+export const STORE_NEXT_PAYMENTS_REQUEST_SUCCEEDED = 'STORE_NEXT_PAYMENTS_REQUEST_SUCCEEDED';
 
-export const STORE_ALL_FLEETS_REQUEST_INIT = 'STORE_ALL_FLEETS_REQUEST_INIT';
-export const STORE_ALL_FLEETS_REQUEST_RESET = 'STORE_ALL_FLEETS_REQUEST_RESET';
-export const STORE_ALL_FLEETS_REQUEST_FAILED = 'STORE_ALL_FLEETS_REQUEST_FAILED';
-export const STORE_ALL_FLEETS_REQUEST_SUCCEEDED = 'STORE_ALL_FLEETS_REQUEST_SUCCEEDED';
+export const STORE_ADD_PAYMENT_REQUEST_INIT = 'STORE_ADD_PAYMENT_REQUEST_INIT';
+export const STORE_ADD_PAYMENT_REQUEST_RESET = 'STORE_ADD_PAYMENT_REQUEST_RESET';
+export const STORE_ADD_PAYMENT_REQUEST_FAILED = 'STORE_ADD_PAYMENT_REQUEST_FAILED';
+export const STORE_ADD_PAYMENT_REQUEST_SUCCEEDED = 'STORE_ADD_PAYMENT_REQUEST_SUCCEEDED';
 
-export const STORE_FLEET_SUPPLY_REQUEST_INIT = 'STORE_FLEET_SUPPLY_REQUEST_INIT';
-export const STORE_FLEET_SUPPLY_REQUEST_RESET = 'STORE_FLEET_SUPPLY_REQUEST_RESET';
-export const STORE_FLEET_SUPPLY_REQUEST_FAILED = 'STORE_FLEET_SUPPLY_REQUEST_FAILED';
-export const STORE_FLEET_SUPPLY_REQUEST_SUCCEEDED = 'STORE_FLEET_SUPPLY_REQUEST_SUCCEEDED';
-
-// ======================================================== Fleets
-// Set fleets init data into store
-export const storeFleetsRequestInit = () => ({
-    type: STORE_FLEETS_REQUEST_INIT
+// ======================================================== Payments
+// Set payments init data into store
+export const storePaymentsRequestInit = () => ({
+    type: STORE_PAYMENTS_REQUEST_INIT
 });
 
-// Set fleets failed data into store
-export const storeFleetsRequestFailed = ({message}) => ({
+// Set payments failed data into store
+export const storePaymentsRequestFailed = ({message}) => ({
     message,
-    type: STORE_FLEETS_REQUEST_FAILED
+    type: STORE_PAYMENTS_REQUEST_FAILED
 });
 
-// Set fleets succeeded data into store
-export const storeFleetsRequestSucceed = ({message}) => ({
+// Set payments succeeded data into store
+export const storePaymentsRequestSucceed = ({message}) => ({
     message,
-    type: STORE_FLEETS_REQUEST_SUCCEEDED
+    type: STORE_PAYMENTS_REQUEST_SUCCEEDED
 });
 
-// Set fleets reset data into store
-export const storeFleetsRequestReset = () => ({
-    type: STORE_FLEETS_REQUEST_RESET
+// Set payments reset data into store
+export const storePaymentsRequestReset = () => ({
+    type: STORE_PAYMENTS_REQUEST_RESET
 });
-// ======================================================== Next fleets
-// Set next fleets init data into store
-export const storeNextFleetsRequestInit = () => ({
-    type: STORE_NEXT_FLEETS_REQUEST_INIT
+// ======================================================== Next payments
+// Set next payments init data into store
+export const storeNextPaymentsRequestInit = () => ({
+    type: STORE_NEXT_PAYMENTS_REQUEST_INIT
 });
 
-// Set next fleets failed data into store
-export const storeNextFleetsRequestFailed = ({message}) => ({
+// Set next payments failed data into store
+export const storeNextPaymentsRequestFailed = ({message}) => ({
     message,
-    type: STORE_NEXT_FLEETS_REQUEST_FAILED
+    type: STORE_NEXT_PAYMENTS_REQUEST_FAILED
 });
 
-// Set next fleets succeeded data into store
-export const storeNextFleetsRequestSucceed = ({message}) => ({
+// Set next payments succeeded data into store
+export const storeNextPaymentsRequestSucceed = ({message}) => ({
     message,
-    type: STORE_NEXT_FLEETS_REQUEST_SUCCEEDED
+    type: STORE_NEXT_PAYMENTS_REQUEST_SUCCEEDED
 });
 
-// Set next fleets reset data into store
-export const storeNextFleetsRequestReset = () => ({
-    type: STORE_NEXT_FLEETS_REQUEST_RESET
-});
-// ======================================================== All fleets
-// Set all fleets init data into store
-export const storeAllFleetsRequestInit = () => ({
-    type: STORE_ALL_FLEETS_REQUEST_INIT
-});
-
-// Set all fleets failed data into store
-export const storeAllFleetsRequestFailed = ({message}) => ({
-    message,
-    type: STORE_ALL_FLEETS_REQUEST_FAILED
-});
-
-// Set all fleets succeeded data into store
-export const storeAllFleetsRequestSucceed = ({message}) => ({
-    message,
-    type: STORE_ALL_FLEETS_REQUEST_SUCCEEDED
-});
-
-// Set all fleets reset data into store
-export const storeAllFleetsRequestReset = () => ({
-    type: STORE_ALL_FLEETS_REQUEST_RESET
+// Set next payments reset data into store
+export const storeNextPaymentsRequestReset = () => ({
+    type: STORE_NEXT_PAYMENTS_REQUEST_RESET
 });
 // ======================================================== Fleet supply
-// Set fleet supply init data into store
-export const storeFleetSupplyRequestInit = () => ({
-    type: STORE_FLEET_SUPPLY_REQUEST_INIT
+// Set add payment init data into store
+export const storeAddPaymentRequestInit = () => ({
+    type: STORE_ADD_PAYMENT_REQUEST_INIT
 });
 
-// Set fleet supply failed data into store
-export const storeFleetSupplyRequestFailed = ({message}) => ({
+// Set add payment failed data into store
+export const storeAddPaymentRequestFailed = ({message}) => ({
     message,
-    type: STORE_FLEET_SUPPLY_REQUEST_FAILED
+    type: STORE_ADD_PAYMENT_REQUEST_FAILED
 });
 
-// Set fleet supply succeeded data into store
-export const storeFleetSupplyRequestSucceed = ({message}) => ({
+// Set add payment succeeded data into store
+export const storeAddPaymentRequestSucceed = ({message}) => ({
     message,
-    type: STORE_FLEET_SUPPLY_REQUEST_SUCCEEDED
+    type: STORE_ADD_PAYMENT_REQUEST_SUCCEEDED
 });
 
-// Set fleet supply reset data into store
-export const storeFleetSupplyRequestReset = () => ({
-    type: STORE_FLEET_SUPPLY_REQUEST_RESET
+// Set add payment reset data into store
+export const storeAddPaymentRequestReset = () => ({
+    type: STORE_ADD_PAYMENT_REQUEST_RESET
 });

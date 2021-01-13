@@ -1,32 +1,32 @@
-import {
-    STORE_SET_PAYMENT_DATA,
-    STORE_SET_PAYMENTS_DATA,
-} from "./actions";
+import * as actions from "./actions";
 
-// Partial global store for supplies data management
+// Partial global store for users data management
 const initialState = {
+    page: 1,
     list: [],
-    current: {
-        id: '', reference: '', amount: '', creation: '', note: '', receipt: '',
-
-        manager: {id: '', name: ''},
-        collector: {id: '', name: ''},
-    }
+    hasMoreData: false
 };
 
 // Reduce
 function reduce(state = initialState, action) {
     let nextState;
     switch (action.type) {
-        // Resolve event to set supplies data
-        case STORE_SET_PAYMENTS_DATA:
-            nextState = {...state, list: action.payments};
+        // Resolve event to set payments data
+        case actions.STORE_SET_PAYMENTS_DATA:
+            nextState = {list: action.payments, page: action.page, hasMoreData: action.hasMoreData};
             return nextState || state;
-        // Resolve event to set supply data
-        case STORE_SET_PAYMENT_DATA:
-            nextState = {...state, current: action.payment};
+        // Resolve event to set next payments data
+        case actions.STORE_SET_NEXT_PAYMENTS_DATA:
+            nextState = {list: [...state.list, ...action.payments], page: action.page, hasMoreData: action.hasMoreData};
             return nextState || state;
-
+        // Resolve event to stop infinite scroll payments data
+        case actions.STORE_STOP_INFINITE_SCROLL_PAYMENT_DATA:
+            nextState = {...state, hasMoreData: false};
+            return nextState || state;
+        // Resolve event to set new payment data
+        case actions.STORE_SET_NEW_PAYMENT_DATA:
+            nextState = {...state, list: [action.payment, ...state.list]}
+            return nextState || state;
         // Unknown action
         default: return state;
     }

@@ -44,6 +44,14 @@ export const EDIT_AGENT_DOC_API_PATH = `${API_URL}/edit_folder`;
 export const AGENT_ZONE_UPDATE_API_PATH = `${API_URL}/edit_zone_agent`;
 export const TOGGLE_AGENT_STATUS_API_PATH = `${API_URL}/edit_agent_status`;
 
+// Checkout
+export const NEW_HANDOVER_API_PATH = `${API_URL}/passation`;
+export const NEW_OUTLAY_API_PATH = `${API_URL}/decaissement`;
+export const NEW_PAYMENT_API_PATH = `${API_URL}/encassement`;
+export const HANDOVERS_API_PATH = `${API_URL}/passations_list`;
+export const OUTLAYS_API_PATH = `${API_URL}/decaissement_list`;
+export const PAYMENTS_API_PATH = `${API_URL}/encaissement_list`;
+
 // Zones
 export const All_ZONES_API_PATH = `${API_URL}/zone_list_all`;
 
