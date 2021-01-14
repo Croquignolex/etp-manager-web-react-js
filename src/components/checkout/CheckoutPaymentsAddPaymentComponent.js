@@ -10,8 +10,8 @@ import FileDocumentComponent from "../form/FileDocumentComponent";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {dataToArrayForSelect} from "../../functions/arrayFunctions";
-import {fileChecker, requiredChecker} from "../../functions/checkerFunctions";
 import {storeAddPaymentRequestReset} from "../../redux/requests/payments/actions";
+import {requiredChecker, requiredFileChecker} from "../../functions/checkerFunctions";
 import {storeAllCollectorsRequestReset} from "../../redux/requests/collectors/actions";
 import {
     applySuccess,
@@ -76,7 +76,7 @@ function CheckoutPaymentsAddPaymentComponent({request, collectors, allCollectors
     const handleSubmit = (e) => {
         e.preventDefault();
         shouldResetErrorData();
-        const _doc = fileChecker(doc);
+        const _doc = requiredFileChecker(doc);
         const _amount = requiredChecker(amount);
         const _collector = requiredChecker(collector);
         // Set value

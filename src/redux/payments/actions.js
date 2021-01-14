@@ -11,8 +11,10 @@ export const EMIT_NEXT_PAYMENTS_FETCH = 'EMIT_NEXT_PAYMENTS_FETCH';
 
 //====================== Reducer trigger actions
 // Set payments data in store
-export const storeSetPaymentsData = ({payments}) => ({
+export const storeSetPaymentsData = ({payments, hasMoreData, page}) => ({
+    page,
     payments,
+    hasMoreData,
     type: STORE_SET_PAYMENTS_DATA
 });
 

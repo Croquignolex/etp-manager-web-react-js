@@ -14,7 +14,7 @@ function CheckoutPaymentsCardsComponent({payments}) {
                         <div className="col-lg-4 col-md-6" key={key}>
                             <div className="card">
                                 <div className="card-header bg-secondary">
-                                    <h3 className="card-title">{formatNumber(item.amount)}</h3>
+                                    <h3 className="card-title text-bold">{formatNumber(item.amount)}</h3>
                                 </div>
                                 <div className="card-body">
                                     <ul className="list-group list-group-unbordered">
