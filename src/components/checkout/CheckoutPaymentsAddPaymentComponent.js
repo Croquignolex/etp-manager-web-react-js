@@ -10,9 +10,9 @@ import FileDocumentComponent from "../form/FileDocumentComponent";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {dataToArrayForSelect} from "../../functions/arrayFunctions";
-import {storeAllSimsRequestReset} from "../../redux/requests/sims/actions";
 import {fileChecker, requiredChecker} from "../../functions/checkerFunctions";
-import {storeFleetSupplyRequestReset} from "../../redux/requests/fleets/actions";
+import {storeAddPaymentRequestReset} from "../../redux/requests/payments/actions";
+import {storeAllCollectorsRequestReset} from "../../redux/requests/collectors/actions";
 import {
     applySuccess,
     requestFailed,
@@ -68,8 +68,8 @@ function CheckoutPaymentsAddPaymentComponent({request, collectors, allCollectors
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        dispatch(storeFleetSupplyRequestReset());
-        dispatch(storeAllSimsRequestReset());
+        dispatch(storeAddPaymentRequestReset());
+        dispatch(storeAllCollectorsRequestReset());
     };
 
     // Trigger add supply form submit
@@ -139,12 +139,11 @@ function CheckoutPaymentsAddPaymentComponent({request, collectors, allCollectors
 
 // Prop types to ensure destroyed props data type
 CheckoutPaymentsAddPaymentComponent.propTypes = {
-    sims: PropTypes.array.isRequired,
-    fleet: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired,
     handleClose: PropTypes.func.isRequired,
-    allSimsRequests: PropTypes.object.isRequired,
+    collectors: PropTypes.array.isRequired,
+    allCollectorsRequests: PropTypes.object.isRequired,
 };
 
 export default React.memo(CheckoutPaymentsAddPaymentComponent);

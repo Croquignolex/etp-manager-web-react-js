@@ -137,7 +137,7 @@ function buildRequestsMenu() {
 function buildAuthorisedOperationsMenu() {
     return {
         name: page.OPERATIONS,
-        icon: 'fa fa-exchange',
+        icon: 'fa fa-bars',
         sub: [
             {name: page.OPERATIONS_TRANSFERS_PAGE, path: path.OPERATIONS_TRANSFERS_PAGE_PATH},
             {name: page.OPERATIONS_ANONYMOUS_FLEETS_PAGE, path: path.OPERATIONS_ANONYMOUS_FLEETS_PAGE_PATH},

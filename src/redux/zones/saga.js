@@ -30,27 +30,12 @@ export function* emitAllZonesFetch() {
 }
 
 // Extract zone data
-function extractZoneData(apiZone, apiCollector) {
-    let zone = {
-        id: '', name: '', reference: '', map: '', description: '', creation: '',
-
-        collector: {id: '', name: '', phone: ''},
-    };
-    if(apiCollector) {
-        zone.collector = {
-            name: apiCollector.name,
-            phone: apiCollector.phone,
-            id: apiCollector.id.toString()
-        }
-    }
+function extractZoneData(apiZone) {
+    let zone = {id: '', name: '', reference: ''};
     if(apiZone) {
-        zone.map = apiZone.map;
         zone.name = apiZone.nom;
-        zone.actionLoader = false;
         zone.id = apiZone.id.toString();
         zone.reference = apiZone.reference;
-        zone.creation = apiZone.created_at;
-        zone.description = apiZone.description;
     }
     return zone;
 }
@@ -60,7 +45,7 @@ function extractZonesData(apiZones) {
     const zones = [];
     if(apiZones) {
         apiZones.forEach(data => {
-            zones.push(extractZoneData(data.zone, data.recouvreur));
+            zones.push(extractZoneData(data.zone));
         });
     }
     return zones;

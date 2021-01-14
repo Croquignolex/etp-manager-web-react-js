@@ -5,6 +5,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import HeaderComponent from "../../components/HeaderComponent";
 import LoaderComponent from "../../components/LoaderComponent";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
+import {emitAllCollectorsFetch} from "../../redux/collectors/actions";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import {CHECKOUT_PAYMENTS_PAGE} from "../../constants/pageNameConstants";
 import TableSearchComponent from "../../components/TableSearchComponent";
@@ -29,6 +30,7 @@ function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, di
     // Local effects
     useEffect(() => {
         dispatch(emitPaymentsFetch());
+        dispatch(emitAllCollectorsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -46,8 +48,9 @@ function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, di
         dispatch(storeNextPaymentsRequestReset());
     };
 
-    // Fetch next fleets data to enhance infinite scroll
-    const handleNextFleetsData = () => {
+    // Fetch next payments data to enhance infinite scroll
+    const handleNextPaymentsData = () => {
+        console.log('next')
         dispatch(emitNextPaymentsFetch({page}));
     }
 
@@ -83,7 +86,7 @@ function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, di
                                             {requestFailed(paymentsRequests.list) && <ErrorAlertComponent message={paymentsRequests.list.message} />}
                                             {requestFailed(paymentsRequests.next) && <ErrorAlertComponent message={paymentsRequests.next.message} />}
                                             <button type="button"
-                                                    className="btn btn-info mb-2"
+                                                    className="btn btn-theme mb-2"
                                                     onClick={handlePaymentModalShow}
                                             >
                                                 <i className="fa fa-plus" /> Effectuer un encaissement
@@ -93,9 +96,9 @@ function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, di
                                                 ? <CheckoutPaymentsCardsComponent payments={searchEngine(payments, needle)} />
                                                 : (requestLoading(paymentsRequests.list) ? <LoaderComponent /> :
                                                         <InfiniteScroll hasMore={hasMoreData}
-                                                                        next={handleNextFleetsData}
                                                                         loader={<LoaderComponent />}
                                                                         dataLength={payments.length}
+                                                                        next={handleNextPaymentsData}
                                                                         style={{ overflow: 'hidden' }}
                                                         >
                                                             <CheckoutPaymentsCardsComponent payments={payments} />

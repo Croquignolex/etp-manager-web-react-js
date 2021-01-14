@@ -1,28 +1,28 @@
 // Reducer action types
-export const STORE_ALL_ZONES_REQUEST_INIT = 'STORE_ALL_ZONES_REQUEST_INIT';
-export const STORE_ALL_ZONES_REQUEST_RESET = 'STORE_ALL_ZONES_REQUEST_RESET';
-export const STORE_ALL_ZONES_REQUEST_FAILED = 'STORE_ALL_ZONES_REQUEST_FAILED';
-export const STORE_ALL_ZONES_REQUEST_SUCCEEDED = 'STORE_ALL_ZONES_REQUEST_SUCCEEDED';
+export const STORE_ALL_COLLECTORS_REQUEST_INIT = 'STORE_ALL_COLLECTORS_REQUEST_INIT';
+export const STORE_ALL_COLLECTORS_REQUEST_RESET = 'STORE_ALL_COLLECTORS_REQUEST_RESET';
+export const STORE_ALL_COLLECTORS_REQUEST_FAILED = 'STORE_ALL_COLLECTORS_REQUEST_FAILED';
+export const STORE_ALL_COLLECTORS_REQUEST_SUCCEEDED = 'STORE_ALL_COLLECTORS_REQUEST_SUCCEEDED';
 
 // ======================================================== All zones
-// Set all zones init data into store
-export const storeAllZonesRequestInit = () => ({
-    type: STORE_ALL_ZONES_REQUEST_INIT
+// Set all collectors init data into store
+export const storeAllCollectorsRequestInit = () => ({
+    type: STORE_ALL_COLLECTORS_REQUEST_INIT
 });
 
-// Set all zones failed data into store
-export const storeAllZonesRequestFailed = ({message}) => ({
+// Set all collectors failed data into store
+export const storeAllCollectorsRequestFailed = ({message}) => ({
     message,
-    type: STORE_ALL_ZONES_REQUEST_FAILED
+    type: STORE_ALL_COLLECTORS_REQUEST_FAILED
 });
 
-// Set all zones succeeded data into store
-export const storeAllZonesRequestSucceed = ({message}) => ({
+// Set all collectors succeeded data into store
+export const storeAllCollectorsRequestSucceed = ({message}) => ({
     message,
-    type: STORE_ALL_ZONES_REQUEST_SUCCEEDED
+    type: STORE_ALL_COLLECTORS_REQUEST_SUCCEEDED
 });
 
-// Set all zones reset data into store
-export const storeAllZonesRequestReset = () => ({
-    type: STORE_ALL_ZONES_REQUEST_RESET
+// Set all collectors reset data into store
+export const storeAllCollectorsRequestReset = () => ({
+    type: STORE_ALL_COLLECTORS_REQUEST_RESET
 });

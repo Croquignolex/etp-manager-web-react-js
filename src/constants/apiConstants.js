@@ -55,5 +55,8 @@ export const PAYMENTS_API_PATH = `${API_URL}/encaissement_list`;
 // Zones
 export const All_ZONES_API_PATH = `${API_URL}/zone_list_all`;
 
+// Collectors
+export const ALL_COLLECTORS_API_PATH = `${API_URL}/recouvreurs_all`;
+
 // Operators
 export const All_OPERATORS_API_PATH = `${API_URL}/flote_list_all`;

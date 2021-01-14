@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
 
-import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
 
 // Component
@@ -14,22 +13,14 @@ function CheckoutPaymentsCardsComponent({payments}) {
                     return (
                         <div className="col-lg-4 col-md-6" key={key}>
                             <div className="card">
-                                <div className={`${fleetTypeBadgeColor(item.status).background} card-header`}>
-                                    <h3 className="card-title">{fleetTypeBadgeColor(item.status).text}</h3>
+                                <div className="card-header bg-secondary">
+                                    <h3 className="card-title">{formatNumber(item.amount)}</h3>
                                 </div>
                                 <div className="card-body">
                                     <ul className="list-group list-group-unbordered">
                                         <li className="list-group-item">
                                             <b>Créer le</b>
                                             <span className="float-right">{dateToString(item.creation)}</span>
-                                        </li>
-                                        <li className="list-group-item">
-                                            <b>Montant demandé</b>
-                                            <span className="float-right">{formatNumber(item.amount)}</span>
-                                        </li>
-                                        <li className="list-group-item">
-                                            <b>Gestionnaire</b>
-                                            <span className="float-right">{item.manager.name}</span>
                                         </li>
                                         <li className="list-group-item">
                                             <b>Responsable</b>
