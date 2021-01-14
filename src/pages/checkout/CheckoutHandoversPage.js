@@ -12,6 +12,7 @@ import FormModalComponent from "../../components/modals/FormModalComponent";
 import {emitHandoversFetch, emitNextHandoversFetch} from "../../redux/handovers/actions";
 import CheckoutHandoversCardsComponent from "../../components/checkout/CheckoutHandoversCardsComponent";
 import {storeHandoversRequestReset, storeNextHandoversRequestReset} from "../../redux/requests/handovers/actions";
+import CheckoutHandoversImproveHandoverContainer from "../../containers/checkout/CheckoutHandoversImproveHandoverContainer";
 import {
     dateToString,
     needleSearch,
@@ -112,7 +113,7 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
             </AppLayoutContainer>
             {/* Modal */}
             <FormModalComponent modal={handoverModal} handleClose={handleHandoverModalHide}>
-                {/*<CheckoutPaymentsAddPaymentContainer handleClose={handleHandoverModalHide} />*/}
+                <CheckoutHandoversImproveHandoverContainer handleClose={handleHandoverModalHide} />
             </FormModalComponent>
         </>
     )

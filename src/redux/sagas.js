@@ -8,6 +8,7 @@ import fleets from './fleets/saga';
 import outlays from './outlays/saga';
 import settings from './settings/saga';
 import payments from './payments/saga';
+import managers from './managers/saga';
 import handovers from './handovers/saga';
 import operators from './operators/saga';
 import clearances from './clearances/saga';
@@ -24,6 +25,7 @@ export default function* sagas() {
         fleets(),
         outlays(),
         payments(),
+        managers(),
         settings(),
         handovers(),
         operators(),
