@@ -2,8 +2,10 @@ import PropTypes from 'prop-types';
 import React, {useEffect, useState} from 'react';
 import InfiniteScroll from "react-infinite-scroll-component";
 
+import {emitFetchUserBalance} from "../../redux/user/actions";
 import HeaderComponent from "../../components/HeaderComponent";
 import LoaderComponent from "../../components/LoaderComponent";
+import {emitAllManagersFetch} from "../../redux/managers/actions";
 import {HANDING_OVER_PAGE} from "../../constants/pageNameConstants";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
@@ -29,7 +31,8 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
     // Local effects
     useEffect(() => {
         dispatch(emitHandoversFetch());
-        // dispatch(emitAllCollectorsFetch());
+        dispatch(emitFetchUserBalance());
+        dispatch(emitAllManagersFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();

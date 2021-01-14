@@ -66,12 +66,12 @@ export function* emitNextHandoversFetch() {
 
 // Fleets improve handover from API
 export function* emitImproveHandover() {
-    yield takeLatest(EMIT_IMPROVE_HANDOVER, function*({amount, collector, receipt}) {
+    yield takeLatest(EMIT_IMPROVE_HANDOVER, function*({amount, receiver}) {
         try {
             // Fire event for request
             yield put(storeImproveHandoverRequestInit());
             const data = new FormData();
-            data.append('id_donneur', collector);
+            data.append('id_receveur', receiver);
             data.append('montant', amount);
             const apiResponse = yield call(apiPostRequest, api.NEW_HANDOVER_API_PATH, data);
             // Extract data

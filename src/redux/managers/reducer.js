@@ -11,9 +11,9 @@ const initialState = {
 function reduce(state = initialState, action) {
     let nextState;
     switch (action.type) {
-        // Resolve event to set collectors data
-        case actions.STORE_SET_COLLECTORS_DATA:
-            nextState = {...state, list: action.collectors, page: action.page, hasMoreData: action.hasMoreData};
+        // Resolve event to set managers data
+        case actions.STORE_SET_MANAGERS_DATA:
+            nextState = {...state, list: action.managers, page: action.page, hasMoreData: action.hasMoreData};
             return nextState || state;
         // Unknown action
         default: return state;

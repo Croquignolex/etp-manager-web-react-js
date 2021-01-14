@@ -25,7 +25,7 @@ function reduce(state = initialState, action) {
             return nextState || state;
         // Resolve event to set new payment data
         case actions.STORE_SET_NEW_HANDOVER_DATA:
-            nextState = {...state, list: [action.payment, ...state.list]}
+            nextState = {...state, list: [action.handover, ...state.list]}
             return nextState || state;
         // Unknown action
         default: return state;

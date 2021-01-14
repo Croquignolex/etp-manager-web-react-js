@@ -11,6 +11,7 @@ import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {dataToArrayForSelect} from "../../functions/arrayFunctions";
 import {storeAllManagersRequestReset} from "../../redux/requests/managers/actions";
+import {storeUserBalanceFetchRequestReset} from "../../redux/requests/user/actions";
 import {storeImproveHandoverRequestReset} from "../../redux/requests/handovers/actions";
 import {
     applySuccess,
@@ -20,10 +21,10 @@ import {
 } from "../../functions/generalFunctions";
 
 // Component
-function CheckoutHandoversImproveHandoverComponent({sender, request, managers, allManagersRequests, dispatch, handleClose}) {
+function CheckoutHandoversImproveHandoverComponent({balance, request, managers, allManagersRequests, dispatch, handleClose}) {
     // Local state
-    const [amount, setAmount] = useState(DEFAULT_FORM_DATA);
     const [manager, setManager] = useState(DEFAULT_FORM_DATA);
+    const [amount, setAmount] = useState({...DEFAULT_FORM_DATA, data: balance});
 
     // Local effects
     useEffect(() => {
@@ -63,6 +64,7 @@ function CheckoutHandoversImproveHandoverComponent({sender, request, managers, a
     const shouldResetErrorData = () => {
         dispatch(storeAllManagersRequestReset());
         dispatch(storeImproveHandoverRequestReset());
+        dispatch(storeUserBalanceFetchRequestReset());
     };
 
     // Trigger add supply form submit
@@ -78,7 +80,6 @@ function CheckoutHandoversImproveHandoverComponent({sender, request, managers, a
         // Check
         if(validationOK) {
             dispatch(emitImproveHandover({
-                sender,
                 amount: _amount.data,
                 receiver: _manager.data,
             }));
@@ -122,7 +123,7 @@ function CheckoutHandoversImproveHandoverComponent({sender, request, managers, a
 // Prop types to ensure destroyed props data type
 CheckoutHandoversImproveHandoverComponent.propTypes = {
     dispatch: PropTypes.func.isRequired,
-    sender: PropTypes.string.isRequired,
+    balance: PropTypes.number.isRequired,
     request: PropTypes.object.isRequired,
     managers: PropTypes.array.isRequired,
     handleClose: PropTypes.func.isRequired,

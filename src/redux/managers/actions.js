@@ -1,20 +1,20 @@
 // Reducer action types
-export const STORE_SET_COLLECTORS_DATA = 'STORE_SET_COLLECTORS_DATA';
+export const STORE_SET_MANAGERS_DATA = 'STORE_SET_MANAGERS_DATA';
 
 // Middleware action types
-export const EMIT_ALL_COLLECTORS_FETCH = 'EMIT_ALL_COLLECTORS_FETCH';
+export const EMIT_ALL_MANAGERS_FETCH = 'EMIT_ALL_MANAGERS_FETCH';
 
 //====================== Reducer trigger actions
-// Set collectors data in store
-export const storeSetCollectorsData = ({collectors, hasMoreData, page}) => ({
+// Set managers data in store
+export const storeSetManagersData = ({managers, hasMoreData, page}) => ({
     page,
-    collectors,
+    managers,
     hasMoreData,
-    type: STORE_SET_COLLECTORS_DATA
+    type: STORE_SET_MANAGERS_DATA
 });
 
 //====================== Middleware trigger actions
-// Emit all collectors fetch
-export const emitAllCollectorsFetch = () => ({
-    type: EMIT_ALL_COLLECTORS_FETCH
+// Emit all managers fetch
+export const emitAllManagersFetch = () => ({
+    type: EMIT_ALL_MANAGERS_FETCH
 });

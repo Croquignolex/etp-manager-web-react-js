@@ -4,9 +4,9 @@ import CheckoutHandoversImproveHandoverComponent from "../../components/checkout
 
 // Map state function to component props
 const mapStateToProps = (state) => ({
-    sender: state.user.id,
+    balance: state.user.balance,
     managers: state.managers.list,
-    request: state.handoversRequests.add,
+    request: state.handoversRequests.improve,
     allManagersRequests: state.managersRequests.all,
 });
 

@@ -58,5 +58,8 @@ export const All_ZONES_API_PATH = `${API_URL}/zone_list_all`;
 // Collectors
 export const ALL_COLLECTORS_API_PATH = `${API_URL}/recouvreurs_all`;
 
+// Manager
+export const ALL_MANAGERS_API_PATH = `${API_URL}/gestionnaires_all`;
+
 // Operators
 export const All_OPERATORS_API_PATH = `${API_URL}/flote_list_all`;
