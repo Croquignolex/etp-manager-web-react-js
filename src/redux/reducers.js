@@ -7,6 +7,7 @@ import outlays from './outlays/reducer';
 import settings from './settings/reducer';
 import payments from './payments/reducer';
 import operators from './operators/reducer';
+import handovers from './handovers/reducer';
 import clearances from './clearances/reducer';
 import collectors from './collectors/reducer';
 import userRequests from './requests/user/reducer';
@@ -19,6 +20,7 @@ import outlaysRequests from './requests/outlays/reducer';
 import paymentsRequests from './requests/payments/reducer';
 import settingsRequests from './requests/settings/reducer';
 import operatorsRequests from './requests/operators/reducer';
+import handoversRequests from './requests/handovers/reducer';
 import collectorsRequests from './requests/collectors/reducer';
 import clearancesRequests from './requests/clearances/reducer';
 import notificationsRequests from './requests/notifications/reducer';
@@ -33,6 +35,7 @@ export default {
     outlays,
     settings,
     payments,
+    handovers,
     operators,
     clearances,
     collectors,
@@ -45,6 +48,7 @@ export default {
     outlaysRequests,
     settingsRequests,
     paymentsRequests,
+    handoversRequests,
     operatorsRequests,
     clearancesRequests,
     collectorsRequests,
