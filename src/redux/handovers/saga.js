@@ -76,8 +76,8 @@ export function* emitImproveHandover() {
             const apiResponse = yield call(apiPostRequest, api.NEW_HANDOVER_API_PATH, data);
             // Extract data
             const handover = extractHandoverData(
-                apiResponse.data.gestionnaire,
-                apiResponse.data.recouvreur,
+                apiResponse.data.emetteur,
+                apiResponse.data.recepteur,
                 apiResponse.data.versement
             );
             // Fire event to redux
@@ -92,23 +92,23 @@ export function* emitImproveHandover() {
 }
 
 // Extract handover data
-function extractHandoverData(apiManager, apiCollector, apiHandover) {
+function extractHandoverData(apiSender, apiReceiver, apiHandover) {
     let handover = {
         id: '', amount: '', creation: '',
 
-        manager: {id: '', name: ''},
-        collector: {id: '', name: ''},
+        sender: {id: '', name: ''},
+        receiver: {id: '', name: ''},
     };
-    if(apiManager) {
-        handover.manager = {
-            name: apiManager.name,
-            id: apiManager.id.toString()
+    if(apiSender) {
+        handover.sender = {
+            name: apiSender.name,
+            id: apiSender.id.toString()
         };
     }
-    if(apiCollector) {
-        handover.collector = {
-            name: apiCollector.name,
-            id: apiCollector.id.toString()
+    if(apiReceiver) {
+        handover.receiver = {
+            name: apiReceiver.name,
+            id: apiReceiver.id.toString()
         };
     }
     if(apiHandover) {
@@ -124,8 +124,8 @@ export function extractHandoversData(apiHandovers) {
     const handovers = [];
     apiHandovers.forEach(data => {
         handovers.push(extractHandoverData(
-            data.gestionnaire,
-            data.recouvreur,
+            data.emetteur,
+            data.recepteur,
             data.versement,
         ));
     });
