@@ -5,12 +5,12 @@ import ButtonComponent from "../form/ButtonComponent";
 import AmountComponent from "../form/AmountComponent";
 import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
-import {emitAddPayment} from "../../redux/payments/actions";
+import {emitAddOutlay} from "../../redux/outlays/actions";
 import FileDocumentComponent from "../form/FileDocumentComponent";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {dataToArrayForSelect} from "../../functions/arrayFunctions";
-import {storeAddPaymentRequestReset} from "../../redux/requests/payments/actions";
+import {storeAddOutlayRequestReset} from "../../redux/requests/outlays/actions";
 import {requiredChecker, requiredFileChecker} from "../../functions/checkerFunctions";
 import {storeAllCollectorsRequestReset} from "../../redux/requests/collectors/actions";
 import {
@@ -21,7 +21,7 @@ import {
 } from "../../functions/generalFunctions";
 
 // Component
-function CheckoutPaymentsAddPaymentComponent({request, collectors, allCollectorsRequests, dispatch, handleClose}) {
+function CheckoutOutlaysAddOutlayComponent({request, collectors, allCollectorsRequests, dispatch, handleClose}) {
     // Local state
     const [doc, setDoc] = useState(DEFAULT_FORM_DATA);
     const [amount, setAmount] = useState(DEFAULT_FORM_DATA);
@@ -68,7 +68,7 @@ function CheckoutPaymentsAddPaymentComponent({request, collectors, allCollectors
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        dispatch(storeAddPaymentRequestReset());
+        dispatch(storeAddOutlayRequestReset());
         dispatch(storeAllCollectorsRequestReset());
     };
 
@@ -86,7 +86,7 @@ function CheckoutPaymentsAddPaymentComponent({request, collectors, allCollectors
         const validationOK = (_amount.isValid && _collector.isValid && _doc.isValid);
         // Check
         if(validationOK) {
-            dispatch(emitAddPayment({
+            dispatch(emitAddOutlay({
                 receipt: _doc.data,
                 amount: _amount.data,
                 collector: _collector.data,
@@ -115,7 +115,7 @@ function CheckoutPaymentsAddPaymentComponent({request, collectors, allCollectors
                     <div className='col-sm-6'>
                         <AmountComponent input={amount}
                                          id='inputAmount'
-                                         label='Montant à flotter'
+                                         label='Montant à décaisser'
                                          handleInput={handleAmountInput}
                         />
                     </div>
@@ -124,7 +124,7 @@ function CheckoutPaymentsAddPaymentComponent({request, collectors, allCollectors
                     <div className='col'>
                         <FileDocumentComponent id='file'
                                                input={doc}
-                                               label='Dossier agent'
+                                               label='Réçus'
                                                handleInput={handleFileInput}
                         />
                     </div>
@@ -138,7 +138,7 @@ function CheckoutPaymentsAddPaymentComponent({request, collectors, allCollectors
 }
 
 // Prop types to ensure destroyed props data type
-CheckoutPaymentsAddPaymentComponent.propTypes = {
+CheckoutOutlaysAddOutlayComponent.propTypes = {
     dispatch: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired,
     handleClose: PropTypes.func.isRequired,
@@ -146,4 +146,4 @@ CheckoutPaymentsAddPaymentComponent.propTypes = {
     allCollectorsRequests: PropTypes.object.isRequired,
 };
 
-export default React.memo(CheckoutPaymentsAddPaymentComponent);
+export default React.memo(CheckoutOutlaysAddOutlayComponent);

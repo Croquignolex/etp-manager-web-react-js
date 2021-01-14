@@ -115,7 +115,7 @@ function CheckoutPaymentsAddPaymentComponent({request, collectors, allCollectors
                     <div className='col-sm-6'>
                         <AmountComponent input={amount}
                                          id='inputAmount'
-                                         label='Montant à flotter'
+                                         label='Montant à encaisser'
                                          handleInput={handleAmountInput}
                         />
                     </div>
@@ -124,7 +124,7 @@ function CheckoutPaymentsAddPaymentComponent({request, collectors, allCollectors
                     <div className='col'>
                         <FileDocumentComponent id='file'
                                                input={doc}
-                                               label='Dossier agent'
+                                               label='Réçus'
                                                handleInput={handleFileInput}
                         />
                     </div>

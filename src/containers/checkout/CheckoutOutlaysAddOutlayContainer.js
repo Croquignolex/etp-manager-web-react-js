@@ -1,11 +1,11 @@
 import {connect} from "react-redux";
 
-import CheckoutPaymentsAddPaymentComponent from "../../components/checkout/CheckoutPaymentsAddPaymentComponent";
+import CheckoutOutlaysAddOutlayComponent from "../../components/checkout/CheckoutOutlaysAddOutlayComponent";
 
 // Map state function to component props
 const mapStateToProps = (state) => ({
     collectors: state.collectors.list,
-    request: state.paymentsRequests.add,
+    request: state.outlaysRequests.add,
     allCollectorsRequests: state.collectorsRequests.all,
 });
 
@@ -15,4 +15,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 // Connect component to Redux
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutPaymentsAddPaymentComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutOutlaysAddOutlayComponent);

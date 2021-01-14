@@ -13,6 +13,7 @@ import FormModalComponent from "../../components/modals/FormModalComponent";
 import {emitNextOutlaysFetch, emitOutlaysFetch} from "../../redux/outlays/actions";
 import CheckoutOutlaysCardsComponent from "../../components/checkout/CheckoutOutlaysCardsComponent";
 import {storeNextOutlaysRequestReset, storeOutlaysRequestReset} from "../../redux/requests/outlays/actions";
+import CheckoutOutlaysAddOutlayContainer from "../../containers/checkout/CheckoutOutlaysAddOutlayContainer";
 import {
     dateToString,
     needleSearch,
@@ -113,7 +114,7 @@ function CheckoutOutlaysPage({outlays, outlaysRequests, hasMoreData, page, dispa
             </AppLayoutContainer>
             {/* Modal */}
             <FormModalComponent modal={outlayModal} handleClose={handleOutlayModalHide}>
-                {/*<CheckoutPaymentsAddPaymentContainer handleClose={handlePaymentModalHide} />*/}
+                <CheckoutOutlaysAddOutlayContainer handleClose={handleOutlayModalHide} />
             </FormModalComponent>
         </>
     )
