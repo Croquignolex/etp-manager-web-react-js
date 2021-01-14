@@ -80,6 +80,7 @@ function CheckoutHandoversImproveHandoverComponent({balance, request, managers, 
         // Check
         if(validationOK) {
             dispatch(emitImproveHandover({
+                balance,
                 amount: _amount.data,
                 receiver: _manager.data,
             }));
