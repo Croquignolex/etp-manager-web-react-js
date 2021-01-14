@@ -95,7 +95,7 @@ export function* emitAddPayment() {
 // Extract payment data
 function extractPaymentData(apiManager, apiCollector, apiPayment) {
     let payment = {
-        id: '', reference: '', amount: '', creation: '', note: '', receipt: '',
+        id: '',  amount: '', creation: '', receipt: '',
 
         manager: {id: '', name: ''},
         collector: {id: '', name: ''},
@@ -113,12 +113,9 @@ function extractPaymentData(apiManager, apiCollector, apiPayment) {
         };
     }
     if(apiPayment) {
-        payment.actionLoader = false;
-        payment.note = apiPayment.note;
         payment.amount = apiPayment.montant;
         payment.id = apiPayment.id.toString();
         payment.creation = apiPayment.created_at;
-        payment.reference = apiPayment.reference;
         payment.receipt = getFileFromServer(apiPayment.recu);
     }
     return payment;

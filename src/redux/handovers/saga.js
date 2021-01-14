@@ -94,7 +94,7 @@ export function* emitImproveHandover() {
 // Extract handover data
 function extractHandoverData(apiManager, apiCollector, apiHandover) {
     let handover = {
-        id: '', reference: '', amount: '', creation: '', note: '',
+        id: '', amount: '', creation: '',
 
         manager: {id: '', name: ''},
         collector: {id: '', name: ''},
@@ -112,12 +112,9 @@ function extractHandoverData(apiManager, apiCollector, apiHandover) {
         };
     }
     if(apiHandover) {
-        handover.actionLoader = false;
-        handover.note = apiHandover.note;
         handover.amount = apiHandover.montant;
         handover.id = apiHandover.id.toString();
         handover.creation = apiHandover.created_at;
-        handover.reference = apiHandover.reference;
     }
     return handover;
 }

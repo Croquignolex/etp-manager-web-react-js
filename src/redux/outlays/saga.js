@@ -95,7 +95,7 @@ export function* emitAddOutlay() {
 // Extract payment data
 function extractOutlayData(apiManager, apiCollector, apiOutlay) {
     let outlay = {
-        id: '', reference: '', amount: '', creation: '', note: '', receipt: '',
+        id: '', amount: '', creation: '', receipt: '',
 
         manager: {id: '', name: ''},
         collector: {id: '', name: ''},
@@ -113,12 +113,9 @@ function extractOutlayData(apiManager, apiCollector, apiOutlay) {
         };
     }
     if(apiOutlay) {
-        outlay.actionLoader = false;
-        outlay.note = apiOutlay.note;
         outlay.amount = apiOutlay.montant;
         outlay.id = apiOutlay.id.toString();
         outlay.creation = apiOutlay.created_at;
-        outlay.reference = apiOutlay.reference;
         outlay.receipt = getFileFromServer(apiOutlay.recu);
     }
     return outlay;
