@@ -7,13 +7,12 @@ import LoaderComponent from "../../components/LoaderComponent";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import {emitAllCollectorsFetch} from "../../redux/collectors/actions";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
-import {CHECKOUT_PAYMENTS_PAGE} from "../../constants/pageNameConstants";
+import {CHECKOUT_OUTlAYS_PAGE} from "../../constants/pageNameConstants";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import FormModalComponent from "../../components/modals/FormModalComponent";
-import {emitNextPaymentsFetch, emitPaymentsFetch} from "../../redux/payments/actions";
-import CheckoutPaymentsCardsComponent from "../../components/checkout/CheckoutPaymentsCardsComponent";
-import {storeNextPaymentsRequestReset, storePaymentsRequestReset} from "../../redux/requests/payments/actions";
-import CheckoutPaymentsAddPaymentContainer from "../../containers/checkout/CheckoutPaymentsAddPaymentContainer";
+import {emitNextOutlaysFetch, emitOutlaysFetch} from "../../redux/outlays/actions";
+import CheckoutOutlaysCardsComponent from "../../components/checkout/CheckoutOutlaysCardsComponent";
+import {storeNextOutlaysRequestReset, storeOutlaysRequestReset} from "../../redux/requests/outlays/actions";
 import {
     dateToString,
     needleSearch,
@@ -22,14 +21,14 @@ import {
 } from "../../functions/generalFunctions";
 
 // Component
-function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, dispatch, location}) {
+function CheckoutOutlaysPage({outlays, outlaysRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
-    const [paymentModal, setPaymentModal] = useState({show: false, header: 'EFFECTUER UN ENCAISSEMENT'});
+    const [outlayModal, setOutlayModal] = useState({show: false, header: 'EFFECTUER UN DECAISSEMENT'});
 
     // Local effects
     useEffect(() => {
-        dispatch(emitPaymentsFetch());
+        dispatch(emitOutlaysFetch());
         dispatch(emitAllCollectorsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
@@ -44,23 +43,23 @@ function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, di
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        dispatch(storePaymentsRequestReset());
-        dispatch(storeNextPaymentsRequestReset());
+        dispatch(storeOutlaysRequestReset());
+        dispatch(storeNextOutlaysRequestReset());
     };
 
-    // Fetch next payments data to enhance infinite scroll
-    const handleNextPaymentsData = () => {
-        dispatch(emitNextPaymentsFetch({page}));
+    // Fetch next outlays data to enhance infinite scroll
+    const handleNextOutlaysData = () => {
+        dispatch(emitNextOutlaysFetch({page}));
     }
 
-    // Show payment modal form
-    const handlePaymentModalShow = (item) => {
-        setPaymentModal({...paymentModal, item, show: true})
+    // Show outlay modal form
+    const handleOutlayModalShow = (item) => {
+        setOutlayModal({...outlayModal, item, show: true})
     }
 
-    // Hide payment modal form
-    const handlePaymentModalHide = () => {
-        setPaymentModal({...paymentModal, show: false})
+    // Hide outlay modal form
+    const handleOutlayModalHide = () => {
+        setOutlayModal({...outlayModal, show: false})
     }
 
     // Render
@@ -68,7 +67,7 @@ function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, di
         <>
             <AppLayoutContainer pathname={location.pathname}>
                 <div className="content-wrapper">
-                    <HeaderComponent title={CHECKOUT_PAYMENTS_PAGE} icon={'fa fa-arrow-circle-up'} />
+                    <HeaderComponent title={CHECKOUT_OUTlAYS_PAGE} icon={'fa fa-arrow-circle-down'} />
                     <section className="content">
                         <div className='container-fluid'>
                             <div className="row">
@@ -82,25 +81,25 @@ function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, di
                                         </div>
                                         <div className="card-body">
                                             {/* Error message */}
-                                            {requestFailed(paymentsRequests.list) && <ErrorAlertComponent message={paymentsRequests.list.message} />}
-                                            {requestFailed(paymentsRequests.next) && <ErrorAlertComponent message={paymentsRequests.next.message} />}
+                                            {requestFailed(outlaysRequests.list) && <ErrorAlertComponent message={outlaysRequests.list.message} />}
+                                            {requestFailed(outlaysRequests.next) && <ErrorAlertComponent message={outlaysRequests.next.message} />}
                                             <button type="button"
                                                     className="btn btn-theme mb-2"
-                                                    onClick={handlePaymentModalShow}
+                                                    onClick={handleOutlayModalShow}
                                             >
-                                                <i className="fa fa-plus" /> Effectuer un encaissement
+                                                <i className="fa fa-plus" /> Effectuer un décaissement
                                             </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
-                                                ? <CheckoutPaymentsCardsComponent payments={searchEngine(payments, needle)} />
-                                                : (requestLoading(paymentsRequests.list) ? <LoaderComponent /> :
+                                                ? <CheckoutOutlaysCardsComponent outlays={searchEngine(outlays, needle)} />
+                                                : (requestLoading(outlaysRequests.list) ? <LoaderComponent /> :
                                                         <InfiniteScroll hasMore={hasMoreData}
+                                                                        dataLength={outlays.length}
                                                                         loader={<LoaderComponent />}
-                                                                        dataLength={payments.length}
-                                                                        next={handleNextPaymentsData}
+                                                                        next={handleNextOutlaysData}
                                                                         style={{ overflow: 'hidden' }}
                                                         >
-                                                            <CheckoutPaymentsCardsComponent payments={payments} />
+                                                            <CheckoutOutlaysCardsComponent outlays={outlays} />
                                                         </InfiniteScroll>
                                                 )
                                             }
@@ -113,8 +112,8 @@ function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, di
                 </div>
             </AppLayoutContainer>
             {/* Modal */}
-            <FormModalComponent modal={paymentModal} handleClose={handlePaymentModalHide}>
-                <CheckoutPaymentsAddPaymentContainer handleClose={handlePaymentModalHide} />
+            <FormModalComponent modal={outlayModal} handleClose={handleOutlayModalHide}>
+                {/*<CheckoutPaymentsAddPaymentContainer handleClose={handlePaymentModalHide} />*/}
             </FormModalComponent>
         </>
     )
@@ -139,13 +138,13 @@ function searchEngine(data, _needle) {
 }
 
 // Prop types to ensure destroyed props data type
-CheckoutPaymentsPage.propTypes = {
+CheckoutOutlaysPage.propTypes = {
     page: PropTypes.number.isRequired,
     dispatch: PropTypes.func.isRequired,
-    payments: PropTypes.array.isRequired,
+    outlays: PropTypes.array.isRequired,
     location: PropTypes.object.isRequired,
     hasMoreData: PropTypes.bool.isRequired,
-    paymentsRequests: PropTypes.object.isRequired,
+    outlaysRequests: PropTypes.object.isRequired,
 };
 
-export default React.memo(CheckoutPaymentsPage);
+export default React.memo(CheckoutOutlaysPage);

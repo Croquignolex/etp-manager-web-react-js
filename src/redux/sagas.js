@@ -5,6 +5,7 @@ import sims from './sims/saga';
 import zones from './zones/saga';
 import agents from './agents/saga';
 import fleets from './fleets/saga';
+import outlays from './outlays/saga';
 import settings from './settings/saga';
 import payments from './payments/saga';
 import operators from './operators/saga';
@@ -20,6 +21,7 @@ export default function* sagas() {
         zones(),
         agents(),
         fleets(),
+        outlays(),
         payments(),
         settings(),
         operators(),

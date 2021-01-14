@@ -3,6 +3,7 @@ import sims from './sims/reducer';
 import zones from './zones/reducer';
 import fleets from './fleets/reducer';
 import agents from './agents/reducer';
+import outlays from './outlays/reducer';
 import settings from './settings/reducer';
 import payments from './payments/reducer';
 import operators from './operators/reducer';
@@ -14,6 +15,7 @@ import notifications from './notifications/reducer';
 import zonesRequests from './requests/zones/reducer';
 import agentsRequests from './requests/agents/reducer';
 import fleetsRequests from './requests/fleets/reducer';
+import outlaysRequests from './requests/outlays/reducer';
 import paymentsRequests from './requests/payments/reducer';
 import settingsRequests from './requests/settings/reducer';
 import operatorsRequests from './requests/operators/reducer';
@@ -28,6 +30,7 @@ export default {
     zones,
     agents,
     fleets,
+    outlays,
     settings,
     payments,
     operators,
@@ -39,6 +42,7 @@ export default {
     notifications,
     fleetsRequests,
     agentsRequests,
+    outlaysRequests,
     settingsRequests,
     paymentsRequests,
     operatorsRequests,
