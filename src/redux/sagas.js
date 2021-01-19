@@ -13,6 +13,7 @@ import handovers from './handovers/saga';
 import operators from './operators/saga';
 import clearances from './clearances/saga';
 import collectors from './collectors/saga';
+import recoveries from './recoveries/saga';
 import notifications from './notifications/saga';
 
 // Combine all saga middleware
@@ -30,6 +31,7 @@ export default function* sagas() {
         handovers(),
         operators(),
         clearances(),
+        recoveries(),
         collectors(),
         notifications(),
     ]);

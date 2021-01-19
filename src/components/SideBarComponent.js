@@ -18,11 +18,11 @@ function SideBarComponent({user, pathname}) {
         return [
             buildDashboardMenu(),
             buildRequestsMenu(),
-            buildAuthorisedOperationsMenu(),
-            buildAuthorisedRecoveriesMenu(),
-            buildAuthorisedCheckoutMenu(),
-            buildAuthorisedAgentsMenu(),
-            buildAuthorisedSimsMenu(),
+            // buildOperationsMenu(),
+            buildRecoveriesMenu(),
+            buildCheckoutMenu(),
+            buildAgentsMenu(),
+            buildSimsMenu(),
         ];
         // eslint-disable-next-line
     }, [pathname]);
@@ -134,7 +134,7 @@ function buildRequestsMenu() {
 }
 
 // Build operations menu
-function buildAuthorisedOperationsMenu() {
+function buildOperationsMenu() {
     return {
         name: page.OPERATIONS,
         icon: 'fa fa-bars',
@@ -149,7 +149,7 @@ function buildAuthorisedOperationsMenu() {
 }
 
 // Build recoveries menu
-function buildAuthorisedRecoveriesMenu() {
+function buildRecoveriesMenu() {
     return {
         name: page.RECOVERIES,
         icon: 'fa fa-share',
@@ -161,7 +161,7 @@ function buildAuthorisedRecoveriesMenu() {
 }
 
 // Build checkout menu
-function buildAuthorisedCheckoutMenu() {
+function buildCheckoutMenu() {
     return {
         name: page.CHECKOUT,
         icon: 'fa fa-coins',
@@ -174,7 +174,7 @@ function buildAuthorisedCheckoutMenu() {
 }
 
 // Build agents menu
-function buildAuthorisedAgentsMenu() {
+function buildAgentsMenu() {
     return {
         name: page.AGENTS,
         path: path.AGENTS_PAGE_PATH,
@@ -184,7 +184,7 @@ function buildAuthorisedAgentsMenu() {
 }
 
 // Build sims menu
-function buildAuthorisedSimsMenu() {
+function buildSimsMenu() {
     return {
         name: page.SIMS_PAGE,
         path: path.SIMS_PAGE_PATH,

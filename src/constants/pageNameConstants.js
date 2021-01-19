@@ -18,8 +18,8 @@ export const OPERATIONS_ANONYMOUS_FLEETS_PAGE = 'Flottages Anonyme';
 
 // Recoveries
 export const RECOVERIES = 'Recouvrement';
-export const RECOVERIES_CASH_PAGE = 'Espèces';
 export const RECOVERIES_FLEET_PAGE = 'Retour flotte';
+export const RECOVERIES_CASH_PAGE = "Recouvrement d'espèces";
 
 // Checkout
 export const CHECKOUT = 'Caisse';
