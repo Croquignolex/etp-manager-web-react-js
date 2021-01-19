@@ -1,72 +1,57 @@
 // Reducer action types
-export const STORE_SET_FLEETS_DATA = 'STORE_SET_FLEETS_DATA';
-export const STORE_UPDATE_FLEET_DATA = 'STORE_UPDATE_FLEET_DATA';
-export const STORE_SET_NEXT_FLEETS_DATA = 'STORE_SET_NEXT_FLEETS_DATA';
-export const STORE_SET_FLEET_ACTION_DATA = 'STORE_SET_USER_ACTION_DATA';
-export const STORE_STOP_INFINITE_SCROLL_FLEETS_DATA = 'STORE_STOP_INFINITE_SCROLL_FLEETS_DATA';
+export const STORE_SET_RECOVERIES_DATA = 'STORE_SET_RECOVERIES_DATA';
+export const STORE_UPDATE_RECOVERY_DATA = 'STORE_UPDATE_RECOVERY_DATA';
+export const STORE_SET_NEXT_RECOVERIES_DATA = 'STORE_SET_NEXT_RECOVERIES_DATA';
+export const STORE_SET_RECOVERY_ACTION_DATA = 'STORE_SET_RECOVERY_ACTION_DATA';
+export const STORE_STOP_INFINITE_SCROLL_RECOVERIES_DATA = 'STORE_STOP_INFINITE_SCROLL_RECOVERIES_DATA';
 
 // Middleware action types
-export const EMIT_FLEETS_FETCH = 'EMIT_FLEETS_FETCH';
-export const EMIT_ALL_FLEETS_FETCH = 'EMIT_ALL_FLEETS_FETCH';
-// export const EMIT_FLEET_ADD_SUPPLY = 'EMIT_FLEET_ADD_SUPPLY';
-export const EMIT_NEXT_FLEETS_FETCH = 'EMIT_NEXT_FLEETS_FETCH';
+export const EMIT_RECOVERIES_FETCH = 'EMIT_RECOVERIES_FETCH';
+export const EMIT_NEXT_RECOVERIES_FETCH = 'EMIT_NEXT_RECOVERIES_FETCH';
 
 //====================== Reducer trigger actions
-// Set fleets data in store
-export const storeSetFleetsData = ({fleets, hasMoreData, page}) => ({
+// Set recoveries data in store
+export const storeSetRecoveriesData = ({recoveries, hasMoreData, page}) => ({
     page,
-    fleets,
+    recoveries,
     hasMoreData,
-    type: STORE_SET_FLEETS_DATA
+    type: STORE_SET_RECOVERIES_DATA
 });
 
-// Set next fleets data in store
-export const storeSetNextFleetsData = ({fleets, hasMoreData, page}) => ({
+// Set next recoveries data in store
+export const storeSetNextRecoveriesData = ({recoveries, hasMoreData, page}) => ({
     page,
-    fleets,
+    recoveries,
     hasMoreData,
-    type: STORE_SET_NEXT_FLEETS_DATA
+    type: STORE_SET_NEXT_RECOVERIES_DATA
 });
 
 // Stop infinite scroll
-export const storeStopInfiniteScrollFleetData = () => ({
-    type: STORE_STOP_INFINITE_SCROLL_FLEETS_DATA
+export const storeStopInfiniteScrollRecoveryData = () => ({
+    type: STORE_STOP_INFINITE_SCROLL_RECOVERIES_DATA
 });
 
-// Set update fleet data in store
-export const storeUpdateFleetData = ({id, amount}) => ({
+// Set update recovery data in store
+export const storeUpdateRecoveryData = ({id, amount}) => ({
     id,
     amount,
-    type: STORE_UPDATE_FLEET_DATA
+    type: STORE_UPDATE_RECOVERY_DATA
 });
 
-// Set fleet action data in store
-export const storeSetFleetActionData = ({id}) => ({
+// Set recovery action data in store
+export const storeSetRecoveryActionData = ({id}) => ({
     id,
-    type: STORE_SET_FLEET_ACTION_DATA
+    type: STORE_SET_RECOVERY_ACTION_DATA
 });
 
 //====================== Middleware trigger actions
-// Emit fleets fetch
-export const emitFleetsFetch = () => ({
-    type: EMIT_FLEETS_FETCH
+// Emit recoveries fetch
+export const emitRecoveriesFetch = () => ({
+    type: EMIT_RECOVERIES_FETCH
 });
 
-// Emit next fleets fetch
-export const emitNextFleetsFetch = ({page}) => ({
+// Emit next recoveries fetch
+export const emitNextRecoveriesFetch = ({page}) => ({
     page,
-    type: EMIT_NEXT_FLEETS_FETCH
-});
-
-// Emit all fleets fetch
-export const emitAllFleetsFetch = () => ({
-    type: EMIT_ALL_FLEETS_FETCH
-});
-
-// Emit fleet add
-export const emitFleetAddSupply = ({id, amount, sim}) => ({
-    id,
-    sim,
-    amount,
-    type: EMIT_FLEET_ADD_SUPPLY
+    type: EMIT_NEXT_RECOVERIES_FETCH
 });
