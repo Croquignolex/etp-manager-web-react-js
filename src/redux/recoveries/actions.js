@@ -1,8 +1,6 @@
 // Reducer action types
 export const STORE_SET_RECOVERIES_DATA = 'STORE_SET_RECOVERIES_DATA';
-export const STORE_UPDATE_RECOVERY_DATA = 'STORE_UPDATE_RECOVERY_DATA';
 export const STORE_SET_NEXT_RECOVERIES_DATA = 'STORE_SET_NEXT_RECOVERIES_DATA';
-export const STORE_SET_RECOVERY_ACTION_DATA = 'STORE_SET_RECOVERY_ACTION_DATA';
 export const STORE_STOP_INFINITE_SCROLL_RECOVERIES_DATA = 'STORE_STOP_INFINITE_SCROLL_RECOVERIES_DATA';
 
 // Middleware action types
@@ -29,19 +27,6 @@ export const storeSetNextRecoveriesData = ({recoveries, hasMoreData, page}) => (
 // Stop infinite scroll
 export const storeStopInfiniteScrollRecoveryData = () => ({
     type: STORE_STOP_INFINITE_SCROLL_RECOVERIES_DATA
-});
-
-// Set update recovery data in store
-export const storeUpdateRecoveryData = ({id, amount}) => ({
-    id,
-    amount,
-    type: STORE_UPDATE_RECOVERY_DATA
-});
-
-// Set recovery action data in store
-export const storeSetRecoveryActionData = ({id}) => ({
-    id,
-    type: STORE_SET_RECOVERY_ACTION_DATA
 });
 
 //====================== Middleware trigger actions
