@@ -6,7 +6,6 @@ const initialState = {
     add: {failed: false, loading: false, succeeded: false, message: ""},
     list: {failed: false, loading: false, succeeded: false, message: ""},
     next: {failed: false, loading: false, succeeded: false, message: ""},
-    apply: {failed: false, loading: false, succeeded: false, message: ""},
 };
 
 // Reduce
@@ -63,23 +62,6 @@ function reduce(state = initialState, action) {
         // Resolve event to set recover reset request store data
         case actions.STORE_RECOVER_REQUEST_RESET:
             nextState = {...state, add: initialState.add};
-            return nextState || state;
-        // ======================================================== Apply recover
-        // Resolve event to set apply recover init request store data
-        case actions.STORE_APPLY_RECOVER_REQUEST_INIT:
-            nextState = {...state, apply: requestInitValue()};
-            return nextState || state;
-        // Resolve event to set apply recover failed request store data
-        case actions.STORE_APPLY_RECOVER_REQUEST_FAILED:
-            nextState = {...state, apply: requestFailedValue(action.message)};
-            return nextState || state;
-        // Resolve event to set apply recover succeeded request store data
-        case actions.STORE_APPLY_RECOVER_REQUEST_SUCCEEDED:
-            nextState = {...state, apply: requestSucceededValue(action.message)};
-            return nextState || state;
-        // Resolve event to set apply recover reset request store data
-        case actions.STORE_APPLY_RECOVER_REQUEST_RESET:
-            nextState = {...state, apply: initialState.apply};
             return nextState || state;
         // ========================================================
         // Unknown action

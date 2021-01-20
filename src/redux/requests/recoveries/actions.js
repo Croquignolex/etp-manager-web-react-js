@@ -14,11 +14,6 @@ export const STORE_RECOVER_REQUEST_RESET = 'STORE_RECOVER_REQUEST_RESET';
 export const STORE_RECOVER_REQUEST_FAILED = 'STORE_RECOVER_REQUEST_FAILED';
 export const STORE_RECOVER_REQUEST_SUCCEEDED = 'STORE_RECOVER_REQUEST_SUCCEEDED';
 
-export const STORE_APPLY_RECOVER_REQUEST_INIT = 'STORE_APPLY_RECOVER_REQUEST_INIT';
-export const STORE_APPLY_RECOVER_REQUEST_RESET = 'STORE_APPLY_RECOVER_REQUEST_RESET';
-export const STORE_APPLY_RECOVER_REQUEST_FAILED = 'STORE_APPLY_RECOVER_REQUEST_FAILED';
-export const STORE_APPLY_RECOVER_REQUEST_SUCCEEDED = 'STORE_APPLY_RECOVER_REQUEST_SUCCEEDED';
-
 // ======================================================== Recoveries
 // Set recoveries init data into store
 export const storeRecoveriesRequestInit = () => ({
@@ -84,26 +79,4 @@ export const storeRecoverRequestSucceed = ({message}) => ({
 // Set recover reset data into store
 export const storeRecoverRequestReset = () => ({
     type: STORE_RECOVER_REQUEST_RESET
-});
-// ======================================================== Apply recover
-// Set apply recover init data into store
-export const storeApplyRecoverRequestInit = () => ({
-    type: STORE_APPLY_RECOVER_REQUEST_INIT
-});
-
-// Set apply recover failed data into store
-export const storeApplyRecoverRequestFailed = ({message}) => ({
-    message,
-    type: STORE_APPLY_RECOVER_REQUEST_FAILED
-});
-
-// Set apply recover succeeded data into store
-export const storeApplyRecoverRequestSucceed = ({message}) => ({
-    message,
-    type: STORE_APPLY_RECOVER_REQUEST_SUCCEEDED
-});
-
-// Set apply recover reset data into store
-export const storeApplyRecoverRequestReset = () => ({
-    type: STORE_APPLY_RECOVER_REQUEST_RESET
 });

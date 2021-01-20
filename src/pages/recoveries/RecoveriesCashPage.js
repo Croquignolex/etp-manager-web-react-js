@@ -4,12 +4,14 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 import HeaderComponent from "../../components/HeaderComponent";
 import LoaderComponent from "../../components/LoaderComponent";
+import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import {RECOVERIES_CASH_PAGE} from "../../constants/pageNameConstants";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import FormModalComponent from "../../components/modals/FormModalComponent";
-import CheckoutPaymentsCardsComponent from "../../components/checkout/CheckoutPaymentsCardsComponent";
+import {emitNextRecoveriesFetch, emitRecoveriesFetch} from "../../redux/recoveries/actions";
+import RecoveriesCashCardsComponent from "../../components/recoveries/RecoveriesCashCardsComponent";
 import {
     dateToString,
     needleSearch,
@@ -18,7 +20,6 @@ import {
 } from "../../functions/generalFunctions";
 import {
     storeRecoveriesRequestReset,
-    storeApplyRecoverRequestReset,
     storeNextRecoveriesRequestReset
 } from "../../redux/requests/recoveries/actions";
 
@@ -30,8 +31,7 @@ function RecoveriesCashPage({recoveries, recoveriesRequests, hasMoreData, page, 
 
     // Local effects
     useEffect(() => {
-        // dispatch(emitPaymentsFetch());
-        // dispatch(emitAllCollectorsFetch());
+        dispatch(emitRecoveriesFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -46,13 +46,12 @@ function RecoveriesCashPage({recoveries, recoveriesRequests, hasMoreData, page, 
     // Reset error alert
     const shouldResetErrorData = () => {
         dispatch(storeRecoveriesRequestReset());
-        dispatch(storeApplyRecoverRequestReset());
         dispatch(storeNextRecoveriesRequestReset());
     };
 
     // Fetch next recoveries data to enhance infinite scroll
     const handleNextRecoveriesData = () => {
-        // dispatch(emitNextPaymentsFetch({page}));
+        dispatch(emitNextRecoveriesFetch({page}));
     }
 
     // Show recovery modal form
@@ -86,7 +85,6 @@ function RecoveriesCashPage({recoveries, recoveriesRequests, hasMoreData, page, 
                                             {/* Error message */}
                                             {requestFailed(recoveriesRequests.list) && <ErrorAlertComponent message={recoveriesRequests.list.message} />}
                                             {requestFailed(recoveriesRequests.next) && <ErrorAlertComponent message={recoveriesRequests.next.message} />}
-                                            {requestFailed(recoveriesRequests.apply) && <ErrorAlertComponent message={recoveriesRequests.apply.message} />}
                                             <button type="button"
                                                     className="btn btn-theme mb-2"
                                                     onClick={handleRecoveryModalShow}
@@ -95,7 +93,7 @@ function RecoveriesCashPage({recoveries, recoveriesRequests, hasMoreData, page, 
                                             </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
-                                                ? <CheckoutPaymentsCardsComponent payments={searchEngine(recoveries, needle)} />
+                                                ? <RecoveriesCashCardsComponent recoveries={searchEngine(recoveries, needle)} />
                                                 : (requestLoading(recoveriesRequests.list) ? <LoaderComponent /> :
                                                         <InfiniteScroll hasMore={hasMoreData}
                                                                         loader={<LoaderComponent />}
@@ -103,7 +101,7 @@ function RecoveriesCashPage({recoveries, recoveriesRequests, hasMoreData, page, 
                                                                         dataLength={recoveries.length}
                                                                         next={handleNextRecoveriesData}
                                                         >
-                                                            <CheckoutPaymentsCardsComponent payments={recoveries} />
+                                                            <RecoveriesCashCardsComponent recoveries={recoveries} />
                                                         </InfiniteScroll>
                                                 )
                                             }
@@ -131,9 +129,10 @@ function searchEngine(data, _needle) {
         data = data.filter((item) => {
             return (
                 needleSearch(item.amount, _needle) ||
-                needleSearch(item.manager.name, _needle) ||
+                needleSearch(item.agent.name, _needle) ||
                 needleSearch(item.collector.name, _needle) ||
-                needleSearch(dateToString(item.creation), _needle)
+                needleSearch(dateToString(item.creation), _needle) ||
+                needleSearch(fleetTypeBadgeColor(item.status).text, _needle)
             )
         });
     }
