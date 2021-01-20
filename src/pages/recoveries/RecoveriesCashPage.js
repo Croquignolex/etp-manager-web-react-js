@@ -9,7 +9,6 @@ import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import {RECOVERIES_CASH_PAGE} from "../../constants/pageNameConstants";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
-import FormModalComponent from "../../components/modals/FormModalComponent";
 import {emitNextRecoveriesFetch, emitRecoveriesFetch} from "../../redux/recoveries/actions";
 import RecoveriesCashCardsComponent from "../../components/recoveries/RecoveriesCashCardsComponent";
 import {
@@ -27,7 +26,6 @@ import {
 function RecoveriesCashPage({recoveries, recoveriesRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
-    const [recoveryModal, setRecoveryModal] = useState({show: false, header: "EFFECTUER UN RECOUVREMENT"});
 
     // Local effects
     useEffect(() => {
@@ -54,22 +52,12 @@ function RecoveriesCashPage({recoveries, recoveriesRequests, hasMoreData, page, 
         dispatch(emitNextRecoveriesFetch({page}));
     }
 
-    // Show recovery modal form
-    const handleRecoveryModalShow = (item) => {
-        setRecoveryModal({...recoveryModal, item, show: true})
-    }
-
-    // Hide recovery modal form
-    const handleRecoveryModalHide = () => {
-        setRecoveryModal({...recoveryModal, show: false})
-    }
-
     // Render
     return (
         <>
             <AppLayoutContainer pathname={location.pathname}>
                 <div className="content-wrapper">
-                    <HeaderComponent title={RECOVERIES_CASH_PAGE} icon={'fa fa-money'} />
+                    <HeaderComponent title={RECOVERIES_CASH_PAGE} icon={'fa fa-money-bill'} />
                     <section className="content">
                         <div className='container-fluid'>
                             <div className="row">
@@ -85,12 +73,6 @@ function RecoveriesCashPage({recoveries, recoveriesRequests, hasMoreData, page, 
                                             {/* Error message */}
                                             {requestFailed(recoveriesRequests.list) && <ErrorAlertComponent message={recoveriesRequests.list.message} />}
                                             {requestFailed(recoveriesRequests.next) && <ErrorAlertComponent message={recoveriesRequests.next.message} />}
-                                            <button type="button"
-                                                    className="btn btn-theme mb-2"
-                                                    onClick={handleRecoveryModalShow}
-                                            >
-                                                <i className="fa fa-plus" /> Effectuer un recouvrement
-                                            </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
                                                 ? <RecoveriesCashCardsComponent recoveries={searchEngine(recoveries, needle)} />
@@ -113,10 +95,6 @@ function RecoveriesCashPage({recoveries, recoveriesRequests, hasMoreData, page, 
                     </section>
                 </div>
             </AppLayoutContainer>
-            {/* Modal */}
-            <FormModalComponent modal={recoveryModal} handleClose={handleRecoveryModalHide}>
-                {/*<CheckoutPaymentsAddPaymentContainer handleClose={handleRecoveryModalHide} />*/}
-            </FormModalComponent>
         </>
     )
 }
