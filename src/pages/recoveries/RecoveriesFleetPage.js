@@ -9,7 +9,9 @@ import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import {RECOVERIES_FLEET_PAGE} from "../../constants/pageNameConstants";
 import TableSearchComponent from "../../components/TableSearchComponent";
+import {emitNextReturnsFetch, emitReturnsFetch} from "../../redux/returns/actions";
 import RecoveriesFleetsCardsComponent from "../../components/recoveries/RecoveriesFleetsCardsComponent";
+import {storeNextReturnsRequestReset, storeReturnsRequestReset} from "../../redux/requests/returns/actions";
 import {
     dateToString,
     needleSearch,
@@ -24,7 +26,7 @@ function RecoveriesFleetsPage({returns, returnsRequests, hasMoreData, page, disp
 
     // Local effects
     useEffect(() => {
-        // dispatch(emitRecoveriesFetch());
+        dispatch(emitReturnsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -38,13 +40,13 @@ function RecoveriesFleetsPage({returns, returnsRequests, hasMoreData, page, disp
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        // dispatch(storeRecoveriesRequestReset());
-        // dispatch(storeNextRecoveriesRequestReset());
+        dispatch(storeReturnsRequestReset());
+        dispatch(storeNextReturnsRequestReset());
     };
 
     // Fetch next returns data to enhance infinite scroll
     const handleNextReturnsData = () => {
-        // dispatch(emitNextRecoveriesFetch({page}));
+        dispatch(emitNextReturnsFetch({page}));
     }
 
     // Render
@@ -57,7 +59,7 @@ function RecoveriesFleetsPage({returns, returnsRequests, hasMoreData, page, disp
                         <div className='container-fluid'>
                             <div className="row">
                                 <div className="col-12">
-                                    <div className="card custom-card-outline fa-wifi">
+                                    <div className="card custom-card-outline">
                                         {/* Search input */}
                                         <div className="card-header">
                                             <div className="card-tools">
@@ -119,10 +121,10 @@ function searchEngine(data, _needle) {
 RecoveriesFleetsPage.propTypes = {
     page: PropTypes.number.isRequired,
     dispatch: PropTypes.func.isRequired,
+    returns: PropTypes.array.isRequired,
     location: PropTypes.object.isRequired,
     hasMoreData: PropTypes.bool.isRequired,
-    recoveries: PropTypes.array.isRequired,
-    recoveriesRequests: PropTypes.object.isRequired,
+    returnsRequests: PropTypes.object.isRequired,
 };
 
 export default React.memo(RecoveriesFleetsPage);

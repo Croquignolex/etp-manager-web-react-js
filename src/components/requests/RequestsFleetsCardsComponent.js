@@ -53,11 +53,11 @@ function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {
                                         <li className="list-group-item">
                                             <b>Puce à flotter</b>
                                             <span className="float-right">
-                                            {item.sim.number}
-                                            <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
-                                               onClick={() => setSimDetailsModal({...simDetailsModal, show: true, id: item.sim.id})}
-                                            />
-                                        </span>
+                                                {item.sim.number}
+                                                <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
+                                                   onClick={() => setSimDetailsModal({...simDetailsModal, show: true, id: item.sim.id})}
+                                                />
+                                            </span>
                                         </li>
                                         <li className="list-group-item">
                                             <b>Agent/Ressource</b>

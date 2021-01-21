@@ -24,7 +24,7 @@ export function* emitReturnsFetch() {
         try {
             // Fire event for request
             yield put(storeReturnsRequestInit());
-            const apiResponse = yield call(apiGetRequest, `${api.CASH_RETURNS_API_PATH}?page=1`);
+            const apiResponse = yield call(apiGetRequest, `${api.FLEET_RECOVERIES_API_PATH}?page=1`);
             // Extract data
             const returns = extractReturnsData(apiResponse.data.recouvrements);
             // Fire event to redux
@@ -44,7 +44,7 @@ export function* emitNextReturnsFetch() {
         try {
             // Fire event for request
             yield put(storeNextReturnsRequestInit());
-            const apiResponse = yield call(apiGetRequest, `${api.CASH_RETURNS_API_PATH}?page=${page}`);
+            const apiResponse = yield call(apiGetRequest, `${api.FLEET_RECOVERIES_API_PATH}?page=${page}`);
             // Extract data
             const returns = extractReturnsData(apiResponse.data.recouvrements);
             // Fire event to redux
@@ -81,12 +81,14 @@ export function* emitRecoveryAddSupply() {
 */
 
 // Extract recovery data
-function extractRecoveryData(apiRecovery, apiUser, apiAgent, apiCollector) {
+function extractRecoveryData(apiRecovery, apiUser, apiAgent, apiCollector, apiSimOutgoing, apiSimIncoming) {
     let recovery = {
         id: '', amount: '', creation: '', receipt: '',
 
         agent: {id: '', name: ''},
         collector: {id: '', name: ''},
+        sim_outgoing: {id: '', name: '', number: ''},
+        sim_incoming: {id: '', name: '', number: ''},
     };
     if(apiAgent && apiUser) {
         recovery.agent = {
@@ -98,6 +100,20 @@ function extractRecoveryData(apiRecovery, apiUser, apiAgent, apiCollector) {
         recovery.collector = {
             name: apiCollector.name,
             id: apiCollector.id.toString(),
+        };
+    }
+    if(apiSimOutgoing) {
+        recovery.sim_outgoing = {
+            name: apiSimOutgoing.nom,
+            number: apiSimOutgoing.numero,
+            id: apiSimOutgoing.id.toString()
+        };
+    }
+    if(apiSimIncoming) {
+        recovery.sim_incoming = {
+            name: apiSimIncoming.nom,
+            number: apiSimIncoming.numero,
+            id: apiSimIncoming.id.toString()
         };
     }
     if(apiRecovery) {
@@ -120,6 +136,8 @@ function extractReturnsData(apiReturns) {
                 data.user,
                 data.agent,
                 data.recouvreur,
+                data.puce_agent,
+                data.puce_flottage,
             ));
         });
     }
