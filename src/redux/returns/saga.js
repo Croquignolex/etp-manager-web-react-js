@@ -83,7 +83,7 @@ export function* emitRecoveryAddSupply() {
 // Extract recovery data
 function extractRecoveryData(apiRecovery, apiUser, apiAgent, apiCollector, apiSimOutgoing, apiSimIncoming) {
     let recovery = {
-        id: '', amount: '', creation: '', receipt: '',
+        id: '', amount: '', creation: '', receipt: '', status: '',
 
         agent: {id: '', name: ''},
         collector: {id: '', name: ''},
@@ -118,6 +118,7 @@ function extractRecoveryData(apiRecovery, apiUser, apiAgent, apiCollector, apiSi
     }
     if(apiRecovery) {
         recovery.actionLoader = false;
+        recovery.status = apiRecovery.statut;
         recovery.amount = apiRecovery.montant;
         recovery.id = apiRecovery.id.toString();
         recovery.creation = apiRecovery.created_at;

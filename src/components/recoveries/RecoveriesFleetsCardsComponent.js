@@ -5,9 +5,12 @@ import FormModalComponent from "../modals/FormModalComponent";
 import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
 import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer";
+import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
+import {PENDING, PROCESSING} from "../../constants/typeConstants";
+import LoaderComponent from "../LoaderComponent";
 
 // Component
-function RecoveriesFleetsCardsComponent({returns}) {
+function RecoveriesFleetsCardsComponent({returns, handleConfirmModalShow}) {
     // Local states
     const [agentDetailsModal, setAgentDetailsModal] = useState({show: false, header: "DETAIL DE L'AGENT/RESSOURCE", id: ''});
     const [incomingSimDetailsModal, setIncomingSimDetailsModal] = useState({show: false, header: 'DETAIL DE LA PUCE AGENT', id: ''});
@@ -37,16 +40,18 @@ function RecoveriesFleetsCardsComponent({returns}) {
                     return (
                         <div className="col-lg-4 col-md-6" key={key}>
                             <div className="card">
-                                <div className="card-header bg-secondary">
-                                    <h3 className="card-title text-bold">
-                                        <i className="fa fa-money-bill-alt" /> {formatNumber(item.amount)}
-                                    </h3>
+                                <div className={`${fleetTypeBadgeColor(item.status).background} card-header`}>
+                                    <h3 className="card-title">{fleetTypeBadgeColor(item.status).text}</h3>
                                 </div>
                                 <div className="card-body">
                                     <ul className="list-group list-group-unbordered">
                                         <li className="list-group-item">
                                             <b>Créer le</b>
                                             <span className="float-right">{dateToString(item.creation)}</span>
+                                        </li>
+                                        <li className="list-group-item">
+                                            <b>Flotte retournée</b>
+                                            <span className="float-right">{formatNumber(item.amount)}</span>
                                         </li>
                                         <li className="list-group-item">
                                             <b>Puce agent</b>
@@ -80,6 +85,18 @@ function RecoveriesFleetsCardsComponent({returns}) {
                                             <span className="float-right">{item.collector.name}</span>
                                         </li>
                                     </ul>
+                                    {[PENDING, PROCESSING].includes(item.status) &&
+                                        <div className="mt-3 text-center">
+                                            {item.actionLoader ? <LoaderComponent little={true} /> :
+                                                <button type="button"
+                                                        className="btn btn-theme"
+                                                        onClick={() => handleConfirmModalShow(item)}
+                                                >
+                                                    <i className="fa fa-check" /> Confirmer
+                                                </button>
+                                            }
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
