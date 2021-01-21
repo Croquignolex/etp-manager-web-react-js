@@ -57,7 +57,6 @@ function NotificationsCardsComponent({notifications, dispatch}) {
                                                 <i className="fas fa-trash-alt" />
                                             </button>
                                         }
-
                                     </div>
                                 </div>
                                 <div className="card-body">{item.message}</div>

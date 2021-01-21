@@ -1,13 +1,13 @@
-import React, {useState} from 'react';
 import PropTypes from "prop-types";
+import React, {useState} from 'react';
 
+import LoaderComponent from "../LoaderComponent";
 import FormModalComponent from "../modals/FormModalComponent";
+import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
+import {PENDING, PROCESSING} from "../../constants/typeConstants";
 import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
 import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer";
-import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
-import {PENDING, PROCESSING} from "../../constants/typeConstants";
-import LoaderComponent from "../LoaderComponent";
 
 // Component
 function RecoveriesFleetsCardsComponent({returns, handleConfirmModalShow}) {
@@ -42,6 +42,19 @@ function RecoveriesFleetsCardsComponent({returns, handleConfirmModalShow}) {
                             <div className="card">
                                 <div className={`${fleetTypeBadgeColor(item.status).background} card-header`}>
                                     <h3 className="card-title">{fleetTypeBadgeColor(item.status).text}</h3>
+                                    <div className="card-tools">
+                                        {[PENDING, PROCESSING].includes(item.status) &&
+                                            item.actionLoader ? <LoaderComponent little={true} /> : (
+                                                <button type="button"
+                                                        title="Confirmaer"
+                                                        className="btn btn-tool"
+                                                        onClick={() => handleConfirmModalShow(item)}
+                                                >
+                                                    <i className="fa fa-check" />
+                                                </button>
+                                            )
+                                        }
+                                    </div>
                                 </div>
                                 <div className="card-body">
                                     <ul className="list-group list-group-unbordered">
@@ -85,18 +98,6 @@ function RecoveriesFleetsCardsComponent({returns, handleConfirmModalShow}) {
                                             <span className="float-right">{item.collector.name}</span>
                                         </li>
                                     </ul>
-                                    {[PENDING, PROCESSING].includes(item.status) &&
-                                        <div className="mt-3 text-center">
-                                            {item.actionLoader ? <LoaderComponent little={true} /> :
-                                                <button type="button"
-                                                        className="btn btn-theme"
-                                                        onClick={() => handleConfirmModalShow(item)}
-                                                >
-                                                    <i className="fa fa-check" /> Confirmer
-                                                </button>
-                                            }
-                                        </div>
-                                    }
                                 </div>
                             </div>
                         </div>
