@@ -2,18 +2,17 @@ import PropTypes from 'prop-types';
 import React, {useEffect, useState} from 'react';
 import InfiniteScroll from "react-infinite-scroll-component";
 
+import {emitAllSimsFetch} from "../../redux/sims/actions";
 import HeaderComponent from "../../components/HeaderComponent";
 import LoaderComponent from "../../components/LoaderComponent";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
-import {emitAllCollectorsFetch} from "../../redux/collectors/actions";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
-import {CHECKOUT_PAYMENTS_PAGE} from "../../constants/pageNameConstants";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import FormModalComponent from "../../components/modals/FormModalComponent";
-import {emitNextPaymentsFetch, emitPaymentsFetch} from "../../redux/payments/actions";
-import CheckoutPaymentsCardsComponent from "../../components/checkout/CheckoutPaymentsCardsComponent";
-import {storeNextPaymentsRequestReset, storePaymentsRequestReset} from "../../redux/requests/payments/actions";
-import CheckoutPaymentsAddPaymentContainer from "../../containers/checkout/CheckoutPaymentsAddPaymentContainer";
+import {OPERATIONS_TRANSFERS_PAGE} from "../../constants/pageNameConstants";
+import {emitNextTransfersFetch, emitTransfersFetch} from "../../redux/transfers/actions";
+import OperationsTransfersCardsComponent from "../../components/operations/OperationsTransfersCardsComponent";
+import {storeNextTransfersRequestReset, storeTransfersRequestReset} from "../../redux/requests/transfers/actions";
 import {
     dateToString,
     needleSearch,
@@ -29,8 +28,8 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
 
     // Local effects
     useEffect(() => {
-        dispatch(emitTransfertsFetch());
-        dispatch(emitAllCollectorsFetch());
+        dispatch(emitTransfersFetch());
+        dispatch(emitAllSimsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -44,23 +43,23 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        dispatch(storePaymentsRequestReset());
-        dispatch(storeNextPaymentsRequestReset());
+        dispatch(storeTransfersRequestReset());
+        dispatch(storeNextTransfersRequestReset());
     };
 
-    // Fetch next payments data to enhance infinite scroll
-    const handleNextPaymentsData = () => {
-        dispatch(emitNextPaymentsFetch({page}));
+    // Fetch next tranfers data to enhance infinite scroll
+    const handleNextTransfersData = () => {
+        dispatch(emitNextTransfersFetch({page}));
     }
 
-    // Show payment modal form
-    const handlePaymentModalShow = (item) => {
-        setPaymentModal({...paymentModal, item, show: true})
+    // Show transfer modal form
+    const handleTransferModalShow = (item) => {
+        setTransferModal({...transferModal, item, show: true})
     }
 
-    // Hide payment modal form
-    const handlePaymentModalHide = () => {
-        setPaymentModal({...paymentModal, show: false})
+    // Hide transfer modal form
+    const handleTransferModalHide = () => {
+        setTransferModal({...transferModal, show: false})
     }
 
     // Render
@@ -68,7 +67,7 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
         <>
             <AppLayoutContainer pathname={location.pathname}>
                 <div className="content-wrapper">
-                    <HeaderComponent title={CHECKOUT_PAYMENTS_PAGE} icon={'fa fa-arrow-circle-up'} />
+                    <HeaderComponent title={OPERATIONS_TRANSFERS_PAGE} icon={'fa fa-exchange'} />
                     <section className="content">
                         <div className='container-fluid'>
                             <div className="row">
@@ -82,25 +81,25 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
                                         </div>
                                         <div className="card-body">
                                             {/* Error message */}
-                                            {requestFailed(paymentsRequests.list) && <ErrorAlertComponent message={paymentsRequests.list.message} />}
-                                            {requestFailed(paymentsRequests.next) && <ErrorAlertComponent message={paymentsRequests.next.message} />}
+                                            {requestFailed(transfersRequests.list) && <ErrorAlertComponent message={transfersRequests.list.message} />}
+                                            {requestFailed(transfersRequests.next) && <ErrorAlertComponent message={transfersRequests.next.message} />}
                                             <button type="button"
                                                     className="btn btn-theme mb-2"
-                                                    onClick={handlePaymentModalShow}
+                                                    onClick={handleTransferModalShow}
                                             >
-                                                <i className="fa fa-plus" /> Effectuer un encaissement
+                                                <i className="fa fa-plus" /> Effectuer un transfert
                                             </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
-                                                ? <CheckoutPaymentsCardsComponent payments={searchEngine(payments, needle)} />
-                                                : (requestLoading(paymentsRequests.list) ? <LoaderComponent /> :
+                                                ? <OperationsTransfersCardsComponent transfers={searchEngine(transfers, needle)} />
+                                                : (requestLoading(transfersRequests.list) ? <LoaderComponent /> :
                                                         <InfiniteScroll hasMore={hasMoreData}
                                                                         loader={<LoaderComponent />}
-                                                                        dataLength={payments.length}
-                                                                        next={handleNextPaymentsData}
+                                                                        dataLength={transfers.length}
+                                                                        next={handleNextTransfersData}
                                                                         style={{ overflow: 'hidden' }}
                                                         >
-                                                            <CheckoutPaymentsCardsComponent payments={payments} />
+                                                            <OperationsTransfersCardsComponent transfers={transfers} />
                                                         </InfiniteScroll>
                                                 )
                                             }
@@ -113,8 +112,8 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
                 </div>
             </AppLayoutContainer>
             {/* Modal */}
-            <FormModalComponent modal={paymentModal} handleClose={handlePaymentModalHide}>
-                <CheckoutPaymentsAddPaymentContainer handleClose={handlePaymentModalHide} />
+            <FormModalComponent modal={transfers} handleClose={handleTransferModalHide}>
+                {/*<CheckoutPaymentsAddPaymentContainer handleClose={handleTransferModalHide} />*/}
             </FormModalComponent>
         </>
     )
@@ -128,8 +127,9 @@ function searchEngine(data, _needle) {
         data = data.filter((item) => {
             return (
                 needleSearch(item.amount, _needle) ||
-                needleSearch(item.manager.name, _needle) ||
-                needleSearch(item.collector.name, _needle) ||
+                needleSearch(item.user.name, _needle) ||
+                needleSearch(item.sim_incoming.number, _needle) ||
+                needleSearch(item.sim_outgoing.number, _needle) ||
                 needleSearch(dateToString(item.creation), _needle)
             )
         });
@@ -142,10 +142,10 @@ function searchEngine(data, _needle) {
 OperationsTransfersPage.propTypes = {
     page: PropTypes.number.isRequired,
     dispatch: PropTypes.func.isRequired,
-    payments: PropTypes.array.isRequired,
+    transfers: PropTypes.array.isRequired,
     location: PropTypes.object.isRequired,
     hasMoreData: PropTypes.bool.isRequired,
-    paymentsRequests: PropTypes.object.isRequired,
+    transfersRequests: PropTypes.object.isRequired,
 };
 
 export default React.memo(OperationsTransfersPage);
