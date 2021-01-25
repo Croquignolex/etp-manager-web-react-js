@@ -43,17 +43,17 @@ function RecoveriesFleetsCardsComponent({returns, handleConfirmModalShow}) {
                                 <div className={`${fleetTypeBadgeColor(item.status).background} card-header`}>
                                     <h3 className="card-title">{fleetTypeBadgeColor(item.status).text}</h3>
                                     <div className="card-tools">
-                                        {[PENDING, PROCESSING].includes(item.status) &&
+                                        {item.status === PENDING && (
                                             item.actionLoader ? <LoaderComponent little={true} /> : (
                                                 <button type="button"
-                                                        title="Confirmaer"
+                                                        title="Confirmer"
                                                         className="btn btn-tool"
                                                         onClick={() => handleConfirmModalShow(item)}
                                                 >
                                                     <i className="fa fa-check" />
                                                 </button>
                                             )
-                                        }
+                                        )}
                                     </div>
                                 </div>
                                 <div className="card-body">

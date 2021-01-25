@@ -1,13 +1,15 @@
 import { all, takeLatest, put, fork, call } from 'redux-saga/effects'
 
 import * as api from "../../constants/apiConstants";
-import {apiGetRequest, getFileFromServer} from "../../functions/axiosFunctions";
+import {apiGetRequest, apiPostRequest, getFileFromServer} from "../../functions/axiosFunctions";
 import {
     EMIT_RETURNS_FETCH,
     storeSetReturnsData,
+    EMIT_CONFIRM_RETURN,
+    storeUpdateReturnData,
     EMIT_NEXT_RETURNS_FETCH,
     storeSetNextReturnsData,
-    storeStopInfiniteScrollReturnData
+    storeStopInfiniteScrollReturnData, storeSetReturnActionData
 } from "./actions";
 import {
     storeReturnsRequestInit,
@@ -16,7 +18,11 @@ import {
     storeNextReturnsRequestInit,
     storeNextReturnsRequestFailed,
     storeNextReturnsRequestSucceed,
+    storeConfirmReturnRequestInit,
+    storeConfirmReturnRequestFailed,
+    storeConfirmReturnRequestSucceed,
 } from "../requests/returns/actions";
+import {storeSetNotificationActionData} from "../notifications/actions";
 
 // Fetch returns from API
 export function* emitReturnsFetch() {
@@ -59,26 +65,28 @@ export function* emitNextReturnsFetch() {
     });
 }
 
-// Recovery add supply from API
-/*
-export function* emitRecoveryAddSupply() {
-    yield takeLatest(EMIT_RETURN_ADD_SUPPLY, function*({id, amount, sim}) {
+// Confirm return from API
+export function* emitConfirmReturn() {
+    yield takeLatest(EMIT_CONFIRM_RETURN, function*({id}) {
         try {
+            // Fire event at redux to toggle action loader
+            yield put(storeSetReturnActionData({id}));
             // Fire event for request
-            yield put(storeRecoverySupplyRequestInit());
-            const data = {id_puce: sim, montant: amount, id_demande_flotte: id};
-            const apiResponse = yield call(apiPostRequest, RETURN_ADD_SUPPLY_API_PATH, data);
+            yield put(storeConfirmReturnRequestInit());
+            const apiResponse = yield call(apiPostRequest, `${api.CONFIRM_FLEET_RECOVERIES_API_PATH}/${id}`);
             // Fire event to redux
-            yield put(storeUpdateRecoveryData({id, amount}));
+            yield put(storeUpdateReturnData({id}));
+            // Fire event at redux to toggle action loader
+            yield put(storeSetReturnActionData({id}));
             // Fire event for request
-            yield put(storeRecoverySupplyRequestSucceed({message: apiResponse.message}));
+            yield put(storeConfirmReturnRequestSucceed({message: apiResponse.message}));
         } catch (message) {
             // Fire event for request
-            yield put(storeRecoverySupplyRequestFailed({message}));
+            yield put(storeSetReturnActionData({id}));
+            yield put(storeConfirmReturnRequestFailed({message}));
         }
     });
 }
-*/
 
 // Extract recovery data
 function extractRecoveryData(apiRecovery, apiUser, apiAgent, apiCollector, apiSimOutgoing, apiSimIncoming) {
@@ -149,6 +157,7 @@ function extractReturnsData(apiReturns) {
 export default function* sagaReturns() {
     yield all([
         fork(emitReturnsFetch),
+        fork(emitConfirmReturn),
         fork(emitNextReturnsFetch),
     ]);
 }

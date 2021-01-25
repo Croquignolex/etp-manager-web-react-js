@@ -2,7 +2,7 @@ import {connect} from "react-redux";
 
 import {setPageTitle} from "../../functions/generalFunctions";
 import {RECOVERIES_FLEET_PAGE} from "../../constants/pageNameConstants";
-import RecoveriesFleetPage from "../../pages/recoveries/RecoveriesFleetPage";
+import RecoveriesFleetsPage from "../../pages/recoveries/RecoveriesFleetsPage";
 
 setPageTitle(RECOVERIES_FLEET_PAGE);
 
@@ -20,4 +20,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 // Connect component to Redux
-export default connect(mapStateToProps, mapDispatchToProps)(RecoveriesFleetPage);
+export default connect(mapStateToProps, mapDispatchToProps)(RecoveriesFleetsPage);

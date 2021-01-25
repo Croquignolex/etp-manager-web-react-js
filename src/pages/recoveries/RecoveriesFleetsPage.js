@@ -10,9 +10,13 @@ import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import {RECOVERIES_FLEET_PAGE} from "../../constants/pageNameConstants";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import ConfirmModalComponent from "../../components/modals/ConfirmModalComponent";
-import {emitNextReturnsFetch, emitReturnsFetch} from "../../redux/returns/actions";
+import {emitConfirmReturn, emitNextReturnsFetch, emitReturnsFetch} from "../../redux/returns/actions";
 import RecoveriesFleetsCardsComponent from "../../components/recoveries/RecoveriesFleetsCardsComponent";
-import {storeNextReturnsRequestReset, storeReturnsRequestReset} from "../../redux/requests/returns/actions";
+import {
+    storeReturnsRequestReset,
+    storeNextReturnsRequestReset,
+    storeConfirmReturnRequestReset
+} from "../../redux/requests/returns/actions";
 import {
     dateToString,
     formatNumber,
@@ -45,6 +49,7 @@ function RecoveriesFleetsPage({returns, returnsRequests, hasMoreData, page, disp
     const shouldResetErrorData = () => {
         dispatch(storeReturnsRequestReset());
         dispatch(storeNextReturnsRequestReset());
+        dispatch(storeConfirmReturnRequestReset());
     };
 
     // Fetch next returns data to enhance infinite scroll
@@ -65,7 +70,7 @@ function RecoveriesFleetsPage({returns, returnsRequests, hasMoreData, page, disp
     // Trigger when fleet recovery confirm confirmed on modal
     const handleConfirm = (id) => {
         handleConfirmModalHide();
-        // dispatch(emitNotificationDelete({id}));
+        dispatch(emitConfirmReturn({id}));
     };
 
     // Render
@@ -89,6 +94,7 @@ function RecoveriesFleetsPage({returns, returnsRequests, hasMoreData, page, disp
                                             {/* Error message */}
                                             {requestFailed(returnsRequests.list) && <ErrorAlertComponent message={returnsRequests.list.message} />}
                                             {requestFailed(returnsRequests.next) && <ErrorAlertComponent message={returnsRequests.next.message} />}
+                                            {requestFailed(returnsRequests.apply) && <ErrorAlertComponent message={returnsRequests.apply.message} />}
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
                                                 ? <RecoveriesFleetsCardsComponent returns={searchEngine(returns, needle)}
