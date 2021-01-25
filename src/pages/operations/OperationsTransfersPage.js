@@ -13,6 +13,7 @@ import {OPERATIONS_TRANSFERS_PAGE} from "../../constants/pageNameConstants";
 import {emitNextTransfersFetch, emitTransfersFetch} from "../../redux/transfers/actions";
 import OperationsTransfersCardsComponent from "../../components/operations/OperationsTransfersCardsComponent";
 import {storeNextTransfersRequestReset, storeTransfersRequestReset} from "../../redux/requests/transfers/actions";
+import OperationsTransfersAddTransferContainer from "../../containers/operations/OperationsTransfersAddTransferContainer";
 import {
     dateToString,
     needleSearch,
@@ -112,8 +113,8 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
                 </div>
             </AppLayoutContainer>
             {/* Modal */}
-            <FormModalComponent modal={transfers} handleClose={handleTransferModalHide}>
-                {/*<CheckoutPaymentsAddPaymentContainer handleClose={handleTransferModalHide} />*/}
+            <FormModalComponent modal={transferModal} handleClose={handleTransferModalHide}>
+                <OperationsTransfersAddTransferContainer handleClose={handleTransferModalHide} />
             </FormModalComponent>
         </>
     )
