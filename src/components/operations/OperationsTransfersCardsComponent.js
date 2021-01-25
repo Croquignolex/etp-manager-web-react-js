@@ -41,7 +41,7 @@ function OperationsTransfersCardsComponent({transfers}) {
                                             <span className="float-right">{dateToString(item.creation)}</span>
                                         </li>
                                         <li className="list-group-item">
-                                            <b>Puce émétrice</b>
+                                            <b>Puce émetrice</b>
                                             <span className="float-right">
                                                 {item.sim_outgoing.number}
                                                 <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
@@ -59,7 +59,7 @@ function OperationsTransfersCardsComponent({transfers}) {
                                             </span>
                                         </li>
                                         <li className="list-group-item">
-                                            <b>Initiateur</b>
+                                            <b>Emetteur</b>
                                             <span className="float-right">{item.user.name}</span>
                                         </li>
                                     </ul>

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, {useEffect, useState} from 'react';
 import InfiniteScroll from "react-infinite-scroll-component";
 
+import {emitAllSimsFetch} from "../../redux/sims/actions";
 import HeaderComponent from "../../components/HeaderComponent";
 import LoaderComponent from "../../components/LoaderComponent";
 import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
@@ -13,6 +14,7 @@ import {OPERATIONS_ANONYMOUS_FLEETS_PAGE} from "../../constants/pageNameConstant
 import {emitAnonymousFetch, emitNextAnonymousFetch} from "../../redux/anonymous/actions";
 import OperationsAnonymousCardsComponent from "../../components/operations/OperationsAnonymousCardsComponent";
 import {storeAnonymousRequestReset, storeNextAnonymousRequestReset} from "../../redux/requests/anonymous/actions";
+import OperationsAnonymousAddAnonymousContainer from "../../containers/operations/OperationsAnonymousAddAnonymousContainer";
 import {
     dateToString,
     needleSearch,
@@ -29,7 +31,7 @@ function OperationsAnonymousPage({anonymous, anonymousRequests, hasMoreData, pag
     // Local effects
     useEffect(() => {
         dispatch(emitAnonymousFetch());
-        // dispatch(emitAllSimsFetch());
+        dispatch(emitAllSimsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -113,7 +115,7 @@ function OperationsAnonymousPage({anonymous, anonymousRequests, hasMoreData, pag
             </AppLayoutContainer>
             {/* Modal */}
             <FormModalComponent modal={anonymousModal} handleClose={handleAnonymousModalHide}>
-                {/*<OperationsTransfersAddTransferContainer handleClose={handleTransferModalHide} />*/}
+                <OperationsAnonymousAddAnonymousContainer handleClose={handleAnonymousModalHide} />
             </FormModalComponent>
         </>
     )

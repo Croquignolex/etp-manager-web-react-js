@@ -31,7 +31,7 @@ export function* emitAnonymousFetch() {
             yield put(storeAnonymousRequestInit());
             const apiResponse = yield call(apiGetRequest, `${api.ANONYMOUS_FLEETS_API_PATH}?page=1`);
             // Extract data
-            const anonymous = extractAnonymousData(apiResponse.data.flottages); console.log({anonymous})
+            const anonymous = extractAnonymousData(apiResponse.data.flottages);
             // Fire event to redux
             yield put(storeSetAnonymousData({anonymous, hasMoreData: apiResponse.data.hasMoreData, page: 2}));
             // Fire event for request
@@ -66,17 +66,16 @@ export function* emitNextAnonymousFetch() {
 
 // Fleets new anonymous from API
 export function* emitAddAnonymous() {
-    yield takeLatest(EMIT_ADD_ANONYMOUS, function*({amount, managerSim, collectorSim}) {
+    yield takeLatest(EMIT_ADD_ANONYMOUS, function*({sim, amount, receiver, receiverSim}) {
         try {
             // Fire event for request
             yield put(storeAddAnonymousRequestInit());
-            const data = {montant: amount, id_puce_to: collectorSim, id_puce_from: managerSim};
+            const data = {montant: amount, id_puce_from: sim, nom_agent: receiver, nro_puce_to: receiverSim};
             const apiResponse = yield call(apiPostRequest, api.CREATE_ANONYMOUS_FLEET_API_PATH, data);
             // Extract data
             const anonymous = extractAnoData(
                 apiResponse.data.puce_emetrice,
-                apiResponse.data.puce_receptrice,
-                apiResponse.data.utilisateur,
+                apiResponse.data.user,
                 apiResponse.data.flottage,
             );
             // Fire event to redux

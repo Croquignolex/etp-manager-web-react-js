@@ -4,9 +4,9 @@ import OperationsAnonymousAddAnonymousComponent from "../../components/operation
 
 // Map state function to component props
 const mapStateToProps = (state) => ({
-    // sims: state.sims.list,
+    sims: state.sims.list,
     request: state.anonymousRequests.add,
-    // allSimsRequests: state.simsRequests.all,
+    allSimsRequests: state.simsRequests.all,
 });
 
 // Map dispatch function to component props

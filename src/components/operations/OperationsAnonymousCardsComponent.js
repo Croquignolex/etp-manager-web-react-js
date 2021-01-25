@@ -35,11 +35,11 @@ function OperationsAnonymousCardsComponent({anonymous}) {
                                             <span className="float-right">{dateToString(item.creation)}</span>
                                         </li>
                                         <li className="list-group-item">
-                                            <b>Responsable</b>
+                                            <b>Emetteur</b>
                                             <span className="float-right">{item.claimant.name}</span>
                                         </li>
                                         <li className="list-group-item">
-                                            <b>Puce de flottage</b>
+                                            <b>Puce émetrice</b>
                                             <span className="float-right">
                                                 {item.sim_outgoing.number}
                                                 <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"

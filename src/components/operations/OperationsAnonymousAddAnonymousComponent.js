@@ -1,16 +1,17 @@
 import PropTypes from "prop-types";
 import React, {useEffect, useMemo, useState} from 'react';
 
+import InputComponent from "../form/InputComponent";
 import ButtonComponent from "../form/ButtonComponent";
 import AmountComponent from "../form/AmountComponent";
 import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
-import {emitAddTransfer} from "../../redux/transfers/actions";
-import {requiredChecker} from "../../functions/checkerFunctions";
+import {FLEET_TYPE} from "../../constants/typeConstants";
+import {emitAddAnonymous} from "../../redux/anonymous/actions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
-import {COLLECTOR_TYPE, FLEET_TYPE} from "../../constants/typeConstants";
 import {storeAllSimsRequestReset} from "../../redux/requests/sims/actions";
+import {phoneChecker, requiredChecker} from "../../functions/checkerFunctions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
 import {storeAddTransferRequestReset} from "../../redux/requests/transfers/actions";
 import {
@@ -24,8 +25,9 @@ import {
 function OperationsTransfersAddTransferComponent({request, sims, allSimsRequests, dispatch, handleClose}) {
     // Local state
     const [amount, setAmount] = useState(DEFAULT_FORM_DATA);
+    const [receiver, setReceiver] = useState(DEFAULT_FORM_DATA);
     const [outgoingSim, setOutgoingSim] = useState(DEFAULT_FORM_DATA);
-    const [incomingSim, setIncomingSim] = useState(DEFAULT_FORM_DATA);
+    const [receiverSim, setReceiverSim] = useState(DEFAULT_FORM_DATA);
 
     // Local effects
     useEffect(() => {
@@ -51,20 +53,20 @@ function OperationsTransfersAddTransferComponent({request, sims, allSimsRequests
         setOutgoingSim({...outgoingSim,  isValid: true, data})
     }
 
-    const handleIncomingSelect = (data) => {
-        shouldResetErrorData();
-        setIncomingSim({...incomingSim,  isValid: true, data})
-    }
-
     const handleAmountInput = (data) => {
         shouldResetErrorData();
         setAmount({...amount, isValid: true, data})
     }
 
-    // Build select options
-    const incomingSelectOptions = useMemo(() => {
-        return dataToArrayForSelect(mappedSims(sims.filter(item => COLLECTOR_TYPE === item.type.name)))
-    }, [sims]);
+    const handleReceiverInput = (data) => {
+        shouldResetErrorData();
+        setReceiver({...receiver, isValid: true, data})
+    }
+
+    const handleReceiverSimInput = (data) => {
+        shouldResetErrorData();
+        setReceiverSim({...receiverSim, isValid: true, data})
+    }
 
     // Build select options
     const outgoingSelectOptions = useMemo(() => {
@@ -82,19 +84,22 @@ function OperationsTransfersAddTransferComponent({request, sims, allSimsRequests
         e.preventDefault();
         shouldResetErrorData();
         const _amount = requiredChecker(amount);
+        const _receiver = requiredChecker(receiver);
+        const _receiverSim = phoneChecker(receiverSim);
         const _outgoingSim = requiredChecker(outgoingSim);
-        const _incomingSim = requiredChecker(incomingSim);
         // Set value
         setAmount(_amount);
+        setReceiver(_receiver);
+        setReceiverSim(_receiverSim);
         setOutgoingSim(_outgoingSim);
-        setIncomingSim(_incomingSim);
-        const validationOK = (_amount.isValid && _incomingSim.isValid && _outgoingSim.isValid);
+        const validationOK = (_amount.isValid && _receiver.isValid && _outgoingSim.isValid && _receiverSim.isValid);
         // Check
         if(validationOK) {
-            dispatch(emitAddTransfer({
+            dispatch(emitAddAnonymous({
                 amount: _amount.data,
-                managerSim: _outgoingSim.data,
-                collectorSim: _incomingSim.data,
+                sim: _outgoingSim.data,
+                receiver: _receiver.data,
+                receiverSim: _receiverSim.data,
             }));
         }
         else playWarningSound();
@@ -110,7 +115,7 @@ function OperationsTransfersAddTransferComponent({request, sims, allSimsRequests
                     <div className='col-sm-6'>
                         <SelectComponent input={outgoingSim}
                                          id='inputSimManger'
-                                         label='Puce émétrice'
+                                         label='Puce émetrice'
                                          title='Choisir une puce'
                                          options={outgoingSelectOptions}
                                          handleInput={handleOutgoingSelect}
@@ -118,22 +123,28 @@ function OperationsTransfersAddTransferComponent({request, sims, allSimsRequests
                         />
                     </div>
                     <div className='col-sm-6'>
-                        <SelectComponent input={incomingSim}
-                                         id='inputSimCollector'
-                                         label='Puce receptrice'
-                                         title='Choisir une puce'
-                                         options={incomingSelectOptions}
-                                         handleInput={handleIncomingSelect}
-                                         requestProcessing={requestLoading(allSimsRequests)}
+                        <AmountComponent input={amount}
+                                         id='inputFleet'
+                                         label='Flotte à transférer'
+                                         handleInput={handleAmountInput}
                         />
                     </div>
                 </div>
                 <div className='row'>
                     <div className='col-sm-6'>
-                        <AmountComponent input={amount}
-                                         id='inputFleet'
-                                         label='Flotte à transférer'
-                                         handleInput={handleAmountInput}
+                        <InputComponent type='text'
+                                        input={receiver}
+                                        id='inputAnonymousName'
+                                        label="Nom de l'agent anonyme"
+                                        handleInput={handleReceiverInput}
+                        />
+                    </div>
+                    <div className='col-sm-6'>
+                        <InputComponent type='text'
+                                        input={receiverSim}
+                                        id='inputAnonymousSim'
+                                        label="Puce de l'agent anonyme"
+                                        handleInput={handleReceiverSimInput}
                         />
                     </div>
                 </div>
