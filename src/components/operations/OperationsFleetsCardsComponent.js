@@ -1,13 +1,15 @@
-import React, {useState} from 'react';
 import PropTypes from "prop-types";
+import React, {useState} from 'react';
 
+import LoaderComponent from "../LoaderComponent";
+import {DONE} from "../../constants/typeConstants";
 import FormModalComponent from "../modals/FormModalComponent";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
 import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
 import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer";
 
 // Component
-function OperationsFleetsCardsComponent({supplies}) {
+function OperationsFleetsCardsComponent({supplies, handleRecoveryModalShow}) {
     // Local states
     const [agentDetailsModal, setAgentDetailsModal] = useState({show: false, header: "DETAIL DE L'AGENT/RESSOURCE", id: ''});
     const [incomingSimDetailsModal, setIncomingSimDetailsModal] = useState({show: false, header: 'DETAIL DE LA PUCE AGENT', id: ''});
@@ -36,7 +38,7 @@ function OperationsFleetsCardsComponent({supplies}) {
                     return (
                         <div className="col-lg-4 col-md-6" key={key}>
                             <div className="card">
-                                <div className="card-header bg-secondary">
+                                <div className={`card-header ${item.status === DONE ? 'bg-secondary' : 'bg-primary'}`}>
                                     <h3 className="card-title text-bold">
                                         <i className="fa fa-phone" /> {formatNumber(item.amount)}
                                     </h3>
@@ -83,6 +85,18 @@ function OperationsFleetsCardsComponent({supplies}) {
                                             <span className="float-right">{item.supplier.name}</span>
                                         </li>
                                     </ul>
+                                    {item.status !== DONE && (
+                                        <div className="mt-3 text-center">
+                                            {item.actionLoader ? <LoaderComponent little={true} /> :
+                                                <button type="button"
+                                                        className="btn btn-theme"
+                                                        onClick={() => handleRecoveryModalShow(item)}
+                                                >
+                                                    <i className="fa fa-plus" /> Effectuer un retour flotte
+                                                </button>
+                                            }
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -112,7 +126,8 @@ function OperationsFleetsCardsComponent({supplies}) {
 
 // Prop types to ensure destroyed props data type
 OperationsFleetsCardsComponent.propTypes = {
-    supplies: PropTypes.array.isRequired
+    supplies: PropTypes.array.isRequired,
+    handleRecoveryModalShow: PropTypes.func.isRequired,
 };
 
 export default React.memo(OperationsFleetsCardsComponent);

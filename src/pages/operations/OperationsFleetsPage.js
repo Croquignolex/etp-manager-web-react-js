@@ -20,12 +20,14 @@ import {
     requestFailed,
     requestLoading,
 } from "../../functions/generalFunctions";
+import RequestsFleetsAddSupplyContainer from "../../containers/requests/RequestsFleetsAddSupplyContainer";
 
 // Component
 function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
     const [supplyModal, setSupplyModal] = useState({show: false, header: 'EFFECTUER UN FLOTTAGE EXPRESS'});
+    const [recoveryModal, setRecoveryModal] = useState({show: false, header: 'EFFECTUER UN RETOUR FLOTTE', item: {}});
 
     // Local effects
     useEffect(() => {
@@ -63,6 +65,17 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
         setSupplyModal({...supplyModal, show: false})
     }
 
+    // Show recovery modal form
+    const handleRecoveryModalShow = (item) => {
+        setRecoveryModal({...recoveryModal, item, show: true})
+    }
+
+    // Hide recovery modal form
+    const handleRecoveryModalHide = () => {
+        setRecoveryModal({...recoveryModal, show: false})
+    }
+
+
     // Render
     return (
         <>
@@ -92,7 +105,9 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
                                             </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
-                                                ? <OperationsFleetsCardsComponent supplies={searchEngine(supplies, needle)} />
+                                                ? <OperationsFleetsCardsComponent supplies={searchEngine(supplies, needle)}
+                                                                                  handleRecoveryModalShow={handleRecoveryModalShow}
+                                                />
                                                 : (requestLoading(suppliesRequests.list) ? <LoaderComponent /> :
                                                         <InfiniteScroll hasMore={hasMoreData}
                                                                         loader={<LoaderComponent />}
@@ -100,7 +115,9 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
                                                                         next={handleNextSuppliesData}
                                                                         style={{ overflow: 'hidden' }}
                                                         >
-                                                            <OperationsFleetsCardsComponent supplies={supplies} />
+                                                            <OperationsFleetsCardsComponent supplies={supplies}
+                                                                                            handleRecoveryModalShow={handleRecoveryModalShow}
+                                                            />
                                                         </InfiniteScroll>
                                                 )
                                             }
@@ -115,6 +132,11 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
             {/* Modal */}
             <FormModalComponent modal={supplyModal} handleClose={handleSupplyModalHide}>
                 <OperationsFleetsAddSupplyComponent handleClose={handleSupplyModalHide} />
+            </FormModalComponent>
+            <FormModalComponent modal={recoveryModal} handleClose={handleRecoveryModalHide}>
+                {/*<RequestsFleetsAddSupplyContainer fleet={supplyModal.item}
+                                                  handleClose={handleSupplyModalHide}
+                />*/}
             </FormModalComponent>
         </>
     )
