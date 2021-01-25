@@ -31,7 +31,7 @@ export function* emitAnonymousFetch() {
             yield put(storeAnonymousRequestInit());
             const apiResponse = yield call(apiGetRequest, `${api.ANONYMOUS_FLEETS_API_PATH}?page=1`);
             // Extract data
-            const anonymous = extractAnonymousData(apiResponse.data.flottages);
+            const anonymous = extractAnonymousData(apiResponse.data.flottages); console.log({anonymous})
             // Fire event to redux
             yield put(storeSetAnonymousData({anonymous, hasMoreData: apiResponse.data.hasMoreData, page: 2}));
             // Fire event for request
@@ -91,40 +91,35 @@ export function* emitAddAnonymous() {
 }
 
 // Extract anonymous data
-function extractAnoData(apiSimOutgoing, apiSimIncoming, apiUser, apiAnonymous) {
+function extractAnoData(apiSim, apiUser, apiAnonymous) {
     let anonymous = {
-        id: '', reference: '', amount: '', creation: '',
-        note: '', remaining: '', status: '',
+        id: '', reference: '', amount: '', receiver: '', receiverSim: '', status: '', creation: '',
 
-        user: {id: '', name: ''},
+        claimant: {id: '', name: '', phone: ''},
         sim_outgoing: {id: '', name: '', number: ''},
-        sim_incoming: {id: '', name: '', number: ''},
     };
-    if(apiSimOutgoing) {
+    if(apiSim) {
         anonymous.sim_outgoing = {
-            name: apiSimOutgoing.nom,
-            number: apiSimOutgoing.numero,
-            id: apiSimOutgoing.id.toString()
-        };
-    }
-    if(apiSimIncoming) {
-        anonymous.sim_incoming = {
-            name: apiSimIncoming.nom,
-            number: apiSimIncoming.numero,
-            id: apiSimIncoming.id.toString()
+            name: apiSim.nom,
+            number: apiSim.numero,
+            id: apiSim.id.toString()
         };
     }
     if(apiUser) {
-        anonymous.user = {
+        anonymous.claimant = {
             name: apiUser.name,
-            id: apiUser.id.toString()
-        };
+            phone: apiUser.phone,
+            id: apiUser.id.toString(),
+        }
     }
     if(apiAnonymous) {
         anonymous.actionLoader = false;
+        anonymous.status = apiAnonymous.statut;
         anonymous.amount = apiAnonymous.montant;
         anonymous.id = apiAnonymous.id.toString();
+        anonymous.receiver = apiAnonymous.nom_agent;
         anonymous.creation = apiAnonymous.created_at;
+        anonymous.receiverSim = apiAnonymous.nro_sim_to;
     }
     return anonymous;
 }
@@ -133,11 +128,10 @@ function extractAnoData(apiSimOutgoing, apiSimIncoming, apiUser, apiAnonymous) {
 export function extractAnonymousData(apiAnonymous) {
     const anonymous = [];
     apiAnonymous.forEach(data => {
-        anonymous.push(extractAnonymousData(
+        anonymous.push(extractAnoData(
             data.puce_emetrice,
-            data.puce_receptrice,
-            data.utilisateur,
-            data.flottage,
+            data.user,
+            data.flottage
         ));
     });
     return anonymous;

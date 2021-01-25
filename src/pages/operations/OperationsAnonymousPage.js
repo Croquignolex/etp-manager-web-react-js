@@ -128,7 +128,7 @@ function searchEngine(data, _needle) {
             return (
                 needleSearch(item.amount, _needle) ||
                 needleSearch(item.receiver, _needle) ||
-                needleSearch(item.sim_incoming, _needle) ||
+                needleSearch(item.receiverSim, _needle) ||
                 needleSearch(item.claimant.name, _needle) ||
                 needleSearch(item.sim_outgoing.number, _needle) ||
                 needleSearch(dateToString(item.creation), _needle) ||

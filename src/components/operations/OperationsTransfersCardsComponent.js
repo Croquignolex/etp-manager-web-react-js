@@ -7,6 +7,7 @@ import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
 
 // Component
 function OperationsTransfersCardsComponent({transfers}) {
+    // Local states
     const [incomingSimDetailsModal, setIncomingSimDetailsModal] = useState({show: false, header: 'DETAIL DE LA PUCE AGENT', id: ''});
     const [outgoingSimDetailsModal, setOutgoingSimDetailsModal] = useState({show: false, header: 'DETAIL DE LA PUCE DE FLOTTAGE', id: ''});
 

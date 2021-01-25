@@ -7,13 +7,8 @@ import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
 
 // Component
 function OperationsAnonymousCardsComponent({anonymous}) {
-    const [incomingSimDetailsModal, setIncomingSimDetailsModal] = useState({show: false, header: 'DETAIL DE LA PUCE AGENT', id: ''});
+    // Local states
     const [outgoingSimDetailsModal, setOutgoingSimDetailsModal] = useState({show: false, header: 'DETAIL DE LA PUCE DE FLOTTAGE', id: ''});
-
-    // Hide incoming sim details modal form
-    const handleIncomingSimDetailModalHide = () => {
-        setIncomingSimDetailsModal({...incomingSimDetailsModal, show: false})
-    }
 
     // Hide outgoing sim details modal form
     const handleOutgoingSimDetailModalHide = () => {
@@ -40,7 +35,11 @@ function OperationsAnonymousCardsComponent({anonymous}) {
                                             <span className="float-right">{dateToString(item.creation)}</span>
                                         </li>
                                         <li className="list-group-item">
-                                            <b>Puce émétrice</b>
+                                            <b>Responsable</b>
+                                            <span className="float-right">{item.claimant.name}</span>
+                                        </li>
+                                        <li className="list-group-item">
+                                            <b>Puce de flottage</b>
                                             <span className="float-right">
                                                 {item.sim_outgoing.number}
                                                 <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
@@ -50,16 +49,11 @@ function OperationsAnonymousCardsComponent({anonymous}) {
                                         </li>
                                         <li className="list-group-item">
                                             <b>Puce receptrice</b>
-                                            <span className="float-right">
-                                                {item.sim_incoming.number}
-                                                <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
-                                                   onClick={() => setIncomingSimDetailsModal({...incomingSimDetailsModal, show: true, id: item.sim_incoming.id})}
-                                                />
-                                            </span>
+                                            <span className="float-right">{item.receiverSim}</span>
                                         </li>
                                         <li className="list-group-item">
-                                            <b>Initiateur</b>
-                                            <span className="float-right">{item.user.name}</span>
+                                            <b>Recepteur</b>
+                                            <span className="float-right">{item.receiver}</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -76,9 +70,6 @@ function OperationsAnonymousCardsComponent({anonymous}) {
                 }
             </div>
             {/* Modal */}
-            <FormModalComponent small={true} modal={incomingSimDetailsModal} handleClose={handleIncomingSimDetailModalHide}>
-                <SimDetailsContainer id={incomingSimDetailsModal.id} />
-            </FormModalComponent>
             <FormModalComponent small={true} modal={outgoingSimDetailsModal} handleClose={handleOutgoingSimDetailModalHide}>
                 <SimDetailsContainer id={outgoingSimDetailsModal.id} />
             </FormModalComponent>
