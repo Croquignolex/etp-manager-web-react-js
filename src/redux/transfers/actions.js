@@ -1,58 +1,58 @@
 // Reducer action types
-export const STORE_SET_PAYMENTS_DATA = 'STORE_SET_PAYMENTS_DATA';
-export const STORE_SET_NEW_PAYMENT_DATA = 'STORE_SET_NEW_PAYMENT_DATA';
-export const STORE_SET_NEXT_PAYMENTS_DATA = 'STORE_SET_NEXT_PAYMENTS_DATA';
-export const STORE_STOP_INFINITE_SCROLL_PAYMENT_DATA = 'STORE_STOP_INFINITE_SCROLL_PAYMENT_DATA';
+export const STORE_SET_TRANSFERS_DATA = 'STORE_SET_TRANSFERS_DATA';
+export const STORE_SET_NEW_TRANSFER_DATA = 'STORE_SET_NEW_TRANSFER_DATA';
+export const STORE_SET_NEXT_TRANSFERS_DATA = 'STORE_SET_NEXT_TRANSFERS_DATA';
+export const STORE_STOP_INFINITE_SCROLL_TRANSFER_DATA = 'STORE_STOP_INFINITE_SCROLL_TRANSFER_DATA';
 
 // Middleware action types
-export const EMIT_ADD_PAYMENT = 'EMIT_ADD_PAYMENT';
-export const EMIT_PAYMENTS_FETCH = 'EMIT_PAYMENTS_FETCH';
-export const EMIT_NEXT_PAYMENTS_FETCH = 'EMIT_NEXT_PAYMENTS_FETCH';
+export const EMIT_ADD_TRANSFER = 'EMIT_ADD_TRANSFER';
+export const EMIT_TRANSFERS_FETCH = 'EMIT_TRANSFERS_FETCH';
+export const EMIT_NEXT_TRANSFERS_FETCH = 'EMIT_NEXT_TRANSFERS_FETCH';
 
 //====================== Reducer trigger actions
-// Set payments data in store
-export const storeSetPaymentsData = ({payments, hasMoreData, page}) => ({
+// Set transfers data in store
+export const storeSetTransfersData = ({transfers, hasMoreData, page}) => ({
     page,
-    payments,
+    transfers,
     hasMoreData,
-    type: STORE_SET_PAYMENTS_DATA
+    type: STORE_SET_TRANSFERS_DATA
 });
 
-// Set new payment data in store
-export const storeSetNewPaymentData = ({payment}) => ({
-    payment,
-    type: STORE_SET_NEW_PAYMENT_DATA
+// Set new transfer data in store
+export const storeSetNewTransferData = ({transfer}) => ({
+    transfer,
+    type: STORE_SET_NEW_TRANSFER_DATA
 });
 
-// Set next payments data in store
-export const storeSetNextPaymentsData = ({payments, hasMoreData, page}) => ({
+// Set next transfers data in store
+export const storeSetNextTransfersData = ({transfers, hasMoreData, page}) => ({
     page,
-    payments,
+    transfers,
     hasMoreData,
-    type: STORE_SET_NEXT_PAYMENTS_DATA
+    type: STORE_SET_NEXT_TRANSFERS_DATA
 });
 
 // Stop infinite scroll
-export const storeStopInfiniteScrollPaymentData = () => ({
-    type: STORE_STOP_INFINITE_SCROLL_PAYMENT_DATA
+export const storeStopInfiniteScrollTransferData = () => ({
+    type: STORE_STOP_INFINITE_SCROLL_TRANSFER_DATA
 });
 
 //====================== Middleware trigger actions
-// Emit payments fetch
-export const emitPaymentsFetch = () => ({
-    type: EMIT_PAYMENTS_FETCH
+// Emit transfers fetch
+export const emitTransfersFetch = () => ({
+    type: EMIT_TRANSFERS_FETCH
 });
 
-// Emit next payments fetch
-export const emitNextPaymentsFetch = ({page}) => ({
+// Emit next transfers fetch
+export const emitNextTransfersFetch = ({page}) => ({
     page,
-    type: EMIT_NEXT_PAYMENTS_FETCH
+    type: EMIT_NEXT_TRANSFERS_FETCH
 });
 
-// Emit add payment
-export const emitAddPayment = ({amount, collector, receipt}) => ({
+// Emit add transfer
+export const emitAddTransfer = ({amount, managerSim, collectorSim}) => ({
     amount,
-    receipt,
-    collector,
-    type: EMIT_ADD_PAYMENT
+    managerSim,
+    collectorSim,
+    type: EMIT_ADD_TRANSFER
 });
