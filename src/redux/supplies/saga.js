@@ -91,15 +91,23 @@ export function* emitAddSupply() {
 }
 
 // Extract supply data
-function extractSupplyData(apiSimOutgoing, apiSimIncoming, apiUser, apiSupply) {
+function extractSupplyData(apiSimOutgoing, apiSimIncoming, apiUser, apiAgent, apiSupplier, apiSupply) {
     let supply = {
         id: '', reference: '', amount: '', creation: '',
         note: '', remaining: '', status: '',
 
-        user: {id: '', name: ''},
+        request: {id: ''},
+        agent: {id: '', name: ''},
+        supplier: {id: '', name: ''},
         sim_outgoing: {id: '', name: '', number: ''},
         sim_incoming: {id: '', name: '', number: ''},
     };
+    if(apiAgent && apiUser) {
+        supply.agent = {
+            name: apiUser.name,
+            id: apiUser.id.toString()
+        };
+    }
     if(apiSimOutgoing) {
         supply.sim_outgoing = {
             name: apiSimOutgoing.nom,
@@ -114,15 +122,17 @@ function extractSupplyData(apiSimOutgoing, apiSimIncoming, apiUser, apiSupply) {
             id: apiSimIncoming.id.toString()
         };
     }
-    if(apiUser) {
-        supply.user = {
-            name: apiUser.name,
-            id: apiUser.id.toString()
+    if(apiSupplier) {
+        supply.supplier = {
+            name: apiSupplier.name,
+            id: apiSupplier.id.toString()
         };
     }
     if(apiSupply) {
         supply.actionLoader = false;
+        supply.status = apiSupply.statut;
         supply.amount = apiSupply.montant;
+        supply.remaining = apiSupply.reste;
         supply.id = apiSupply.id.toString();
         supply.creation = apiSupply.created_at;
     }
@@ -136,8 +146,10 @@ export function extractSuppliesData(apiSupplies) {
         supplies.push(extractSupplyData(
             data.puce_emetrice,
             data.puce_receptrice,
-            data.utilisateur,
-            data.flottage,
+            data.user,
+            data.agent,
+            data.gestionnaire,
+            data.approvisionnement,
         ));
     });
     return supplies;

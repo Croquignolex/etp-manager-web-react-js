@@ -88,7 +88,7 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
                                                     className="btn btn-theme mb-2"
                                                     onClick={handleSupplyModalShow}
                                             >
-                                                <i className="fa fa-plus" /> Effectuer un transfert
+                                                <i className="fa fa-plus" /> Effectuer un flottage
                                             </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
@@ -133,8 +133,7 @@ function searchEngine(data, _needle) {
                 needleSearch(item.supplier.name, _needle) ||
                 needleSearch(item.sim_incoming.number, _needle) ||
                 needleSearch(item.sim_outgoing.number, _needle) ||
-                needleSearch(dateToString(item.creation), _needle) ||
-                needleSearch(fleetTypeBadgeColor(item.status).text, _needle)
+                needleSearch(dateToString(item.creation), _needle)
             )
         });
     }
