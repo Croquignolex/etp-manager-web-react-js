@@ -11,7 +11,7 @@ import TableSearchComponent from "../../components/TableSearchComponent";
 import FormModalComponent from "../../components/modals/FormModalComponent";
 import {OPERATIONS_ANONYMOUS_FLEETS_PAGE} from "../../constants/pageNameConstants";
 import {emitAnonymousFetch, emitNextAnonymousFetch} from "../../redux/anonymous/actions";
-import OperationsTransfersCardsComponent from "../../components/operations/OperationsTransfersCardsComponent";
+import OperationsAnonymousCardsComponent from "../../components/operations/OperationsAnonymousCardsComponent";
 import {storeAnonymousRequestReset, storeNextAnonymousRequestReset} from "../../redux/requests/anonymous/actions";
 import {
     dateToString,
@@ -91,7 +91,7 @@ function OperationsAnonymousPage({anonymous, anonymousRequests, hasMoreData, pag
                                             </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
-                                                ? <OperationsTransfersCardsComponent anonymous={searchEngine(anonymous, needle)} />
+                                                ? <OperationsAnonymousCardsComponent anonymous={searchEngine(anonymous, needle)} />
                                                 : (requestLoading(anonymousRequests.list) ? <LoaderComponent /> :
                                                         <InfiniteScroll hasMore={hasMoreData}
                                                                         loader={<LoaderComponent />}
@@ -99,7 +99,7 @@ function OperationsAnonymousPage({anonymous, anonymousRequests, hasMoreData, pag
                                                                         next={handleNextAnonymousData}
                                                                         style={{ overflow: 'hidden' }}
                                                         >
-                                                            <OperationsTransfersCardsComponent anonymous={anonymous} />
+                                                            <OperationsAnonymousCardsComponent anonymous={anonymous} />
                                                         </InfiniteScroll>
                                                 )
                                             }
