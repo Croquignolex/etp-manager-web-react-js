@@ -75,3 +75,7 @@ export const CASH_RECOVERIES_API_PATH = `${API_URL}/list_all_recouvrement`;
 // Operations
 export const NEW_TRANSFERS_API_PATH = `${API_URL}/flottage_rz`;
 export const TRANSFERS_API_PATH = `${API_URL}/list_all_flottage_interne`;
+
+// Anonymous
+export const ANONYMOUS_FLEETS_API_PATH = `${API_URL}/list_flottage_anonyme`;
+export const CREATE_ANONYMOUS_FLEET_API_PATH = `${API_URL}/flottage_anonyme`;
