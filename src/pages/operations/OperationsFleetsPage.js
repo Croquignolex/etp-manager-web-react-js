@@ -2,18 +2,18 @@ import PropTypes from 'prop-types';
 import React, {useEffect, useState} from 'react';
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import {emitAllSimsFetch} from "../../redux/sims/actions";
 import HeaderComponent from "../../components/HeaderComponent";
 import LoaderComponent from "../../components/LoaderComponent";
+import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
+import {OPERATIONS_FLEETS_PAGE} from "../../constants/pageNameConstants";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import FormModalComponent from "../../components/modals/FormModalComponent";
-import {OPERATIONS_TRANSFERS_PAGE} from "../../constants/pageNameConstants";
-import {emitNextTransfersFetch, emitTransfersFetch} from "../../redux/transfers/actions";
-import OperationsTransfersCardsComponent from "../../components/operations/OperationsTransfersCardsComponent";
-import {storeNextTransfersRequestReset, storeTransfersRequestReset} from "../../redux/requests/transfers/actions";
-import OperationsTransfersAddTransferContainer from "../../containers/operations/OperationsTransfersAddTransferContainer";
+import {emitNextSuppliesFetch, emitSuppliesFetch} from "../../redux/supplies/actions";
+import OperationsFleetsCardsComponent from "../../components/operations/OperationsFleetsCardsComponent";
+import {storeNextSuppliesRequestReset, storeSuppliesRequestReset} from "../../redux/requests/supplies/actions";
+import OperationsFleetsAddSupplyComponent from "../../components/operations/OperationsFleetsAddSupplyComponent";
 import {
     dateToString,
     needleSearch,
@@ -22,15 +22,15 @@ import {
 } from "../../functions/generalFunctions";
 
 // Component
-function OperationsFleetsPage({transfers, transfersRequests, hasMoreData, page, dispatch, location}) {
+function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
-    const [transferModal, setTransferModal] = useState({show: false, header: 'EFFECTUER UN TRANSFERT DE FLOTTE'});
+    const [supplyModal, setSupplyModal] = useState({show: false, header: 'EFFECTUER UN FLOTTAGE EXPRESS'});
 
     // Local effects
     useEffect(() => {
-        dispatch(emitTransfersFetch());
-        dispatch(emitAllSimsFetch());
+        dispatch(emitSuppliesFetch());
+        // dispatch(emitAllSimsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -44,23 +44,23 @@ function OperationsFleetsPage({transfers, transfersRequests, hasMoreData, page, 
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        dispatch(storeTransfersRequestReset());
-        dispatch(storeNextTransfersRequestReset());
+        dispatch(storeSuppliesRequestReset());
+        dispatch(storeNextSuppliesRequestReset());
     };
 
-    // Fetch next transfers data to enhance infinite scroll
-    const handleNextTransfersData = () => {
-        dispatch(emitNextTransfersFetch({page}));
+    // Fetch next supplies data to enhance infinite scroll
+    const handleNextSuppliesData = () => {
+        dispatch(emitNextSuppliesFetch({page}));
     }
 
-    // Show transfer modal form
-    const handleTransferModalShow = (item) => {
-        setTransferModal({...transferModal, item, show: true})
+    // Show supply modal form
+    const handleSupplyModalShow = (item) => {
+        setSupplyModal({...supplyModal, item, show: true})
     }
 
-    // Hide transfer modal form
-    const handleTransferModalHide = () => {
-        setTransferModal({...transferModal, show: false})
+    // Hide supply modal form
+    const handleSupplyModalHide = () => {
+        setSupplyModal({...supplyModal, show: false})
     }
 
     // Render
@@ -68,7 +68,7 @@ function OperationsFleetsPage({transfers, transfersRequests, hasMoreData, page, 
         <>
             <AppLayoutContainer pathname={location.pathname}>
                 <div className="content-wrapper">
-                    <HeaderComponent title={OPERATIONS_TRANSFERS_PAGE} icon={'fa fa-exchange'} />
+                    <HeaderComponent title={OPERATIONS_FLEETS_PAGE} icon={'fa fa-rss'} />
                     <section className="content">
                         <div className='container-fluid'>
                             <div className="row">
@@ -82,25 +82,25 @@ function OperationsFleetsPage({transfers, transfersRequests, hasMoreData, page, 
                                         </div>
                                         <div className="card-body">
                                             {/* Error message */}
-                                            {requestFailed(transfersRequests.list) && <ErrorAlertComponent message={transfersRequests.list.message} />}
-                                            {requestFailed(transfersRequests.next) && <ErrorAlertComponent message={transfersRequests.next.message} />}
+                                            {requestFailed(suppliesRequests.list) && <ErrorAlertComponent message={suppliesRequests.list.message} />}
+                                            {requestFailed(suppliesRequests.next) && <ErrorAlertComponent message={suppliesRequests.next.message} />}
                                             <button type="button"
                                                     className="btn btn-theme mb-2"
-                                                    onClick={handleTransferModalShow}
+                                                    onClick={handleSupplyModalShow}
                                             >
                                                 <i className="fa fa-plus" /> Effectuer un transfert
                                             </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
-                                                ? <OperationsTransfersCardsComponent transfers={searchEngine(transfers, needle)} />
-                                                : (requestLoading(transfersRequests.list) ? <LoaderComponent /> :
+                                                ? <OperationsFleetsCardsComponent supplies={searchEngine(supplies, needle)} />
+                                                : (requestLoading(suppliesRequests.list) ? <LoaderComponent /> :
                                                         <InfiniteScroll hasMore={hasMoreData}
                                                                         loader={<LoaderComponent />}
-                                                                        dataLength={transfers.length}
-                                                                        next={handleNextTransfersData}
+                                                                        dataLength={supplies.length}
+                                                                        next={handleNextSuppliesData}
                                                                         style={{ overflow: 'hidden' }}
                                                         >
-                                                            <OperationsTransfersCardsComponent transfers={transfers} />
+                                                            <OperationsFleetsCardsComponent supplies={supplies} />
                                                         </InfiniteScroll>
                                                 )
                                             }
@@ -113,8 +113,8 @@ function OperationsFleetsPage({transfers, transfersRequests, hasMoreData, page, 
                 </div>
             </AppLayoutContainer>
             {/* Modal */}
-            <FormModalComponent modal={transferModal} handleClose={handleTransferModalHide}>
-                <OperationsTransfersAddTransferContainer handleClose={handleTransferModalHide} />
+            <FormModalComponent modal={supplyModal} handleClose={handleSupplyModalHide}>
+                <OperationsFleetsAddSupplyComponent handleClose={handleSupplyModalHide} />
             </FormModalComponent>
         </>
     )
@@ -128,10 +128,13 @@ function searchEngine(data, _needle) {
         data = data.filter((item) => {
             return (
                 needleSearch(item.amount, _needle) ||
-                needleSearch(item.user.name, _needle) ||
+                needleSearch(item.remaining, _needle) ||
+                needleSearch(item.agent.name, _needle) ||
+                needleSearch(item.supplier.name, _needle) ||
                 needleSearch(item.sim_incoming.number, _needle) ||
                 needleSearch(item.sim_outgoing.number, _needle) ||
-                needleSearch(dateToString(item.creation), _needle)
+                needleSearch(dateToString(item.creation), _needle) ||
+                needleSearch(fleetTypeBadgeColor(item.status).text, _needle)
             )
         });
     }
@@ -143,10 +146,10 @@ function searchEngine(data, _needle) {
 OperationsFleetsPage.propTypes = {
     page: PropTypes.number.isRequired,
     dispatch: PropTypes.func.isRequired,
-    transfers: PropTypes.array.isRequired,
+    supplies: PropTypes.array.isRequired,
     location: PropTypes.object.isRequired,
     hasMoreData: PropTypes.bool.isRequired,
-    transfersRequests: PropTypes.object.isRequired,
+    suppliesRequests: PropTypes.object.isRequired,
 };
 
 export default React.memo(OperationsFleetsPage);
