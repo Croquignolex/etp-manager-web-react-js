@@ -72,10 +72,14 @@ export const CONFIRM_FLEET_RECOVERIES_API_PATH = `${API_URL}/approuve_retour_flo
 export const NEW_CASH_RECOVERIES_API_PATH = `${API_URL}/recouvrement`;
 export const CASH_RECOVERIES_API_PATH = `${API_URL}/list_all_recouvrement`;
 
-// Operations
+// Transfers
 export const NEW_TRANSFERS_API_PATH = `${API_URL}/flottage_rz`;
 export const TRANSFERS_API_PATH = `${API_URL}/list_all_flottage_interne`;
 
 // Anonymous
 export const ANONYMOUS_FLEETS_API_PATH = `${API_URL}/list_flottage_anonyme`;
 export const CREATE_ANONYMOUS_FLEET_API_PATH = `${API_URL}/flottage_anonyme`;
+
+// Supplies
+export const SUPPLIES_API_PATH = `${API_URL}/list_all_flottage`;
+export const NEW_SUPPLY_API_PATH = `${API_URL}/flottage_express`;

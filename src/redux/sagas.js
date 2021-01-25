@@ -10,6 +10,7 @@ import returns from './returns/saga';
 import settings from './settings/saga';
 import payments from './payments/saga';
 import managers from './managers/saga';
+import supplies from './supplies/saga';
 import handovers from './handovers/saga';
 import operators from './operators/saga';
 import transfers from './transfers/saga';
@@ -30,6 +31,7 @@ export default function* sagas() {
         outlays(),
         returns(),
         payments(),
+        supplies(),
         managers(),
         settings(),
         transfers(),

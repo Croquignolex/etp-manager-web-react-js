@@ -8,6 +8,7 @@ import returns from './returns/reducer';
 import settings from './settings/reducer';
 import payments from './payments/reducer';
 import managers from './managers/reducer';
+import supplies from './supplies/reducer';
 import operators from './operators/reducer';
 import handovers from './handovers/reducer';
 import transfers from './transfers/reducer';
@@ -26,6 +27,7 @@ import returnsRequests from './requests/returns/reducer';
 import paymentsRequests from './requests/payments/reducer';
 import settingsRequests from './requests/settings/reducer';
 import managersRequests from './requests/managers/reducer';
+import suppliesRequests from './requests/supplies/reducer';
 import operatorsRequests from './requests/operators/reducer';
 import handoversRequests from './requests/handovers/reducer';
 import transfersRequests from './requests/transfers/reducer';
@@ -47,6 +49,7 @@ export default {
     settings,
     managers,
     payments,
+    supplies,
     handovers,
     operators,
     transfers,
@@ -62,6 +65,7 @@ export default {
     agentsRequests,
     returnsRequests,
     outlaysRequests,
+    suppliesRequests,
     managersRequests,
     settingsRequests,
     paymentsRequests,
