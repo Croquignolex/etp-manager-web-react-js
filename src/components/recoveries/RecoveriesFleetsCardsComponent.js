@@ -2,9 +2,9 @@ import PropTypes from "prop-types";
 import React, {useState} from 'react';
 
 import LoaderComponent from "../LoaderComponent";
+import {PENDING} from "../../constants/typeConstants";
 import FormModalComponent from "../modals/FormModalComponent";
 import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
-import {PENDING, PROCESSING} from "../../constants/typeConstants";
 import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
 import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer";
@@ -15,7 +15,6 @@ function RecoveriesFleetsCardsComponent({returns, handleConfirmModalShow}) {
     const [agentDetailsModal, setAgentDetailsModal] = useState({show: false, header: "DETAIL DE L'AGENT/RESSOURCE", id: ''});
     const [incomingSimDetailsModal, setIncomingSimDetailsModal] = useState({show: false, header: 'DETAIL DE LA PUCE AGENT', id: ''});
     const [outgoingSimDetailsModal, setOutgoingSimDetailsModal] = useState({show: false, header: 'DETAIL DE LA PUCE DE FLOTTAGE', id: ''});
-
 
     // Hide agent details modal form
     const handleAgentDetailsModalHide = () => {

@@ -109,6 +109,13 @@ function extractTransferData(apiSimOutgoing, apiSimIncoming, apiUser, apiTransfe
             id: apiSimOutgoing.id.toString()
         };
     }
+    if(apiSimIncoming) {
+        transfer.sim_incoming = {
+            name: apiSimIncoming.nom,
+            number: apiSimIncoming.numero,
+            id: apiSimIncoming.id.toString()
+        };
+    }
     if(apiUser) {
         transfer.user = {
             name: apiUser.name,
