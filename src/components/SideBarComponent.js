@@ -18,7 +18,7 @@ function SideBarComponent({user, pathname}) {
         return [
             buildDashboardMenu(),
             buildRequestsMenu(),
-            // buildOperationsMenu(),
+            buildOperationsMenu(),
             buildRecoveriesMenu(),
             buildCheckoutMenu(),
             buildAgentsMenu(),
