@@ -13,6 +13,7 @@ import managers from './managers/saga';
 import handovers from './handovers/saga';
 import operators from './operators/saga';
 import transfers from './transfers/saga';
+import anonymous from './anonymous/saga';
 import clearances from './clearances/saga';
 import collectors from './collectors/saga';
 import recoveries from './recoveries/saga';
@@ -32,6 +33,7 @@ export default function* sagas() {
         managers(),
         settings(),
         transfers(),
+        anonymous(),
         handovers(),
         operators(),
         clearances(),

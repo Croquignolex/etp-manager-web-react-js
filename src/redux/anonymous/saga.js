@@ -16,8 +16,8 @@ import {
     storeAnonymousRequestFailed,
     storeAddAnonymousRequestInit,
     storeAnonymousRequestSucceed,
-    storeAddAnonymousRequestFailed,
     storeNextAnonymousRequestInit,
+    storeAddAnonymousRequestFailed,
     storeAddAnonymousRequestSucceed,
     storeNextAnonymousRequestFailed,
     storeNextAnonymousRequestSucceed
