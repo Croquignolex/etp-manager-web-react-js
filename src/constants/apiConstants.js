@@ -71,3 +71,6 @@ export const CONFIRM_FLEET_RECOVERIES_API_PATH = `${API_URL}/approuve_retour_flo
 
 export const NEW_CASH_RECOVERIES_API_PATH = `${API_URL}/recouvrement`;
 export const CASH_RECOVERIES_API_PATH = `${API_URL}/list_all_recouvrement`;
+
+// Operations
+export const TRANSFERS_API_PATH = `${API_URL}/list_all_flottage_interne`;

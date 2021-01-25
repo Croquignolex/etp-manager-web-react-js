@@ -47,7 +47,7 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
         dispatch(storeNextTransfersRequestReset());
     };
 
-    // Fetch next tranfers data to enhance infinite scroll
+    // Fetch next transfers data to enhance infinite scroll
     const handleNextTransfersData = () => {
         dispatch(emitNextTransfersFetch({page}));
     }

@@ -1,7 +1,7 @@
 import {all, call, fork, put, takeLatest} from 'redux-saga/effects'
 
 import * as api from "../../constants/apiConstants";
-import {apiGetRequest, apiPostRequest, getFileFromServer} from "../../functions/axiosFunctions";
+import {apiGetRequest, apiPostRequest} from "../../functions/axiosFunctions";
 import {
     EMIT_ADD_TRANSFER,
     EMIT_TRANSFERS_FETCH,
@@ -31,7 +31,7 @@ export function* emitTransfersFetch() {
             yield put(storeTransfersRequestInit());
             const apiResponse = yield call(apiGetRequest, `${api.TRANSFERS_API_PATH}?page=1`);
             // Extract data
-            const transfers = extractTransfersData(apiResponse.data.versements);
+            const transfers = extractTransfersData(apiResponse.data.flottages);
             // Fire event to redux
             yield put(storeSetTransfersData({transfers, hasMoreData: apiResponse.data.hasMoreData, page: 2}));
             // Fire event for request
@@ -51,7 +51,7 @@ export function* emitNextTransfersFetch() {
             yield put(storeNextTransfersRequestInit());
             const apiResponse = yield call(apiGetRequest, `${api.TRANSFERS_API_PATH}?page=${page}`);
             // Extract data
-            const transfers = extractTransfersData(apiResponse.data.versements);
+            const transfers = extractTransfersData(apiResponse.data.flottages);
             // Fire event to redux
             yield put(storeSetNextTransfersData({transfers, hasMoreData: apiResponse.data.hasMoreData, page: page + 1}));
             // Fire event for request
@@ -74,7 +74,7 @@ export function* emitAddTransfer() {
             data.append('id_donneur', collector);
             data.append('recu', receipt);
             data.append('montant', amount);
-            const apiResponse = yield call(apiPostRequest, api.NEW_TRANSFER_API_PATH, data);
+            const apiResponse = yield call(apiPostRequest, api.TRANSFERS_API_PATH, data);
             // Extract data
             const transfer = extractTransferData(
                 apiResponse.data.gestionnaire,
@@ -93,30 +93,33 @@ export function* emitAddTransfer() {
 }
 
 // Extract transfer data
-function extractTransferData(apiManager, apiCollector, apiTransfer) {
+function extractTransferData(apiSimOutgoing, apiSimIncoming, apiUser, apiTransfer) {
     let transfer = {
-        id: '',  amount: '', creation: '', receipt: '',
+        id: '', reference: '', amount: '', creation: '',
+        note: '', remaining: '', status: '',
 
-        manager: {id: '', name: ''},
-        collector: {id: '', name: ''},
+        user: {id: '', name: ''},
+        sim_outgoing: {id: '', name: '', number: ''},
+        sim_incoming: {id: '', name: '', number: ''},
     };
-    if(apiManager) {
-        transfer.manager = {
-            name: apiManager.name,
-            id: apiManager.id.toString()
+    if(apiSimOutgoing) {
+        transfer.sim_outgoing = {
+            name: apiSimOutgoing.nom,
+            number: apiSimOutgoing.numero,
+            id: apiSimOutgoing.id.toString()
         };
     }
-    if(apiCollector) {
-        transfer.collector = {
-            name: apiCollector.name,
-            id: apiCollector.id.toString()
+    if(apiUser) {
+        transfer.user = {
+            name: apiUser.name,
+            id: apiUser.id.toString()
         };
     }
     if(apiTransfer) {
+        transfer.actionLoader = false;
         transfer.amount = apiTransfer.montant;
         transfer.id = apiTransfer.id.toString();
         transfer.creation = apiTransfer.created_at;
-        transfer.receipt = getFileFromServer(apiTransfer.recu);
     }
     return transfer;
 }
@@ -126,9 +129,10 @@ export function extractTransfersData(apiTransfers) {
     const transfers = [];
     apiTransfers.forEach(data => {
         transfers.push(extractTransferData(
-            data.gestionnaire,
-            data.recouvreur,
-            data.versement,
+            data.puce_emetrice,
+            data.puce_receptrice,
+            data.utilisateur,
+            data.flottage,
         ));
     });
     return transfers;
