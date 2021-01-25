@@ -9,7 +9,8 @@ import {
     storeUpdateReturnData,
     EMIT_NEXT_RETURNS_FETCH,
     storeSetNextReturnsData,
-    storeStopInfiniteScrollReturnData, storeSetReturnActionData
+    storeSetReturnActionData,
+    storeStopInfiniteScrollReturnData
 } from "./actions";
 import {
     storeReturnsRequestInit,
@@ -17,12 +18,11 @@ import {
     storeReturnsRequestSucceed,
     storeNextReturnsRequestInit,
     storeNextReturnsRequestFailed,
-    storeNextReturnsRequestSucceed,
     storeConfirmReturnRequestInit,
+    storeNextReturnsRequestSucceed,
     storeConfirmReturnRequestFailed,
     storeConfirmReturnRequestSucceed,
 } from "../requests/returns/actions";
-import {storeSetNotificationActionData} from "../notifications/actions";
 
 // Fetch returns from API
 export function* emitReturnsFetch() {

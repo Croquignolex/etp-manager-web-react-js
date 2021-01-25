@@ -66,20 +66,18 @@ export function* emitNextTransfersFetch() {
 
 // Fleets new transfer from API
 export function* emitAddTransfer() {
-    yield takeLatest(EMIT_ADD_TRANSFER, function*({amount, collector, receipt}) {
+    yield takeLatest(EMIT_ADD_TRANSFER, function*({amount, managerSim, collectorSim}) {
         try {
             // Fire event for request
             yield put(storeAddTransferRequestInit());
-            const data = new FormData();
-            data.append('id_donneur', collector);
-            data.append('recu', receipt);
-            data.append('montant', amount);
-            const apiResponse = yield call(apiPostRequest, api.TRANSFERS_API_PATH, data);
+            const data = {montant: amount, id_puce_to: collectorSim, id_puce_from: managerSim};
+            const apiResponse = yield call(apiPostRequest, api.NEW_TRANSFERS_API_PATH, data);
             // Extract data
             const transfer = extractTransferData(
-                apiResponse.data.gestionnaire,
-                apiResponse.data.recouvreur,
-                apiResponse.data.versement
+                apiResponse.data.puce_emetrice,
+                apiResponse.data.puce_receptrice,
+                apiResponse.data.utilisateur,
+                apiResponse.data.flottage,
             );
             // Fire event to redux
             yield put(storeSetNewTransferData({transfer, alsoInList: true}))

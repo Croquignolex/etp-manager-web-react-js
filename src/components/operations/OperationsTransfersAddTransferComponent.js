@@ -5,6 +5,7 @@ import ButtonComponent from "../form/ButtonComponent";
 import AmountComponent from "../form/AmountComponent";
 import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
+import {emitAddTransfer} from "../../redux/transfers/actions";
 import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
@@ -62,12 +63,12 @@ function OperationsTransfersAddTransferComponent({request, sims, allSimsRequests
 
     // Build select options
     const incomingSelectOptions = useMemo(() => {
-        return dataToArrayForSelect(mappedSims(sims.filter(item => FLEET_TYPE === item.type.name)))
+        return dataToArrayForSelect(mappedSims(sims.filter(item => COLLECTOR_TYPE === item.type.name)))
     }, [sims]);
 
     // Build select options
     const outgoingSelectOptions = useMemo(() => {
-        return dataToArrayForSelect(mappedSims(sims.filter(item => COLLECTOR_TYPE === item.type.name)))
+        return dataToArrayForSelect(mappedSims(sims.filter(item => FLEET_TYPE === item.type.name)))
     }, [sims]);
 
     // Reset error alert
@@ -90,10 +91,10 @@ function OperationsTransfersAddTransferComponent({request, sims, allSimsRequests
         const validationOK = (_amount.isValid && _incomingSim.isValid && _outgoingSim.isValid);
         // Check
         if(validationOK) {
-            dispatch(emitAddOutlay({
-                receipt: _doc.data,
+            dispatch(emitAddTransfer({
                 amount: _amount.data,
-                collector: _collector.data,
+                managerSim: _outgoingSim.data,
+                collectorSim: _incomingSim.data,
             }));
         }
         else playWarningSound();
@@ -108,8 +109,8 @@ function OperationsTransfersAddTransferComponent({request, sims, allSimsRequests
                 <div className='row'>
                     <div className='col-sm-6'>
                         <SelectComponent input={outgoingSim}
-                                         id='inputSimCollector'
-                                         label='Puce responsable'
+                                         id='inputSimManger'
+                                         label='Puce émétrice'
                                          title='Choisir une puce'
                                          options={outgoingSelectOptions}
                                          handleInput={handleOutgoingSelect}
@@ -118,8 +119,8 @@ function OperationsTransfersAddTransferComponent({request, sims, allSimsRequests
                     </div>
                     <div className='col-sm-6'>
                         <SelectComponent input={incomingSim}
-                                         id='inputSimManager'
-                                         label='Puce de flottage'
+                                         id='inputSimCollector'
+                                         label='Puce receptrice'
                                          title='Choisir une puce'
                                          options={incomingSelectOptions}
                                          handleInput={handleIncomingSelect}
