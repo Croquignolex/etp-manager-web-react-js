@@ -4,6 +4,7 @@ import CheckoutHandoversImproveHandoverComponent from "../../components/checkout
 
 // Map state function to component props
 const mapStateToProps = (state) => ({
+    user: state.user,
     balance: state.user.balance,
     managers: state.managers.list,
     request: state.handoversRequests.improve,

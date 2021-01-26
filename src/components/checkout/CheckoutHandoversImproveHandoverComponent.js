@@ -21,7 +21,7 @@ import {
 } from "../../functions/generalFunctions";
 
 // Component
-function CheckoutHandoversImproveHandoverComponent({balance, request, managers, allManagersRequests, dispatch, handleClose}) {
+function CheckoutHandoversImproveHandoverComponent({user, balance, request, managers, allManagersRequests, dispatch, handleClose}) {
     // Local state
     const [manager, setManager] = useState(DEFAULT_FORM_DATA);
     const [amount, setAmount] = useState({...DEFAULT_FORM_DATA, data: balance});
@@ -57,8 +57,8 @@ function CheckoutHandoversImproveHandoverComponent({balance, request, managers, 
 
     // Build select options
     const managerSelectOptions = useMemo(() => {
-        return dataToArrayForSelect(managers)
-    }, [managers]);
+        return dataToArrayForSelect(managers.filter(item => item.id !== user.id))
+    }, [managers, user.id]);
 
     // Reset error alert
     const shouldResetErrorData = () => {
@@ -108,7 +108,7 @@ function CheckoutHandoversImproveHandoverComponent({balance, request, managers, 
                     <div className='col-sm-6'>
                         <AmountComponent input={amount}
                                          id='inputAmount'
-                                         label='Montant à décaisser'
+                                         label='Montant à transférer'
                                          handleInput={handleAmountInput}
                         />
                     </div>
@@ -123,6 +123,7 @@ function CheckoutHandoversImproveHandoverComponent({balance, request, managers, 
 
 // Prop types to ensure destroyed props data type
 CheckoutHandoversImproveHandoverComponent.propTypes = {
+    user: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     balance: PropTypes.number.isRequired,
     request: PropTypes.object.isRequired,

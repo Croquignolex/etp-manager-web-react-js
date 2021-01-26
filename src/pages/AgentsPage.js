@@ -14,9 +14,11 @@ import TableSearchComponent from "../components/TableSearchComponent";
 import AgentNewContainer from "../containers/agents/AgentNewContainer";
 import FormModalComponent from "../components/modals/FormModalComponent";
 import {storeAllZonesRequestReset} from "../redux/requests/zones/actions";
-import {emitAgentsFetch, emitNextAgentsFetch} from "../redux/agents/actions";
-import AgentsCardsContainer from "../containers/agents/AgentsCardsContainer";
+import BlockModalComponent from "../components/modals/BlockModalComponent";
+import AgentsCardsComponent from "../components/agents/AgentsCardsComponent";
+import AgentDetailsContainer from "../containers/agents/AgentDetailsContainer";
 import {storeAllOperatorsRequestReset} from "../redux/requests/operators/actions";
+import {emitAgentsFetch, emitNextAgentsFetch, emitToggleAgentStatus} from "../redux/agents/actions";
 import {
     applySuccess,
     dateToString,
@@ -35,7 +37,9 @@ import {
 function AgentsPage({agents, agentsRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
+    const [blockModal, setBlockModal] = useState({show: false, body: '', id: 0});
     const [newAgentModal, setNewAgentModal] = useState({show: false, header: '', type: ''});
+    const [agentDetailsModal, setAgentDetailsModal] = useState({show: false, header: "DETAIL DE L'AGENT/RESSOURCE", id: ''});
 
     // Local effects
     useEffect(() => {
@@ -91,6 +95,32 @@ function AgentsPage({agents, agentsRequests, hasMoreData, page, dispatch, locati
         setNewAgentModal({...newAgentModal, show: false})
     }
 
+    // Show agent details modal form
+    const handleAgentDetailsModalShow = ({id}) => {
+        setAgentDetailsModal({...agentDetailsModal, show: true, id})
+    }
+
+    // Hide agent details modal form
+    const handleAgentDetailsModalHide = () => {
+        setAgentDetailsModal({...agentDetailsModal, show: false})
+    }
+
+    // Trigger when user block status confirmed on modal
+    const handleBlockModalShow = ({id, name}) => {
+        setBlockModal({...blockModal, show: true, id, body: `Bloquer l'agent ${name}?`})
+    };
+
+    // Hide block confirmation modal
+    const handleBlockModalHide = () => {
+        setBlockModal({...blockModal, show: false})
+    }
+
+    // Trigger when user change status confirmed on modal
+    const handleBlock = (id) => {
+        handleBlockModalHide();
+        dispatch(emitToggleAgentStatus({id}));
+    };
+
     // Render
     return (
         <>
@@ -127,7 +157,11 @@ function AgentsPage({agents, agentsRequests, hasMoreData, page, dispatch, locati
                                             </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
-                                                ? <AgentsCardsContainer agents={searchEngine(agents, needle)} />
+                                                ? <AgentsCardsComponent handleBlock={handleBlock}
+                                                                        agents={searchEngine(agents, needle)}
+                                                                        handleBlockModalShow={handleBlockModalShow}
+                                                                        handleAgentDetailsModalShow={handleAgentDetailsModalShow}
+                                                />
                                                 : (requestLoading(agentsRequests.list) ? <LoaderComponent /> :
                                                         <InfiniteScroll hasMore={hasMoreData}
                                                                         dataLength={agents.length}
@@ -135,7 +169,11 @@ function AgentsPage({agents, agentsRequests, hasMoreData, page, dispatch, locati
                                                                         loader={<LoaderComponent />}
                                                                         style={{ overflow: 'hidden' }}
                                                         >
-                                                            <AgentsCardsContainer agents={agents} />
+                                                            <AgentsCardsComponent agents={agents}
+                                                                                  handleBlock={handleBlock}
+                                                                                  handleBlockModalShow={handleBlockModalShow}
+                                                                                  handleAgentDetailsModalShow={handleAgentDetailsModalShow}
+                                                            />
                                                         </InfiniteScroll>
                                                 )
                                             }
@@ -148,10 +186,17 @@ function AgentsPage({agents, agentsRequests, hasMoreData, page, dispatch, locati
                 </div>
             </AppLayoutContainer>
             {/* Modal */}
+            <BlockModalComponent modal={blockModal}
+                                 handleBlock={handleBlock}
+                                 handleClose={handleBlockModalHide}
+            />
             <FormModalComponent modal={newAgentModal} handleClose={handleNewAgentModalHide}>
                 <AgentNewContainer type={newAgentModal.type}
                                    handleClose={handleNewAgentModalHide}
                 />
+            </FormModalComponent>
+            <FormModalComponent modal={agentDetailsModal} handleClose={handleAgentDetailsModalHide}>
+                <AgentDetailsContainer id={agentDetailsModal.id} />
             </FormModalComponent>
         </>
     )
