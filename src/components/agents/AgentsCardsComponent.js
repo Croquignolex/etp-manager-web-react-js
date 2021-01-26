@@ -2,16 +2,24 @@ import PropTypes from "prop-types";
 import React, {useEffect, useState} from 'react';
 
 import LoaderComponent from "../LoaderComponent";
-import AgentCardComponent from "./AgentCardComponent";
+import FormModalComponent from "../modals/FormModalComponent";
 import BlockModalComponent from "../modals/BlockModalComponent";
 import {emitToggleAgentStatus} from "../../redux/agents/actions";
 import {agentTypeBadgeColor} from "../../functions/typeFunctions";
+import {dateToString, formatNumber} from "../../functions/generalFunctions";
+import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer";
 import {storeAgentStatusToggleRequestReset} from "../../redux/requests/agents/actions";
 
 // Component
 function AgentsCardsComponent({agents, dispatch}) {
     // Local states
     const [blockModal, setBlockModal] = useState({show: false, body: '', id: 0});
+    const [agentDetailsModal, setAgentDetailsModal] = useState({show: false, header: "DETAIL DE L'AGENT/RESSOURCE", id: ''});
+
+    // Hide agent details modal form
+    const handleAgentDetailsModalHide = () => {
+        setAgentDetailsModal({...agentDetailsModal, show: false})
+    }
 
     // Local effects
     useEffect(() => {
@@ -45,7 +53,7 @@ function AgentsCardsComponent({agents, dispatch}) {
 
     // Render
     return (
-        <div>
+        <>
             <div className="row m-1">
                 {agents.map((item, key) => {
                     return (
@@ -55,6 +63,17 @@ function AgentsCardsComponent({agents, dispatch}) {
                                     <h3 className="card-title">
                                         {agentTypeBadgeColor(item.reference).text}
                                     </h3>
+                                    <div className="card-tools">
+                                        {item.actionLoader ? <LoaderComponent little={true} /> : (
+                                            <button type="button"
+                                                    title="Détails"
+                                                    className=" btn-tool btn"
+                                                    onClick={() => setAgentDetailsModal({...agentDetailsModal, show: true, id: item.id})}
+                                            >
+                                                <i className="fa fa-eye" />
+                                            </button>
+                                        )}
+                                    </div>
                                 </div>
                                 <div className="card-body">
                                     <div className="text-right">
@@ -68,7 +87,32 @@ function AgentsCardsComponent({agents, dispatch}) {
                                                 />
                                         )}
                                     </div>
-                                    <AgentCardComponent agent={item} />
+                                    <ul className="list-group list-group-unbordered">
+                                        <li className="list-group-item">
+                                            <b>Créer le</b>
+                                            <span className="float-right">{dateToString(item.creation)}</span>
+                                        </li>
+                                        <li className="list-group-item">
+                                            <b>Nom</b>
+                                            <span className="float-right">{item.name}</span>
+                                        </li>
+                                        <li className="list-group-item">
+                                            <b>Téléphone</b>
+                                            <span className="float-right">{item.phone}</span>
+                                        </li>
+                                        <li className="list-group-item">
+                                            <b>Zone</b>
+                                            <span className="float-right">{item.zone.name}</span>
+                                        </li>
+                                        <li className="list-group-item">
+                                            <b>Solde total</b>
+                                            <span className="float-right text-success text-bold">{formatNumber(item.account.balance)}</span>
+                                        </li>
+                                        <li className="list-group-item">
+                                            <b>Créer par</b>
+                                            <span className="float-right">{item.creator.name}</span>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -82,11 +126,15 @@ function AgentsCardsComponent({agents, dispatch}) {
                     </div>
                 }
             </div>
+            {/* Modal */}
             <BlockModalComponent modal={blockModal}
                                  handleBlock={handleBlock}
                                  handleClose={handleBlockModalHide}
             />
-        </div>
+            <FormModalComponent modal={agentDetailsModal} handleClose={handleAgentDetailsModalHide}>
+                <AgentDetailsContainer id={agentDetailsModal.id} />
+            </FormModalComponent>
+        </>
     )
 }
 

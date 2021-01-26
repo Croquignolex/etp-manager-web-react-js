@@ -70,7 +70,7 @@ function AgentSecondaryInfoComponent({agent}) {
                         {agent.document && (
                             <li className="list-group-item text-center">
                                 <a download target='_blank' href={agent.document} rel='noopener noreferrer' className="btn btn-theme">
-                                    Dossier agent
+                                    <i className="fa fa-file-archive" /> Dossier agent
                                 </a>
                             </li>
                         )}

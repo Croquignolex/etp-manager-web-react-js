@@ -17,8 +17,19 @@ import {storeAllZonesRequestReset} from "../redux/requests/zones/actions";
 import {emitAgentsFetch, emitNextAgentsFetch} from "../redux/agents/actions";
 import AgentsCardsContainer from "../containers/agents/AgentsCardsContainer";
 import {storeAllOperatorsRequestReset} from "../redux/requests/operators/actions";
-import {storeAgentsRequestReset, storeNextAgentsRequestReset} from "../redux/requests/agents/actions";
-import {dateToString, needleSearch, requestFailed, requestLoading} from "../functions/generalFunctions";
+import {
+    applySuccess,
+    dateToString,
+    needleSearch,
+    requestFailed,
+    requestLoading,
+    requestSucceeded
+} from "../functions/generalFunctions";
+import {
+    storeAgentsRequestReset,
+    storeNextAgentsRequestReset,
+    storeAgentStatusToggleRequestReset
+} from "../redux/requests/agents/actions";
 
 // Component
 function AgentsPage({agents, agentsRequests, hasMoreData, page, dispatch, location}) {
@@ -38,6 +49,15 @@ function AgentsPage({agents, agentsRequests, hasMoreData, page, dispatch, locati
         // eslint-disable-next-line
     }, []);
 
+    // Local effects
+    useEffect(() => {
+        // Reset inputs while toast (well done) into current scope
+        if(requestSucceeded(agentsRequests.status)) {
+            applySuccess(agentsRequests.status.message);
+        }
+        // eslint-disable-next-line
+    }, [agentsRequests.status]);
+
     const handleNeedleInput = (data) => {
         setNeedle(data)
     }
@@ -48,6 +68,7 @@ function AgentsPage({agents, agentsRequests, hasMoreData, page, dispatch, locati
         dispatch(storeAllZonesRequestReset());
         dispatch(storeNextAgentsRequestReset());
         dispatch(storeAllOperatorsRequestReset());
+        dispatch(storeAgentStatusToggleRequestReset());
     };
 
     // Fetch next agents data to enhance infinite scroll
@@ -91,6 +112,7 @@ function AgentsPage({agents, agentsRequests, hasMoreData, page, dispatch, locati
                                             {/* Error message */}
                                             {requestFailed(agentsRequests.list) && <ErrorAlertComponent message={agentsRequests.list.message} />}
                                             {requestFailed(agentsRequests.next) && <ErrorAlertComponent message={agentsRequests.next.message} />}
+                                            {requestFailed(agentsRequests.status) && <ErrorAlertComponent message={agentsRequests.status.message} />}
                                             <button type="button"
                                                     className="btn btn-primary mr-2 mb-2"
                                                     onClick={handleNewAgentModalShow}
