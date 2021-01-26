@@ -19,6 +19,7 @@ import {
     requestLoading,
     requestSucceeded
 } from "../../functions/generalFunctions";
+import DisabledInput from "../form/DisabledInput";
 
 // Component
 function RequestsFleetsAddSupplyComponent({fleet, request, sims, allSimsRequests, dispatch, handleClose}) {
@@ -93,6 +94,20 @@ function RequestsFleetsAddSupplyComponent({fleet, request, sims, allSimsRequests
             {requestFailed(request) && <ErrorAlertComponent message={request.message} />}
             {requestFailed(allSimsRequests) && <ErrorAlertComponent message={allSimsRequests.message} />}
             <form onSubmit={handleSubmit}>
+                <div className="row">
+                    <div className='col-sm-6'>
+                        <DisabledInput id='inputAgent'
+                                       val={fleet.agent.name}
+                                       label='Agent/Ressource'
+                        />
+                    </div>
+                    <div className='col-sm-6'>
+                        <DisabledInput id='inputSim'
+                                       val={fleet.sim.number}
+                                       label='Puce agent/ressource'
+                        />
+                    </div>
+                </div>
                 <div className='row'>
                     <div className='col-sm-6'>
                         <SelectComponent input={sim}

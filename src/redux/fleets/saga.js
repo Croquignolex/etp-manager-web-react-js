@@ -111,7 +111,7 @@ export function* emitFleetAddSupply() {
 // Extract fleet data
 function extractFleetData(apiSim, apiUser, apiAgent, apiClaimer, apiFleet) {
     let fleet = {
-        id: '', reference: '', amount: '', status: '', creation: '',
+        id: '', amount: '', status: '', creation: '',
 
         agent: {id: '', name: ''},
         sim: {id: '', name: '', number: ''},
