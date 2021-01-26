@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import React, {useEffect, useState} from 'react';
 import InfiniteScroll from "react-infinite-scroll-component";
 
+import {emitAllSimsFetch} from "../../redux/sims/actions";
 import HeaderComponent from "../../components/HeaderComponent";
 import LoaderComponent from "../../components/LoaderComponent";
-import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import {OPERATIONS_FLEETS_PAGE} from "../../constants/pageNameConstants";
@@ -12,27 +12,26 @@ import TableSearchComponent from "../../components/TableSearchComponent";
 import FormModalComponent from "../../components/modals/FormModalComponent";
 import {emitNextSuppliesFetch, emitSuppliesFetch} from "../../redux/supplies/actions";
 import OperationsFleetsCardsComponent from "../../components/operations/OperationsFleetsCardsComponent";
+import OperationsFleetsReturnContainer from "../../containers/operations/OperationsFleetsReturnContainer";
 import {storeNextSuppliesRequestReset, storeSuppliesRequestReset} from "../../redux/requests/supplies/actions";
-import OperationsFleetsAddSupplyComponent from "../../components/operations/OperationsFleetsAddSupplyComponent";
 import {
     dateToString,
     needleSearch,
     requestFailed,
     requestLoading,
 } from "../../functions/generalFunctions";
-import RequestsFleetsAddSupplyContainer from "../../containers/requests/RequestsFleetsAddSupplyContainer";
 
 // Component
 function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
     const [supplyModal, setSupplyModal] = useState({show: false, header: 'EFFECTUER UN FLOTTAGE EXPRESS'});
-    const [recoveryModal, setRecoveryModal] = useState({show: false, header: 'EFFECTUER UN RETOUR FLOTTE', item: {}});
+    const [returnModal, setReturnModal] = useState({show: false, header: 'EFFECTUER UN RETOUR FLOTTE', item: {}});
 
     // Local effects
     useEffect(() => {
         dispatch(emitSuppliesFetch());
-        // dispatch(emitAllSimsFetch());
+        dispatch(emitAllSimsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -65,16 +64,15 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
         setSupplyModal({...supplyModal, show: false})
     }
 
-    // Show recovery modal form
-    const handleRecoveryModalShow = (item) => {
-        setRecoveryModal({...recoveryModal, item, show: true})
+    // Show return modal form
+    const handleReturnModalShow = (item) => {
+        setReturnModal({...returnModal, item, show: true})
     }
 
-    // Hide recovery modal form
-    const handleRecoveryModalHide = () => {
-        setRecoveryModal({...recoveryModal, show: false})
+    // Hide return modal form
+    const handleReturnModalHide = () => {
+        setReturnModal({...returnModal, show: false})
     }
-
 
     // Render
     return (
@@ -106,7 +104,7 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
                                                 ? <OperationsFleetsCardsComponent supplies={searchEngine(supplies, needle)}
-                                                                                  handleRecoveryModalShow={handleRecoveryModalShow}
+                                                                                  handleRecoveryModalShow={handleReturnModalShow}
                                                 />
                                                 : (requestLoading(suppliesRequests.list) ? <LoaderComponent /> :
                                                         <InfiniteScroll hasMore={hasMoreData}
@@ -116,7 +114,7 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
                                                                         style={{ overflow: 'hidden' }}
                                                         >
                                                             <OperationsFleetsCardsComponent supplies={supplies}
-                                                                                            handleRecoveryModalShow={handleRecoveryModalShow}
+                                                                                            handleRecoveryModalShow={handleReturnModalShow}
                                                             />
                                                         </InfiniteScroll>
                                                 )
@@ -131,12 +129,12 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
             </AppLayoutContainer>
             {/* Modal */}
             <FormModalComponent modal={supplyModal} handleClose={handleSupplyModalHide}>
-                <OperationsFleetsAddSupplyComponent handleClose={handleSupplyModalHide} />
+                {/*<OperationsFleetsAddSupplyComponent handleClose={handleSupplyModalHide} />*/}
             </FormModalComponent>
-            <FormModalComponent modal={recoveryModal} handleClose={handleRecoveryModalHide}>
-                {/*<RequestsFleetsAddSupplyContainer fleet={supplyModal.item}
-                                                  handleClose={handleSupplyModalHide}
-                />*/}
+            <FormModalComponent modal={returnModal} handleClose={handleReturnModalHide}>
+                <OperationsFleetsReturnContainer supply={returnModal.item}
+                                                 handleClose={handleReturnModalHide}
+                />
             </FormModalComponent>
         </>
     )

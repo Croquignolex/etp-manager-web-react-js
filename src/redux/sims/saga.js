@@ -122,16 +122,15 @@ function extractSimData(apiSim, apiType, apiUser, apiAgent, apiCompany, apiOpera
         id: '', name: '', reference: '', number: '', balance: '', description: '', creation: '',
 
         type: {id: '', name: ''},
+        agent: {id: '', name: ''},
         company: {id: '', name: ''},
         operator: {id: '', name: ''},
-        collector: {id: '', name: ''},
-        agent: {id: '', name: '', reference: ''}
+        collector: {id: '', name: ''}
     };
     if(apiAgent && apiUser) {
         sim.agent = {
             name: apiUser.name,
-            id: apiUser.id.toString(),
-            reference: apiAgent.reference
+            id: apiUser.id.toString()
         };
     }
     if(apiCollector) {

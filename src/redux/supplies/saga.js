@@ -93,8 +93,7 @@ export function* emitAddSupply() {
 // Extract supply data
 function extractSupplyData(apiSimOutgoing, apiSimIncoming, apiUser, apiAgent, apiSupplier, apiSupply) {
     let supply = {
-        id: '', reference: '', amount: '', creation: '',
-        note: '', remaining: '', status: '',
+        id: '', amount: '', creation: '', remaining: '', status: '',
 
         request: {id: ''},
         agent: {id: '', name: ''},
