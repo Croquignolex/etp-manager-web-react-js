@@ -1,5 +1,6 @@
 // Reducer action types
 export const STORE_SET_SUPPLIES_DATA = 'STORE_SET_SUPPLIES_DATA';
+export const STORE_UPDATE_SUPPLY_DATA = 'STORE_UPDATE_SUPPLY_DATA';
 export const STORE_SET_NEW_SUPPLY_DATA = 'STORE_SET_NEW_SUPPLY_DATA';
 export const STORE_SET_NEXT_SUPPLIES_DATA = 'STORE_SET_NEXT_SUPPLIES_DATA';
 export const STORE_STOP_INFINITE_SCROLL_SUPPLY_DATA = 'STORE_STOP_INFINITE_SCROLL_SUPPLY_DATA';
@@ -35,6 +36,13 @@ export const storeSetNextSuppliesData = ({supplies, hasMoreData, page}) => ({
 // Stop infinite scroll
 export const storeStopInfiniteScrollSupplyData = () => ({
     type: STORE_STOP_INFINITE_SCROLL_SUPPLY_DATA
+});
+
+// Set update supply data in store
+export const storeUpdateSupplyData = ({id, amount}) => ({
+    id,
+    amount,
+    type: STORE_UPDATE_SUPPLY_DATA
 });
 
 //====================== Middleware trigger actions

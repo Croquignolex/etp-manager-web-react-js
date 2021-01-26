@@ -1,8 +1,10 @@
 import { all, takeLatest, put, fork, call } from 'redux-saga/effects'
 
 import * as api from "../../constants/apiConstants";
+import {storeUpdateSupplyData} from "../supplies/actions";
 import {apiGetRequest, apiPostRequest, getFileFromServer} from "../../functions/axiosFunctions";
 import {
+    EMIT_NEW_RETURN,
     EMIT_RETURNS_FETCH,
     storeSetReturnsData,
     EMIT_CONFIRM_RETURN,
@@ -13,8 +15,11 @@ import {
     storeStopInfiniteScrollReturnData
 } from "./actions";
 import {
+    storeReturnRequestInit,
     storeReturnsRequestInit,
+    storeReturnRequestFailed,
     storeReturnsRequestFailed,
+    storeReturnRequestSucceed,
     storeReturnsRequestSucceed,
     storeNextReturnsRequestInit,
     storeNextReturnsRequestFailed,
@@ -88,6 +93,25 @@ export function* emitConfirmReturn() {
     });
 }
 
+// New return from API
+export function* emitNewReturn() {
+    yield takeLatest(EMIT_NEW_RETURN, function*({supply, amount, agentSim, managerSim}) {
+        try {
+            // Fire event for request
+            yield put(storeReturnRequestInit());
+            const data = {id_flottage: supply, montant: amount, puce_agent: agentSim, puce_flottage: managerSim};
+            const apiResponse = yield call(apiPostRequest, api.NEW_FLEET_RECOVERIES_API_PATH, data);
+            // Fire event to redux
+            yield put(storeUpdateSupplyData({id: supply, amount}));
+            // Fire event for request
+            yield put(storeReturnRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeReturnRequestFailed({message}));
+        }
+    });
+}
+
 // Extract recovery data
 function extractRecoveryData(apiRecovery, apiUser, apiAgent, apiCollector, apiSimOutgoing, apiSimIncoming) {
     let recovery = {
@@ -156,6 +180,7 @@ function extractReturnsData(apiReturns) {
 // Combine to export all functions at once
 export default function* sagaReturns() {
     yield all([
+        fork(emitNewReturn),
         fork(emitReturnsFetch),
         fork(emitConfirmReturn),
         fork(emitNextReturnsFetch),

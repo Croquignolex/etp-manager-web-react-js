@@ -7,13 +7,13 @@ import AmountComponent from "../form/AmountComponent";
 import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import {FLEET_TYPE} from "../../constants/typeConstants";
-import {emitAddTransfer} from "../../redux/transfers/actions";
+import {emitNewReturn} from "../../redux/returns/actions";
 import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {storeAllSimsRequestReset} from "../../redux/requests/sims/actions";
+import {storeReturnRequestReset} from "../../redux/requests/returns/actions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
-import {storeReturnFleetRequestReset} from "../../redux/requests/supplies/actions";
 import {
     applySuccess,
     requestFailed,
@@ -74,7 +74,7 @@ function OperationsFleetsReturnComponent({supply, request, sims, allSimsRequests
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        dispatch(storeReturnFleetRequestReset());
+        dispatch(storeReturnRequestReset());
         dispatch(storeAllSimsRequestReset());
     };
 
@@ -92,10 +92,11 @@ function OperationsFleetsReturnComponent({supply, request, sims, allSimsRequests
         const validationOK = (_amount.isValid && _incomingSim.isValid && _outgoingSim.isValid);
         // Check
         if(validationOK) {
-            dispatch(emitAddTransfer({
+            dispatch(emitNewReturn({
+                supply: supply.id,
                 amount: _amount.data,
-                managerSim: _outgoingSim.data,
-                collectorSim: _incomingSim.data,
+                agentSim: _outgoingSim.data,
+                managerSim: _incomingSim.data
             }));
         }
         else playWarningSound();
