@@ -7,11 +7,15 @@ import LoaderComponent from "../../components/LoaderComponent";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
-import {OPERATIONS_CLEARANCES_PAGE} from "../../constants/pageNameConstants";
+import {OPERATIONS_AFFORDS_PAGE} from "../../constants/pageNameConstants";
 import ConfirmModalComponent from "../../components/modals/ConfirmModalComponent";
-import {emitConfirmRefuel, emitNextRefuelsFetch} from "../../redux/refuels/actions";
-import {storeNextRefuelsRequestReset, storeRefuelsRequestReset} from "../../redux/requests/refuels/actions";
-import OperationsClearancesCardsComponent from "../../components/operations/OperationsClearancesCardsComponent";
+import {emitAffordsFetch, emitConfirmAfford, emitNextAffordsFetch} from "../../redux/affords/actions";
+import OperationsAffordsCardsComponent from "../../components/operations/OperationsAffordsCardsComponent";
+import {
+    storeAffordsRequestReset,
+    storeNextAffordsRequestReset,
+    storeConfirmAffordRequestReset
+} from "../../redux/requests/affords/actions";
 import {
     dateToString,
     formatNumber,
@@ -28,9 +32,7 @@ function OperationsAffordsPage({affords, affordsRequests, hasMoreData, page, dis
 
     // Local effects
     useEffect(() => {
-        // dispatch(emitRefuelsFetch());
-        // dispatch(emitAllSimsFetch());
-        // dispatch(emitAllAgentsFetch());
+        dispatch(emitAffordsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -44,18 +46,19 @@ function OperationsAffordsPage({affords, affordsRequests, hasMoreData, page, dis
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        dispatch(storeRefuelsRequestReset());
-        dispatch(storeNextRefuelsRequestReset());
+        dispatch(storeAffordsRequestReset());
+        dispatch(storeNextAffordsRequestReset());
+        dispatch(storeConfirmAffordRequestReset());
     };
 
-    // Fetch next refuels data to enhance infinite scroll
-    const handleNextRefuelsData = () => {
-        dispatch(emitNextRefuelsFetch({page}));
+    // Fetch next affords data to enhance infinite scroll
+    const handleNextAffordsData = () => {
+        dispatch(emitNextAffordsFetch({page}));
     }
 
     // Show confirm modal form
     const handleConfirmModalShow = ({id, amount}) => {
-        setConfirmModal({...confirmModal, id, body: `Confirmer le déstockage de ${formatNumber(amount)}?`, show: true})
+        setConfirmModal({...confirmModal, id, body: `Confirmer l'approvisionnement de ${formatNumber(amount)}?`, show: true})
     }
 
     // Hide confirm modal form
@@ -63,10 +66,10 @@ function OperationsAffordsPage({affords, affordsRequests, hasMoreData, page, dis
         setConfirmModal({...confirmModal, show: false})
     }
 
-    // Trigger when clearance confirm confirmed on modal
+    // Trigger when afford confirm confirmed on modal
     const handleConfirm = (id) => {
         handleConfirmModalHide();
-        dispatch(emitConfirmRefuel({id}));
+        dispatch(emitConfirmAfford({id}));
     };
 
     // Render
@@ -74,7 +77,7 @@ function OperationsAffordsPage({affords, affordsRequests, hasMoreData, page, dis
         <>
             <AppLayoutContainer pathname={location.pathname}>
                 <div className="content-wrapper">
-                    <HeaderComponent title={OPERATIONS_CLEARANCES_PAGE} icon={'fa fa-rss-square'} />
+                    <HeaderComponent title={OPERATIONS_AFFORDS_PAGE} icon={'fa fa-wifi'} />
                     <section className="content">
                         <div className='container-fluid'>
                             <div className="row">
@@ -90,20 +93,21 @@ function OperationsAffordsPage({affords, affordsRequests, hasMoreData, page, dis
                                             {/* Error message */}
                                             {requestFailed(affordsRequests.list) && <ErrorAlertComponent message={affordsRequests.list.message} />}
                                             {requestFailed(affordsRequests.next) && <ErrorAlertComponent message={affordsRequests.next.message} />}
+                                            {requestFailed(affordsRequests.apply) && <ErrorAlertComponent message={affordsRequests.next.message} />}
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
-                                                ? <OperationsClearancesCardsComponent refuels={searchEngine(affords, needle)}
-                                                                                      handleConfirmModalShow={handleConfirmModalShow}
+                                                ? <OperationsAffordsCardsComponent affords={searchEngine(affords, needle)}
+                                                                                   handleConfirmModalShow={handleConfirmModalShow}
                                                 />
                                                 : (requestLoading(affordsRequests.list) ? <LoaderComponent /> :
                                                         <InfiniteScroll hasMore={hasMoreData}
                                                                         dataLength={affords.length}
                                                                         loader={<LoaderComponent />}
-                                                                        next={handleNextRefuelsData}
+                                                                        next={handleNextAffordsData}
                                                                         style={{ overflow: 'hidden' }}
                                                         >
-                                                            <OperationsClearancesCardsComponent refuels={affords}
-                                                                                                handleConfirmModalShow={handleConfirmModalShow}
+                                                            <OperationsAffordsCardsComponent affords={affords}
+                                                                                             handleConfirmModalShow={handleConfirmModalShow}
                                                             />
                                                         </InfiniteScroll>
                                                 )
@@ -133,8 +137,8 @@ function searchEngine(data, _needle) {
         data = data.filter((item) => {
             return (
                 needleSearch(item.amount, _needle) ||
+                needleSearch(item.vendor, _needle) ||
                 needleSearch(item.sim.number, _needle) ||
-                needleSearch(item.agent.name, _needle) ||
                 needleSearch(item.collector.name, _needle) ||
                 needleSearch(dateToString(item.creation), _needle)
             )

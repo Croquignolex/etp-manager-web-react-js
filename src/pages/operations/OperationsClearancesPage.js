@@ -13,7 +13,11 @@ import FormModalComponent from "../../components/modals/FormModalComponent";
 import {OPERATIONS_CLEARANCES_PAGE} from "../../constants/pageNameConstants";
 import ConfirmModalComponent from "../../components/modals/ConfirmModalComponent";
 import {emitConfirmRefuel, emitNextRefuelsFetch, emitRefuelsFetch} from "../../redux/refuels/actions";
-import {storeNextRefuelsRequestReset, storeRefuelsRequestReset} from "../../redux/requests/refuels/actions";
+import {
+    storeConfirmRefuelRequestReset,
+    storeNextRefuelsRequestReset,
+    storeRefuelsRequestReset
+} from "../../redux/requests/refuels/actions";
 import OperationsClearancesCardsComponent from "../../components/operations/OperationsClearancesCardsComponent";
 import OperationsClearancesAddRefuelContainer from "../../containers/operations/OperationsClearancesAddRefuelContainer";
 import {
@@ -51,6 +55,7 @@ function OperationsClearancesPage({refuels, refuelsRequests, hasMoreData, page, 
     const shouldResetErrorData = () => {
         dispatch(storeRefuelsRequestReset());
         dispatch(storeNextRefuelsRequestReset());
+        dispatch(storeConfirmRefuelRequestReset());
     };
 
     // Fetch next refuels data to enhance infinite scroll
@@ -105,6 +110,7 @@ function OperationsClearancesPage({refuels, refuelsRequests, hasMoreData, page, 
                                             {/* Error message */}
                                             {requestFailed(refuelsRequests.list) && <ErrorAlertComponent message={refuelsRequests.list.message} />}
                                             {requestFailed(refuelsRequests.next) && <ErrorAlertComponent message={refuelsRequests.next.message} />}
+                                            {requestFailed(refuelsRequests.apply) && <ErrorAlertComponent message={refuelsRequests.next.message} />}
                                             <button type="button"
                                                     className="btn btn-theme mb-2"
                                                     onClick={handleRefuelModalShow}
