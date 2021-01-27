@@ -58,9 +58,10 @@ export const emitNextSuppliesFetch = ({page}) => ({
 });
 
 // Emit add supply
-export const emitAddSupply = ({amount, managerSim, collectorSim}) => ({
+export const emitAddSupply = ({amount, managerSim, agentSim, agent}) => ({
+    agent,
     amount,
+    agentSim,
     managerSim,
-    collectorSim,
     type: EMIT_ADD_SUPPLY
 });

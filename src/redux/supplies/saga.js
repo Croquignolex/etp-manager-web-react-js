@@ -66,18 +66,20 @@ export function* emitNextSuppliesFetch() {
 
 // Fleets new supply from API
 export function* emitAddSupply() {
-    yield takeLatest(EMIT_ADD_SUPPLY, function*({amount, managerSim, collectorSim}) {
+    yield takeLatest(EMIT_ADD_SUPPLY, function*({amount, managerSim, agentSim, agent}) {
         try {
             // Fire event for request
             yield put(storeAddSupplyRequestInit());
-            const data = {montant: amount, id_puce_to: collectorSim, id_puce_from: managerSim};
+            const data = {montant: amount, id_puce_flottage: managerSim, id_puce_agent: agentSim, id_agent: agent};
             const apiResponse = yield call(apiPostRequest, api.NEW_SUPPLY_API_PATH, data);
             // Extract data
             const supply = extractSupplyData(
                 apiResponse.data.puce_emetrice,
                 apiResponse.data.puce_receptrice,
-                apiResponse.data.utilisateur,
-                apiResponse.data.flottage,
+                apiResponse.data.user,
+                apiResponse.data.agent,
+                apiResponse.data.gestionnaire,
+                apiResponse.data.approvisionnement
             );
             // Fire event to redux
             yield put(storeSetNewSupplyData({supply, alsoInList: true}))

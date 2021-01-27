@@ -5,14 +5,15 @@ import ButtonComponent from "../form/ButtonComponent";
 import AmountComponent from "../form/AmountComponent";
 import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
-import {emitAddTransfer} from "../../redux/transfers/actions";
+import {FLEET_TYPE} from "../../constants/typeConstants";
+import {emitAddSupply} from "../../redux/supplies/actions";
 import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
-import {COLLECTOR_TYPE, FLEET_TYPE} from "../../constants/typeConstants";
 import {storeAllSimsRequestReset} from "../../redux/requests/sims/actions";
+import {storeAllAgentsRequestReset} from "../../redux/requests/agents/actions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
-import {storeAddTransferRequestReset} from "../../redux/requests/transfers/actions";
+import {storeAddSupplyRequestReset} from "../../redux/requests/supplies/actions";
 import {
     applySuccess,
     requestFailed,
@@ -21,11 +22,12 @@ import {
 } from "../../functions/generalFunctions";
 
 // Component
-function OperationsFleetsAddSupplyComponent({request, sims, allSimsRequests, dispatch, handleClose}) {
+function OperationsFleetsAddSupplyComponent({request, sims, agents, allAgentsRequests, allSimsRequests, dispatch, handleClose}) {
     // Local state
     const [amount, setAmount] = useState(DEFAULT_FORM_DATA);
     const [outgoingSim, setOutgoingSim] = useState(DEFAULT_FORM_DATA);
     const [incomingSim, setIncomingSim] = useState(DEFAULT_FORM_DATA);
+    const [agent, setAgent] = useState({...DEFAULT_FORM_DATA, data: 0});
 
     // Local effects
     useEffect(() => {
@@ -56,6 +58,11 @@ function OperationsFleetsAddSupplyComponent({request, sims, allSimsRequests, dis
         setIncomingSim({...incomingSim,  isValid: true, data})
     }
 
+    const handleAgentSelect = (data) => {
+        shouldResetErrorData();
+        setAgent({...agent,  isValid: true, data})
+    }
+
     const handleAmountInput = (data) => {
         shouldResetErrorData();
         setAmount({...amount, isValid: true, data})
@@ -63,38 +70,47 @@ function OperationsFleetsAddSupplyComponent({request, sims, allSimsRequests, dis
 
     // Build select options
     const incomingSelectOptions = useMemo(() => {
-        return dataToArrayForSelect(mappedSims(sims.filter(item => COLLECTOR_TYPE === item.type.name)))
-    }, [sims]);
+        return dataToArrayForSelect(mappedSims(sims.filter(item => item.agent.id === agent.data)))
+    }, [sims, agent.data]);
 
     // Build select options
     const outgoingSelectOptions = useMemo(() => {
         return dataToArrayForSelect(mappedSims(sims.filter(item => FLEET_TYPE === item.type.name)))
     }, [sims]);
 
+    // Build select options
+    const agentSelectOptions = useMemo(() => {
+        return dataToArrayForSelect(agents)
+    }, [agents]);
+
     // Reset error alert
     const shouldResetErrorData = () => {
-        dispatch(storeAddTransferRequestReset());
+        dispatch(storeAddSupplyRequestReset());
         dispatch(storeAllSimsRequestReset());
+        dispatch(storeAllAgentsRequestReset());
     };
 
     // Trigger add supply form submit
     const handleSubmit = (e) => {
         e.preventDefault();
         shouldResetErrorData();
+        const _agent = requiredChecker(agent);
         const _amount = requiredChecker(amount);
         const _outgoingSim = requiredChecker(outgoingSim);
         const _incomingSim = requiredChecker(incomingSim);
         // Set value
+        setAgent(_agent);
         setAmount(_amount);
         setOutgoingSim(_outgoingSim);
         setIncomingSim(_incomingSim);
-        const validationOK = (_amount.isValid && _incomingSim.isValid && _outgoingSim.isValid);
+        const validationOK = (_amount.isValid && _incomingSim.isValid && _outgoingSim.isValid && _agent.isValid );
         // Check
         if(validationOK) {
-            dispatch(emitAddTransfer({
+            dispatch(emitAddSupply({
+                agent: _agent.data,
                 amount: _amount.data,
+                agentSim: _incomingSim.data,
                 managerSim: _outgoingSim.data,
-                collectorSim: _incomingSim.data,
             }));
         }
         else playWarningSound();
@@ -108,13 +124,20 @@ function OperationsFleetsAddSupplyComponent({request, sims, allSimsRequests, dis
             <form onSubmit={handleSubmit}>
                 <div className='row'>
                     <div className='col-sm-6'>
-                        <SelectComponent input={outgoingSim}
-                                         id='inputSimManger'
-                                         label='Puce émetrice'
-                                         title='Choisir une puce'
-                                         options={outgoingSelectOptions}
-                                         handleInput={handleOutgoingSelect}
-                                         requestProcessing={requestLoading(allSimsRequests)}
+                        <SelectComponent input={agent}
+                                         id='inputSimAgent'
+                                         label='Agent/ressource'
+                                         options={agentSelectOptions}
+                                         handleInput={handleAgentSelect}
+                                         title='Choisir un agent/ressource'
+                                         requestProcessing={requestLoading(allAgentsRequests)}
+                        />
+                    </div>
+                    <div className='col-sm-6'>
+                        <AmountComponent input={amount}
+                                         id='inputAmount'
+                                         label='Montant à flotter'
+                                         handleInput={handleAmountInput}
                         />
                     </div>
                 </div>
@@ -141,13 +164,7 @@ function OperationsFleetsAddSupplyComponent({request, sims, allSimsRequests, dis
                     </div>
                 </div>
                 <div className='row'>
-                    <div className='col-sm-6'>
-                        <AmountComponent input={amount}
-                                         id='inputFleet'
-                                         label='Flotte à transférer'
-                                         handleInput={handleAmountInput}
-                        />
-                    </div>
+
                 </div>
                 <div className="form-group row">
                     <ButtonComponent processing={requestLoading(request)} />
@@ -160,10 +177,12 @@ function OperationsFleetsAddSupplyComponent({request, sims, allSimsRequests, dis
 // Prop types to ensure destroyed props data type
 OperationsFleetsAddSupplyComponent.propTypes = {
     sims: PropTypes.array.isRequired,
+    agents: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired,
     handleClose: PropTypes.func.isRequired,
     allSimsRequests: PropTypes.object.isRequired,
+    allAgentsRequests: PropTypes.object.isRequired,
 };
 
 export default React.memo(OperationsFleetsAddSupplyComponent);
