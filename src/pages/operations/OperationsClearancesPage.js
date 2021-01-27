@@ -110,7 +110,7 @@ function OperationsClearancesPage({refuels, refuelsRequests, hasMoreData, page, 
                                             </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
-                                                ? <OperationsClearancesCardsComponent supplies={searchEngine(refuels, needle)}
+                                                ? <OperationsClearancesCardsComponent refuels={searchEngine(refuels, needle)}
                                                                                       handleConfirmModalShow={handleConfirmModalShow}
                                                 />
                                                 : (requestLoading(refuelsRequests.list) ? <LoaderComponent /> :
@@ -120,7 +120,7 @@ function OperationsClearancesPage({refuels, refuelsRequests, hasMoreData, page, 
                                                                         next={handleNextRefuelsData}
                                                                         style={{ overflow: 'hidden' }}
                                                         >
-                                                            <OperationsClearancesCardsComponent supplies={refuels}
+                                                            <OperationsClearancesCardsComponent refuels={refuels}
                                                                                                 handleConfirmModalShow={handleConfirmModalShow}
                                                             />
                                                         </InfiniteScroll>

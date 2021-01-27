@@ -8,7 +8,7 @@ setPageTitle(OPERATIONS_CLEARANCES_PAGE);
 
 // Map state function to component props
 const mapStateToProps = (state) => ({
-    page: state.supplies.page,
+    page: state.refuels.page,
     refuels: state.refuels.list,
     hasMoreData: state.refuels.hasMoreData,
     refuelsRequests: state.refuelsRequests,
