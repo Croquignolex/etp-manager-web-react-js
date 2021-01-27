@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import React, {useState} from 'react';
 
-import LoaderComponent from "../LoaderComponent";
 import {DONE} from "../../constants/typeConstants";
 import FormModalComponent from "../modals/FormModalComponent";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";

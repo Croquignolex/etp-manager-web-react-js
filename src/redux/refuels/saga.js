@@ -1,7 +1,7 @@
 import {all, call, fork, put, takeLatest} from 'redux-saga/effects'
 
 import * as api from "../../constants/apiConstants";
-import {apiGetRequest, apiPostRequest} from "../../functions/axiosFunctions";
+import {apiGetRequest, apiPostRequest, getFileFromServer} from "../../functions/axiosFunctions";
 import {
     EMIT_ADD_REFUEL,
     EMIT_REFUELS_FETCH,
@@ -37,7 +37,7 @@ export function* emitRefuelsFetch() {
             yield put(storeRefuelsRequestInit());
             const apiResponse = yield call(apiGetRequest, `${api.REFUELS_API_PATH}?page=1`);
             // Extract data
-            const refuels = extractRefuelsData(apiResponse.data.flottages);
+            const refuels = extractRefuelsData(apiResponse.data.destockages);
             // Fire event to redux
             yield put(storeSetRefuelsData({refuels, hasMoreData: apiResponse.data.hasMoreData, page: 2}));
             // Fire event for request
@@ -57,7 +57,7 @@ export function* emitNextRefuelsFetch() {
             yield put(storeNextRefuelsRequestInit());
             const apiResponse = yield call(apiGetRequest, `${api.REFUELS_API_PATH}?page=${page}`);
             // Extract data
-            const refuels = extractRefuelsData(apiResponse.data.flottages);
+            const refuels = extractRefuelsData(apiResponse.data.destockages);
             // Fire event to redux
             yield put(storeSetNextRefuelsData({refuels, hasMoreData: apiResponse.data.hasMoreData, page: page + 1}));
             // Fire event for request
@@ -121,51 +121,48 @@ export function* emitConfirmRefuel() {
     });
 }
 
-
 // Extract refuel data
-function extractRefuelData(apiSimOutgoing, apiSimIncoming, apiUser, apiAgent, apiSupplier, apiRefuel) {
+function extractRefuelData(apiRefuel) {
     let refuel = {
-        id: '', amount: '', creation: '', remaining: '', status: '',
+        id: '', amount: '', creation: '', vendor: '', receipt: '', status: '',
 
-        request: {id: ''},
         agent: {id: '', name: ''},
-        supplier: {id: '', name: ''},
-        sim_outgoing: {id: '', name: '', number: ''},
-        sim_incoming: {id: '', name: '', number: ''},
+        collector: {id: '', name: ''},
+        sim: {id: '', name: '', number: ''},
     };
+
+    const apiSim = apiRefuel.puce;
+    const apiUser = apiRefuel.user;
+    const apiAgent = apiRefuel.agent;
+    const apiCollector = apiRefuel.recouvreur;
+
     if(apiAgent && apiUser) {
         refuel.agent = {
             name: apiUser.name,
             id: apiUser.id.toString()
         };
     }
-    if(apiSimOutgoing) {
-        refuel.sim_outgoing = {
-            name: apiSimOutgoing.nom,
-            number: apiSimOutgoing.numero,
-            id: apiSimOutgoing.id.toString()
+    if(apiSim) {
+        refuel.sim = {
+            name: apiSim.nom,
+            number: apiSim.numero,
+            id: apiSim.id.toString()
         };
     }
-    if(apiSimIncoming) {
-        refuel.sim_incoming = {
-            name: apiSimIncoming.nom,
-            number: apiSimIncoming.numero,
-            id: apiSimIncoming.id.toString()
-        };
-    }
-    if(apiSupplier) {
-        refuel.supplier = {
-            name: apiSupplier.name,
-            id: apiSupplier.id.toString()
+    if(apiCollector) {
+        refuel.collector = {
+            name: apiCollector.name,
+            id: apiCollector.id.toString()
         };
     }
     if(apiRefuel) {
         refuel.actionLoader = false;
         refuel.status = apiRefuel.statut;
         refuel.amount = apiRefuel.montant;
-        refuel.remaining = apiRefuel.reste;
         refuel.id = apiRefuel.id.toString();
+        refuel.vendor = apiRefuel.fournisseur;
         refuel.creation = apiRefuel.created_at;
+        refuel.receipt = getFileFromServer(apiRefuel.recu);
     }
     return refuel;
 }
@@ -174,14 +171,7 @@ function extractRefuelData(apiSimOutgoing, apiSimIncoming, apiUser, apiAgent, ap
 export function extractRefuelsData(apiRefuels) {
     const refuels = [];
     apiRefuels.forEach(data => {
-        refuels.push(extractRefuelData(
-            data.puce_emetrice,
-            data.puce_receptrice,
-            data.user,
-            data.agent,
-            data.gestionnaire,
-            data.approvisionnement,
-        ));
+        refuels.push(extractRefuelData(data));
     });
     return refuels;
 }
