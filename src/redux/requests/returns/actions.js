@@ -86,24 +86,24 @@ export const storeReturnRequestReset = () => ({
     type: STORE_RETURN_REQUEST_RESET
 });
 // ======================================================== Confirm return
-// Set next returns init data into store
+// Set confirm return init data into store
 export const storeConfirmReturnRequestInit = () => ({
     type: STORE_CONFIRM_RETURN_REQUEST_INIT
 });
 
-// Set next returns failed data into store
+// Set confirm return failed data into store
 export const storeConfirmReturnRequestFailed = ({message}) => ({
     message,
     type: STORE_CONFIRM_RETURN_REQUEST_FAILED
 });
 
-// Set next returns succeeded data into store
+// Set confirm return succeeded data into store
 export const storeConfirmReturnRequestSucceed = ({message}) => ({
     message,
     type: STORE_CONFIRM_RETURN_REQUEST_SUCCEEDED
 });
 
-// Set next returns reset data into store
+// Set confirm return reset data into store
 export const storeConfirmReturnRequestReset = () => ({
     type: STORE_CONFIRM_RETURN_REQUEST_RESET
 });

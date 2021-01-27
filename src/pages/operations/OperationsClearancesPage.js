@@ -10,6 +10,8 @@ import TableSearchComponent from "../../components/TableSearchComponent";
 import FormModalComponent from "../../components/modals/FormModalComponent";
 import {OPERATIONS_CLEARANCES_PAGE} from "../../constants/pageNameConstants";
 import ConfirmModalComponent from "../../components/modals/ConfirmModalComponent";
+import {emitConfirmRefuel, emitNextRefuelsFetch, emitRefuelsFetch} from "../../redux/refuels/actions";
+import {storeNextRefuelsRequestReset, storeRefuelsRequestReset} from "../../redux/requests/refuels/actions";
 import OperationsClearancesCardsComponent from "../../components/operations/OperationsClearancesCardsComponent";
 import {
     dateToString,
@@ -28,7 +30,7 @@ function OperationsClearancesPage({refuels, refuelsRequests, hasMoreData, page, 
 
     // Local effects
     useEffect(() => {
-        // dispatch(emitSuppliesFetch());
+        dispatch(emitRefuelsFetch());
         // dispatch(emitAllSimsFetch());
         // dispatch(emitAllAgentsFetch());
         // Cleaner error alert while component did unmount without store dependency
@@ -44,13 +46,13 @@ function OperationsClearancesPage({refuels, refuelsRequests, hasMoreData, page, 
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        // dispatch(storeSuppliesRequestReset());
-        // dispatch(storeNextSuppliesRequestReset());
+        dispatch(storeRefuelsRequestReset());
+        dispatch(storeNextRefuelsRequestReset());
     };
 
     // Fetch next refuels data to enhance infinite scroll
     const handleNextRefuelsData = () => {
-        // dispatch(emitNextSuppliesFetch({page}));
+        dispatch(emitNextRefuelsFetch({page}));
     }
 
     // Show refuel modal form
@@ -76,7 +78,7 @@ function OperationsClearancesPage({refuels, refuelsRequests, hasMoreData, page, 
     // Trigger when clearance confirm confirmed on modal
     const handleConfirm = (id) => {
         handleConfirmModalHide();
-        // dispatch(emitConfirmReturn({id}));
+        dispatch(emitConfirmRefuel({id}));
     };
 
     // Render

@@ -44,6 +44,16 @@ function reduce(state = initialState, action) {
                 })
             };
             return nextState || state;
+        // Resolve event to set refuel action data
+        case actions.STORE_SET_REFUEL_ACTION_DATA:
+            nextState = {
+                ...state,
+                list: Lodash.map(state.list, (item) => {
+                    if(item.id === action.id) item.actionLoader = !item.actionLoader;
+                    return item;
+                })
+            };
+            return nextState || state;
         // Unknown action
         default: return state;
     }

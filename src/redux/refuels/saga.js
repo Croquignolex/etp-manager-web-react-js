@@ -5,10 +5,13 @@ import {apiGetRequest, apiPostRequest} from "../../functions/axiosFunctions";
 import {
     EMIT_ADD_REFUEL,
     EMIT_REFUELS_FETCH,
+    EMIT_CONFIRM_REFUEL,
     storeSetRefuelsData,
     storeSetNewRefuelData,
+    storeUpdateRefuelData,
     storeSetNextRefuelsData,
     EMIT_NEXT_REFUELS_FETCH,
+    storeSetRefuelActionData,
     storeStopInfiniteScrollRefuelData
 } from "./actions";
 import {
@@ -20,7 +23,10 @@ import {
     storeNextRefuelsRequestInit,
     storeAddRefuelRequestSucceed,
     storeNextRefuelsRequestFailed,
-    storeNextRefuelsRequestSucceed
+    storeConfirmRefuelRequestInit,
+    storeNextRefuelsRequestSucceed,
+    storeConfirmRefuelRequestFailed,
+    storeConfirmRefuelRequestSucceed
 } from "../requests/refuels/actions";
 
 // Fetch refuels from API
@@ -91,6 +97,30 @@ export function* emitAddRefuel() {
         }
     });
 }
+
+// Confirm refuel from API
+export function* emitConfirmRefuel() {
+    yield takeLatest(EMIT_CONFIRM_REFUEL, function*({id}) {
+        try {
+            // Fire event at redux to toggle action loader
+            yield put(storeSetRefuelActionData({id}));
+            // Fire event for request
+            yield put(storeConfirmRefuelRequestInit());
+            const apiResponse = yield call(apiPostRequest, `${api.CONFIRM_FLEET_RECOVERIES_API_PATH}/${id}`);
+            // Fire event to redux
+            yield put(storeUpdateRefuelData({id}));
+            // Fire event at redux to toggle action loader
+            yield put(storeSetRefuelActionData({id}));
+            // Fire event for request
+            yield put(storeConfirmRefuelRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeSetRefuelActionData({id}));
+            yield put(storeConfirmRefuelRequestFailed({message}));
+        }
+    });
+}
+
 
 // Extract refuel data
 function extractRefuelData(apiSimOutgoing, apiSimIncoming, apiUser, apiAgent, apiSupplier, apiRefuel) {

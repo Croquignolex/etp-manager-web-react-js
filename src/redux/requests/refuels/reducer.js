@@ -6,6 +6,7 @@ const initialState = {
     add: {failed: false, loading: false, succeeded: false, message: ""},
     list: {failed: false, loading: false, succeeded: false, message: ""},
     next: {failed: false, loading: false, succeeded: false, message: ""},
+    apply: {failed: false, loading: false, succeeded: false, message: ""},
 };
 
 // Reduce
@@ -63,7 +64,24 @@ function reduce(state = initialState, action) {
         case actions.STORE_ADD_REFUEL_REQUEST_RESET:
             nextState = {...state, add: initialState.add};
             return nextState || state;
-        // ======================================================== Return fleet
+        // ======================================================== Confirm refuel
+        // Resolve event to set confirm refuel init request store data
+        case actions.STORE_CONFIRM_REFUEL_REQUEST_INIT:
+            nextState = {...state, apply: requestInitValue()};
+            return nextState || state;
+        // Resolve event to set confirm refuel  failed request store data
+        case actions.STORE_CONFIRM_REFUEL_REQUEST_FAILED:
+            nextState = {...state, apply: requestFailedValue(action.message)};
+            return nextState || state;
+        // Resolve event to set confirm refuel  succeeded request store data
+        case actions.STORE_CONFIRM_REFUEL_REQUEST_SUCCEEDED:
+            nextState = {...state, apply: requestSucceededValue(action.message)};
+            return nextState || state;
+        // Resolve event to set confirm refuel  reset request store data
+        case actions.STORE_CONFIRM_REFUEL_REQUEST_RESET:
+            nextState = {...state, apply: initialState.apply};
+            return nextState || state;
+        // ========================================================
         // Unknown action
         default: return state;
     }
