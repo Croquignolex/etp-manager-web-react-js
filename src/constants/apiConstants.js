@@ -82,3 +82,7 @@ export const CREATE_ANONYMOUS_FLEET_API_PATH = `${API_URL}/flottage_anonyme`;
 // Supplies
 export const SUPPLIES_API_PATH = `${API_URL}/list_all_flottage`;
 export const NEW_SUPPLY_API_PATH = `${API_URL}/flottage_express`;
+
+// Refuels
+export const REFUELS_API_PATH = `${API_URL}/list_destockage`;
+export const NEW_REFUEL_API_PATH = `${API_URL}/approvisionnement_etp`;

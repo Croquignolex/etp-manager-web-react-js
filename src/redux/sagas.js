@@ -7,6 +7,7 @@ import agents from './agents/saga';
 import fleets from './fleets/saga';
 import outlays from './outlays/saga';
 import returns from './returns/saga';
+import refuels from './refuels/saga';
 import settings from './settings/saga';
 import payments from './payments/saga';
 import managers from './managers/saga';
@@ -30,6 +31,7 @@ export default function* sagas() {
         fleets(),
         outlays(),
         returns(),
+        refuels(),
         payments(),
         supplies(),
         managers(),

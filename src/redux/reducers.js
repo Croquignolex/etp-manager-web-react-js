@@ -5,6 +5,7 @@ import fleets from './fleets/reducer';
 import agents from './agents/reducer';
 import outlays from './outlays/reducer';
 import returns from './returns/reducer';
+import refuels from './refuels/reducer';
 import settings from './settings/reducer';
 import payments from './payments/reducer';
 import managers from './managers/reducer';
@@ -22,6 +23,7 @@ import notifications from './notifications/reducer';
 import zonesRequests from './requests/zones/reducer';
 import agentsRequests from './requests/agents/reducer';
 import fleetsRequests from './requests/fleets/reducer';
+import refuelsRequests from './requests/refuels/reducer';
 import outlaysRequests from './requests/outlays/reducer';
 import returnsRequests from './requests/returns/reducer';
 import paymentsRequests from './requests/payments/reducer';
@@ -46,6 +48,7 @@ export default {
     fleets,
     outlays,
     returns,
+    refuels,
     settings,
     managers,
     payments,
@@ -64,6 +67,7 @@ export default {
     fleetsRequests,
     agentsRequests,
     returnsRequests,
+    refuelsRequests,
     outlaysRequests,
     suppliesRequests,
     managersRequests,
