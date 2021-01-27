@@ -82,7 +82,7 @@ export function* emitAddPayment() {
                 apiResponse.data.versement
             );
             // Fire event to redux
-            yield put(storeSetNewPaymentData({payment, alsoInList: true}))
+            yield put(storeSetNewPaymentData({payment}))
             // Fire event for request
             yield put(storeAddPaymentRequestSucceed({message: apiResponse.message}));
         } catch (message) {

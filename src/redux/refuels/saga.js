@@ -28,6 +28,7 @@ import {
     storeConfirmRefuelRequestFailed,
     storeConfirmRefuelRequestSucceed
 } from "../requests/refuels/actions";
+import {SUPPLY_BY_AGENT} from "../../constants/typeConstants";
 
 // Fetch refuels from API
 export function* emitRefuelsFetch() {
@@ -72,23 +73,21 @@ export function* emitNextRefuelsFetch() {
 
 // Fleets new refuel from API
 export function* emitAddRefuel() {
-    yield takeLatest(EMIT_ADD_REFUEL, function*({amount, managerSim, agentSim, agent}) {
+    yield takeLatest(EMIT_ADD_REFUEL, function*({agent, amount, sim, receipt}) {
         try {
             // Fire event for request
             yield put(storeAddRefuelRequestInit());
-            const data = {montant: amount, id_puce_flottage: managerSim, id_puce_agent: agentSim, id_agent: agent};
+            const data = new FormData();
+            data.append('id_puce', sim);
+            data.append('recu', receipt);
+            data.append('id_agent', agent);
+            data.append('montant', amount);
+            data.append('type', SUPPLY_BY_AGENT);
             const apiResponse = yield call(apiPostRequest, api.NEW_REFUEL_API_PATH, data);
-            // Extract data
-            const refuel = extractRefuelData(
-                apiResponse.data.puce_emetrice,
-                apiResponse.data.puce_receptrice,
-                apiResponse.data.user,
-                apiResponse.data.agent,
-                apiResponse.data.gestionnaire,
-                apiResponse.data.approvisionnement
-            );
+            // Extract dataF
+            const refuel = extractRefuelData(apiResponse.data);
             // Fire event to redux
-            yield put(storeSetNewRefuelData({refuel, alsoInList: true}))
+            yield put(storeSetNewRefuelData({refuel}))
             // Fire event for request
             yield put(storeAddRefuelRequestSucceed({message: apiResponse.message}));
         } catch (message) {

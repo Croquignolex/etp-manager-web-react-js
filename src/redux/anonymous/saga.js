@@ -79,7 +79,7 @@ export function* emitAddAnonymous() {
                 apiResponse.data.flottage,
             );
             // Fire event to redux
-            yield put(storeSetNewAnonymousData({anonymous, alsoInList: true}))
+            yield put(storeSetNewAnonymousData({anonymous}))
             // Fire event for request
             yield put(storeAddAnonymousRequestSucceed({message: apiResponse.message}));
         } catch (message) {

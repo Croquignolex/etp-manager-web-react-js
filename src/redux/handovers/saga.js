@@ -83,7 +83,7 @@ export function* emitImproveHandover() {
             );
             yield put(storeSetUserBalanceData({balance: balance - amount}));
             // Fire event to redux
-            yield put(storeSetNewHandoverData({handover, alsoInList: true}))
+            yield put(storeSetNewHandoverData({handover}))
             // Fire event for request
             yield put(storeImproveHandoverRequestSucceed({message: apiResponse.message}));
         } catch (message) {

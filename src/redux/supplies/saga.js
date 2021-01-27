@@ -82,7 +82,7 @@ export function* emitAddSupply() {
                 apiResponse.data.approvisionnement
             );
             // Fire event to redux
-            yield put(storeSetNewSupplyData({supply, alsoInList: true}))
+            yield put(storeSetNewSupplyData({supply}))
             // Fire event for request
             yield put(storeAddSupplyRequestSucceed({message: apiResponse.message}));
         } catch (message) {

@@ -82,7 +82,7 @@ export function* emitAddOutlay() {
                 apiResponse.data.versement
             );
             // Fire event to redux
-            yield put(storeSetNewOutlayData({outlay, alsoInList: true}))
+            yield put(storeSetNewOutlayData({outlay}))
             // Fire event for request
             yield put(storeAddOutlayRequestSucceed({message: apiResponse.message}));
         } catch (message) {

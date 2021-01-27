@@ -80,7 +80,7 @@ export function* emitAddTransfer() {
                 apiResponse.data.flottage,
             );
             // Fire event to redux
-            yield put(storeSetNewTransferData({transfer, alsoInList: true}))
+            yield put(storeSetNewTransferData({transfer}))
             // Fire event for request
             yield put(storeAddTransferRequestSucceed({message: apiResponse.message}));
         } catch (message) {
