@@ -106,7 +106,7 @@ export function* emitConfirmRefuel() {
             yield put(storeSetRefuelActionData({id}));
             // Fire event for request
             yield put(storeConfirmRefuelRequestInit());
-            const apiResponse = yield call(apiPostRequest, `${api.CONFIRM_FLEET_RECOVERIES_API_PATH}/${id}`);
+            const apiResponse = yield call(apiPostRequest, `${api.CONFIRM_REFUEL_API_PATH}/${id}`);
             // Fire event to redux
             yield put(storeUpdateRefuelData({id}));
             // Fire event at redux to toggle action loader
@@ -181,6 +181,7 @@ export default function* sagaRefuels() {
     yield all([
         fork(emitAddRefuel),
         fork(emitRefuelsFetch),
+        fork(emitConfirmRefuel),
         fork(emitNextRefuelsFetch),
     ]);
 }

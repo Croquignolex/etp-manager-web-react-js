@@ -86,3 +86,4 @@ export const NEW_SUPPLY_API_PATH = `${API_URL}/flottage_express`;
 // Refuels
 export const REFUELS_API_PATH = `${API_URL}/list_destockage`;
 export const NEW_REFUEL_API_PATH = `${API_URL}/approvisionnement_etp`;
+export const CONFIRM_REFUEL_API_PATH = `${API_URL}/approuve_destockage`;
