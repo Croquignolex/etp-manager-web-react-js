@@ -14,12 +14,15 @@ import {DASHBOARD_PAGE} from "../constants/pageNameConstants";
 import AppLayoutContainer from "../containers/AppLayoutContainer";
 import {emitAllClearancesFetch} from "../redux/clearances/actions";
 import {storeAllSimsRequestReset} from "../redux/requests/sims/actions";
+import {storeAllFleetsRequestReset} from "../redux/requests/fleets/actions";
+import {storeAllAgentsRequestReset} from "../redux/requests/agents/actions";
+import {storeUserBalanceFetchRequestReset} from "../redux/requests/user/actions";
 import DashboardCardComponent from "../components/dashboard/DashboardCardComponent";
+import {storeAllClearancesRequestReset} from "../redux/requests/clearances/actions";
 
 // Component
-function DashboardPage({user, fleets, sims, clearances, agents, settings, userRequests,
-                           clearancesRequests, agentsRequests, fleetsRequests,
-                           simsRequests, dispatch, location}) {
+function DashboardPage({user, fleets, sims, clearances, agents, settings, dispatch, location, balanceUserRequests,
+                           allClearancesRequests, allAgentsRequests, allFleetsRequests, allSimsRequests}) {
     // Local effects
     useEffect(() => {
         dispatch(emitAllSimsFetch());
@@ -37,6 +40,10 @@ function DashboardPage({user, fleets, sims, clearances, agents, settings, userRe
     // Reset error alert
     const shouldResetErrorData = () => {
         dispatch(storeAllSimsRequestReset());
+        dispatch(storeAllFleetsRequestReset());
+        dispatch(storeAllAgentsRequestReset());
+        dispatch(storeAllClearancesRequestReset());
+        dispatch(storeUserBalanceFetchRequestReset());
     };
 
     // Data
@@ -64,7 +71,7 @@ function DashboardPage({user, fleets, sims, clearances, agents, settings, userRe
                                                             icon='fa fa-coin'
                                                             url={path.PROFILE_PAGE_PATH}
                                                             label={setting.LABEL_BALANCE}
-                                                            request={userRequests.balance}
+                                                            request={balanceUserRequests}
                                                             data={formatNumber(user.balance)}
                                     />
                                 </div>
@@ -74,7 +81,7 @@ function DashboardPage({user, fleets, sims, clearances, agents, settings, userRe
                                     <DashboardCardComponent icon='fa fa-phone'
                                                             color='bg-secondary'
                                                             url={path.SIMS_PAGE_PATH}
-                                                            request={simsRequests.all}
+                                                            request={allSimsRequests}
                                                             data={fleetSimsFleetsData}
                                                             label={setting.LABEL_FLEET_SIMS_FLEETS}
                                     />
@@ -84,9 +91,9 @@ function DashboardPage({user, fleets, sims, clearances, agents, settings, userRe
                                 <div className="col-lg-3 col-md-4 col-sm-6">
                                     <DashboardCardComponent color='bg-primary'
                                                             icon='fa fa-user-cog'
+                                                            request={allAgentsRequests}
                                                             url={path.AGENTS_PAGE_PATH}
                                                             label={setting.LABEL_AGENTS}
-                                                            request={agentsRequests.all}
                                                             data={agents.length - resourcesData}
                                     />
                                 </div>
@@ -97,7 +104,7 @@ function DashboardPage({user, fleets, sims, clearances, agents, settings, userRe
                                                             data={resourcesData}
                                                             icon='fa fa-user-clock'
                                                             url={path.AGENTS_PAGE_PATH}
-                                                            request={agentsRequests.all}
+                                                            request={allAgentsRequests}
                                                             label={setting.LABEL_RESOURCES}
                                     />
                                 </div>
@@ -107,9 +114,9 @@ function DashboardPage({user, fleets, sims, clearances, agents, settings, userRe
                                     <DashboardCardComponent color='bg-success'
                                                             data={sims.length}
                                                             icon='fa fa-sim-card'
+                                                            request={allSimsRequests}
                                                             url={path.SIMS_PAGE_PATH}
                                                             label={setting.LABEL_SIMS}
-                                                            request={simsRequests.all}
                                     />
                                 </div>
                             }
@@ -118,7 +125,7 @@ function DashboardPage({user, fleets, sims, clearances, agents, settings, userRe
                                     <DashboardCardComponent icon='fa fa-rss'
                                                             color='bg-danger'
                                                             data={fleets.length}
-                                                            request={fleetsRequests.all}
+                                                            request={allFleetsRequests}
                                                             url={path.REQUESTS_FLEETS_PAGE_PATH}
                                                             label={setting.LABEL_FLEETS_REQUESTS}
                                     />
@@ -129,7 +136,7 @@ function DashboardPage({user, fleets, sims, clearances, agents, settings, userRe
                                     <DashboardCardComponent color='bg-warning'
                                                             icon='fa fa-rss-square'
                                                             data={clearances.length}
-                                                            request={clearancesRequests.all}
+                                                            request={allClearancesRequests}
                                                             url={path.REQUESTS_CLEARANCES_PAGE_PATH}
                                                             label={setting.LABEL_CLEARANCES_REQUEST}
                                     />
@@ -153,11 +160,11 @@ DashboardPage.propTypes = {
     location: PropTypes.object.isRequired,
     settings: PropTypes.object.isRequired,
     clearances: PropTypes.array.isRequired,
-    userRequests: PropTypes.object.isRequired,
-    simsRequests: PropTypes.object.isRequired,
-    fleetsRequests: PropTypes.object.isRequired,
-    agentsRequests: PropTypes.object.isRequired,
-    clearancesRequests: PropTypes.object.isRequired,
+    allSimsRequests: PropTypes.object.isRequired,
+    allAgentsRequests: PropTypes.object.isRequired,
+    allFleetsRequests: PropTypes.object.isRequired,
+    balanceUserRequests: PropTypes.object.isRequired,
+    allClearancesRequests: PropTypes.object.isRequired,
 };
 
 export default React.memo(DashboardPage);

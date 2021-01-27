@@ -117,6 +117,18 @@ function OperationsFleetsAddSupplyComponent({request, sims, allSimsRequests, dis
                                          requestProcessing={requestLoading(allSimsRequests)}
                         />
                     </div>
+                </div>
+                <div className='row'>
+                    <div className='col-sm-6'>
+                        <SelectComponent input={outgoingSim}
+                                         id='inputSimManger'
+                                         label='Puce émetrice'
+                                         title='Choisir une puce'
+                                         options={outgoingSelectOptions}
+                                         handleInput={handleOutgoingSelect}
+                                         requestProcessing={requestLoading(allSimsRequests)}
+                        />
+                    </div>
                     <div className='col-sm-6'>
                         <SelectComponent input={incomingSim}
                                          id='inputSimCollector'

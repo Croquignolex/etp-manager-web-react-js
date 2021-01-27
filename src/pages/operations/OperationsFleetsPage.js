@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import InfiniteScroll from "react-infinite-scroll-component";
 
 import {emitAllSimsFetch} from "../../redux/sims/actions";
+import {emitAllAgentsFetch} from "../../redux/agents/actions";
 import HeaderComponent from "../../components/HeaderComponent";
 import LoaderComponent from "../../components/LoaderComponent";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
@@ -14,6 +15,7 @@ import {emitNextSuppliesFetch, emitSuppliesFetch} from "../../redux/supplies/act
 import OperationsFleetsCardsComponent from "../../components/operations/OperationsFleetsCardsComponent";
 import OperationsFleetsReturnContainer from "../../containers/operations/OperationsFleetsReturnContainer";
 import {storeNextSuppliesRequestReset, storeSuppliesRequestReset} from "../../redux/requests/supplies/actions";
+import OperationsFleetsAddSupplyContainer from "../../containers/operations/OperationsFleetsAddSupplyContainer";
 import {
     dateToString,
     needleSearch,
@@ -25,13 +27,14 @@ import {
 function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
-    const [supplyModal, setSupplyModal] = useState({show: false, header: 'EFFECTUER UN FLOTTAGE EXPRESS'});
+    const [supplyModal, setSupplyModal] = useState({show: false, header: 'EFFECTUER UN FLOTTAGE'});
     const [returnModal, setReturnModal] = useState({show: false, header: 'EFFECTUER UN RETOUR FLOTTE', item: {}});
 
     // Local effects
     useEffect(() => {
         dispatch(emitSuppliesFetch());
         dispatch(emitAllSimsFetch());
+        dispatch(emitAllAgentsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -129,7 +132,7 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
             </AppLayoutContainer>
             {/* Modal */}
             <FormModalComponent modal={supplyModal} handleClose={handleSupplyModalHide}>
-                {/*<OperationsFleetsAddSupplyComponent handleClose={handleSupplyModalHide} />*/}
+                <OperationsFleetsAddSupplyContainer handleClose={handleSupplyModalHide} />
             </FormModalComponent>
             <FormModalComponent modal={returnModal} handleClose={handleReturnModalHide}>
                 <OperationsFleetsReturnContainer supply={returnModal.item}
