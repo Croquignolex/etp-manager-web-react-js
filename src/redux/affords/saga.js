@@ -1,7 +1,6 @@
 import {all, call, fork, put, takeLatest} from 'redux-saga/effects'
 
 import * as api from "../../constants/apiConstants";
-import {SUPPLY_BY_AGENT} from "../../constants/typeConstants";
 import {apiGetRequest, apiPostRequest, getFileFromServer} from "../../functions/axiosFunctions";
 import {
     EMIT_AFFORDS_FETCH,
@@ -31,7 +30,7 @@ export function* emitAffordsFetch() {
         try {
             // Fire event for request
             yield put(storeAffordsRequestInit());
-            const apiResponse = yield call(apiGetRequest, `${api.REFUELS_API_PATH}?page=1`);
+            const apiResponse = yield call(apiGetRequest, `${api.AFFORDS_API_PATH}?page=1`);
             // Extract data
             const affords = extractAffordsData(apiResponse.data.destockages);
             // Fire event to redux
@@ -51,7 +50,7 @@ export function* emitNextAffordsFetch() {
         try {
             // Fire event for request
             yield put(storeNextAffordsRequestInit());
-            const apiResponse = yield call(apiGetRequest, `${api.REFUELS_API_PATH}?page=${page}`);
+            const apiResponse = yield call(apiGetRequest, `${api.AFFORDS_API_PATH}?page=${page}`);
             // Extract data
             const affords = extractAffordsData(apiResponse.data.destockages);
             // Fire event to redux
@@ -74,7 +73,7 @@ export function* emitConfirmAfford() {
             yield put(storeSetAffordActionData({id}));
             // Fire event for request
             yield put(storeConfirmAffordRequestInit());
-            const apiResponse = yield call(apiPostRequest, `${api.REFUELS_API_PATH}/${id}`);
+            const apiResponse = yield call(apiPostRequest, `${api.CONFIRM_AFFORD_API_PATH}/${id}`);
             // Fire event to redux
             yield put(storeUpdateAffordData({id}));
             // Fire event at redux to toggle action loader
@@ -94,22 +93,13 @@ function extractAffordData(apiAfford) {
     let afford = {
         id: '', amount: '', creation: '', vendor: '', receipt: '', status: '',
 
-        agent: {id: '', name: ''},
         collector: {id: '', name: ''},
         sim: {id: '', name: '', number: ''},
     };
 
     const apiSim = apiAfford.puce;
-    const apiUser = apiAfford.user;
-    const apiAgent = apiAfford.agent;
     const apiCollector = apiAfford.recouvreur;
 
-    if(apiAgent && apiUser) {
-        afford.agent = {
-            name: apiUser.name,
-            id: apiUser.id.toString()
-        };
-    }
     if(apiSim) {
         afford.sim = {
             name: apiSim.nom,
