@@ -1,6 +1,7 @@
 import {all, call, fork, put, takeLatest} from 'redux-saga/effects'
 
 import * as api from "../../constants/apiConstants";
+import {SUPPLY_BY_AGENT} from "../../constants/typeConstants";
 import {apiGetRequest, apiPostRequest, getFileFromServer} from "../../functions/axiosFunctions";
 import {
     EMIT_ADD_REFUEL,
@@ -28,7 +29,6 @@ import {
     storeConfirmRefuelRequestFailed,
     storeConfirmRefuelRequestSucceed
 } from "../requests/refuels/actions";
-import {SUPPLY_BY_AGENT} from "../../constants/typeConstants";
 
 // Fetch refuels from API
 export function* emitRefuelsFetch() {

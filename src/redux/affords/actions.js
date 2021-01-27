@@ -1,81 +1,65 @@
 // Reducer action types
-export const STORE_SET_REFUELS_DATA = 'STORE_SET_REFUELS_DATA';
-export const STORE_UPDATE_REFUEL_DATA = 'STORE_UPDATE_REFUEL_DATA';
-export const STORE_SET_NEW_REFUEL_DATA = 'STORE_SET_NEW_REFUEL_DATA';
-export const STORE_SET_NEXT_REFUELS_DATA = 'STORE_SET_NEXT_REFUELS_DATA';
-export const STORE_SET_REFUEL_ACTION_DATA = 'STORE_SET_REFUEL_ACTION_DATA';
-export const STORE_STOP_INFINITE_SCROLL_REFUEL_DATA = 'STORE_STOP_INFINITE_SCROLL_REFUEL_DATA';
+export const STORE_SET_AFFORDS_DATA = 'STORE_SET_AFFORDS_DATA';
+export const STORE_UPDATE_AFFORD_DATA = 'STORE_UPDATE_AFFORD_DATA'; 
+export const STORE_SET_NEXT_AFFORDS_DATA = 'STORE_SET_NEXT_AFFORDS_DATA';
+export const STORE_SET_AFFORD_ACTION_DATA = 'STORE_SET_AFFORD_ACTION_DATA';
+export const STORE_STOP_INFINITE_SCROLL_AFFORD_DATA = 'STORE_STOP_INFINITE_SCROLL_AFFORD_DATA';
 
 // Middleware action types
-export const EMIT_ADD_REFUEL = 'EMIT_ADD_REFUEL';
-export const EMIT_REFUELS_FETCH = 'EMIT_REFUELS_FETCH';
-export const EMIT_CONFIRM_REFUEL = 'EMIT_CONFIRM_REFUEL';
-export const EMIT_NEXT_REFUELS_FETCH = 'EMIT_NEXT_REFUELS_FETCH';
+export const EMIT_AFFORDS_FETCH = 'EMIT_AFFORDS_FETCH';
+export const EMIT_CONFIRM_AFFORD = 'EMIT_CONFIRM_AFFORD';
+export const EMIT_NEXT_AFFORDS_FETCH = 'EMIT_NEXT_AFFORDS_FETCH';
 
 //====================== Reducer trigger actions
-// Set refuels data in store
-export const storeSetRefuelsData = ({refuels, hasMoreData, page}) => ({
+// Set affords data in store
+export const storeSetAffordsData = ({affords, hasMoreData, page}) => ({
     page,
-    refuels,
+    affords,
     hasMoreData,
-    type: STORE_SET_REFUELS_DATA
+    type: STORE_SET_AFFORDS_DATA
 });
-
-// Set new refuel data in store
-export const storeSetNewRefuelData = ({refuel}) => ({
-    refuel,
-    type: STORE_SET_NEW_REFUEL_DATA
-});
-
-// Set next refuels data in store
-export const storeSetNextRefuelsData = ({refuels, hasMoreData, page}) => ({
+ 
+// Set next affords data in store
+export const storeSetNextAffordsData = ({affords, hasMoreData, page}) => ({
     page,
-    refuels,
+    affords,
     hasMoreData,
-    type: STORE_SET_NEXT_REFUELS_DATA
+    type: STORE_SET_NEXT_AFFORDS_DATA
 });
 
 // Stop infinite scroll
-export const storeStopInfiniteScrollRefuelData = () => ({
-    type: STORE_STOP_INFINITE_SCROLL_REFUEL_DATA
+export const storeStopInfiniteScrollAffordData = () => ({
+    type: STORE_STOP_INFINITE_SCROLL_AFFORD_DATA
 });
 
-// Set update refuel data in store
-export const storeUpdateRefuelData = ({id, amount}) => ({
+// Set update afford data in store
+export const storeUpdateAffordData = ({id, amount}) => ({
     id,
     amount,
-    type: STORE_UPDATE_REFUEL_DATA
+    type: STORE_UPDATE_AFFORD_DATA
 });
 
-// Set refuel action data in store
-export const storeSetRefuelActionData = ({id}) => ({
+// Set afford action data in store
+export const storeSetAffordActionData = ({id}) => ({
     id,
-    type: STORE_SET_REFUEL_ACTION_DATA
+    type: STORE_SET_AFFORD_ACTION_DATA
 });
 
 //====================== Middleware trigger actions
-// Emit refuels fetch
-export const emitRefuelsFetch = () => ({
-    type: EMIT_REFUELS_FETCH
+// Emit affords fetch
+export const emitAffordsFetch = () => ({
+    type: EMIT_AFFORDS_FETCH
 });
 
-// Emit next refuels fetch
-export const emitNextRefuelsFetch = ({page}) => ({
+// Emit next affords fetch
+export const emitNextAffordsFetch = ({page}) => ({
     page,
-    type: EMIT_NEXT_REFUELS_FETCH
+    type: EMIT_NEXT_AFFORDS_FETCH
 });
 
-// Emit confirm refuel
-export const emitConfirmRefuel = ({id}) => ({
+// Emit confirm afford
+export const emitConfirmAfford = ({id}) => ({
     id,
-    type: EMIT_CONFIRM_REFUEL
+    type: EMIT_CONFIRM_AFFORD
 });
-
-// Emit add refuel
-export const emitAddRefuel = ({agent, amount, sim, receipt}) => ({
-    sim,
-    agent,
-    amount,
-    receipt,
-    type: EMIT_ADD_REFUEL
-});
+ 
