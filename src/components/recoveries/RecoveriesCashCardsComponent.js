@@ -49,7 +49,7 @@ function RecoveriesCashCardsComponent({recoveries}) {
                                         {item.receipt && (
                                             <li className="list-group-item text-center">
                                                 <a download target='_blank' href={item.receipt} rel='noopener noreferrer' className="btn btn-theme">
-                                                    Reçus
+                                                    <i className="fa fa-file-archive" /> Reçus
                                                 </a>
                                             </li>
                                         )}
