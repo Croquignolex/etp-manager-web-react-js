@@ -66,6 +66,12 @@ function OperationsAffordsCardsComponent({affords, handleConfirmModalShow}) {
                                             <b>Responsable</b>
                                             <span className="float-right">{item.collector.name}</span>
                                         </li>
+                                        <li className="list-group-item">
+                                            {(item.status === DONE)
+                                                ? <b className="text-success">Confirmé</b>
+                                                : <b className="text-danger">En attente de confirmation</b>
+                                            }
+                                        </li>
                                         {item.receipt && (
                                             <li className="list-group-item text-center">
                                                 <a download target='_blank' href={item.receipt} rel='noopener noreferrer' className="btn btn-theme">
