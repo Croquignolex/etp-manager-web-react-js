@@ -66,9 +66,7 @@ function SettingsPage({settings, request, dispatch, location}) {
                 {value: setting.CARD_CLEARANCES_REQUEST, label: setting.LABEL_CLEARANCES_REQUEST}
             ],
             charts: [
-                {value: setting.CHART_SIMS_PER_TYPES, label: 'Puces par types'},
-                {value: setting.CHART_FLEETS_REQUEST_PER_STATUS, label: 'Demandes de flote par status'},
-                {value: setting.CHART_CLEARANCES_REQUEST_PER_STATUS, label: 'Demandes de déstockage par status'},
+                // {value: 0, label: 'name'}
             ]
         };
         // eslint-disable-next-line

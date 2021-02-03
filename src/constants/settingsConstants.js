@@ -7,11 +7,6 @@ export const CARD_FLEETS_REQUESTS = 4;
 export const CARD_FLEET_SIMS_FLEETS = 5;
 export const CARD_CLEARANCES_REQUEST = 6;
 
-// Charts
-export const CHART_SIMS_PER_TYPES = 0;
-export const CHART_FLEETS_REQUEST_PER_STATUS = 1;
-export const CHART_CLEARANCES_REQUEST_PER_STATUS = 2;
-
 // Labels
 export const LABEL_SIMS = "NOMBRE DES SIMS";
 export const LABEL_AGENTS = "NOMBRE DES AGENTS";
