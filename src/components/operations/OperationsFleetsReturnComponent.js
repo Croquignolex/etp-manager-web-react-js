@@ -11,7 +11,6 @@ import {emitNewReturn} from "../../redux/returns/actions";
 import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
-import {storeAllSimsRequestReset} from "../../redux/requests/sims/actions";
 import {storeReturnRequestReset} from "../../redux/requests/returns/actions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
 import {
@@ -75,7 +74,6 @@ function OperationsFleetsReturnComponent({supply, request, sims, allSimsRequests
     // Reset error alert
     const shouldResetErrorData = () => {
         dispatch(storeReturnRequestReset());
-        dispatch(storeAllSimsRequestReset());
     };
 
     // Trigger add supply form submit

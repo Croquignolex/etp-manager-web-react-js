@@ -8,6 +8,7 @@ import LoaderComponent from "../../components/LoaderComponent";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
+import {storeAllSimsRequestReset} from "../../redux/requests/sims/actions";
 import FormModalComponent from "../../components/modals/FormModalComponent";
 import {OPERATIONS_TRANSFERS_PAGE} from "../../constants/pageNameConstants";
 import {emitNextTransfersFetch, emitTransfersFetch} from "../../redux/transfers/actions";
@@ -44,6 +45,7 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
 
     // Reset error alert
     const shouldResetErrorData = () => {
+        dispatch(storeAllSimsRequestReset());
         dispatch(storeTransfersRequestReset());
         dispatch(storeNextTransfersRequestReset());
     };

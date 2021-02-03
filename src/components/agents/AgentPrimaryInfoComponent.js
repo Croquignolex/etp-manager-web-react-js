@@ -43,7 +43,7 @@ function AgentPrimaryInfoComponent({agent}) {
                     </div>
                     <ul className="list-group list-group-unbordered mb-3">
                         <li className="list-group-item">
-                            <b>Créer le</b>
+                            <b>Création</b>
                             <span className="float-right">{dateToString(agent.creation)}</span>
                         </li>
                         <li className="list-group-item">

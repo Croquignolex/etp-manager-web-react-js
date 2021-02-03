@@ -43,7 +43,7 @@ function AgentsCardsComponent({agents, handleBlock, handleBlockModalShow, handle
                                     </div>
                                     <ul className="list-group list-group-unbordered">
                                         <li className="list-group-item">
-                                            <b>Créer le</b>
+                                            <b>Création</b>
                                             <span className="float-right">{dateToString(item.creation)}</span>
                                         </li>
                                         <li className="list-group-item">
@@ -63,7 +63,7 @@ function AgentsCardsComponent({agents, handleBlock, handleBlockModalShow, handle
                                             <span className="float-right text-success text-bold">{formatNumber(item.account.balance)}</span>
                                         </li>
                                         <li className="list-group-item">
-                                            <b>Créer par</b>
+                                            <b>Crée par</b>
                                             <span className="float-right">{item.creator.name}</span>
                                         </li>
                                     </ul>

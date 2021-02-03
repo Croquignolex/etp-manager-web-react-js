@@ -9,17 +9,19 @@ import LoaderComponent from "../../components/LoaderComponent";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
+import {storeAllSimsRequestReset} from "../../redux/requests/sims/actions";
 import FormModalComponent from "../../components/modals/FormModalComponent";
 import {OPERATIONS_CLEARANCES_PAGE} from "../../constants/pageNameConstants";
+import {storeAllAgentsRequestReset} from "../../redux/requests/agents/actions";
 import ConfirmModalComponent from "../../components/modals/ConfirmModalComponent";
 import {emitConfirmRefuel, emitNextRefuelsFetch, emitRefuelsFetch} from "../../redux/refuels/actions";
-import {
-    storeConfirmRefuelRequestReset,
-    storeNextRefuelsRequestReset,
-    storeRefuelsRequestReset
-} from "../../redux/requests/refuels/actions";
 import OperationsClearancesCardsComponent from "../../components/operations/OperationsClearancesCardsComponent";
 import OperationsClearancesAddRefuelContainer from "../../containers/operations/OperationsClearancesAddRefuelContainer";
+import {
+    storeRefuelsRequestReset,
+    storeNextRefuelsRequestReset,
+    storeConfirmRefuelRequestReset
+} from "../../redux/requests/refuels/actions";
 import {
     dateToString,
     formatNumber,
@@ -53,7 +55,9 @@ function OperationsClearancesPage({refuels, refuelsRequests, hasMoreData, page, 
 
     // Reset error alert
     const shouldResetErrorData = () => {
+        dispatch(storeAllSimsRequestReset());
         dispatch(storeRefuelsRequestReset());
+        dispatch(storeAllAgentsRequestReset());
         dispatch(storeNextRefuelsRequestReset());
         dispatch(storeConfirmRefuelRequestReset());
     };

@@ -44,7 +44,7 @@ function AgentSecondaryInfoComponent({agent}) {
                 <div className="card-body">
                     <ul className="list-group list-group-unbordered mb-3">
                         <li className="list-group-item">
-                            <b>Créer par</b>
+                            <b>Crée par</b>
                             <span className="float-right">{agent.creator.name}</span>
                         </li>
                         <li className="list-group-item">

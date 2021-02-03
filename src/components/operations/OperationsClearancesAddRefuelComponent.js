@@ -11,9 +11,7 @@ import * as constants from "../../constants/defaultConstants";
 import FileDocumentComponent from "../form/FileDocumentComponent";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
-import {storeAllSimsRequestReset} from "../../redux/requests/sims/actions";
 import {fileChecker, requiredChecker} from "../../functions/checkerFunctions";
-import {storeAllAgentsRequestReset} from "../../redux/requests/agents/actions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
 import {storeAddRefuelRequestReset} from "../../redux/requests/refuels/actions";
 import {
@@ -83,8 +81,6 @@ function OperationsClearancesAddRefuelComponent({request, sims, agents, allAgent
     // Reset error alert
     const shouldResetErrorData = () => {
         dispatch(storeAddRefuelRequestReset());
-        dispatch(storeAllSimsRequestReset());
-        dispatch(storeAllAgentsRequestReset());
     };
 
     // Trigger add supply form submit

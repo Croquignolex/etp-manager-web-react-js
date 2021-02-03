@@ -10,8 +10,6 @@ import {emitImproveHandover} from "../../redux/handovers/actions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {dataToArrayForSelect} from "../../functions/arrayFunctions";
-import {storeAllManagersRequestReset} from "../../redux/requests/managers/actions";
-import {storeUserBalanceFetchRequestReset} from "../../redux/requests/user/actions";
 import {storeImproveHandoverRequestReset} from "../../redux/requests/handovers/actions";
 import {
     applySuccess,
@@ -62,9 +60,7 @@ function CheckoutHandoversImproveHandoverComponent({user, balance, request, mana
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        dispatch(storeAllManagersRequestReset());
         dispatch(storeImproveHandoverRequestReset());
-        dispatch(storeUserBalanceFetchRequestReset());
     };
 
     // Trigger add supply form submit

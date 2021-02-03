@@ -11,6 +11,8 @@ import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import FormModalComponent from "../../components/modals/FormModalComponent";
+import {storeAllManagersRequestReset} from "../../redux/requests/managers/actions";
+import {storeUserBalanceFetchRequestReset} from "../../redux/requests/user/actions";
 import {emitHandoversFetch, emitNextHandoversFetch} from "../../redux/handovers/actions";
 import CheckoutHandoversCardsComponent from "../../components/checkout/CheckoutHandoversCardsComponent";
 import {storeHandoversRequestReset, storeNextHandoversRequestReset} from "../../redux/requests/handovers/actions";
@@ -47,7 +49,9 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
     // Reset error alert
     const shouldResetErrorData = () => {
         dispatch(storeHandoversRequestReset());
+        dispatch(storeAllManagersRequestReset());
         dispatch(storeNextHandoversRequestReset());
+        dispatch(storeUserBalanceFetchRequestReset());
     };
 
     // Fetch next handovers data to enhance infinite scroll

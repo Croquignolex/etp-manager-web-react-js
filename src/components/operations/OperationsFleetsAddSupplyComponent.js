@@ -10,8 +10,6 @@ import {emitAddSupply} from "../../redux/supplies/actions";
 import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
-import {storeAllSimsRequestReset} from "../../redux/requests/sims/actions";
-import {storeAllAgentsRequestReset} from "../../redux/requests/agents/actions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
 import {storeAddSupplyRequestReset} from "../../redux/requests/supplies/actions";
 import {
@@ -86,8 +84,6 @@ function OperationsFleetsAddSupplyComponent({request, sims, agents, allAgentsReq
     // Reset error alert
     const shouldResetErrorData = () => {
         dispatch(storeAddSupplyRequestReset());
-        dispatch(storeAllSimsRequestReset());
-        dispatch(storeAllAgentsRequestReset());
     };
 
     // Trigger add supply form submit

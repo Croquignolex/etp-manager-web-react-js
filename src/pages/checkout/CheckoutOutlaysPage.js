@@ -11,6 +11,7 @@ import {CHECKOUT_OUTlAYS_PAGE} from "../../constants/pageNameConstants";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import FormModalComponent from "../../components/modals/FormModalComponent";
 import {emitNextOutlaysFetch, emitOutlaysFetch} from "../../redux/outlays/actions";
+import {storeAllCollectorsRequestReset} from "../../redux/requests/collectors/actions";
 import CheckoutOutlaysCardsComponent from "../../components/checkout/CheckoutOutlaysCardsComponent";
 import {storeNextOutlaysRequestReset, storeOutlaysRequestReset} from "../../redux/requests/outlays/actions";
 import CheckoutOutlaysAddOutlayContainer from "../../containers/checkout/CheckoutOutlaysAddOutlayContainer";
@@ -46,6 +47,7 @@ function CheckoutOutlaysPage({outlays, outlaysRequests, hasMoreData, page, dispa
     const shouldResetErrorData = () => {
         dispatch(storeOutlaysRequestReset());
         dispatch(storeNextOutlaysRequestReset());
+        dispatch(storeAllCollectorsRequestReset());
     };
 
     // Fetch next outlays data to enhance infinite scroll

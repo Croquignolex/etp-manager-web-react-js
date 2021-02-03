@@ -12,7 +12,6 @@ import {playWarningSound} from "../../functions/playSoundFunctions";
 import {dataToArrayForSelect} from "../../functions/arrayFunctions";
 import {storeAddPaymentRequestReset} from "../../redux/requests/payments/actions";
 import {requiredChecker, requiredFileChecker} from "../../functions/checkerFunctions";
-import {storeAllCollectorsRequestReset} from "../../redux/requests/collectors/actions";
 import {
     applySuccess,
     requestFailed,
@@ -69,7 +68,6 @@ function CheckoutPaymentsAddPaymentComponent({request, collectors, allCollectors
     // Reset error alert
     const shouldResetErrorData = () => {
         dispatch(storeAddPaymentRequestReset());
-        dispatch(storeAllCollectorsRequestReset());
     };
 
     // Trigger add supply form submit

@@ -10,7 +10,6 @@ import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {COLLECTOR_TYPE, FLEET_TYPE} from "../../constants/typeConstants";
-import {storeAllSimsRequestReset} from "../../redux/requests/sims/actions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
 import {storeAddTransferRequestReset} from "../../redux/requests/transfers/actions";
 import {
@@ -74,7 +73,6 @@ function OperationsTransfersAddTransferComponent({request, sims, allSimsRequests
     // Reset error alert
     const shouldResetErrorData = () => {
         dispatch(storeAddTransferRequestReset());
-        dispatch(storeAllSimsRequestReset());
     };
 
     // Trigger add supply form submit

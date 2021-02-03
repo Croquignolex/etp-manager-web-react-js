@@ -21,7 +21,7 @@ function CheckoutOutlaysCardsComponent({outlays}) {
                                 <div className="card-body">
                                     <ul className="list-group list-group-unbordered">
                                         <li className="list-group-item">
-                                            <b>Créer le</b>
+                                            <b>Création</b>
                                             <span className="float-right">{dateToString(item.creation)}</span>
                                         </li>
                                         <li className="list-group-item">

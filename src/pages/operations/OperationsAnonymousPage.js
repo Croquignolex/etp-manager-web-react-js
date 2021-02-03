@@ -9,6 +9,7 @@ import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
+import {storeAllSimsRequestReset} from "../../redux/requests/sims/actions";
 import FormModalComponent from "../../components/modals/FormModalComponent";
 import {OPERATIONS_ANONYMOUS_FLEETS_PAGE} from "../../constants/pageNameConstants";
 import {emitAnonymousFetch, emitNextAnonymousFetch} from "../../redux/anonymous/actions";
@@ -45,6 +46,7 @@ function OperationsAnonymousPage({anonymous, anonymousRequests, hasMoreData, pag
 
     // Reset error alert
     const shouldResetErrorData = () => {
+        dispatch(storeAllSimsRequestReset());
         dispatch(storeAnonymousRequestReset());
         dispatch(storeNextAnonymousRequestReset());
     };

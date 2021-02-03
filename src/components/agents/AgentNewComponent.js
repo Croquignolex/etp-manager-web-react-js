@@ -5,17 +5,16 @@ import InputComponent from "../form/InputComponent";
 import ButtonComponent from "../form/ButtonComponent";
 import SelectComponent from "../form/SelectComponent";
 import {emitNewAgent} from "../../redux/agents/actions";
+import ErrorAlertComponent from "../ErrorAlertComponent";
 import TextareaComponent from "../form/TextareaComponent";
 import FileImageComponent from "../form/FileImageComponent";
 import * as constants from "../../constants/defaultConstants";
 import FileDocumentComponent from "../form/FileDocumentComponent";
 import {playWarningSound} from "../../functions/playSoundFunctions";
-import {storeAllZonesRequestReset} from "../../redux/requests/zones/actions";
 import {storeAddAgentRequestReset} from "../../redux/requests/agents/actions";
 import {dataToArrayForSelect, mappedZones} from "../../functions/arrayFunctions";
-import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 import {fileChecker, imageChecker, phoneChecker, requiredChecker} from "../../functions/checkerFunctions";
-import ErrorAlertComponent from "../ErrorAlertComponent";
+import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
 function AgentNewComponent({type, zones, request, allZonesRequests, dispatch, handleClose}) {
@@ -102,7 +101,6 @@ function AgentNewComponent({type, zones, request, allZonesRequests, dispatch, ha
     // Reset error alert
     const shouldResetErrorData = () => {
         dispatch(storeAddAgentRequestReset());
-        dispatch(storeAllZonesRequestReset());
     };
 
     // Trigger new agent form submit

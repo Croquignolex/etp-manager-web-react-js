@@ -12,7 +12,6 @@ import {playWarningSound} from "../../functions/playSoundFunctions";
 import {dataToArrayForSelect} from "../../functions/arrayFunctions";
 import {storeAddOutlayRequestReset} from "../../redux/requests/outlays/actions";
 import {requiredChecker, requiredFileChecker} from "../../functions/checkerFunctions";
-import {storeAllCollectorsRequestReset} from "../../redux/requests/collectors/actions";
 import {
     applySuccess,
     requestFailed,
@@ -69,7 +68,6 @@ function CheckoutOutlaysAddOutlayComponent({request, collectors, allCollectorsRe
     // Reset error alert
     const shouldResetErrorData = () => {
         dispatch(storeAddOutlayRequestReset());
-        dispatch(storeAllCollectorsRequestReset());
     };
 
     // Trigger add supply form submit

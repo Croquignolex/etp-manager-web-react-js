@@ -11,6 +11,7 @@ import {CHECKOUT_PAYMENTS_PAGE} from "../../constants/pageNameConstants";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import FormModalComponent from "../../components/modals/FormModalComponent";
 import {emitNextPaymentsFetch, emitPaymentsFetch} from "../../redux/payments/actions";
+import {storeAllCollectorsRequestReset} from "../../redux/requests/collectors/actions";
 import CheckoutPaymentsCardsComponent from "../../components/checkout/CheckoutPaymentsCardsComponent";
 import {storeNextPaymentsRequestReset, storePaymentsRequestReset} from "../../redux/requests/payments/actions";
 import CheckoutPaymentsAddPaymentContainer from "../../containers/checkout/CheckoutPaymentsAddPaymentContainer";
@@ -46,6 +47,7 @@ function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, di
     const shouldResetErrorData = () => {
         dispatch(storePaymentsRequestReset());
         dispatch(storeNextPaymentsRequestReset());
+        dispatch(storeAllCollectorsRequestReset());
     };
 
     // Fetch next payments data to enhance infinite scroll
