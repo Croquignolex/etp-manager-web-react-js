@@ -11,9 +11,9 @@ import * as constants from "../../constants/defaultConstants";
 import FileDocumentComponent from "../form/FileDocumentComponent";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
-import {fileChecker, requiredChecker} from "../../functions/checkerFunctions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
 import {storeAddRefuelRequestReset} from "../../redux/requests/refuels/actions";
+import {requiredChecker, requiredFileChecker} from "../../functions/checkerFunctions";
 import {
     applySuccess,
     requestFailed,
@@ -87,9 +87,9 @@ function OperationsClearancesAddRefuelComponent({request, sims, agents, allAgent
     const handleSubmit = (e) => {
         e.preventDefault();
         shouldResetErrorData();
-        const _document = fileChecker(doc);
         const _agent = requiredChecker(agent);
         const _amount = requiredChecker(amount);
+        const _document = requiredFileChecker(doc);
         const _incomingSim = requiredChecker(incomingSim);
         // Set value
         setAgent(_agent);
@@ -153,7 +153,7 @@ function OperationsClearancesAddRefuelComponent({request, sims, agents, allAgent
                     <div className='col'>
                         <FileDocumentComponent id='file'
                                                input={doc}
-                                               label='Dossier agent'
+                                               label='Réçus'
                                                handleInput={handleFileInput}
                         />
                     </div>
