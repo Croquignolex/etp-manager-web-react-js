@@ -130,7 +130,7 @@ function OperationsTransfersAddTransferComponent({request, sims, allSimsRequests
                     <div className='col-sm-6'>
                         <AmountComponent input={amount}
                                          id='inputFleet'
-                                         label='Flotte à transférer'
+                                         label='Montant'
                                          handleInput={handleAmountInput}
                         />
                     </div>
