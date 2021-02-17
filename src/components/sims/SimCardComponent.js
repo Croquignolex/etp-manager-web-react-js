@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 
 import FormModalComponent from "../modals/FormModalComponent";
 import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer";
-import {AGENT_COLLECTOR_TYPE, COLLECTOR_TYPE} from "../../constants/typeConstants";
 import {dateToString, formatNumber, upperFirstCase} from "../../functions/generalFunctions";
+import {AGENT_COLLECTOR_CORPORATE_TYPE, AGENT_TYPE, COLLECTOR_TYPE, CORPORATE_TYPE} from "../../constants/typeConstants";
 
 // Component
 function SimCardComponent({sim}) {
@@ -40,24 +40,23 @@ function SimCardComponent({sim}) {
                     <b>Opérateur</b>
                     <span className="float-right">{sim.operator.name}</span>
                 </li>
-                {AGENT_COLLECTOR_TYPE.includes(sim.type.name) &&
+                {AGENT_COLLECTOR_CORPORATE_TYPE.includes(sim.type.name) && (
                     <li className="list-group-item">
                         <b>{upperFirstCase(sim.type.name)}</b>
                         <span className="float-right">
-                            {sim.type.name === COLLECTOR_TYPE
-                                ? sim.collector.name
-                                : (
-                                    <>
-                                        {sim.agent.name}
-                                        <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
-                                           onClick={() => setAgentDetailsModal({...agentDetailsModal, show: true, id: sim.agent.id})}
-                                        />
-                                    </>
-                                )
-                            }
+                            {sim.type.name === AGENT_TYPE && (
+                                <>
+                                    {sim.agent.name}
+                                    <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
+                                       onClick={() => setAgentDetailsModal({...agentDetailsModal, show: true, id: sim.agent.id})}
+                                    />
+                                </>
+                            )}
+                            {sim.type.name === COLLECTOR_TYPE && <> {sim.collector.name}</>}
+                            {sim.type.name === CORPORATE_TYPE && <>{sim.company.name}</>}
                         </span>
                     </li>
-                }
+                )}
             </ul>
             {/* Modal */}
             <FormModalComponent modal={agentDetailsModal} handleClose={handleAgentDetailsModalHide}>
