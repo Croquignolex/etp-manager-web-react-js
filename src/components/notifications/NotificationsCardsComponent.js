@@ -84,8 +84,7 @@ function NotificationsCardsComponent({notifications, dispatch}) {
 // Prop types to ensure destroyed props data type
 NotificationsCardsComponent.propTypes = {
     dispatch: PropTypes.func.isRequired,
-    notifications: PropTypes.array.isRequired,
-    handleDeleteModalShow: PropTypes.func.isRequired,
+    notifications: PropTypes.array.isRequired
 };
 
 export default React.memo(NotificationsCardsComponent);

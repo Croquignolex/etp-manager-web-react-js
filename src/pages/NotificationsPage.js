@@ -9,18 +9,8 @@ import ErrorAlertComponent from "../components/ErrorAlertComponent";
 import TableSearchComponent from "../components/TableSearchComponent";
 import {emitNotificationsFetch} from "../redux/notifications/actions";
 import NotificationsCardsContainer from "../containers/notifications/NotificationsCardsContainer";
-import {
-    storeNotificationsRequestReset,
-    storeNotificationsDeleteRequestReset
-} from "../redux/requests/notifications/actions";
-import {
-    applySuccess,
-    dateToString,
-    needleSearch,
-    requestFailed,
-    requestLoading,
-    requestSucceeded
-} from "../functions/generalFunctions";
+import {storeNotificationsRequestReset, storeNotificationsDeleteRequestReset} from "../redux/requests/notifications/actions";
+import {applySuccess, dateToString, needleSearch, requestFailed, requestLoading, requestSucceeded} from "../functions/generalFunctions";
 
 // Component
 function NotificationsPage({notifications, notificationsRequests, dispatch, location}) {
