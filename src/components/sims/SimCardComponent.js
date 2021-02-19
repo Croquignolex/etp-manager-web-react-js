@@ -4,7 +4,13 @@ import PropTypes from "prop-types";
 import FormModalComponent from "../modals/FormModalComponent";
 import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer";
 import {dateToString, formatNumber, upperFirstCase} from "../../functions/generalFunctions";
-import {AGENT_COLLECTOR_CORPORATE_TYPE, AGENT_TYPE, COLLECTOR_TYPE, CORPORATE_TYPE} from "../../constants/typeConstants";
+import {
+    AGENT_TYPE,
+    RESOURCE_TYPE,
+    COLLECTOR_TYPE,
+    CORPORATE_TYPE,
+    AGENT_RESOURCE_COLLECTOR_CORPORATE_TYPE
+} from "../../constants/typeConstants";
 
 // Component
 function SimCardComponent({sim}) {
@@ -40,11 +46,19 @@ function SimCardComponent({sim}) {
                     <b>Opérateur</b>
                     <span className="float-right">{sim.operator.name}</span>
                 </li>
-                {AGENT_COLLECTOR_CORPORATE_TYPE.includes(sim.type.name) && (
+                {AGENT_RESOURCE_COLLECTOR_CORPORATE_TYPE.includes(sim.type.name) && (
                     <li className="list-group-item">
                         <b>{upperFirstCase(sim.type.name)}</b>
                         <span className="float-right">
                             {sim.type.name === AGENT_TYPE && (
+                                <>
+                                    {sim.agent.name}
+                                    <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
+                                       onClick={() => setAgentDetailsModal({...agentDetailsModal, show: true, id: sim.agent.id})}
+                                    />
+                                </>
+                            )}
+                            {sim.type.name === RESOURCE_TYPE && (
                                 <>
                                     {sim.agent.name}
                                     <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
