@@ -30,7 +30,8 @@ function AgentsCardsComponent({agents, handleBlock, handleBlockModalShow, handle
                                     </div>
                                 </div>
                                 <div className="card-body">
-                                    <div className="text-right">
+                                    <img src={item.avatar} alt="avatar..." className="profile-user-img img-fluid img-circle" />
+                                    <div className="float-lg-right">
                                         {item.actionLoader ? <LoaderComponent little={true} /> :(
                                             item.status
                                                 ? <i onClick={() => handleBlockModalShow(item)}
