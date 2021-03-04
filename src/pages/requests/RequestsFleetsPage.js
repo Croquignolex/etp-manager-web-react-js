@@ -15,12 +15,7 @@ import {emitFleetsFetch, emitNextFleetsFetch} from "../../redux/fleets/actions";
 import RequestsFleetsCardsComponent from "../../components/requests/RequestsFleetsCardsComponent";
 import {storeFleetsRequestReset, storeNextFleetsRequestReset} from "../../redux/requests/fleets/actions";
 import RequestsFleetsAddSupplyContainer from "../../containers/requests/RequestsFleetsAddSupplyContainer";
-import {
-    dateToString,
-    needleSearch,
-    requestFailed,
-    requestLoading,
-} from "../../functions/generalFunctions";
+import {dateToString, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
 
 // Component
 function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch, location}) {
