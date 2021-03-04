@@ -49,7 +49,7 @@ function DashboardPage({user, fleets, sims, clearances, agents, settings, dispat
     // Data
     const cardsData = settings.cards;
     const fleetSimsFleetsData = useMemo(() => {
-        return sims.filter(sim => types.FLEET_TYPE === sim.type.name).reduce((acc, val) => acc + val.balance, 0)
+        return sims.filter(sim => types.FLEET_TYPE === sim.type.name).reduce((acc, val) => acc + parseInt(val.balance, 10), 0)
         // eslint-disable-next-line
     }, [sims]);
     const resourcesData = useMemo(() => {
