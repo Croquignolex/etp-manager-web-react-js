@@ -8,7 +8,7 @@ export const NOTIFICATIONS_PAGE = 'Notifications';
 export const SIMS = 'Puces';
 export const AGENTS = 'Agents/Resources';
 export const ALL_SIMS = 'Toutes les puces';
-export const FLEETS_SIMS = 'Puces de flottage';
+export const FLEETS_SIMS = 'Puces de flottages';
 
 // Operations
 export const OPERATIONS = 'Opérations';

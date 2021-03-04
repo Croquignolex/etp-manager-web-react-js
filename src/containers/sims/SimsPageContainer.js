@@ -1,10 +1,10 @@
 import {connect} from "react-redux";
 
 import SimsPage from "../../pages/sims/SimsPage";
-import {SIMS_PAGE} from "../../constants/pageNameConstants";
+import {ALL_SIMS} from "../../constants/pageNameConstants";
 import {setPageTitle} from "../../functions/generalFunctions";
 
-setPageTitle(SIMS_PAGE);
+setPageTitle(ALL_SIMS);
 
 // Map state function to component props
 const mapStateToProps = (state) => ({
