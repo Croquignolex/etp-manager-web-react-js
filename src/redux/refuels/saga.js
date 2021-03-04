@@ -73,13 +73,12 @@ export function* emitNextRefuelsFetch() {
 
 // Fleets new refuel from API
 export function* emitAddRefuel() {
-    yield takeLatest(EMIT_ADD_REFUEL, function*({agent, amount, sim, receipt}) {
+    yield takeLatest(EMIT_ADD_REFUEL, function*({agent, amount, sim}) {
         try {
             // Fire event for request
             yield put(storeAddRefuelRequestInit());
             const data = new FormData();
             data.append('id_puce', sim);
-            data.append('recu', receipt);
             data.append('id_agent', agent);
             data.append('montant', amount);
             data.append('type', SUPPLY_BY_AGENT);

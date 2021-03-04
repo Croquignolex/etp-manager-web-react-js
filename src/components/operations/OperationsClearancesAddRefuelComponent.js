@@ -8,24 +8,17 @@ import ErrorAlertComponent from "../ErrorAlertComponent";
 import {FLEET_TYPE} from "../../constants/typeConstants";
 import {emitAddRefuel} from "../../redux/refuels/actions";
 import * as constants from "../../constants/defaultConstants";
-import FileDocumentComponent from "../form/FileDocumentComponent";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
 import {storeAddRefuelRequestReset} from "../../redux/requests/refuels/actions";
 import {requiredChecker, requiredFileChecker} from "../../functions/checkerFunctions";
-import {
-    applySuccess,
-    requestFailed,
-    requestLoading,
-    requestSucceeded
-} from "../../functions/generalFunctions";
+import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
 function OperationsClearancesAddRefuelComponent({request, sims, agents, allAgentsRequests, allSimsRequests, dispatch, handleClose}) {
-    const [amount, setAmount] = useState(DEFAULT_FORM_DATA);
     // Local state
-    const [doc, setDoc] = useState(constants.DEFAULT_FORM_DATA);
+    const [amount, setAmount] = useState(DEFAULT_FORM_DATA);
     const [incomingSim, setIncomingSim] = useState(DEFAULT_FORM_DATA);
     const [agent, setAgent] = useState({...DEFAULT_FORM_DATA, data: 0});
 
@@ -63,10 +56,6 @@ function OperationsClearancesAddRefuelComponent({request, sims, agents, allAgent
         setAmount({...amount, isValid: true, data})
     }
 
-    const handleFileInput = (data) => {
-        shouldResetErrorData();
-        setDoc({...doc, isValid: true, data})
-    }
 
     // Build select options
     const incomingSelectOptions = useMemo(() => {
@@ -89,24 +78,18 @@ function OperationsClearancesAddRefuelComponent({request, sims, agents, allAgent
         shouldResetErrorData();
         const _agent = requiredChecker(agent);
         const _amount = requiredChecker(amount);
-        const _document = requiredFileChecker(doc);
         const _incomingSim = requiredChecker(incomingSim);
         // Set value
         setAgent(_agent);
-        setDoc(_document);
         setAmount(_amount);
         setIncomingSim(_incomingSim);
-        const validationOK = (
-            _amount.isValid && _incomingSim.isValid &&
-            _agent.isValid && _document.isValid
-        );
+        const validationOK = (_amount.isValid && _incomingSim.isValid && _agent.isValid);
         // Check
         if(validationOK) {
             dispatch(emitAddRefuel({
                 agent: _agent.data,
                 amount: _amount.data,
-                sim: _incomingSim.data,
-                receipt: _document.data,
+                sim: _incomingSim.data
             }));
         }
         else playWarningSound();
@@ -146,15 +129,6 @@ function OperationsClearancesAddRefuelComponent({request, sims, agents, allAgent
                                          options={incomingSelectOptions}
                                          handleInput={handleIncomingSelect}
                                          requestProcessing={requestLoading(allSimsRequests)}
-                        />
-                    </div>
-                </div>
-                <div className='row'>
-                    <div className='col'>
-                        <FileDocumentComponent id='file'
-                                               input={doc}
-                                               label='Réçus'
-                                               handleInput={handleFileInput}
                         />
                     </div>
                 </div>
