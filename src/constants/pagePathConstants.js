@@ -5,9 +5,12 @@ export const DASHBOARD_PAGE_PATH = "/dashboard";
 export const NOTIFICATIONS_PAGE_PATH = "/notifications";
 
 // Commons
-export const SIMS_PAGE_PATH = "/sims";
 export const AGENTS_PAGE_PATH = "/agents";
 export const RESOURCES_PAGE_PATH = "/resources";
+
+// Sims
+export const SIMS_PAGE_PATH = "/sims/fleets";
+export const ALL_SIMS_PAGE_PATH = "/sims/all";
 
 // Operations
 export const OPERATIONS_FLEETS_PAGE_PATH = "/operations/fleets";

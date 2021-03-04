@@ -1,6 +1,6 @@
 import {connect} from "react-redux";
 
-import SimsPage from "../../pages/SimsPage";
+import SimsPage from "../../pages/sims/SimsPage";
 import {SIMS_PAGE} from "../../constants/pageNameConstants";
 import {setPageTitle} from "../../functions/generalFunctions";
 
