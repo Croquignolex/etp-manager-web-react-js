@@ -15,14 +15,9 @@ import {storeAllManagersRequestReset} from "../../redux/requests/managers/action
 import {storeUserBalanceFetchRequestReset} from "../../redux/requests/user/actions";
 import {emitHandoversFetch, emitNextHandoversFetch} from "../../redux/handovers/actions";
 import CheckoutHandoversCardsComponent from "../../components/checkout/CheckoutHandoversCardsComponent";
+import {dateToString, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
 import {storeHandoversRequestReset, storeNextHandoversRequestReset} from "../../redux/requests/handovers/actions";
 import CheckoutHandoversImproveHandoverContainer from "../../containers/checkout/CheckoutHandoversImproveHandoverContainer";
-import {
-    dateToString,
-    needleSearch,
-    requestFailed,
-    requestLoading,
-} from "../../functions/generalFunctions";
 
 // Component
 function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page, dispatch, location}) {
