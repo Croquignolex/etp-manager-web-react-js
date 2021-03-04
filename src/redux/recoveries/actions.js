@@ -4,6 +4,7 @@ export const STORE_SET_NEXT_RECOVERIES_DATA = 'STORE_SET_NEXT_RECOVERIES_DATA';
 export const STORE_STOP_INFINITE_SCROLL_RECOVERIES_DATA = 'STORE_STOP_INFINITE_SCROLL_RECOVERIES_DATA';
 
 // Middleware action types
+export const EMIT_NEW_RECOVERY = 'EMIT_NEW_RECOVERY';
 export const EMIT_RECOVERIES_FETCH = 'EMIT_RECOVERIES_FETCH';
 export const EMIT_NEXT_RECOVERIES_FETCH = 'EMIT_NEXT_RECOVERIES_FETCH';
 
@@ -39,4 +40,12 @@ export const emitRecoveriesFetch = () => ({
 export const emitNextRecoveriesFetch = ({page}) => ({
     page,
     type: EMIT_NEXT_RECOVERIES_FETCH
+});
+
+// Emit new recovery
+export const emitNewRecovery = ({supply, amount, receipt}) => ({
+    supply,
+    amount,
+    receipt,
+    type: EMIT_NEW_RECOVERY
 });
