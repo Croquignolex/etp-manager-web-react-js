@@ -5,7 +5,6 @@ import {requestFailedValue, requestInitValue, requestSucceededValue} from "../..
 const initialState = {
     list: {failed: false, loading: false, succeeded: false, message: ""},
     next: {failed: false, loading: false, succeeded: false, message: ""},
-    apply: {failed: false, loading: false, succeeded: false, message: ""},
 };
 
 // Reduce
@@ -45,23 +44,6 @@ function reduce(state = initialState, action) {
         // Resolve event to set next affords reset request store data
         case actions.STORE_NEXT_AFFORDS_REQUEST_RESET:
             nextState = {...state, next: initialState.next};
-            return nextState || state;
-        // ======================================================== Confirm afford
-        // Resolve event to set confirm afford init request store data
-        case actions.STORE_CONFIRM_AFFORD_REQUEST_INIT:
-            nextState = {...state, apply: requestInitValue()};
-            return nextState || state;
-        // Resolve event to set confirm afford  failed request store data
-        case actions.STORE_CONFIRM_AFFORD_REQUEST_FAILED:
-            nextState = {...state, apply: requestFailedValue(action.message)};
-            return nextState || state;
-        // Resolve event to set confirm afford  succeeded request store data
-        case actions.STORE_CONFIRM_AFFORD_REQUEST_SUCCEEDED:
-            nextState = {...state, apply: requestSucceededValue(action.message)};
-            return nextState || state;
-        // Resolve event to set confirm afford  reset request store data
-        case actions.STORE_CONFIRM_AFFORD_REQUEST_RESET:
-            nextState = {...state, apply: initialState.apply};
             return nextState || state;
         // ========================================================
         // Unknown action

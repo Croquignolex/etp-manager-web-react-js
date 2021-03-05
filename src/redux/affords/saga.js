@@ -1,15 +1,12 @@
 import {all, call, fork, put, takeLatest} from 'redux-saga/effects'
 
 import * as api from "../../constants/apiConstants";
-import {apiGetRequest, apiPostRequest, getFileFromServer} from "../../functions/axiosFunctions";
+import {apiGetRequest, getFileFromServer} from "../../functions/axiosFunctions";
 import {
     EMIT_AFFORDS_FETCH,
-    EMIT_CONFIRM_AFFORD,
     storeSetAffordsData,
-    storeUpdateAffordData,
     storeSetNextAffordsData,
     EMIT_NEXT_AFFORDS_FETCH,
-    storeSetAffordActionData,
     storeStopInfiniteScrollAffordData
 } from "./actions";
 import {
@@ -18,10 +15,7 @@ import {
     storeAffordsRequestSucceed,
     storeNextAffordsRequestInit,
     storeNextAffordsRequestFailed,
-    storeConfirmAffordRequestInit,
     storeNextAffordsRequestSucceed,
-    storeConfirmAffordRequestFailed,
-    storeConfirmAffordRequestSucceed
 } from "../requests/affords/actions";
 
 // Fetch affords from API
@@ -61,29 +55,6 @@ export function* emitNextAffordsFetch() {
             // Fire event for request
             yield put(storeNextAffordsRequestFailed({message}));
             yield put(storeStopInfiniteScrollAffordData());
-        }
-    });
-}
-
-// Confirm afford from API
-export function* emitConfirmAfford() {
-    yield takeLatest(EMIT_CONFIRM_AFFORD, function*({id}) {
-        try {
-            // Fire event at redux to toggle action loader
-            yield put(storeSetAffordActionData({id}));
-            // Fire event for request
-            yield put(storeConfirmAffordRequestInit());
-            const apiResponse = yield call(apiPostRequest, `${api.CONFIRM_AFFORD_API_PATH}/${id}`);
-            // Fire event to redux
-            yield put(storeUpdateAffordData({id}));
-            // Fire event at redux to toggle action loader
-            yield put(storeSetAffordActionData({id}));
-            // Fire event for request
-            yield put(storeConfirmAffordRequestSucceed({message: apiResponse.message}));
-        } catch (message) {
-            // Fire event for request
-            yield put(storeSetAffordActionData({id}));
-            yield put(storeConfirmAffordRequestFailed({message}));
         }
     });
 }
@@ -138,7 +109,6 @@ export function extractAffordsData(apiAffords) {
 export default function* sagaAffords() {
     yield all([
         fork(emitAffordsFetch),
-        fork(emitConfirmAfford),
         fork(emitNextAffordsFetch),
     ]);
 }
