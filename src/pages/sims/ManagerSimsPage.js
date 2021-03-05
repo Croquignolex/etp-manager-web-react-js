@@ -2,14 +2,14 @@ import PropTypes from 'prop-types';
 import React, {useEffect, useState} from 'react';
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import {SIMS_PAGE} from "../../constants/pageNameConstants";
+import {FLEETS_SIMS} from "../../constants/pageNameConstants";
 import LoaderComponent from "../../components/LoaderComponent";
 import HeaderComponent from "../../components/HeaderComponent";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
-import {emitNextSimsFetch, emitSimsFetch} from "../../redux/sims/actions";
 import SimsCardsComponent from "../../components/sims/SimsCardsComponent";
+import {emitNextSimsFetch, emitManagersSimsFetch} from "../../redux/sims/actions";
 import {storeNextSimsRequestReset, storeSimsRequestReset} from "../../redux/requests/sims/actions";
 import {dateToString, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
 
@@ -20,7 +20,7 @@ function SimsPage({sims, simsRequests, hasMoreData, page, dispatch, location}) {
 
     // Local effects
     useEffect(() => {
-        dispatch(emitSimsFetch());
+        dispatch(emitManagersSimsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -48,7 +48,7 @@ function SimsPage({sims, simsRequests, hasMoreData, page, dispatch, location}) {
         <>
             <AppLayoutContainer pathname={location.pathname}>
                 <div className="content-wrapper">
-                    <HeaderComponent title={SIMS_PAGE} icon={'fa fa-sim-card'} />
+                    <HeaderComponent title={FLEETS_SIMS} icon={'fa fa-sim-card'} />
                     <section className="content">
                         <div className='container-fluid'>
                             <div className="row">

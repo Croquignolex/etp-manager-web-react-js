@@ -10,6 +10,7 @@ import {
     EMIT_ALL_SIMS_FETCH,
     EMIT_NEXT_SIMS_FETCH,
     storeSetNextSimsData,
+    EMIT_MANAGERS_SIMS_FETCH,
     storeStopInfiniteScrollSimData
 } from "./actions";
 import {
@@ -54,6 +55,26 @@ export function* emitSimsFetch() {
             // Fire event for request
             yield put(storeSimsRequestInit());
             const apiResponse = yield call(apiGetRequest, `${api.SIMS_API_PATH}?page=1`);
+            // Extract data
+            const sims = extractSimsData(apiResponse.data.puces);
+            // Fire event to redux
+            yield put(storeSetSimsData({sims, hasMoreData: apiResponse.data.hasMoreData, page: 2}));
+            // Fire event for request
+            yield put(storeSimsRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeSimsRequestFailed({message}));
+        }
+    });
+}
+
+// Fetch managers sims from API
+export function* emitManagersSimsFetch() {
+    yield takeLatest(EMIT_MANAGERS_SIMS_FETCH, function*() {
+        try {
+            // Fire event for request
+            yield put(storeSimsRequestInit());
+            const apiResponse = yield call(apiGetRequest, `${api.MANAGERS_SIMS_API_PATH}?page=1`);
             // Extract data
             const sims = extractSimsData(apiResponse.data.puces);
             // Fire event to redux
@@ -194,5 +215,6 @@ export default function* sagaSims() {
         fork(emitSimsFetch),
         fork(emitAllSimsFetch),
         fork(emitNextSimsFetch),
+        fork(emitManagersSimsFetch),
     ]);
 }

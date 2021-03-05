@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, {useEffect, useState} from 'react';
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import {SIMS_PAGE} from "../../constants/pageNameConstants";
+import {ALL_SIMS} from "../../constants/pageNameConstants";
 import LoaderComponent from "../../components/LoaderComponent";
 import HeaderComponent from "../../components/HeaderComponent";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
@@ -48,7 +48,7 @@ function SimsPage({sims, simsRequests, hasMoreData, page, dispatch, location}) {
         <>
             <AppLayoutContainer pathname={location.pathname}>
                 <div className="content-wrapper">
-                    <HeaderComponent title={SIMS_PAGE} icon={'fa fa-sim-card'} />
+                    <HeaderComponent title={ALL_SIMS} icon={'fa fa-sim-card'} />
                     <section className="content">
                         <div className='container-fluid'>
                             <div className="row">
