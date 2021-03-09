@@ -72,14 +72,16 @@ export function* emitAddAnonymous() {
             yield put(storeAddAnonymousRequestInit());
             const data = {montant: amount, id_puce_from: sim, nom_agent: receiver, nro_puce_to: receiverSim};
             const apiResponse = yield call(apiPostRequest, api.CREATE_ANONYMOUS_FLEET_API_PATH, data);
-            // Extract data
-            const anonymous = extractAnoData(
-                apiResponse.data.puce_emetrice,
-                apiResponse.data.user,
-                apiResponse.data.flottage,
-            );
-            // Fire event to redux
-            yield put(storeSetNewAnonymousData({anonymous}))
+            if(apiResponse.data !== null) {
+                // Extract data
+                const anonymous = extractAnoData(
+                    apiResponse.data.puce_emetrice,
+                    apiResponse.data.user,
+                    apiResponse.data.flottage,
+                );
+                // Fire event to redux
+                yield put(storeSetNewAnonymousData({anonymous}))
+            }
             // Fire event for request
             yield put(storeAddAnonymousRequestSucceed({message: apiResponse.message}));
         } catch (message) {

@@ -13,15 +13,10 @@ import {storeAllSimsRequestReset} from "../../redux/requests/sims/actions";
 import FormModalComponent from "../../components/modals/FormModalComponent";
 import {OPERATIONS_ANONYMOUS_FLEETS_PAGE} from "../../constants/pageNameConstants";
 import {emitAnonymousFetch, emitNextAnonymousFetch} from "../../redux/anonymous/actions";
+import {dateToString, needleSearch, requestFailed, requestLoading,} from "../../functions/generalFunctions";
 import OperationsAnonymousCardsComponent from "../../components/operations/OperationsAnonymousCardsComponent";
 import {storeAnonymousRequestReset, storeNextAnonymousRequestReset} from "../../redux/requests/anonymous/actions";
 import OperationsAnonymousAddAnonymousContainer from "../../containers/operations/OperationsAnonymousAddAnonymousContainer";
-import {
-    dateToString,
-    needleSearch,
-    requestFailed,
-    requestLoading,
-} from "../../functions/generalFunctions";
 
 // Component
 function OperationsAnonymousPage({anonymous, anonymousRequests, hasMoreData, page, dispatch, location}) {

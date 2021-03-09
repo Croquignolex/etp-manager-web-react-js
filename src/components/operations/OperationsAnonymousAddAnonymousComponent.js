@@ -12,13 +12,8 @@ import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {phoneChecker, requiredChecker} from "../../functions/checkerFunctions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
-import {storeAddTransferRequestReset} from "../../redux/requests/transfers/actions";
-import {
-    applySuccess,
-    requestFailed,
-    requestLoading,
-    requestSucceeded
-} from "../../functions/generalFunctions";
+import {storeAddAnonymousRequestReset} from "../../redux/requests/anonymous/actions";
+import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
 function OperationsTransfersAddTransferComponent({request, sims, allSimsRequests, dispatch, handleClose}) {
@@ -74,7 +69,7 @@ function OperationsTransfersAddTransferComponent({request, sims, allSimsRequests
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        dispatch(storeAddTransferRequestReset());
+        dispatch(storeAddAnonymousRequestReset());
     };
 
     // Trigger add supply form submit
