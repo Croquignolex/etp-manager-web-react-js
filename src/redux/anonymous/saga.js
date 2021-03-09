@@ -6,9 +6,9 @@ import {
     EMIT_ADD_ANONYMOUS,
     EMIT_ANONYMOUS_FETCH,
     storeSetAnonymousData,
+    EMIT_NEXT_ANONYMOUS_FETCH,
     storeSetNewAnonymousData,
     storeSetNextAnonymousData,
-    EMIT_NEXT_ANONYMOUS_FETCH,
     storeStopInfiniteScrollAnonymousData
 } from "./actions";
 import {
