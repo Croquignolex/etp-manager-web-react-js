@@ -12,18 +12,8 @@ import TableSearchComponent from "../../components/TableSearchComponent";
 import ConfirmModalComponent from "../../components/modals/ConfirmModalComponent";
 import {emitConfirmReturn, emitNextReturnsFetch, emitReturnsFetch} from "../../redux/returns/actions";
 import RecoveriesFleetsCardsComponent from "../../components/recoveries/RecoveriesFleetsCardsComponent";
-import {
-    storeReturnsRequestReset,
-    storeNextReturnsRequestReset,
-    storeConfirmReturnRequestReset
-} from "../../redux/requests/returns/actions";
-import {
-    dateToString,
-    formatNumber,
-    needleSearch,
-    requestFailed,
-    requestLoading,
-} from "../../functions/generalFunctions";
+import {dateToString, formatNumber, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
+import {storeReturnsRequestReset, storeNextReturnsRequestReset, storeConfirmReturnRequestReset} from "../../redux/requests/returns/actions";
 
 // Component
 function RecoveriesFleetsPage({returns, returnsRequests, hasMoreData, page, dispatch, location}) {
