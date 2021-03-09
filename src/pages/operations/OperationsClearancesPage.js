@@ -17,18 +17,8 @@ import ConfirmModalComponent from "../../components/modals/ConfirmModalComponent
 import {emitConfirmRefuel, emitNextRefuelsFetch, emitRefuelsFetch} from "../../redux/refuels/actions";
 import OperationsClearancesCardsComponent from "../../components/operations/OperationsClearancesCardsComponent";
 import OperationsClearancesAddRefuelContainer from "../../containers/operations/OperationsClearancesAddRefuelContainer";
-import {
-    storeRefuelsRequestReset,
-    storeNextRefuelsRequestReset,
-    storeConfirmRefuelRequestReset
-} from "../../redux/requests/refuels/actions";
-import {
-    dateToString,
-    formatNumber,
-    needleSearch,
-    requestFailed,
-    requestLoading,
-} from "../../functions/generalFunctions";
+import {dateToString, formatNumber, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
+import {storeRefuelsRequestReset, storeNextRefuelsRequestReset, storeConfirmRefuelRequestReset} from "../../redux/requests/refuels/actions";
 
 // Component
 function OperationsClearancesPage({refuels, refuelsRequests, hasMoreData, page, dispatch, location}) {

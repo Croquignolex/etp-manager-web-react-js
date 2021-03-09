@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React, {useState} from 'react';
 
 import LoaderComponent from "../LoaderComponent";
-import {PENDING} from "../../constants/typeConstants";
+import {PROCESSING} from "../../constants/typeConstants";
 import FormModalComponent from "../modals/FormModalComponent";
 import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
@@ -42,7 +42,7 @@ function RecoveriesFleetsCardsComponent({returns, handleConfirmModalShow}) {
                                 <div className={`${fleetTypeBadgeColor(item.status).background} card-header`}>
                                     <h3 className="card-title">{fleetTypeBadgeColor(item.status).text}</h3>
                                     <div className="card-tools">
-                                        {item.status === PENDING && (
+                                        {item.status === PROCESSING && (
                                             item.actionLoader ? <LoaderComponent little={true} /> : (
                                                 <button type="button"
                                                         title="Confirmer"
