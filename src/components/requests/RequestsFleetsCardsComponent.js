@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 
 import LoaderComponent from "../LoaderComponent";
 import FormModalComponent from "../modals/FormModalComponent";
-import {PENDING, PROCESSING} from "../../constants/typeConstants";
+import {DONE, PENDING, PROCESSING} from "../../constants/typeConstants";
 import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
 import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
@@ -46,10 +46,14 @@ function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {
                                             <b>Montant demandé</b>
                                             <span className="float-right">{formatNumber(item.amount)}</span>
                                         </li>
-                                        <li className="list-group-item">
-                                            <b>Reste à flotter</b>
-                                            <span className="float-right text-danger text-bold">{formatNumber(item.remaining)}</span>
-                                        </li>
+                                        {(DONE === item.status) &&
+                                            <li className="list-group-item">
+                                                <b>Montant envoyé</b>
+                                                <span className="float-right text-danger text-bold">
+                                                    {formatNumber(item.amount - item.remaining)}
+                                                </span>
+                                            </li>
+                                        }
                                         <li className="list-group-item">
                                             <b>Puce à flotter</b>
                                             <span className="float-right">
