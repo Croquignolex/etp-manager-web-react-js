@@ -37,7 +37,7 @@ function AppLayoutComponent({userCheckRequest, dispatch, pathname, children}) {
         // First call
         let intervalValue = setInterval(() => {
             dispatch(emitUnreadNotificationsFetch());
-        }, 6000);
+        }, 10000);
         // Cleaner interval to avoid infinite loop or performance break
         return () => {
             clearInterval(intervalValue)

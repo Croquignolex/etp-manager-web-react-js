@@ -14,9 +14,9 @@ import {
     EMIT_NOTIFICATIONS_FETCH,
     storeSetNotificationsData,
     storeDeleteNotificationData,
+    EMIT_UNREAD_NOTIFICATIONS_FETCH,
     storeSetNotificationActionData,
-    storeSetUnreadNotificationsData,
-    EMIT_UNREAD_NOTIFICATIONS_FETCH
+    storeSetUnreadNotificationsData
 } from './actions'
 import {
     storeNotificationsRequestInit,

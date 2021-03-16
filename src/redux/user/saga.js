@@ -7,22 +7,18 @@ import {apiGetRequest, apiPostRequest} from "../../functions/axiosFunctions";
 import {getProfileImageFromServer} from "../../functions/generalFunctions";
 import {storeResetSettingsData, storeSetSettingsData} from "../settings/actions";
 import {LOCAL_STORAGE_USER_DATA, LOCAL_STORAGE_SETTINGS} from "../../constants/localStorageConstants";
-import {
-    setLocaleStorageItem,
-    getLocaleStorageItem,
-    removeAllLocaleStorageItems
-} from "../../functions/localStorageFunctions";
+import {setLocaleStorageItem, getLocaleStorageItem, removeAllLocaleStorageItems} from "../../functions/localStorageFunctions";
 import {
     EMIT_USER_LOGOUT,
     storeResetUserData,
     storeSetUserFullData,
-    storeSetUserAvatarData,
-    storeSetUserBalanceData,
     EMIT_USER_AVATAR_UPDATE,
     EMIT_FETCH_USER_BALANCE,
+    storeSetUserAvatarData,
+    storeSetUserBalanceData,
     EMIT_USER_PASSWORD_UPDATE,
-    storeSetUserInformationData,
     EMIT_USER_INFORMATION_UPDATE,
+    storeSetUserInformationData,
     EMIT_CHECK_USER_AUTHENTICATION,
     EMIT_ATTEMPT_USER_AUTHENTICATION
 } from "./actions";
