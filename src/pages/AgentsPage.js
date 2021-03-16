@@ -8,8 +8,8 @@ import LoaderComponent from "../components/LoaderComponent";
 import {agentTypeBadgeColor} from "../functions/typeFunctions";
 import {emitAllOperatorsFetch} from "../redux/operators/actions";
 import AppLayoutContainer from "../containers/AppLayoutContainer";
-import ErrorAlertComponent from "../components/ErrorAlertComponent";
 import {AGENT_TYPE, RESOURCE_TYPE} from "../constants/typeConstants";
+import ErrorAlertComponent from "../components/ErrorAlertComponent";
 import TableSearchComponent from "../components/TableSearchComponent";
 import AgentNewContainer from "../containers/agents/AgentNewContainer";
 import FormModalComponent from "../components/modals/FormModalComponent";
@@ -19,19 +19,8 @@ import AgentsCardsComponent from "../components/agents/AgentsCardsComponent";
 import AgentDetailsContainer from "../containers/agents/AgentDetailsContainer";
 import {storeAllOperatorsRequestReset} from "../redux/requests/operators/actions";
 import {emitAgentsFetch, emitNextAgentsFetch, emitToggleAgentStatus} from "../redux/agents/actions";
-import {
-    applySuccess,
-    dateToString,
-    needleSearch,
-    requestFailed,
-    requestLoading,
-    requestSucceeded
-} from "../functions/generalFunctions";
-import {
-    storeAgentsRequestReset,
-    storeNextAgentsRequestReset,
-    storeAgentStatusToggleRequestReset
-} from "../redux/requests/agents/actions";
+import {applySuccess, dateToString, needleSearch, requestFailed, requestLoading, requestSucceeded} from "../functions/generalFunctions";
+import {storeAgentsRequestReset, storeNextAgentsRequestReset, storeAgentStatusToggleRequestReset} from "../redux/requests/agents/actions";
 
 // Component
 function AgentsPage({agents, agentsRequests, hasMoreData, page, dispatch, location}) {
