@@ -12,8 +12,16 @@ import TableSearchComponent from "../../components/TableSearchComponent";
 import ConfirmModalComponent from "../../components/modals/ConfirmModalComponent";
 import {emitConfirmReturn, emitNextReturnsFetch, emitReturnsFetch} from "../../redux/returns/actions";
 import RecoveriesFleetsCardsComponent from "../../components/recoveries/RecoveriesFleetsCardsComponent";
-import {dateToString, formatNumber, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
 import {storeReturnsRequestReset, storeNextReturnsRequestReset, storeConfirmReturnRequestReset} from "../../redux/requests/returns/actions";
+import {
+    applySuccess,
+    dateToString,
+    formatNumber,
+    needleSearch,
+    requestFailed,
+    requestLoading,
+    requestSucceeded
+} from "../../functions/generalFunctions";
 
 // Component
 function RecoveriesFleetsPage({returns, returnsRequests, hasMoreData, page, dispatch, location}) {
@@ -30,6 +38,15 @@ function RecoveriesFleetsPage({returns, returnsRequests, hasMoreData, page, disp
         };
         // eslint-disable-next-line
     }, []);
+
+    // Local effects
+    useEffect(() => {
+        // Reset inputs while toast (well done) into current scope
+        if(requestSucceeded(returnsRequests.apply)) {
+            applySuccess(returnsRequests.apply.message);
+        }
+        // eslint-disable-next-line
+    }, [returnsRequests.apply]);
 
     const handleNeedleInput = (data) => {
         setNeedle(data)
