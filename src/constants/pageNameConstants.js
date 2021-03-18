@@ -16,6 +16,8 @@ export const OPERATIONS_FLEETS_PAGE = 'Flottages Agent';
 export const OPERATIONS_CLEARANCES_PAGE = 'Déstockages';
 export const OPERATIONS_AFFORDS_PAGE = 'Approvisionnements';
 export const OPERATIONS_TRANSFERS_PAGE = 'Tranferts de flotte';
+export const COLLECTOR_CHECKOUT_OUTlAYS_PAGE = 'Décaissement RZ';
+export const COLLECTOR_CHECKOUT_PAYMENTS_PAGE = 'Encaissement RZ';
 export const OPERATIONS_ANONYMOUS_FLEETS_PAGE = 'Flottages Anonyme';
 
 // Recoveries

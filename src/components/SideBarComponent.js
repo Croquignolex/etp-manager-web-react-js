@@ -143,7 +143,9 @@ function buildOperationsMenu() {
             {name: page.OPERATIONS_ANONYMOUS_FLEETS_PAGE, path: path.OPERATIONS_ANONYMOUS_FLEETS_PAGE_PATH},
             {name: page.OPERATIONS_FLEETS_PAGE, path: path.OPERATIONS_FLEETS_PAGE_PATH},
             {name: page.OPERATIONS_CLEARANCES_PAGE, path: path.OPERATIONS_CLEARANCES_PAGE_PATH},
-            {name: page.OPERATIONS_AFFORDS_PAGE, path: path.OPERATION_AFFORDS_PAGE_PATH}
+            {name: page.OPERATIONS_AFFORDS_PAGE, path: path.OPERATION_AFFORDS_PAGE_PATH},
+            {name: page.COLLECTOR_CHECKOUT_PAYMENTS_PAGE, path: path.COLLECTOR_CHECKOUT_PAYMENTS_PAGE_PATH},
+            {name: page.COLLECTOR_CHECKOUT_OUTlAYS_PAGE, path: path.COLLECTOR_CHECKOUT_OUTLAYS_PAGE_PATH},
         ]
     }
 }
