@@ -21,7 +21,7 @@ import CheckoutPaymentsAddPaymentContainer from "../../containers/checkout/Check
 function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
-    const [paymentModal, setPaymentModal] = useState({show: false, header: 'EFFECTUER UN ENCAISSEMENT'});
+    const [paymentModal, setPaymentModal] = useState({show: false, header: 'EFFECTUER UN ENCAISSEMENT RZ'});
 
     // Local effects
     useEffect(() => {
@@ -85,7 +85,7 @@ function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, di
                                                     className="btn btn-theme mb-2"
                                                     onClick={handlePaymentModalShow}
                                             >
-                                                <i className="fa fa-plus" /> Effectuer un encaissement
+                                                <i className="fa fa-plus" /> Effectuer un encaissement RZ
                                             </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
