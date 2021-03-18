@@ -27,11 +27,11 @@ function AppRoutes({history}) {
                 <RestrictedRouteContainer exact path={path.HANDING_OVER_PAGE_PATH} component={asyncComponent(() => import('./containers/checkout/CheckoutHandoversPageContainer'))} />
                 <RestrictedRouteContainer exact path={path.CHECKOUT_OUTLAYS_PAGE_PATH} component={asyncComponent(() => import('./containers/checkout/CheckoutOutlaysPageContainer'))} />
                 <RestrictedRouteContainer exact path={path.CHECKOUT_PAYMENTS_PAGE_PATH} component={asyncComponent(() => import('./containers/checkout/CheckoutPaymentsPageContainer'))} />
+                <RestrictedRouteContainer exact path={path.COLLECTOR_CHECKOUT_PAYMENTS_PAGE_PATH} component={asyncComponent(() => import('./containers/checkout/CheckoutPaymentsPageContainer'))} />
+                <RestrictedRouteContainer exact path={path.COLLECTOR_CHECKOUT_OUTLAYS_PAGE_PATH} component={asyncComponent(() => import('./containers/checkout/CheckoutOutlaysPageContainer'))} />
                 {/* Recoveries */}
                 <RestrictedRouteContainer exact path={path.RECOVERIES_CASH_PAGE_PATH} component={asyncComponent(() => import('./containers/recoveries/RecoveriesCashPageContainer'))} />
                 <RestrictedRouteContainer exact path={path.RECOVERIES_FLEETS_PAGE_PATH} component={asyncComponent(() => import('./containers/recoveries/RecoveriesFleetsPageContainer'))} />
-                <RestrictedRouteContainer exact path={path.COLLECTOR_CHECKOUT_PAYMENTS_PAGE_PATH} component={asyncComponent(() => import('./containers/checkout/CheckoutPaymentsPageContainer'))} />
-                <RestrictedRouteContainer exact path={path.COLLECTOR_CHECKOUT_OUTLAYS_PAGE_PATH} component={asyncComponent(() => import('./containers/checkout/CheckoutOutlaysPageContainer'))} />
                 {/* Operations */}
                 <RestrictedRouteContainer exact path={path.OPERATIONS_FLEETS_PAGE_PATH} component={asyncComponent(() => import('./containers/operations/OperationsFleetsPageContainer'))} />
                 <RestrictedRouteContainer exact path={path.OPERATION_AFFORDS_PAGE_PATH} component={asyncComponent(() => import('./containers/operations/OperationsAffordsPageContainer'))} />
