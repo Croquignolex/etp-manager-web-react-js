@@ -3,142 +3,135 @@ import {all, call, fork, put, takeLatest} from 'redux-saga/effects'
 import * as api from "../../constants/apiConstants";
 import {apiGetRequest, apiPostRequest, getFileFromServer} from "../../functions/axiosFunctions";
 import {
-    EMIT_ADD_PAYMENT,
-    EMIT_PAYMENTS_FETCH,
-    storeSetPaymentsData,
-    storeSetNewPaymentData,
-    storeSetNextPaymentsData,
-    EMIT_NEXT_PAYMENTS_FETCH,
-    storeStopInfiniteScrollPaymentData
+    EMIT_ADD_REVENUE,
+    EMIT_REVENUES_FETCH,
+    storeSetRevenuesData,
+    EMIT_NEXT_REVENUES_FETCH,
+    storeSetNewRevenueData,
+    storeSetNextRevenuesData,
+    storeStopInfiniteScrollRevenueData
 } from "./actions";
 import {
-    storePaymentsRequestInit,
-    storePaymentsRequestFailed,
-    storeAddPaymentRequestInit,
-    storePaymentsRequestSucceed,
-    storeAddPaymentRequestFailed,
-    storeNextPaymentsRequestInit,
-    storeAddPaymentRequestSucceed,
-    storeNextPaymentsRequestFailed,
-    storeNextPaymentsRequestSucceed
-} from "../requests/payments/actions";
+    storeRevenuesRequestInit,
+    storeRevenuesRequestFailed,
+    storeAddRevenueRequestInit,
+    storeRevenuesRequestSucceed,
+    storeAddRevenueRequestFailed,
+    storeNextRevenuesRequestInit,
+    storeAddRevenueRequestSucceed,
+    storeNextRevenuesRequestFailed,
+    storeNextRevenuesRequestSucceed
+} from "../requests/revenues/actions";
 
-// Fetch payments from API
-export function* emitPaymentsFetch() {
-    yield takeLatest(EMIT_PAYMENTS_FETCH, function*() {
+// Fetch revenues from API
+export function* emitRevenuesFetch() {
+    yield takeLatest(EMIT_REVENUES_FETCH, function*() {
         try {
             // Fire event for request
-            yield put(storePaymentsRequestInit());
-            const apiResponse = yield call(apiGetRequest, `${api.PAYMENTS_API_PATH}?page=1`);
+            yield put(storeRevenuesRequestInit());
+            const apiResponse = yield call(apiGetRequest, `${api.REVENUES_API_PATH}?page=1`);
             // Extract data
-            const payments = extractPaymentsData(apiResponse.data.versements);
+            const revenues = extractRevenuesData(apiResponse.data.treasuries);
             // Fire event to redux
-            yield put(storeSetPaymentsData({payments, hasMoreData: apiResponse.data.hasMoreData, page: 2}));
+            yield put(storeSetRevenuesData({revenues, hasMoreData: apiResponse.data.hasMoreData, page: 2}));
             // Fire event for request
-            yield put(storePaymentsRequestSucceed({message: apiResponse.message}));
+            yield put(storeRevenuesRequestSucceed({message: apiResponse.message}));
         } catch (message) {
             // Fire event for request
-            yield put(storePaymentsRequestFailed({message}));
+            yield put(storeRevenuesRequestFailed({message}));
         }
     });
 }
 
-// Fetch next payments from API
-export function* emitNextPaymentsFetch() {
-    yield takeLatest(EMIT_NEXT_PAYMENTS_FETCH, function*({page}) {
+// Fetch next revenues from API
+export function* emitNextRevenuesFetch() {
+    yield takeLatest(EMIT_NEXT_REVENUES_FETCH, function*({page}) {
         try {
             // Fire event for request
-            yield put(storeNextPaymentsRequestInit());
-            const apiResponse = yield call(apiGetRequest, `${api.PAYMENTS_API_PATH}?page=${page}`);
+            yield put(storeNextRevenuesRequestInit());
+            const apiResponse = yield call(apiGetRequest, `${api.REVENUES_API_PATH}?page=${page}`);
             // Extract data
-            const payments = extractPaymentsData(apiResponse.data.versements);
+            const revenues = extractRevenuesData(apiResponse.data.treasuries);
             // Fire event to redux
-            yield put(storeSetNextPaymentsData({payments, hasMoreData: apiResponse.data.hasMoreData, page: page + 1}));
+            yield put(storeSetNextRevenuesData({revenues, hasMoreData: apiResponse.data.hasMoreData, page: page + 1}));
             // Fire event for request
-            yield put(storeNextPaymentsRequestSucceed({message: apiResponse.message}));
+            yield put(storeNextRevenuesRequestSucceed({message: apiResponse.message}));
         } catch (message) {
             // Fire event for request
-            yield put(storeNextPaymentsRequestFailed({message}));
-            yield put(storeStopInfiniteScrollPaymentData());
+            yield put(storeNextRevenuesRequestFailed({message}));
+            yield put(storeStopInfiniteScrollRevenueData());
         }
     });
 }
 
-// Fleets new payment from API
-export function* emitAddPayment() {
-    yield takeLatest(EMIT_ADD_PAYMENT, function*({amount, collector, receipt}) {
+// Fleets new revenue from API
+export function* emitAddRevenue() {
+    yield takeLatest(EMIT_ADD_REVENUE, function*({amount, collector, receipt}) {
         try {
             // Fire event for request
-            yield put(storeAddPaymentRequestInit());
+            yield put(storeAddRevenueRequestInit());
             const data = new FormData();
             data.append('id_donneur', collector);
             data.append('recu', receipt);
             data.append('montant', amount);
-            const apiResponse = yield call(apiPostRequest, api.NEW_PAYMENT_API_PATH, data);
+            const apiResponse = yield call(apiPostRequest, api.NEW_REVENUE_API_PATH, data);
             // Extract data
-            const payment = extractPaymentData(
-                apiResponse.data.gestionnaire,
-                apiResponse.data.recouvreur,
-                apiResponse.data.versement
+            const revenue = extractRevenueData(
+                apiResponse.data.treasury,
+                apiResponse.data.manager,
             );
             // Fire event to redux
-            yield put(storeSetNewPaymentData({payment}))
+            yield put(storeSetNewRevenueData({revenue}))
             // Fire event for request
-            yield put(storeAddPaymentRequestSucceed({message: apiResponse.message}));
+            yield put(storeAddRevenueRequestSucceed({message: apiResponse.message}));
         } catch (message) {
             // Fire event for request
-            yield put(storeAddPaymentRequestFailed({message}));
+            yield put(storeAddRevenueRequestFailed({message}));
         }
     });
 }
 
-// Extract payment data
-function extractPaymentData(apiManager, apiCollector, apiPayment) {
-    let payment = {
-        id: '',  amount: '', creation: '', receipt: '',
+// Extract revenue data
+function extractRevenueData(apiRevenue, apiManager) {
+    let revenue = {
+        id: '',  amount: '', creation: '', receipt: '', reason: '', description: '',
 
         manager: {id: '', name: ''},
-        collector: {id: '', name: ''},
     };
     if(apiManager) {
-        payment.manager = {
+        revenue.manager = {
             name: apiManager.name,
             id: apiManager.id.toString()
         };
     }
-    if(apiCollector) {
-        payment.collector = {
-            name: apiCollector.name,
-            id: apiCollector.id.toString()
-        };
+    if(apiRevenue) {
+        revenue.reason = apiRevenue.reason;
+        revenue.amount = apiRevenue.montant;
+        revenue.id = apiRevenue.id.toString();
+        revenue.creation = apiRevenue.created_at;
+        revenue.description = apiRevenue.description;
+        revenue.receipt = getFileFromServer(apiRevenue.recu);
     }
-    if(apiPayment) {
-        payment.amount = apiPayment.montant;
-        payment.id = apiPayment.id.toString();
-        payment.creation = apiPayment.created_at;
-        payment.receipt = getFileFromServer(apiPayment.recu);
-    }
-    return payment;
+    return revenue;
 }
 
-// Extract payments data
-export function extractPaymentsData(apiPayments) {
-    const payments = [];
-    apiPayments.forEach(data => {
-        payments.push(extractPaymentData(
-            data.gestionnaire,
-            data.recouvreur,
-            data.versement,
+// Extract revenues data
+export function extractRevenuesData(apiRevenues) {
+    const revenues = [];
+    apiRevenues.forEach(data => {
+        revenues.push(extractRevenueData(
+            data.treasury,
+            data.manager
         ));
     });
-    return payments;
+    return revenues;
 }
 
 // Combine to export all functions at once
-export default function* sagaPayments() {
+export default function* sagaRevenues() {
     yield all([
-        fork(emitAddPayment),
-        fork(emitPaymentsFetch),
-        fork(emitNextPaymentsFetch),
+        fork(emitAddRevenue),
+        fork(emitRevenuesFetch),
+        fork(emitNextRevenuesFetch),
     ]);
 }

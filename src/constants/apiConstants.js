@@ -53,6 +53,12 @@ export const HANDOVERS_API_PATH = `${API_URL}/passations_list`;
 export const OUTLAYS_API_PATH = `${API_URL}/decaissement_list`;
 export const PAYMENTS_API_PATH = `${API_URL}/encaissement_list`;
 
+export const REVENUES_API_PATH = `${API_URL}/treasuries_in`;
+export const NEW_REVENUE_API_PATH = `${API_URL}/treasury_in`;
+
+export const REVENUES_API_PATH = `${API_URL}/treasuries_in`;
+export const NEW_REVENUE_API_PATH = `${API_URL}/treasury_in`;
+
 // Zones
 export const All_ZONES_API_PATH = `${API_URL}/zone_list_all`;
 

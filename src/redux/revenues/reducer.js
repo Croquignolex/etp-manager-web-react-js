@@ -4,28 +4,28 @@ import * as actions from "./actions";
 const initialState = {
     page: 1,
     list: [],
-    hasMoreData: false
+    hasMoreData: false,
 };
 
 // Reduce
 function reduce(state = initialState, action) {
     let nextState;
     switch (action.type) {
-        // Resolve event to set payments data
-        case actions.STORE_SET_PAYMENTS_DATA:
-            nextState = {list: action.payments, page: action.page, hasMoreData: action.hasMoreData};
+        // Resolve event to set revenues data
+        case actions.STORE_SET_REVENUES_DATA:
+            nextState = {list: action.revenues, page: action.page, hasMoreData: action.hasMoreData};
             return nextState || state;
-        // Resolve event to set next payments data
-        case actions.STORE_SET_NEXT_PAYMENTS_DATA:
-            nextState = {list: [...state.list, ...action.payments], page: action.page, hasMoreData: action.hasMoreData};
+        // Resolve event to set next revenues data
+        case actions.STORE_SET_NEXT_REVENUES_DATA:
+            nextState = {list: [...state.list, ...action.revenues], page: action.page, hasMoreData: action.hasMoreData};
             return nextState || state;
-        // Resolve event to stop infinite scroll payments data
-        case actions.STORE_STOP_INFINITE_SCROLL_PAYMENT_DATA:
+        // Resolve event to stop infinite scroll revenues data
+        case actions.STORE_STOP_INFINITE_SCROLL_REVENUE_DATA:
             nextState = {...state, hasMoreData: false};
             return nextState || state;
-        // Resolve event to set new payment data
-        case actions.STORE_SET_NEW_PAYMENT_DATA:
-            nextState = {...state, list: [action.payment, ...state.list]}
+        // Resolve event to set new revenue data
+        case actions.STORE_SET_NEW_REVENUE_DATA:
+            nextState = {...state, list: [action.revenue, ...state.list]}
             return nextState || state;
         // Unknown action
         default: return state;
