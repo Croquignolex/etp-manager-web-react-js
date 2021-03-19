@@ -12,55 +12,55 @@ const initialState = {
 function reduce(state = initialState, action) {
     let nextState;
     switch (action.type) {
-        // ======================================================== Payment
-        // Resolve event to set payments init request store data
-        case actions.STORE_PAYMENTS_REQUEST_INIT:
+        // ======================================================== Revenue
+        // Resolve event to set revenues init request store data
+        case actions.STORE_REVENUES_REQUEST_INIT:
             nextState = {...state, list: requestInitValue()};
             return nextState || state;
-        // Resolve event to set payments failed request store data
-        case actions.STORE_PAYMENTS_REQUEST_FAILED:
+        // Resolve event to set revenues failed request store data
+        case actions.STORE_REVENUES_REQUEST_FAILED:
             nextState = {...state, list: requestFailedValue(action.message)};
             return nextState || state;
-        // Resolve event to set payments succeeded request store data
-        case actions.STORE_PAYMENTS_REQUEST_SUCCEEDED:
+        // Resolve event to set revenues succeeded request store data
+        case actions.STORE_REVENUES_REQUEST_SUCCEEDED:
             nextState = {...state, list: requestSucceededValue(action.message)};
             return nextState || state;
-        // Resolve event to set payments reset request store data
-        case actions.STORE_PAYMENTS_REQUEST_RESET:
+        // Resolve event to set revenues reset request store data
+        case actions.STORE_REVENUES_REQUEST_RESET:
             nextState = {...state, list: initialState.list};
             return nextState || state;
-        // ======================================================== Next payments
-        // Resolve event to set next payments init request store data
-        case actions.STORE_NEXT_PAYMENTS_REQUEST_INIT:
+        // ======================================================== Next revenues
+        // Resolve event to set next revenues init request store data
+        case actions.STORE_NEXT_REVENUES_REQUEST_INIT:
             nextState = {...state, next: requestInitValue()};
             return nextState || state;
-        // Resolve event to set next payments failed request store data
-        case actions.STORE_NEXT_PAYMENTS_REQUEST_FAILED:
+        // Resolve event to set next revenues failed request store data
+        case actions.STORE_NEXT_REVENUES_REQUEST_FAILED:
             nextState = {...state, next: requestFailedValue(action.message)};
             return nextState || state;
-        // Resolve event to set next payments succeeded request store data
-        case actions.STORE_NEXT_PAYMENTS_REQUEST_SUCCEEDED:
+        // Resolve event to set next revenues succeeded request store data
+        case actions.STORE_NEXT_REVENUES_REQUEST_SUCCEEDED:
             nextState = {...state, next: requestSucceededValue(action.message)};
             return nextState || state;
-        // Resolve event to set next payments reset request store data
-        case actions.STORE_NEXT_PAYMENTS_REQUEST_RESET:
+        // Resolve event to set next revenues reset request store data
+        case actions.STORE_NEXT_REVENUES_REQUEST_RESET:
             nextState = {...state, next: initialState.next};
             return nextState || state;
-        // ======================================================== Add payment
-        // Resolve event to set add payment init request store data
-        case actions.STORE_ADD_PAYMENT_REQUEST_INIT:
+        // ======================================================== Add Revenues
+        // Resolve event to set add revenue init request store data
+        case actions.STORE_ADD_REVENUE_REQUEST_INIT:
             nextState = {...state, add: requestInitValue()};
             return nextState || state;
-        // Resolve event to set add payment failed request store data
-        case actions.STORE_ADD_PAYMENT_REQUEST_FAILED:
+        // Resolve event to set add revenue failed request store data
+        case actions.STORE_ADD_REVENUE_REQUEST_FAILED:
             nextState = {...state, add: requestFailedValue(action.message)};
             return nextState || state;
-        // Resolve event to set add payment succeeded request store data
-        case actions.STORE_ADD_PAYMENT_REQUEST_SUCCEEDED:
+        // Resolve event to set add revenue succeeded request store data
+        case actions.STORE_ADD_REVENUE_REQUEST_SUCCEEDED:
             nextState = {...state, add: requestSucceededValue(action.message)};
             return nextState || state;
-        // Resolve event to set add payment reset request store data
-        case actions.STORE_ADD_PAYMENT_REQUEST_RESET:
+        // Resolve event to set add revenue reset request store data
+        case actions.STORE_ADD_REVENUE_REQUEST_RESET:
             nextState = {...state, add: initialState.add};
             return nextState || state;
         // ========================================================
