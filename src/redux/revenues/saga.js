@@ -66,12 +66,14 @@ export function* emitNextRevenuesFetch() {
 
 // Fleets new revenue from API
 export function* emitAddRevenue() {
-    yield takeLatest(EMIT_ADD_REVENUE, function*({amount, collector, receipt}) {
+    yield takeLatest(EMIT_ADD_REVENUE, function*({amount, name, reason, description, receipt}) {
         try {
             // Fire event for request
             yield put(storeAddRevenueRequestInit());
             const data = new FormData();
-            data.append('id_donneur', collector);
+            data.append('nom', name);
+            data.append('raison', reason);
+            data.append('description', description);
             data.append('recu', receipt);
             data.append('montant', amount);
             const apiResponse = yield call(apiPostRequest, api.NEW_REVENUE_API_PATH, data);
