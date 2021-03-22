@@ -1,12 +1,10 @@
 import {connect} from "react-redux";
 
-import CheckoutPaymentsAddPaymentComponent from "../../components/checkout/CheckoutPaymentsAddPaymentComponent";
+import CheckoutRevenuesAddRevenueComponent from "../../components/checkout/CheckoutRevenuesAddRevenueComponent";
 
 // Map state function to component props
 const mapStateToProps = (state) => ({
-    collectors: state.collectors.list,
-    request: state.paymentsRequests.add,
-    allCollectorsRequests: state.collectorsRequests.all,
+    request: state.revenuesRequests.add,
 });
 
 // Map dispatch function to component props
@@ -15,4 +13,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 // Connect component to Redux
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutPaymentsAddPaymentComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutRevenuesAddRevenueComponent);

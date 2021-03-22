@@ -5,26 +5,20 @@ import ButtonComponent from "../form/ButtonComponent";
 import AmountComponent from "../form/AmountComponent";
 import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
-import {emitAddPayment} from "../../redux/payments/actions";
+import {emitAddRevenue} from "../../redux/revenues/actions";
 import FileDocumentComponent from "../form/FileDocumentComponent";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {dataToArrayForSelect} from "../../functions/arrayFunctions";
-import {storeAddPaymentRequestReset} from "../../redux/requests/payments/actions";
+import {storeAddRevenueRequestReset} from "../../redux/requests/revenues/actions";
 import {requiredChecker, requiredFileChecker} from "../../functions/checkerFunctions";
-import {
-    applySuccess,
-    requestFailed,
-    requestLoading,
-    requestSucceeded
-} from "../../functions/generalFunctions";
+import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
-function CheckoutPaymentsAddPaymentComponent({request, collectors, allCollectorsRequests, dispatch, handleClose}) {
+function CheckoutRevenuesAddRevenueComponent({request, collectors, allCollectorsRequests, dispatch, handleClose}) {
     // Local state
     const [doc, setDoc] = useState(DEFAULT_FORM_DATA);
     const [amount, setAmount] = useState(DEFAULT_FORM_DATA);
-    const [collector, setCollector] = useState(DEFAULT_FORM_DATA);
 
     // Local effects
     useEffect(() => {
@@ -67,7 +61,7 @@ function CheckoutPaymentsAddPaymentComponent({request, collectors, allCollectors
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        dispatch(storeAddPaymentRequestReset());
+        dispatch(storeAddRevenueRequestReset());
     };
 
     // Trigger add supply form submit
@@ -84,7 +78,7 @@ function CheckoutPaymentsAddPaymentComponent({request, collectors, allCollectors
         const validationOK = (_amount.isValid && _collector.isValid && _doc.isValid);
         // Check
         if(validationOK) {
-            dispatch(emitAddPayment({
+            dispatch(emitAddRevenue({
                 receipt: _doc.data,
                 amount: _amount.data,
                 collector: _collector.data,
@@ -136,7 +130,7 @@ function CheckoutPaymentsAddPaymentComponent({request, collectors, allCollectors
 }
 
 // Prop types to ensure destroyed props data type
-CheckoutPaymentsAddPaymentComponent.propTypes = {
+CheckoutRevenuesAddRevenueComponent.propTypes = {
     dispatch: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired,
     handleClose: PropTypes.func.isRequired,
@@ -144,4 +138,4 @@ CheckoutPaymentsAddPaymentComponent.propTypes = {
     allCollectorsRequests: PropTypes.object.isRequired,
 };
 
-export default React.memo(CheckoutPaymentsAddPaymentComponent);
+export default React.memo(CheckoutRevenuesAddRevenueComponent);

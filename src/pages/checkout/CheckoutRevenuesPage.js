@@ -13,6 +13,7 @@ import {emitNextRevenuesFetch, emitRevenuesFetch} from "../../redux/revenues/act
 import CheckoutRevenuesCardsComponent from "../../components/checkout/CheckoutRevenuesCardsComponent";
 import {dateToString, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
 import {storeNextRevenuesRequestReset, storeRevenuesRequestReset} from "../../redux/requests/revenues/actions";
+import CheckoutRevenuesAddRevenueContainer from "../../containers/checkout/CheckoutRevenuesAddRevenueContainer";
 
 // Component
 function CheckoutRevenuesPage({revenues, revenuesRequests, hasMoreData, page, dispatch, location}) {
@@ -106,7 +107,7 @@ function CheckoutRevenuesPage({revenues, revenuesRequests, hasMoreData, page, di
             </AppLayoutContainer>
             {/* Modal */}
             <FormModalComponent modal={revenueModal} handleClose={handleRevenueModalHide}>
-                {/*<CheckoutRevenuesAddRevenueContainer handleClose={handleRevenueModalHide} />*/}
+                <CheckoutRevenuesAddRevenueContainer handleClose={handleRevenueModalHide} />
             </FormModalComponent>
         </>
     )
