@@ -7,7 +7,7 @@ import outlays from './outlays/reducer';
 import returns from './returns/reducer';
 import refuels from './refuels/reducer';
 import affords from './affords/reducer';
-import expenses from './returns/reducer';
+import expenses from './expenses/reducer';
 import revenues from './revenues/reducer';
 import settings from './settings/reducer';
 import payments from './payments/reducer';

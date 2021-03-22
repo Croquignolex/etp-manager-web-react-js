@@ -5,25 +5,25 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import HeaderComponent from "../../components/HeaderComponent";
 import LoaderComponent from "../../components/LoaderComponent";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
-import {CHECKOUT_PAYMENTS_PAGE} from "../../constants/pageNameConstants";
+import {CHECKOUT_OUTlAYS_PAGE} from "../../constants/pageNameConstants";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import FormModalComponent from "../../components/modals/FormModalComponent";
-import {emitNextRevenuesFetch, emitRevenuesFetch} from "../../redux/revenues/actions";
-import CheckoutRevenuesCardsComponent from "../../components/checkout/CheckoutRevenuesCardsComponent";
+import {emitNextExpensesFetch, emitExpensesFetch} from "../../redux/expenses/actions";
+import CheckoutExpensesCardsComponent from "../../components/checkout/CheckoutExpensesCardsComponent";
 import {dateToString, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
-import {storeNextRevenuesRequestReset, storeRevenuesRequestReset} from "../../redux/requests/revenues/actions";
-import CheckoutRevenuesAddRevenueContainer from "../../containers/checkout/CheckoutRevenuesAddRevenueContainer";
+import {storeNextExpensesRequestReset, storeExpensesRequestReset} from "../../redux/requests/expenses/actions";
+import CheckoutExpensesAddExpenseContainer from "../../containers/checkout/CheckoutExpensesAddExpenseContainer";
 
 // Component
-function CheckoutRevenuesPage({revenues, revenuesRequests, hasMoreData, page, dispatch, location}) {
+function CheckoutExpensesPage({expenses, expensesRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
-    const [revenueModal, setRevenueModal] = useState({show: false, header: 'EFFECTUER UN ENCAISSEMENT'});
+    const [expenseModal, setExpenseModal] = useState({show: false, header: 'EFFECTUER UN DECAISSEMENT'});
 
     // Local effects
     useEffect(() => {
-        dispatch(emitRevenuesFetch());
+        dispatch(emitExpensesFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -37,23 +37,23 @@ function CheckoutRevenuesPage({revenues, revenuesRequests, hasMoreData, page, di
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        dispatch(storeRevenuesRequestReset());
-        dispatch(storeNextRevenuesRequestReset());
+        dispatch(storeExpensesRequestReset());
+        dispatch(storeNextExpensesRequestReset());
     };
 
-    // Fetch next revenues data to enhance infinite scroll
-    const handleNextRevenuesData = () => {
-        dispatch(emitNextRevenuesFetch({page}));
+    // Fetch next expenses data to enhance infinite scroll
+    const handleNextExpensesData = () => {
+        dispatch(emitNextExpensesFetch({page}));
     }
 
-    // Show revenue modal form
-    const handleRevenueModalShow = (item) => {
-        setRevenueModal({...revenueModal, item, show: true})
+    // Show expense modal form
+    const handleExpenseModalShow = (item) => {
+        setExpenseModal({...expenseModal, item, show: true})
     }
 
-    // Hide revenue modal form
-    const handleRevenueModalHide = () => {
-        setRevenueModal({...revenueModal, show: false})
+    // Hide expense modal form
+    const handleExpenseModalHide = () => {
+        setExpenseModal({...expenseModal, show: false})
     }
 
     // Render
@@ -61,7 +61,7 @@ function CheckoutRevenuesPage({revenues, revenuesRequests, hasMoreData, page, di
         <>
             <AppLayoutContainer pathname={location.pathname}>
                 <div className="content-wrapper">
-                    <HeaderComponent title={CHECKOUT_PAYMENTS_PAGE} icon={'fa fa-arrow-circle-up'} />
+                    <HeaderComponent title={CHECKOUT_OUTlAYS_PAGE} icon={'fa fa-arrow-circle-up'} />
                     <section className="content">
                         <div className='container-fluid'>
                             <div className="row">
@@ -75,25 +75,25 @@ function CheckoutRevenuesPage({revenues, revenuesRequests, hasMoreData, page, di
                                         </div>
                                         <div className="card-body">
                                             {/* Error message */}
-                                            {requestFailed(revenuesRequests.list) && <ErrorAlertComponent message={revenuesRequests.list.message} />}
-                                            {requestFailed(revenuesRequests.next) && <ErrorAlertComponent message={revenuesRequests.next.message} />}
+                                            {requestFailed(expensesRequests.list) && <ErrorAlertComponent message={expensesRequests.list.message} />}
+                                            {requestFailed(expensesRequests.next) && <ErrorAlertComponent message={expensesRequests.next.message} />}
                                             <button type="button"
                                                     className="btn btn-theme mb-2"
-                                                    onClick={handleRevenueModalShow}
+                                                    onClick={handleExpenseModalShow}
                                             >
-                                                <i className="fa fa-plus" /> Effectuer un encaissement
+                                                <i className="fa fa-plus" /> Effectuer un décaissement
                                             </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
-                                                ? <CheckoutRevenuesCardsComponent revenues={searchEngine(revenues, needle)} />
-                                                : (requestLoading(revenuesRequests.list) ? <LoaderComponent /> :
+                                                ? <CheckoutExpensesCardsComponent expenses={searchEngine(expenses, needle)} />
+                                                : (requestLoading(expensesRequests.list) ? <LoaderComponent /> :
                                                         <InfiniteScroll hasMore={hasMoreData}
                                                                         loader={<LoaderComponent />}
-                                                                        dataLength={revenues.length}
-                                                                        next={handleNextRevenuesData}
+                                                                        dataLength={expenses.length}
+                                                                        next={handleNextExpensesData}
                                                                         style={{ overflow: 'hidden' }}
                                                         >
-                                                            <CheckoutRevenuesCardsComponent revenues={revenues} />
+                                                            <CheckoutExpensesCardsComponent expenses={expenses} />
                                                         </InfiniteScroll>
                                                 )
                                             }
@@ -106,8 +106,8 @@ function CheckoutRevenuesPage({revenues, revenuesRequests, hasMoreData, page, di
                 </div>
             </AppLayoutContainer>
             {/* Modal */}
-            <FormModalComponent modal={revenueModal} handleClose={handleRevenueModalHide}>
-                <CheckoutRevenuesAddRevenueContainer handleClose={handleRevenueModalHide} />
+            <FormModalComponent modal={expenseModal} handleClose={handleExpenseModalHide}>
+                <CheckoutExpensesAddExpenseContainer handleClose={handleExpenseModalHide} />
             </FormModalComponent>
         </>
     )
@@ -132,13 +132,13 @@ function searchEngine(data, _needle) {
 }
 
 // Prop types to ensure destroyed props data type
-CheckoutRevenuesPage.propTypes = {
+CheckoutExpensesPage.propTypes = {
     page: PropTypes.number.isRequired,
     dispatch: PropTypes.func.isRequired,
-    revenues: PropTypes.array.isRequired,
+    expenses: PropTypes.array.isRequired,
     location: PropTypes.object.isRequired,
     hasMoreData: PropTypes.bool.isRequired,
-    revenuesRequests: PropTypes.object.isRequired,
+    expensesRequests: PropTypes.object.isRequired,
 };
 
-export default React.memo(CheckoutRevenuesPage);
+export default React.memo(CheckoutExpensesPage);
