@@ -6,16 +6,16 @@ import ButtonComponent from "../form/ButtonComponent";
 import AmountComponent from "../form/AmountComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import TextareaComponent from "../form/TextareaComponent";
-import {emitAddRevenue} from "../../redux/revenues/actions";
+import {emitAddExpense} from "../../redux/expenses/actions";
 import FileDocumentComponent from "../form/FileDocumentComponent";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
-import {storeAddRevenueRequestReset} from "../../redux/requests/revenues/actions";
+import {storeAddExpenseRequestReset} from "../../redux/requests/expenses/actions";
 import {requiredChecker, requiredFileChecker} from "../../functions/checkerFunctions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
-function CheckoutRevenuesAddRevenueComponent({request, dispatch, handleClose}) {
+function CheckoutExpensesAddExpenseComponent({request, dispatch, handleClose}) {
     // Local state
     const [doc, setDoc] = useState(DEFAULT_FORM_DATA);
     const [name, setName] = useState(DEFAULT_FORM_DATA);
@@ -69,7 +69,7 @@ function CheckoutRevenuesAddRevenueComponent({request, dispatch, handleClose}) {
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        dispatch(storeAddRevenueRequestReset());
+        dispatch(storeAddExpenseRequestReset());
     };
 
     // Trigger add supply form submit
@@ -88,7 +88,7 @@ function CheckoutRevenuesAddRevenueComponent({request, dispatch, handleClose}) {
         const validationOK = (_amount.isValid && _name.isValid && _doc.isValid && _reason.isValid);
         // Check
         if(validationOK) {
-            dispatch(emitAddRevenue({
+            dispatch(emitAddExpense({
                 name: _name.data,
                 receipt: _doc.data,
                 amount: _amount.data,
@@ -108,7 +108,7 @@ function CheckoutRevenuesAddRevenueComponent({request, dispatch, handleClose}) {
                     <div className='col-sm-6'>
                         <AmountComponent input={amount}
                                          id='inputAmount'
-                                         label='Montant à encaisser'
+                                         label='Montant à decaisser'
                                          handleInput={handleAmountInput}
                         />
                     </div>
@@ -126,7 +126,7 @@ function CheckoutRevenuesAddRevenueComponent({request, dispatch, handleClose}) {
                         <TextareaComponent input={reason}
                                            id='inputReason'
                                            handleInput={handleReasonInput}
-                                           label="Raison de l'encaissement"
+                                           label="Raison du déciassement"
                         />
                     </div>
                     <div className='col-sm-6'>
@@ -155,10 +155,10 @@ function CheckoutRevenuesAddRevenueComponent({request, dispatch, handleClose}) {
 }
 
 // Prop types to ensure destroyed props data type
-CheckoutRevenuesAddRevenueComponent.propTypes = {
+CheckoutExpensesAddExpenseComponent.propTypes = {
     dispatch: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired,
     handleClose: PropTypes.func.isRequired,
 };
 
-export default React.memo(CheckoutRevenuesAddRevenueComponent);
+export default React.memo(CheckoutExpensesAddExpenseComponent);
