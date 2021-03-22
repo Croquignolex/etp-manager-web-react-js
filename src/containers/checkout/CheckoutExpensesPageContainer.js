@@ -1,17 +1,17 @@
 import {connect} from "react-redux";
 
 import {setPageTitle} from "../../functions/generalFunctions";
-import {CHECKOUT_PAYMENTS_PAGE} from "../../constants/pageNameConstants";
-import CheckoutRevenuesPage from "../../pages/checkout/CheckoutRevenuesPage";
+import {CHECKOUT_OUTlAYS_PAGE} from "../../constants/pageNameConstants";
+import CheckoutExpensesPage from "../../pages/checkout/CheckoutExpensesPage";
 
-setPageTitle(CHECKOUT_PAYMENTS_PAGE);
+setPageTitle(CHECKOUT_OUTlAYS_PAGE);
 
 // Map state function to component props
 const mapStateToProps = (state) => ({
-    page: state.revenues.page,
-    revenues: state.revenues.list,
-    hasMoreData: state.revenues.hasMoreData,
-    revenuesRequests: state.revenuesRequests,
+    page: state.expenses.page,
+    expenses: state.expenses.list,
+    hasMoreData: state.expenses.hasMoreData,
+    expensesRequests: state.expensesRequests,
 });
 
 // Map dispatch function to component props
@@ -20,4 +20,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 // Connect component to Redux
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutRevenuesPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutExpensesPage);
