@@ -25,7 +25,6 @@ function reduce(state = initialState, action) {
             return nextState || state;
         // Resolve event to set new expense data
         case actions.STORE_SET_NEW_EXPENSE_DATA:
-            console.log({action})
             nextState = {...state, list: [action.expense, ...state.list]}
             return nextState || state;
         // Unknown action
