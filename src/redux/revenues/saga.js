@@ -96,7 +96,7 @@ export function* emitAddRevenue() {
 // Extract revenue data
 function extractRevenueData(apiRevenue, apiManager) {
     let revenue = {
-        id: '',  amount: '', creation: '', receipt: '', reason: '', description: '',
+        id: '',  name: '', mount: '', creation: '', receipt: '', reason: '', description: '',
 
         manager: {id: '', name: ''},
     };
@@ -107,12 +107,13 @@ function extractRevenueData(apiRevenue, apiManager) {
         };
     }
     if(apiRevenue) {
+        revenue.name = apiRevenue.name;
         revenue.reason = apiRevenue.reason;
-        revenue.amount = apiRevenue.montant;
+        revenue.amount = apiRevenue.amount;
         revenue.id = apiRevenue.id.toString();
         revenue.creation = apiRevenue.created_at;
         revenue.description = apiRevenue.description;
-        revenue.receipt = getFileFromServer(apiRevenue.recu);
+        revenue.receipt = getFileFromServer(apiRevenue.receipt);
     }
     return revenue;
 }
