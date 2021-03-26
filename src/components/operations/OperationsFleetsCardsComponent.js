@@ -9,7 +9,7 @@ import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
 import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer";
 
 // Component
-function OperationsFleetsCardsComponent({supplies, handleFleetRecoveryModalShow, handleCashRecoveryModalShow}) {
+function OperationsFleetsCardsComponent({supplies, handleFleetRecoveryModalShow, handleCashRecoveryModalShow, handleSupplyDetailsModalShow}) {
     // Local states
     const [agentDetailsModal, setAgentDetailsModal] = useState({show: false, header: "DETAIL DE L'AGENT/RESSOURCE", id: ''});
     const [incomingSimDetailsModal, setIncomingSimDetailsModal] = useState({show: false, header: 'DETAIL DE LA PUCE AGENT', id: ''});
@@ -42,6 +42,15 @@ function OperationsFleetsCardsComponent({supplies, handleFleetRecoveryModalShow,
                                     <h3 className="card-title text-bold">
                                         <i className="fa fa-phone" /> {formatNumber(item.amount)}
                                     </h3>
+                                    <div className="card-tools">
+                                        <button type="button"
+                                                title="Détails"
+                                                className=" btn-tool btn"
+                                                onClick={() => handleSupplyDetailsModalShow(item)}
+                                        >
+                                            <i className="fa fa-eye" />
+                                        </button>
+                                    </div>
                                 </div>
                                 <div className="card-body">
                                     <ul className="list-group list-group-unbordered">
@@ -137,6 +146,7 @@ OperationsFleetsCardsComponent.propTypes = {
     supplies: PropTypes.array.isRequired,
     handleCashRecoveryModalShow: PropTypes.func.isRequired,
     handleFleetRecoveryModalShow: PropTypes.func.isRequired,
+    handleSupplyDetailsModalShow: PropTypes.func.isRequired,
 };
 
 export default React.memo(OperationsFleetsCardsComponent);

@@ -28,6 +28,7 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
     const [supplyModal, setSupplyModal] = useState({show: false, header: 'EFFECTUER UN FLOTTAGE'});
     const [returnModal, setReturnModal] = useState({show: false, header: 'EFFECTUER UN RETOUR FLOTTE', item: {}});
     const [recoveryModal, setRecoveryModal] = useState({show: false, header: "EFFECTUER UN RECOUVREMENT D'ESPECE", item: {}});
+    const [supplyDetailsModal, setSupplyDetailsModal] = useState({show: false, header: "DETAIL DU FLOTTAGE AGENT", supply: ''});
 
     // Local effects
     useEffect(() => {
@@ -88,6 +89,16 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
         setRecoveryModal({...recoveryModal, show: false})
     }
 
+    // Show supply details modal form
+    const handleSupplyDetailsModalShow = (supply) => {
+        setSupplyDetailsModal({...supplyDetailsModal, show: true, supply})
+    }
+
+    // Hide supply details modal form
+    const handleSupplyDetailsModalHide = () => {
+        setSupplyDetailsModal({...supplyDetailsModal, show: false})
+    }
+
     // Render
     return (
         <>
@@ -120,6 +131,7 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
                                                 ? <OperationsFleetsCardsComponent supplies={searchEngine(supplies, needle)}
                                                                                   handleFleetRecoveryModalShow={handleReturnModalShow}
                                                                                   handleCashRecoveryModalShow={handleRecoveryModalShow}
+                                                                                  handleSupplyDetailsModalShow={handleSupplyDetailsModalShow}
                                                 />
                                                 : (requestLoading(suppliesRequests.list) ? <LoaderComponent /> :
                                                         <InfiniteScroll hasMore={hasMoreData}
@@ -131,6 +143,7 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
                                                             <OperationsFleetsCardsComponent supplies={supplies}
                                                                                             handleFleetRecoveryModalShow={handleReturnModalShow}
                                                                                             handleCashRecoveryModalShow={handleRecoveryModalShow}
+                                                                                            handleSupplyDetailsModalShow={handleSupplyDetailsModalShow}
                                                             />
                                                         </InfiniteScroll>
                                                 )
@@ -156,6 +169,9 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
                 <OperationsCashRecoveryContainer supply={recoveryModal.item}
                                                  handleClose={handleRecoveryModalHide}
                 />
+            </FormModalComponent>
+            <FormModalComponent modal={supplyDetailsModal} handleClose={handleSupplyDetailsModalHide}>
+                <SupplyDetailsContainer supply={supplyDetailsModal.supply} />
             </FormModalComponent>
         </>
     )
