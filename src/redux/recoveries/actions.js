@@ -7,6 +7,7 @@ export const STORE_STOP_INFINITE_SCROLL_RECOVERIES_DATA = 'STORE_STOP_INFINITE_S
 export const EMIT_NEW_RECOVERY = 'EMIT_NEW_RECOVERY';
 export const EMIT_RECOVERIES_FETCH = 'EMIT_RECOVERIES_FETCH';
 export const EMIT_NEXT_RECOVERIES_FETCH = 'EMIT_NEXT_RECOVERIES_FETCH';
+export const EMIT_SUPPLY_RECOVERIES_FETCH = 'EMIT_SUPPLY_RECOVERIES_FETCH';
 
 //====================== Reducer trigger actions
 // Set recoveries data in store
@@ -48,4 +49,10 @@ export const emitNewRecovery = ({supply, amount, receipt}) => ({
     amount,
     receipt,
     type: EMIT_NEW_RECOVERY
+});
+
+// Emit supply recoveries fetch
+export const emitSupplyRecoveriesFetch = ({id}) => ({
+    id,
+    type: EMIT_SUPPLY_RECOVERIES_FETCH
 });

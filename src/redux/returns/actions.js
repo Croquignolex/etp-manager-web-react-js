@@ -10,6 +10,7 @@ export const EMIT_NEW_RETURN = 'EMIT_NEW_RETURN';
 export const EMIT_RETURNS_FETCH = 'EMIT_RETURNS_FETCH';
 export const EMIT_CONFIRM_RETURN = 'EMIT_CONFIRM_RETURN';
 export const EMIT_NEXT_RETURNS_FETCH = 'EMIT_NEXT_RETURNS_FETCH';
+export const EMIT_SUPPLY_RETURNS_FETCH = 'EMIT_SUPPLY_RETURNS_FETCH';
 
 //====================== Reducer trigger actions
 // Set returns data in store
@@ -70,4 +71,10 @@ export const emitNewReturn = ({supply, amount, agentSim, managerSim}) => ({
     agentSim,
     managerSim,
     type: EMIT_NEW_RETURN
+});
+
+// Emit supply returns fetch
+export const emitSupplyReturnsFetch = ({id}) => ({
+    id,
+    type: EMIT_SUPPLY_RETURNS_FETCH
 });

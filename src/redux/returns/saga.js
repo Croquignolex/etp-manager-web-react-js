@@ -6,10 +6,11 @@ import {apiGetRequest, apiPostRequest, getFileFromServer} from "../../functions/
 import {
     EMIT_NEW_RETURN,
     EMIT_RETURNS_FETCH,
-    storeSetReturnsData,
     EMIT_CONFIRM_RETURN,
-    storeUpdateReturnData,
+    storeSetReturnsData,
     EMIT_NEXT_RETURNS_FETCH,
+    storeUpdateReturnData,
+    EMIT_SUPPLY_RETURNS_FETCH,
     storeSetNextReturnsData,
     storeSetReturnActionData,
     storeStopInfiniteScrollReturnData
@@ -112,6 +113,26 @@ export function* emitNewReturn() {
     });
 }
 
+// Fetch supply returns from API
+export function* emitSupplyReturnsFetch() {
+    yield takeLatest(EMIT_SUPPLY_RETURNS_FETCH, function*({id}) {
+        try {
+            // Fire event for request
+            yield put(storeReturnsRequestInit());
+            const apiResponse = yield call(apiGetRequest, `${api.SUPPLY_FLEET_RECOVERIES_API_PATH}/${id}`);
+            // Extract data
+            const returns = extractReturnsData(apiResponse.data.recouvrements);
+            // Fire event to redux
+            yield put(storeSetReturnsData({returns, hasMoreData: false, page: 0}));
+            // Fire event for request
+            yield put(storeReturnsRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeReturnsRequestFailed({message}));
+        }
+    });
+}
+
 // Extract recovery data
 function extractRecoveryData(apiRecovery, apiUser, apiAgent, apiCollector, apiSimOutgoing, apiSimIncoming) {
     let recovery = {
@@ -184,5 +205,6 @@ export default function* sagaReturns() {
         fork(emitReturnsFetch),
         fork(emitConfirmReturn),
         fork(emitNextReturnsFetch),
+        fork(emitSupplyReturnsFetch),
     ]);
 }
