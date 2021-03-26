@@ -14,6 +14,7 @@ import {storeAllSimsRequestReset} from "../../redux/requests/sims/actions";
 import FormModalComponent from "../../components/modals/FormModalComponent";
 import {storeAllAgentsRequestReset} from "../../redux/requests/agents/actions";
 import {emitNextSuppliesFetch, emitSuppliesFetch} from "../../redux/supplies/actions";
+import SupplyDetailsContainer from "../../containers/operations/SupplyDetailsContainer";
 import OperationsFleetsCardsComponent from "../../components/operations/OperationsFleetsCardsComponent";
 import OperationsFleetsReturnContainer from "../../containers/operations/OperationsFleetsReturnContainer";
 import OperationsCashRecoveryContainer from "../../containers/operations/OperationsCashRecoveryContainer";
