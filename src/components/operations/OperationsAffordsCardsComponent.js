@@ -37,7 +37,7 @@ function OperationsAffordsCardsComponent({affords}) {
                                         </li>
                                         <li className="list-group-item">
                                             <b>Fournisseur</b>
-                                            <span className="float-right">{item.vendor}</span>
+                                            <span className="float-right">{item.vendor.name}</span>
                                         </li>
                                         <li className="list-group-item">
                                             <b>Puce réceptrice</b>
