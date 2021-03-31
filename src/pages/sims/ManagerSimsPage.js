@@ -9,7 +9,7 @@ import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import SimsCardsComponent from "../../components/sims/SimsCardsComponent";
-import {emitNextSimsFetch, emitManagersSimsFetch} from "../../redux/sims/actions";
+import {emitManagersSimsFetch, emitNextManagersSimsFetch} from "../../redux/sims/actions";
 import {storeNextSimsRequestReset, storeSimsRequestReset} from "../../redux/requests/sims/actions";
 import {dateToString, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
 
@@ -40,7 +40,7 @@ function SimsPage({sims, simsRequests, hasMoreData, page, dispatch, location}) {
 
     // Fetch next sims data to enhance infinite scroll
     const handleNextSimsData = () => {
-        dispatch(emitNextSimsFetch({page}));
+        dispatch(emitNextManagersSimsFetch({page}));
     }
 
     // Render

@@ -11,6 +11,7 @@ export const EMIT_SIMS_FETCH = 'EMIT_SIMS_FETCH';
 export const EMIT_ALL_SIMS_FETCH = 'EMIT_ALL_SIMS_FETCH';
 export const EMIT_NEXT_SIMS_FETCH = 'EMIT_NEXT_SIMS_FETCH';
 export const EMIT_MANAGERS_SIMS_FETCH = 'EMIT_MANAGERS_SIMS_FETCH';
+export const EMIT_NEXT_MANAGERS_SIMS_FETCH = 'EMIT_NEXT_MANAGERS_SIMS_FETCH';
 
 //====================== Reducer trigger actions
 // Set sims data in store
@@ -52,16 +53,21 @@ export const emitSimsFetch = () => ({
     type: EMIT_SIMS_FETCH
 });
 
+// Emit next sims fetch
+export const emitNextSimsFetch = ({page}) => ({
+    page,
+    type: EMIT_NEXT_SIMS_FETCH
+});
+
 // Emit managers sims fetch
 export const emitManagersSimsFetch = () => ({
     type: EMIT_MANAGERS_SIMS_FETCH
 });
 
-
-// Emit next sims fetch
-export const emitNextSimsFetch = ({page}) => ({
+// Emit next managers sims fetch
+export const emitNextManagersSimsFetch = ({page}) => ({
     page,
-    type: EMIT_NEXT_SIMS_FETCH
+    type: EMIT_NEXT_MANAGERS_SIMS_FETCH
 });
 
 // Emit all sims fetch

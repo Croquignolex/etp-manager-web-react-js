@@ -11,6 +11,7 @@ import {
     EMIT_NEXT_SIMS_FETCH,
     storeSetNextSimsData,
     EMIT_MANAGERS_SIMS_FETCH,
+    EMIT_NEXT_MANAGERS_SIMS_FETCH,
     storeStopInfiniteScrollSimData
 } from "./actions";
 import {
@@ -68,6 +69,27 @@ export function* emitSimsFetch() {
     });
 }
 
+// Fetch next sims from API
+export function* emitNextSimsFetch() {
+    yield takeLatest(EMIT_NEXT_SIMS_FETCH, function*({page}) {
+        try {
+            // Fire event for request
+            yield put(storeNextSimsRequestInit());
+            const apiResponse = yield call(apiGetRequest, `${api.SIMS_API_PATH}?page=${page}`);
+            // Extract data
+            const sims = extractSimsData(apiResponse.data.puces);
+            // Fire event to redux
+            yield put(storeSetNextSimsData({sims, hasMoreData: apiResponse.data.hasMoreData, page: page + 1}));
+            // Fire event for request
+            yield put(storeNextSimsRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeNextSimsRequestFailed({message}));
+            yield put(storeStopInfiniteScrollSimData());
+        }
+    });
+}
+
 // Fetch managers sims from API
 export function* emitManagersSimsFetch() {
     yield takeLatest(EMIT_MANAGERS_SIMS_FETCH, function*() {
@@ -88,13 +110,13 @@ export function* emitManagersSimsFetch() {
     });
 }
 
-// Fetch next sims from API
-export function* emitNextSimsFetch() {
-    yield takeLatest(EMIT_NEXT_SIMS_FETCH, function*({page}) {
+// Fetch next managers sims from API
+export function* emitNextManagersSimsFetch() {
+    yield takeLatest(EMIT_NEXT_MANAGERS_SIMS_FETCH, function*({page}) {
         try {
             // Fire event for request
             yield put(storeNextSimsRequestInit());
-            const apiResponse = yield call(apiGetRequest, `${api.SIMS_API_PATH}?page=${page}`);
+            const apiResponse = yield call(apiGetRequest, `${api.MANAGERS_SIMS_API_PATH}?page=${page}`);
             // Extract data
             const sims = extractSimsData(apiResponse.data.puces);
             // Fire event to redux
@@ -216,5 +238,6 @@ export default function* sagaSims() {
         fork(emitAllSimsFetch),
         fork(emitNextSimsFetch),
         fork(emitManagersSimsFetch),
+        fork(emitNextManagersSimsFetch),
     ]);
 }
