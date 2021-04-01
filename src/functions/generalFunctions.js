@@ -1,6 +1,7 @@
 import moment from 'moment';
 
 import {playInfoSound} from "./playSoundFunctions";
+import {CURRENCY} from "../constants/defaultConstants";
 import {NotificationManager} from "react-notifications";
 import {API_SERVER_URL, APP_NAME} from "../constants/generalConstants";
 
@@ -78,12 +79,12 @@ export function formatNumber(number) {
     try {
         if(number.toString().length > 3)
             return new Intl.NumberFormat('en-EN', {
-                style: 'decimal',
-            }).format(number)
+                style: 'decimal'
+            }).format(number) + CURRENCY
     } catch (e) {
         if(process.env.NODE_ENV !== 'production') console.log({e});
     }
-    return number;
+    return number + CURRENCY;
 }
 
 // Search a needle in a string

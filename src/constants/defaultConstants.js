@@ -13,3 +13,5 @@ export const DEFAULT_PASSWORD = '000000';
 export const DEFAULT_COUNTRY = 'CAMAEROUN';
 
 export const UNKNOWN = 'INCONNU';
+
+export const CURRENCY = ' xaf';
