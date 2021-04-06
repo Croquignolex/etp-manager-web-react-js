@@ -5,14 +5,18 @@ import {apiGetRequest} from "../../functions/axiosFunctions";
 import {
     EMIT_SIM_FETCH,
     storeSetSimData,
-    EMIT_SIMS_FETCH,
     storeSetSimsData,
     EMIT_ALL_SIMS_FETCH,
-    EMIT_NEXT_SIMS_FETCH,
     storeSetNextSimsData,
-    EMIT_MANAGERS_SIMS_FETCH,
-    EMIT_NEXT_MANAGERS_SIMS_FETCH,
-    storeStopInfiniteScrollSimData
+    EMIT_AGENTS_SIMS_FETCH,
+    EMIT_FLEETS_SIMS_FETCH,
+    EMIT_RESOURCES_SIMS_FETCH,
+    EMIT_COLLECTORS_SIMS_FETCH,
+    EMIT_NEXT_AGENTS_SIMS_FETCH,
+    EMIT_NEXT_FLEETS_SIMS_FETCH,
+    storeStopInfiniteScrollSimData,
+    EMIT_NEXT_RESOURCES_SIMS_FETCH,
+    EMIT_NEXT_COLLECTORS_SIMS_FETCH,
 } from "./actions";
 import {
     storeSimRequestInit,
@@ -20,13 +24,13 @@ import {
     storeSimRequestFailed,
     storeSimRequestSucceed,
     storeSimsRequestFailed,
-    storeSimsRequestSucceed,
     storeAllSimsRequestInit,
+    storeSimsRequestSucceed,
     storeNextSimsRequestInit,
     storeAllSimsRequestFailed,
     storeNextSimsRequestFailed,
     storeAllSimsRequestSucceed,
-    storeNextSimsRequestSucceed
+    storeNextSimsRequestSucceed,
 } from "../requests/sims/actions";
 
 // Fetch all sims from API
@@ -49,13 +53,13 @@ export function* emitAllSimsFetch() {
     });
 }
 
-// Fetch sims from API
-export function* emitSimsFetch() {
-    yield takeLatest(EMIT_SIMS_FETCH, function*() {
+// Fetch fleets sims from API
+export function* emitFleetsSimsFetch() {
+    yield takeLatest(EMIT_FLEETS_SIMS_FETCH, function*() {
         try {
             // Fire event for request
             yield put(storeSimsRequestInit());
-            const apiResponse = yield call(apiGetRequest, `${api.SIMS_API_PATH}?page=1`);
+            const apiResponse = yield call(apiGetRequest, `${api.FLEETS_SIMS_API_PATH}?page=1`);
             // Extract data
             const sims = extractSimsData(apiResponse.data.puces);
             // Fire event to redux
@@ -69,13 +73,13 @@ export function* emitSimsFetch() {
     });
 }
 
-// Fetch next sims from API
-export function* emitNextSimsFetch() {
-    yield takeLatest(EMIT_NEXT_SIMS_FETCH, function*({page}) {
+// Fetch next fleets sims from API
+export function* emitNextFleetsSimsFetch() {
+    yield takeLatest(EMIT_NEXT_FLEETS_SIMS_FETCH, function*({page}) {
         try {
             // Fire event for request
             yield put(storeNextSimsRequestInit());
-            const apiResponse = yield call(apiGetRequest, `${api.SIMS_API_PATH}?page=${page}`);
+            const apiResponse = yield call(apiGetRequest, `${api.FLEETS_SIMS_API_PATH}?page=${page}`);
             // Extract data
             const sims = extractSimsData(apiResponse.data.puces);
             // Fire event to redux
@@ -90,13 +94,13 @@ export function* emitNextSimsFetch() {
     });
 }
 
-// Fetch managers sims from API
-export function* emitManagersSimsFetch() {
-    yield takeLatest(EMIT_MANAGERS_SIMS_FETCH, function*() {
+// Fetch collectors sims from API
+export function* emitCollectorsSimsFetch() {
+    yield takeLatest(EMIT_COLLECTORS_SIMS_FETCH, function*() {
         try {
             // Fire event for request
             yield put(storeSimsRequestInit());
-            const apiResponse = yield call(apiGetRequest, `${api.MANAGERS_SIMS_API_PATH}?page=1`);
+            const apiResponse = yield call(apiGetRequest, `${api.COLLECTORS_SIMS_API_PATH}?page=1`);
             // Extract data
             const sims = extractSimsData(apiResponse.data.puces);
             // Fire event to redux
@@ -110,13 +114,95 @@ export function* emitManagersSimsFetch() {
     });
 }
 
-// Fetch next managers sims from API
-export function* emitNextManagersSimsFetch() {
-    yield takeLatest(EMIT_NEXT_MANAGERS_SIMS_FETCH, function*({page}) {
+// Fetch next collectors sims from API
+export function* emitNextCollectorsSimsFetch() {
+    yield takeLatest(EMIT_NEXT_COLLECTORS_SIMS_FETCH, function*({page}) {
         try {
             // Fire event for request
             yield put(storeNextSimsRequestInit());
-            const apiResponse = yield call(apiGetRequest, `${api.MANAGERS_SIMS_API_PATH}?page=${page}`);
+            const apiResponse = yield call(apiGetRequest, `${api.COLLECTORS_SIMS_API_PATH}?page=${page}`);
+            // Extract data
+            const sims = extractSimsData(apiResponse.data.puces);
+            // Fire event to redux
+            yield put(storeSetNextSimsData({sims, hasMoreData: apiResponse.data.hasMoreData, page: page + 1}));
+            // Fire event for request
+            yield put(storeNextSimsRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeNextSimsRequestFailed({message}));
+            yield put(storeStopInfiniteScrollSimData());
+        }
+    });
+}
+
+// Fetch agents sims from API
+export function* emitAgentsSimsFetch() {
+    yield takeLatest(EMIT_AGENTS_SIMS_FETCH, function*() {
+        try {
+            // Fire event for request
+            yield put(storeSimsRequestInit());
+            const apiResponse = yield call(apiGetRequest, `${api.AGENTS_SIMS_API_PATH}?page=1`);
+            // Extract data
+            const sims = extractSimsData(apiResponse.data.puces);
+            // Fire event to redux
+            yield put(storeSetSimsData({sims, hasMoreData: apiResponse.data.hasMoreData, page: 2}));
+            // Fire event for request
+            yield put(storeSimsRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeSimsRequestFailed({message}));
+        }
+    });
+}
+
+// Fetch next agents sims from API
+export function* emitNextAgentsSimsFetch() {
+    yield takeLatest(EMIT_NEXT_AGENTS_SIMS_FETCH, function*({page}) {
+        try {
+            // Fire event for request
+            yield put(storeNextSimsRequestInit());
+            const apiResponse = yield call(apiGetRequest, `${api.AGENTS_SIMS_API_PATH}?page=${page}`);
+            // Extract data
+            const sims = extractSimsData(apiResponse.data.puces);
+            // Fire event to redux
+            yield put(storeSetNextSimsData({sims, hasMoreData: apiResponse.data.hasMoreData, page: page + 1}));
+            // Fire event for request
+            yield put(storeNextSimsRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeNextSimsRequestFailed({message}));
+            yield put(storeStopInfiniteScrollSimData());
+        }
+    });
+}
+
+// Fetch resources sims from API
+export function* emitResourcesSimsFetch() {
+    yield takeLatest(EMIT_RESOURCES_SIMS_FETCH, function*() {
+        try {
+            // Fire event for request
+            yield put(storeSimsRequestInit());
+            const apiResponse = yield call(apiGetRequest, `${api.RESOURCES_SIMS_API_PATH}?page=1`);
+            // Extract data
+            const sims = extractSimsData(apiResponse.data.puces);
+            // Fire event to redux
+            yield put(storeSetSimsData({sims, hasMoreData: apiResponse.data.hasMoreData, page: 2}));
+            // Fire event for request
+            yield put(storeSimsRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeSimsRequestFailed({message}));
+        }
+    });
+}
+
+// Fetch next resources sims from API
+export function* emitNextResourcesSimsFetch() {
+    yield takeLatest(EMIT_NEXT_RESOURCES_SIMS_FETCH, function*({page}) {
+        try {
+            // Fire event for request
+            yield put(storeNextSimsRequestInit());
+            const apiResponse = yield call(apiGetRequest, `${api.RESOURCES_SIMS_API_PATH}?page=${page}`);
             // Extract data
             const sims = extractSimsData(apiResponse.data.puces);
             // Fire event to redux
@@ -234,10 +320,14 @@ function extractSimsData(apiSims) {
 export default function* sagaSims() {
     yield all([
         fork(emitSimFetch),
-        fork(emitSimsFetch),
         fork(emitAllSimsFetch),
-        fork(emitNextSimsFetch),
-        fork(emitManagersSimsFetch),
-        fork(emitNextManagersSimsFetch),
+        fork(emitFleetsSimsFetch),
+        fork(emitAgentsSimsFetch),
+        fork(emitResourcesSimsFetch),
+        fork(emitNextFleetsSimsFetch),
+        fork(emitCollectorsSimsFetch),
+        fork(emitNextAgentsSimsFetch),
+        fork(emitNextResourcesSimsFetch),
+        fork(emitNextCollectorsSimsFetch),
     ]);
 }

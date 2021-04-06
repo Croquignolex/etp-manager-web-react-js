@@ -10,8 +10,16 @@ export const EMIT_SIM_FETCH = 'EMIT_SIM_FETCH';
 export const EMIT_SIMS_FETCH = 'EMIT_SIMS_FETCH';
 export const EMIT_ALL_SIMS_FETCH = 'EMIT_ALL_SIMS_FETCH';
 export const EMIT_NEXT_SIMS_FETCH = 'EMIT_NEXT_SIMS_FETCH';
+export const EMIT_FLEETS_SIMS_FETCH = 'EMIT_FLEETS_SIMS_FETCH';
+export const EMIT_AGENTS_SIMS_FETCH = 'EMIT_AGENTS_SIMS_FETCH';
 export const EMIT_MANAGERS_SIMS_FETCH = 'EMIT_MANAGERS_SIMS_FETCH';
+export const EMIT_RESOURCES_SIMS_FETCH = 'EMIT_RESOURCES_SIMS_FETCH';
+export const EMIT_COLLECTORS_SIMS_FETCH = 'EMIT_COLLECTORS_SIMS_FETCH';
+export const EMIT_NEXT_FLEETS_SIMS_FETCH = 'EMIT_NEXT_FLEETS_SIMS_FETCH';
+export const EMIT_NEXT_AGENTS_SIMS_FETCH = 'EMIT_NEXT_AGENTS_SIMS_FETCH';
 export const EMIT_NEXT_MANAGERS_SIMS_FETCH = 'EMIT_NEXT_MANAGERS_SIMS_FETCH';
+export const EMIT_NEXT_RESOURCES_SIMS_FETCH = 'EMIT_NEXT_RESOURCES_SIMS_FETCH';
+export const EMIT_NEXT_COLLECTORS_SIMS_FETCH = 'EMIT_NEXT_COLLECTORS_SIMS_FETCH';
 
 //====================== Reducer trigger actions
 // Set sims data in store
@@ -48,26 +56,48 @@ export const storeSetSimActionData = ({id}) => ({
 });
 
 //====================== Middleware trigger actions
-// Emit sims fetch
-export const emitSimsFetch = () => ({
-    type: EMIT_SIMS_FETCH
+// Emit fleets sims fetch
+export const emitFleetsSimsFetch = () => ({
+    type: EMIT_FLEETS_SIMS_FETCH
 });
 
-// Emit next sims fetch
-export const emitNextSimsFetch = ({page}) => ({
+// Emit next fleets sims fetch
+export const emitNextFleetsSimsFetch = ({page}) => ({
     page,
-    type: EMIT_NEXT_SIMS_FETCH
+    type: EMIT_NEXT_FLEETS_SIMS_FETCH
 });
 
-// Emit managers sims fetch
-export const emitManagersSimsFetch = () => ({
-    type: EMIT_MANAGERS_SIMS_FETCH
+// Emit agents sims fetch
+export const emitAgentsSimsFetch = () => ({
+    type: EMIT_AGENTS_SIMS_FETCH
 });
 
-// Emit next managers sims fetch
-export const emitNextManagersSimsFetch = ({page}) => ({
+// Emit next agents sims fetch
+export const emitNextAgentsSimsFetch = ({page}) => ({
     page,
-    type: EMIT_NEXT_MANAGERS_SIMS_FETCH
+    type: EMIT_NEXT_AGENTS_SIMS_FETCH
+});
+
+// Emit resource sims fetch
+export const emitResourcesSimsFetch = () => ({
+    type: EMIT_RESOURCES_SIMS_FETCH
+});
+
+// Emit next resource sims fetch
+export const emitNextResourcesSimsFetch = ({page}) => ({
+    page,
+    type: EMIT_NEXT_RESOURCES_SIMS_FETCH
+});
+
+// Emit collectors sims fetch
+export const emitCollectorsSimsFetch = () => ({
+    type: EMIT_COLLECTORS_SIMS_FETCH
+});
+
+// Emit next collectors sims fetch
+export const emitNextCollectorsSimsFetch = ({page}) => ({
+    page,
+    type: EMIT_NEXT_COLLECTORS_SIMS_FETCH
 });
 
 // Emit all sims fetch

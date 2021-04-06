@@ -77,7 +77,6 @@ export const SUPPLY_CASH_RECOVERIES_API_PATH = `${API_URL}/list_recouvrement`;
 export const SUPPLY_FLEET_RECOVERIES_API_PATH = `${API_URL}/list_retour_flotte`;
 export const CONFIRM_FLEET_RECOVERIES_API_PATH = `${API_URL}/approuve_retour_flotte`;
 
-
 export const CASH_RECOVERIES_API_PATH = `${API_URL}/list_all_recouvrement`;
 
 // Transfers
