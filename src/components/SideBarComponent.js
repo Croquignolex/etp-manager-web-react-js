@@ -188,7 +188,7 @@ function buildAgentsMenu() {
 // Build sims menu
 function buildSimsMenu() {
     return {
-        name: page.SIMS,
+        name: page.SIMS_PAGE,
         icon: 'fa fa-sim-card',
         sub: [
             {name: page.FLEETS_SIMS, path: path.FLEETS_SIMS_PAGE_PATH},
