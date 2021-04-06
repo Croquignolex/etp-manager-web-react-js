@@ -29,8 +29,12 @@ export const ALL_CLEARANCES_API_PATH = `${API_URL}/list_demandes_destockage_all`
 // Sims
 export const SIM_API_PATH = `${API_URL}/show_puce`;
 export const SIMS_API_PATH = `${API_URL}/puce_list`;
+export const EDIT_SIM_API_PATH = `${API_URL}/edit_puce`;
 export const All_SIMS_API_PATH = `${API_URL}/puce_list_all`;
-export const MANAGERS_SIMS_API_PATH = `${API_URL}/puce_list_gestionnaire`;
+export const AGENTS_SIMS_API_PATH = `${API_URL}/puce_list_all_agent`;
+export const FLEETS_SIMS_API_PATH = `${API_URL}/puce_list_gestionnaire`;
+export const COLLECTORS_SIMS_API_PATH = `${API_URL}/puce_list_collector`;
+export const RESOURCES_SIMS_API_PATH = `${API_URL}/puce_list_all_resource`;
 
 // Agents
 export const AGENT_API_PATH = `${API_URL}/show_agent`;
