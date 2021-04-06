@@ -1,5 +1,4 @@
 // Cards
-export const CARD_SIMS = 0;
 export const CARD_AGENTS = 1;
 export const CARD_BALANCE = 2;
 export const CARD_RESOURCES = 3;
@@ -8,7 +7,6 @@ export const CARD_FLEET_SIMS_FLEETS = 5;
 export const CARD_CLEARANCES_REQUEST = 6;
 
 // Labels
-export const LABEL_SIMS = "SIMS";
 export const LABEL_AGENTS = "AGENTS";
 export const LABEL_RESOURCES = "RESSOURCES";
 export const LABEL_BALANCE = "SOLDE ESPECES";

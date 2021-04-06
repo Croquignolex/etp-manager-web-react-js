@@ -80,8 +80,8 @@ function DashboardPage({user, fleets, sims, clearances, agents, settings, dispat
                                 <div className="col-lg-3 col-md-4 col-sm-6">
                                     <DashboardCardComponent icon='fa fa-phone'
                                                             color='bg-secondary'
-                                                            url={path.SIMS_PAGE_PATH}
                                                             request={allSimsRequests}
+                                                            url={path.FLEETS_SIMS_PAGE_PATH}
                                                             label={setting.LABEL_FLEET_SIMS_FLEETS}
                                                             data={formatNumber(fleetSimsFleetsData)}
                                     />
@@ -106,17 +106,6 @@ function DashboardPage({user, fleets, sims, clearances, agents, settings, dispat
                                                             url={path.AGENTS_PAGE_PATH}
                                                             request={allAgentsRequests}
                                                             label={setting.LABEL_RESOURCES}
-                                    />
-                                </div>
-                            }
-                            {cardsData.includes(setting.CARD_SIMS) &&
-                                <div className="col-lg-3 col-md-4 col-sm-6">
-                                    <DashboardCardComponent color='bg-success'
-                                                            data={sims.length}
-                                                            icon='fa fa-sim-card'
-                                                            request={allSimsRequests}
-                                                            url={path.SIMS_PAGE_PATH}
-                                                            label={setting.LABEL_SIMS}
                                     />
                                 </div>
                             }

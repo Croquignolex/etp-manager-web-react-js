@@ -16,12 +16,7 @@ import TextareaComponent from "../components/form/TextareaComponent";
 import CheckBoxComponent from "../components/form/CheckBoxComponent";
 import {storeSettingsRequestReset} from "../redux/requests/settings/actions";
 import {DEFAULT_ARRAY_FORM_DATA, DEFAULT_FORM_DATA} from "../constants/defaultConstants";
-import {
-    applySuccess,
-    requestFailed,
-    requestLoading,
-    requestSucceeded
-} from "../functions/generalFunctions";
+import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../functions/generalFunctions";
 
 // Component
 function SettingsPage({settings, request, dispatch, location}) {
@@ -57,7 +52,6 @@ function SettingsPage({settings, request, dispatch, location}) {
                 // {value: 0, label: 'name'}
             ],
             cards: [
-                {value: setting.CARD_SIMS, label: setting.LABEL_SIMS},
                 {value: setting.CARD_AGENTS, label: setting.LABEL_AGENTS},
                 {value: setting.CARD_BALANCE, label: setting.LABEL_BALANCE},
                 {value: setting.CARD_RESOURCES, label: setting.LABEL_RESOURCES},
