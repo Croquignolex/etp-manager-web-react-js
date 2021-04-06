@@ -8,6 +8,7 @@ import NavBarContainer from "../containers/NavBarContainer";
 import SideBarContainer from "../containers/SideBarContainer";
 import {requestSucceeded} from "../functions/generalFunctions";
 import {playSuccessSound} from "../functions/playSoundFunctions";
+import {ENABLE_NOTIFICATION} from "../constants/generalConstants";
 import {storeUserCheckRequestReset} from "../redux/requests/user/actions";
 import {emitUnreadNotificationsFetch} from "../redux/notifications/actions";
 
@@ -34,13 +35,16 @@ function AppLayoutComponent({userCheckRequest, dispatch, pathname, children}) {
         if (Notification.permission !== "denied") {
             Notification.requestPermission()
         }
-        // First call
-        let intervalValue = setInterval(() => {
-            dispatch(emitUnreadNotificationsFetch());
-        }, 20000);
-        // Cleaner interval to avoid infinite loop or performance break
-        return () => {
-            clearInterval(intervalValue)
+        // Check notification settings
+        if(ENABLE_NOTIFICATION) {
+            // First call
+            let intervalValue = setInterval(() => {
+                dispatch(emitUnreadNotificationsFetch());
+            }, 20000);
+            // Cleaner interval to avoid infinite loop or performance break
+            return () => {
+                clearInterval(intervalValue)
+            }
         }
         // eslint-disable-next-line
     }, []);
