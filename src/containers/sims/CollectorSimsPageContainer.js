@@ -1,10 +1,10 @@
 import {connect} from "react-redux";
 
-import SimsPage from "../../pages/sims/SimsPage";
-import {ALL_SIMS} from "../../constants/pageNameConstants";
 import {setPageTitle} from "../../functions/generalFunctions";
+import {COLLECTORS_SIMS} from "../../constants/pageNameConstants";
+import CollectorSimsPage from "../../pages/sims/CollectorSimsPage";
 
-setPageTitle(ALL_SIMS);
+setPageTitle(COLLECTORS_SIMS);
 
 // Map state function to component props
 const mapStateToProps = (state) => ({
@@ -20,4 +20,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 // Connect component to Redux
-export default connect(mapStateToProps, mapDispatchToProps)(SimsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CollectorSimsPage);

@@ -1,10 +1,10 @@
 import {connect} from "react-redux";
 
-import {FLEETS_SIMS} from "../../constants/pageNameConstants";
 import {setPageTitle} from "../../functions/generalFunctions";
-import ManagerSimsPage from "../../pages/sims/ManagerSimsPage";
+import {RESOURCES_SIMS} from "../../constants/pageNameConstants";
+import ResourceSimsPage from "../../pages/sims/ResourceSimsPage";
 
-setPageTitle(FLEETS_SIMS);
+setPageTitle(RESOURCES_SIMS);
 
 // Map state function to component props
 const mapStateToProps = (state) => ({
@@ -20,4 +20,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 // Connect component to Redux
-export default connect(mapStateToProps, mapDispatchToProps)(ManagerSimsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ResourceSimsPage);

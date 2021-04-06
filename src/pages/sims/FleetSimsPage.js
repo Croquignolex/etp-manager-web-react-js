@@ -9,18 +9,21 @@ import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import SimsCardsComponent from "../../components/sims/SimsCardsComponent";
-import {emitManagersSimsFetch, emitNextManagersSimsFetch} from "../../redux/sims/actions";
+import FormModalComponent from "../../components/modals/FormModalComponent";
+import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
+import {emitFleetsSimsFetch, emitNextFleetsSimsFetch} from "../../redux/sims/actions";
 import {storeNextSimsRequestReset, storeSimsRequestReset} from "../../redux/requests/sims/actions";
 import {dateToString, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
 
 // Component
-function SimsPage({sims, simsRequests, hasMoreData, page, dispatch, location}) {
+function FleetSimsPage({sims, simsRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
+    const [simDetailsModal, setSimDetailsModal] = useState({show: false, header: "DETAIL DE LA PUCE", id: ''});
 
     // Local effects
     useEffect(() => {
-        dispatch(emitManagersSimsFetch());
+        dispatch(emitFleetsSimsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -40,7 +43,17 @@ function SimsPage({sims, simsRequests, hasMoreData, page, dispatch, location}) {
 
     // Fetch next sims data to enhance infinite scroll
     const handleNextSimsData = () => {
-        dispatch(emitNextManagersSimsFetch({page}));
+        dispatch(emitNextFleetsSimsFetch({page}));
+    }
+
+    // Show sim details modal form
+    const handleSimDetailsModalShow = ({id}) => {
+        setSimDetailsModal({...simDetailsModal, show: true, id})
+    }
+
+    // Hide sim details modal form
+    const handleSimDetailsModalHide = () => {
+        setSimDetailsModal({...simDetailsModal, show: false})
     }
 
     // Render
@@ -66,7 +79,7 @@ function SimsPage({sims, simsRequests, hasMoreData, page, dispatch, location}) {
                                             {requestFailed(simsRequests.next) && <ErrorAlertComponent message={simsRequests.next.message} />}
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
-                                                ? <SimsCardsComponent sims={searchEngine(sims, needle)} />
+                                                ? <SimsCardsComponent sims={searchEngine(sims, needle)} handleSimDetailsModalShow={handleSimDetailsModalShow} />
                                                 : (requestLoading(simsRequests.list) ? <LoaderComponent /> :
                                                         <InfiniteScroll hasMore={hasMoreData}
                                                                         dataLength={sims.length}
@@ -74,7 +87,7 @@ function SimsPage({sims, simsRequests, hasMoreData, page, dispatch, location}) {
                                                                         loader={<LoaderComponent />}
                                                                         style={{ overflow: 'hidden' }}
                                                         >
-                                                            <SimsCardsComponent sims={sims} />
+                                                            <SimsCardsComponent sims={sims} handleSimDetailsModalShow={handleSimDetailsModalShow} />
                                                         </InfiniteScroll>
                                                 )
                                             }
@@ -86,6 +99,10 @@ function SimsPage({sims, simsRequests, hasMoreData, page, dispatch, location}) {
                     </section>
                 </div>
             </AppLayoutContainer>
+            {/* Modal */}
+            <FormModalComponent small={true} modal={simDetailsModal} handleClose={handleSimDetailsModalHide}>
+                <SimDetailsContainer id={simDetailsModal.id} />
+            </FormModalComponent>
         </>
     )
 }
@@ -103,7 +120,6 @@ function searchEngine(data, _needle) {
                 needleSearch(item.type.name, _needle) ||
                 needleSearch(item.agent.name, _needle) ||
                 needleSearch(item.operator.name, _needle) ||
-                needleSearch(item.collector.name, _needle) ||
                 needleSearch(dateToString(item.creation), _needle)
             )
         });
@@ -113,7 +129,7 @@ function searchEngine(data, _needle) {
 }
 
 // Prop types to ensure destroyed props data type
-SimsPage.propTypes = {
+FleetSimsPage.propTypes = {
     sims: PropTypes.array.isRequired,
     page: PropTypes.number.isRequired,
     dispatch: PropTypes.func.isRequired,
@@ -122,4 +138,4 @@ SimsPage.propTypes = {
     simsRequests: PropTypes.object.isRequired,
 };
 
-export default React.memo(SimsPage);
+export default React.memo(FleetSimsPage);
