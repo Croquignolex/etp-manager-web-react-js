@@ -5,10 +5,14 @@ export const DASHBOARD_PAGE = 'Tableau de bord';
 export const NOTIFICATIONS_PAGE = 'Notifications';
 
 // Commons
-export const SIMS = 'Puces';
 export const AGENTS = 'Agents/Resources';
-export const ALL_SIMS = 'Toutes les puces';
-export const FLEETS_SIMS = 'Puces de flottages';
+
+// Sims
+export const SIMS_PAGE = 'Puces';
+export const AGENTS_SIMS = 'Puces agent';
+export const COLLECTORS_SIMS = 'Puces RZ';
+export const FLEETS_SIMS = 'Puces de flottage';
+export const RESOURCES_SIMS = 'Puces ressource';
 
 // Operations
 export const OPERATIONS = 'Opérations';
