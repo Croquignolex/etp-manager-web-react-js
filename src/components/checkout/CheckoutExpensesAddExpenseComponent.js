@@ -141,7 +141,7 @@ function CheckoutExpensesAddExpenseComponent({request, dispatch, handleClose}) {
                     <div className='col'>
                         <FileDocumentComponent id='file'
                                                input={doc}
-                                               label='Réçus'
+                                               label='Réçus (facultatif)'
                                                handleInput={handleFileInput}
                         />
                     </div>

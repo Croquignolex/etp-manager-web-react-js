@@ -11,13 +11,8 @@ import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {dataToArrayForSelect} from "../../functions/arrayFunctions";
 import {storeAddPaymentRequestReset} from "../../redux/requests/payments/actions";
-import {requiredChecker, requiredFileChecker} from "../../functions/checkerFunctions";
-import {
-    applySuccess,
-    requestFailed,
-    requestLoading,
-    requestSucceeded
-} from "../../functions/generalFunctions";
+import {fileChecker, requiredChecker, requiredFileChecker} from "../../functions/checkerFunctions";
+import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
 function CheckoutPaymentsAddPaymentComponent({request, collectors, allCollectorsRequests, dispatch, handleClose}) {
@@ -74,7 +69,7 @@ function CheckoutPaymentsAddPaymentComponent({request, collectors, allCollectors
     const handleSubmit = (e) => {
         e.preventDefault();
         shouldResetErrorData();
-        const _doc = requiredFileChecker(doc);
+        const _doc = fileChecker(doc);
         const _amount = requiredChecker(amount);
         const _collector = requiredChecker(collector);
         // Set value
@@ -122,7 +117,7 @@ function CheckoutPaymentsAddPaymentComponent({request, collectors, allCollectors
                     <div className='col'>
                         <FileDocumentComponent id='file'
                                                input={doc}
-                                               label='Réçus'
+                                               label='Réçus (facultatif)'
                                                handleInput={handleFileInput}
                         />
                     </div>
