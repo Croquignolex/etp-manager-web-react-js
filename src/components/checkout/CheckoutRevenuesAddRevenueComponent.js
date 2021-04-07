@@ -10,8 +10,8 @@ import {emitAddRevenue} from "../../redux/revenues/actions";
 import FileDocumentComponent from "../form/FileDocumentComponent";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
+import {fileChecker, requiredChecker} from "../../functions/checkerFunctions";
 import {storeAddRevenueRequestReset} from "../../redux/requests/revenues/actions";
-import {fileChecker, requiredChecker, requiredFileChecker} from "../../functions/checkerFunctions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
@@ -76,8 +76,8 @@ function CheckoutRevenuesAddRevenueComponent({request, dispatch, handleClose}) {
     const handleSubmit = (e) => {
         e.preventDefault();
         shouldResetErrorData();
-        const _name = requiredChecker(name);
         const _doc = fileChecker(doc);
+        const _name = requiredChecker(name);
         const _amount = requiredChecker(amount);
         const _reason = requiredChecker(reason);
         // Set value
