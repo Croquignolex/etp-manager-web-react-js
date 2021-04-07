@@ -126,7 +126,7 @@ function CheckoutRevenuesAddRevenueComponent({request, dispatch, handleClose}) {
                         <TextareaComponent input={reason}
                                            id='inputReason'
                                            handleInput={handleReasonInput}
-                                           label="Raison de l'encaissement"
+                                           label="Motif de l'encaissement"
                         />
                     </div>
                     <div className='col-sm-6'>

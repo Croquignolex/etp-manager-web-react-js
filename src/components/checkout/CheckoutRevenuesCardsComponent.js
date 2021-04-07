@@ -29,7 +29,7 @@ function CheckoutRevenuesCardsComponent({revenues}) {
                                             <span className="float-right">{item.name}</span>
                                         </li>
                                         <li className="list-group-item">
-                                            <b>Raison</b>
+                                            <b>Motif</b>
                                             <span className="float-right">{item.reason}</span>
                                         </li>
                                         {item.receipt && (

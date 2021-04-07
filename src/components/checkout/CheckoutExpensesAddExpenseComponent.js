@@ -126,7 +126,7 @@ function CheckoutExpensesAddExpenseComponent({request, dispatch, handleClose}) {
                         <TextareaComponent input={reason}
                                            id='inputReason'
                                            handleInput={handleReasonInput}
-                                           label="Raison du déciassement"
+                                           label="Motif du déciassement"
                         />
                     </div>
                     <div className='col-sm-6'>
