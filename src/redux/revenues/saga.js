@@ -6,9 +6,9 @@ import {
     EMIT_ADD_REVENUE,
     EMIT_REVENUES_FETCH,
     storeSetRevenuesData,
-    EMIT_NEXT_REVENUES_FETCH,
     storeSetNewRevenueData,
     storeSetNextRevenuesData,
+    EMIT_NEXT_REVENUES_FETCH,
     storeStopInfiniteScrollRevenueData
 } from "./actions";
 import {
