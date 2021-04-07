@@ -10,8 +10,8 @@ import {emitNewRecovery} from "../../redux/recoveries/actions";
 import FileDocumentComponent from "../form/FileDocumentComponent";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
+import {fileChecker, requiredChecker} from "../../functions/checkerFunctions";
 import {storeRecoverRequestReset} from "../../redux/requests/recoveries/actions";
-import {requiredChecker, requiredFileChecker} from "../../functions/checkerFunctions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
@@ -58,7 +58,7 @@ function OperationsCashRecoveryComponent({supply, request, dispatch, handleClose
     const handleSubmit = (e) => {
         e.preventDefault();
         shouldResetErrorData();
-        const _document = requiredFileChecker(doc);
+        const _document = fileChecker(doc);
         const _amount = requiredChecker(amount);
         // Set value
         setAmount(_amount);
@@ -99,7 +99,7 @@ function OperationsCashRecoveryComponent({supply, request, dispatch, handleClose
                     <div className='col'>
                         <FileDocumentComponent id='file'
                                                input={doc}
-                                               label='Réçus'
+                                               label='Réçus (facultatif)'
                                                handleInput={handleFileInput}
                         />
                     </div>
