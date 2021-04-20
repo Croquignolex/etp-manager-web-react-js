@@ -1,5 +1,5 @@
 export const APP_NAME = 'MMAC';
-export const ENABLE_NOTIFICATION = false;
+export const ENABLE_NOTIFICATION = true;
 
 // Comment this before "npm build" execution for production
 export const AUTH_URL = 'http://localhost:3001';

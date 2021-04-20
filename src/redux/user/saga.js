@@ -81,6 +81,8 @@ export function* emitAttemptUserAuthentication() {
         try {
             // Fire event for request
             yield put(storeUserCheckRequestInit());
+            // Remove all data in locale storage
+            yield call(removeAllLocaleStorageItems);
             // Put token in local storage for a check
             yield call(setLocaleStorageItem, LOCAL_STORAGE_USER_DATA, {token});
             const data = {role: USER_ROLE};

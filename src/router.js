@@ -4,6 +4,7 @@ import { ConnectedRouter } from 'connected-react-router';
 
 import * as path from "./constants/pagePathConstants";
 import asyncComponent from './components/asyncComponent';
+import {NotificationContainer} from "react-notifications";
 import PublicRouteContainer from "./containers/PublicRouteContainer";
 import RestrictedRouteContainer from "./containers/RestrictedRouteContainer";
 
@@ -11,6 +12,7 @@ import RestrictedRouteContainer from "./containers/RestrictedRouteContainer";
 function AppRoutes({history}) {
     return (
         <ConnectedRouter history={history}>
+            <NotificationContainer />
             <Switch>
                 {/* Available pages on guest mode */}
                 <PublicRouteContainer exact path="/" component={asyncComponent(() => import('./containers/CheckUserContainer'))} />
