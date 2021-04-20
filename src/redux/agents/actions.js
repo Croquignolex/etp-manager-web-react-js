@@ -18,6 +18,7 @@ export const EMIT_NEXT_AGENTS_FETCH = 'EMIT_NEXT_SIMS_FETCH';
 export const EMIT_UPDATE_AGENT_DOC = 'EMIT_UPDATE_AGENT_DOC';
 export const EMIT_UPDATE_AGENT_ZONE = 'EMIT_UPDATE_AGENT_ZONE';
 export const EMIT_UPDATE_AGENT_INFO = 'EMIT_UPDATE_AGENT_INFO';
+export const EMIT_SEARCH_AGENTS_FETCH = 'EMIT_SEARCH_AGENTS_FETCH';
 export const EMIT_TOGGLE_AGENT_STATUS = 'EMIT_TOGGLE_AGENT_STATUS';
 
 //====================== Reducer trigger actions
@@ -71,6 +72,12 @@ export const storeSetAgentToggleData = ({id}) => ({
 // Emit agents fetch
 export const emitAgentsFetch = () => ({
     type: EMIT_AGENTS_FETCH
+});
+
+// Emit search agents fetch
+export const emitSearchAgentsFetch = ({needle}) => ({
+    needle,
+    type: EMIT_SEARCH_AGENTS_FETCH
 });
 
 // Emit next agents fetch

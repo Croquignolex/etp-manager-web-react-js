@@ -27,6 +27,7 @@ import {
     storeSetAgentActionData,
     storeSetAgentToggleData,
     EMIT_TOGGLE_AGENT_STATUS,
+    EMIT_SEARCH_AGENTS_FETCH,
     storeStopInfiniteScrollAgentData
 } from "./actions";
 import {
@@ -81,6 +82,26 @@ export function* emitAllAgentsFetch() {
         } catch (message) {
             // Fire event for request
             yield put(storeAllAgentsRequestFailed({message}));
+        }
+    });
+}
+
+// Fetch search agents from API
+export function* emitSearchAgentsFetch() {
+    yield takeLatest(EMIT_SEARCH_AGENTS_FETCH, function*({needle}) {
+        try {
+            // Fire event for request
+            yield put(storeAgentsRequestInit());
+            const apiResponse = yield call(apiGetRequest, `${api.SEARCH_AGENTS_API_PATH}?needle=${needle}`);
+            // Extract data
+            const agents = extractAgentsData(apiResponse.data.agents);
+            // Fire event to redux
+            yield put(storeSetAgentsData({agents, hasMoreData: false, page: 0}));
+            // Fire event for request
+            yield put(storeAgentsRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeAgentsRequestFailed({message}));
         }
     });
 }
@@ -462,6 +483,7 @@ export default function* sagaAgents() {
         fork(emitUpdateAgentZone),
         fork(emitNextAgentsFetch),
         fork(emitUpdateAgentInfo),
+        fork(emitSearchAgentsFetch),
         fork(emitToggleAgentStatus),
     ]);
 }

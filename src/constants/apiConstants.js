@@ -46,6 +46,7 @@ export const DELETE_AGENT_API_PATH = `${API_URL}/delete_agent`;
 export const EDIT_AGENT_INFO_API_PATH = `${API_URL}/edit_agent`;
 export const ALL_AGENTS_API_PATH = `${API_URL}/list_agents_all`;
 export const EDIT_AGENT_DOC_API_PATH = `${API_URL}/edit_folder`;
+export const SEARCH_AGENTS_API_PATH = `${API_URL}/search_agents`;
 export const AGENT_ZONE_UPDATE_API_PATH = `${API_URL}/edit_zone_agent`;
 export const TOGGLE_AGENT_STATUS_API_PATH = `${API_URL}/edit_agent_status`;
 
