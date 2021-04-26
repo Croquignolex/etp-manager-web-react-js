@@ -20,9 +20,9 @@ export const OPERATIONS_FLEETS_PAGE = 'Flottages Agent';
 export const OPERATIONS_CLEARANCES_PAGE = 'Déstockages';
 export const OPERATIONS_AFFORDS_PAGE = 'Approvisionnements';
 export const OPERATIONS_TRANSFERS_PAGE = 'Tranferts de flotte';
-export const COLLECTOR_CHECKOUT_OUTlAYS_PAGE = 'Décaissement RZ';
-export const COLLECTOR_CHECKOUT_PAYMENTS_PAGE = 'Encaissement RZ';
 export const OPERATIONS_ANONYMOUS_FLEETS_PAGE = 'Flottages Anonyme';
+export const COLLECTOR_CHECKOUT_PAYMENTS_PAGE = 'Encaissement des RZ';
+export const COLLECTOR_CHECKOUT_OUTlAYS_PAGE = 'Décaissement vers les RZ';
 
 // Recoveries
 export const RECOVERIES = 'Recouvrement';
@@ -31,8 +31,8 @@ export const RECOVERIES_CASH_PAGE = "Recouvrement d'espèces";
 
 // Checkout
 export const CHECKOUT = 'Caisse';
-export const CHECKOUT_OUTlAYS_PAGE = 'Décaissement vers les RZ';
-export const CHECKOUT_PAYMENTS_PAGE = 'Encaissement des RZ'
+export const CHECKOUT_OUTlAYS_PAGE = 'Décaissement';
+export const CHECKOUT_PAYMENTS_PAGE = 'Encaissement'
 export const HANDING_OVER_PAGE = 'Passation des service';
 
 // Requests
