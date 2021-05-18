@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, {useEffect, useMemo} from 'react';
 
+import {PENDING} from "../constants/typeConstants";
 import * as types from "../constants/typeConstants";
 import * as path from "../constants/pagePathConstants";
 import {emitAllSimsFetch} from "../redux/sims/actions";
@@ -8,14 +9,12 @@ import * as setting from "../constants/settingsConstants";
 import {emitAllFleetsFetch} from "../redux/fleets/actions";
 import {formatNumber} from "../functions/generalFunctions";
 import {emitFetchUserBalance} from "../redux/user/actions";
-import {emitAllAgentsFetch} from "../redux/agents/actions";
 import HeaderComponent from "../components/HeaderComponent";
 import {DASHBOARD_PAGE} from "../constants/pageNameConstants";
 import AppLayoutContainer from "../containers/AppLayoutContainer";
 import {emitAllClearancesFetch} from "../redux/clearances/actions";
 import {storeAllSimsRequestReset} from "../redux/requests/sims/actions";
 import {storeAllFleetsRequestReset} from "../redux/requests/fleets/actions";
-import {storeAllAgentsRequestReset} from "../redux/requests/agents/actions";
 import {storeUserBalanceFetchRequestReset} from "../redux/requests/user/actions";
 import DashboardCardComponent from "../components/dashboard/DashboardCardComponent";
 import {storeAllClearancesRequestReset} from "../redux/requests/clearances/actions";
@@ -26,7 +25,6 @@ function DashboardPage({user, fleets, sims, clearances, agents, settings, dispat
     // Local effects
     useEffect(() => {
         dispatch(emitAllSimsFetch());
-        dispatch(emitAllAgentsFetch());
         dispatch(emitAllFleetsFetch());
         dispatch(emitFetchUserBalance());
         dispatch(emitAllClearancesFetch());
@@ -41,7 +39,6 @@ function DashboardPage({user, fleets, sims, clearances, agents, settings, dispat
     const shouldResetErrorData = () => {
         dispatch(storeAllSimsRequestReset());
         dispatch(storeAllFleetsRequestReset());
-        dispatch(storeAllAgentsRequestReset());
         dispatch(storeAllClearancesRequestReset());
         dispatch(storeUserBalanceFetchRequestReset());
     };
@@ -56,6 +53,33 @@ function DashboardPage({user, fleets, sims, clearances, agents, settings, dispat
         return agents.filter(agent => types.RESOURCE_TYPE === agent.reference).length
         // eslint-disable-next-line
     }, [agents]);
+
+
+    const mtnFleetsData = useMemo(() => {
+        const data = fleets.filter(fleet => (fleet.status === PENDING) && fleet.operator.id === '1');
+        const number = data.length
+        const value = data.reduce((acc, val) => acc + parseInt(val.amount), 0)
+        return {number, value}
+    }, [fleets]);
+    const orangeFleetsData = useMemo(() => {
+        const data = fleets.filter(fleet => (fleet.status === PENDING) && fleet.operator.id === '2');
+        const number = data.length
+        const value = data.reduce((acc, val) => acc + parseInt(val.amount), 0)
+        return {number, value}
+    }, [fleets]);
+    const mtnClearancesData = useMemo(() => {
+        const data = clearances.filter(clearance => (clearance.status === PENDING) && clearance.operator.id === '1');
+        const number = data.length
+        const value = data.reduce((acc, val) => acc + parseInt(val.amount), 0)
+        return {number, value}
+    }, [clearances]);
+    const orangeClearancesData = useMemo(() => {
+        const data = clearances.filter(clearance => (clearance.status === PENDING) && clearance.operator.id === '2');
+        const number = data.length
+        const value = data.reduce((acc, val) => acc + parseInt(val.amount), 0)
+        return {number, value}
+    }, [clearances]);
+
 
     // Render
     return (
@@ -84,28 +108,6 @@ function DashboardPage({user, fleets, sims, clearances, agents, settings, dispat
                                                             url={path.FLEETS_SIMS_PAGE_PATH}
                                                             label={setting.LABEL_FLEET_SIMS_FLEETS}
                                                             data={formatNumber(fleetSimsFleetsData)}
-                                    />
-                                </div>
-                            }
-                            {cardsData.includes(setting.CARD_AGENTS) &&
-                                <div className="col-lg-3 col-md-4 col-sm-6">
-                                    <DashboardCardComponent color='bg-primary'
-                                                            icon='fa fa-user-cog'
-                                                            request={allAgentsRequests}
-                                                            url={path.AGENTS_PAGE_PATH}
-                                                            label={setting.LABEL_AGENTS}
-                                                            data={agents.length - resourcesData}
-                                    />
-                                </div>
-                            }
-                            {cardsData.includes(setting.CARD_RESOURCES) &&
-                                <div className="col-lg-3 col-md-4 col-sm-6">
-                                    <DashboardCardComponent color='bg-info'
-                                                            data={resourcesData}
-                                                            icon='fa fa-user-clock'
-                                                            url={path.AGENTS_PAGE_PATH}
-                                                            request={allAgentsRequests}
-                                                            label={setting.LABEL_RESOURCES}
                                     />
                                 </div>
                             }

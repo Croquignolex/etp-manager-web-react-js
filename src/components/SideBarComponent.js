@@ -17,12 +17,12 @@ function SideBarComponent({user, pathname}) {
     const authorisedMenu = useMemo(() => {
         return [
             buildDashboardMenu(),
-            buildRequestsMenu(),
-            buildOperationsMenu(),
-            buildRecoveriesMenu(),
-            buildCheckoutMenu(),
-            buildSimsMenu(),
-            buildAgentsMenu(),
+            // buildRequestsMenu(),
+            // buildOperationsMenu(),
+            // buildRecoveriesMenu(),
+            // buildCheckoutMenu(),
+            // buildSimsMenu(),
+            // buildAgentsMenu(),
         ];
         // eslint-disable-next-line
     }, [pathname]);
@@ -128,7 +128,7 @@ function buildRequestsMenu() {
         icon: 'fa fa-paste',
         sub: [
             {name: page.REQUESTS_FLEETS_PAGE, path: path.REQUESTS_FLEETS_PAGE_PATH},
-            {name: page.REQUESTS_CLEARANCES_PAGE, path: path.REQUESTS_CLEARANCES_PAGE_PATH}
+            // {name: page.REQUESTS_CLEARANCES_PAGE, path: path.REQUESTS_CLEARANCES_PAGE_PATH}
         ]
     };
 }

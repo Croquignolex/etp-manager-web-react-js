@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 
 import LoaderComponent from "../LoaderComponent";
+import OperatorComponent from "../OperatorComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import {requestFailed, requestLoading} from "../../functions/generalFunctions";
 
@@ -15,7 +16,12 @@ function DashboardCardComponent({request, operator, label, color, data, url}) {
                 requestFailed(request) ? <ErrorAlertComponent message={request.message} /> : (
                     <div className={`small-box ${color}`}>
                         <div className="inner">
-                            <h4 className="text-right">{data}</h4>
+                            <h4 className="text-right">
+                                <div className="float-left">
+                                    <OperatorComponent operator={operator} />
+                                </div>
+                                {data}
+                            </h4>
                             <span>{label}</span>
                         </div>
                         <Link to={url} className="small-box-footer">
