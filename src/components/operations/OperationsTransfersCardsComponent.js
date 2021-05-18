@@ -1,15 +1,16 @@
 import React, {useState} from 'react';
 import PropTypes from "prop-types";
 
+import LoaderComponent from "../LoaderComponent";
 import OperatorComponent from "../OperatorComponent";
 import FormModalComponent from "../modals/FormModalComponent";
+import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
 import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
-import {DONE} from "../../constants/typeConstants";
-import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
+import {DONE, FLEET_TYPE, PROCESSING} from "../../constants/typeConstants";
 
 // Component
-function OperationsTransfersCardsComponent({transfers}) {
+function OperationsTransfersCardsComponent({transfers, handleConfirmModalShow}) {
     // Local states
     const [incomingSimDetailsModal, setIncomingSimDetailsModal] = useState({show: false, header: 'DETAIL DE LA PUCE', id: ''});
     const [outgoingSimDetailsModal, setOutgoingSimDetailsModal] = useState({show: false, header: 'DETAIL DE LA PUCE', id: ''});
@@ -34,6 +35,19 @@ function OperationsTransfersCardsComponent({transfers}) {
                             <div className="card">
                                 <div className={`${fleetTypeBadgeColor(item.status).background} card-header`}>
                                     <h3 className="card-title">{fleetTypeBadgeColor(item.status).text}</h3>
+                                    <div className="card-tools">
+                                        {(item.status === PROCESSING && item.type.name === FLEET_TYPE) && (
+                                            item.actionLoader ? <LoaderComponent little={true} /> : (
+                                                <button type="button"
+                                                        title="Confirmer"
+                                                        className="btn btn-tool"
+                                                        onClick={() => handleConfirmModalShow(item)}
+                                                >
+                                                    <i className="fa fa-check" />
+                                                </button>
+                                            )
+                                        )}
+                                    </div>
                                 </div>
                                 <div className="card-body">
                                     <ul className="list-group list-group-unbordered">
@@ -103,7 +117,8 @@ function OperationsTransfersCardsComponent({transfers}) {
 
 // Prop types to ensure destroyed props data type
 OperationsTransfersCardsComponent.propTypes = {
-    transfers: PropTypes.array.isRequired
+    transfers: PropTypes.array.isRequired,
+    handleConfirmModalShow: PropTypes.func.isRequired,
 };
 
 export default React.memo(OperationsTransfersCardsComponent);
