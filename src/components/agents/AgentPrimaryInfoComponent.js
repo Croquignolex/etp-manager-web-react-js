@@ -58,10 +58,6 @@ function AgentPrimaryInfoComponent({agent}) {
                             <b>Email</b>
                             <span className="float-right">{agent.email}</span>
                         </li>
-                        <li className="list-group-item">
-                            <b>Solde total</b>
-                            <span className="float-right text-success text-bold">{formatNumber(agent.account.balance)}</span>
-                        </li>
                     </ul>
                 </div>
             </div>
