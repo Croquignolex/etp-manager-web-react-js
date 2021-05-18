@@ -20,8 +20,8 @@ import DashboardCardComponent from "../components/dashboard/DashboardCardCompone
 import {storeAllClearancesRequestReset} from "../redux/requests/clearances/actions";
 
 // Component
-function DashboardPage({user, fleets, sims, clearances, agents, settings, dispatch, location, balanceUserRequests,
-                           allClearancesRequests, allAgentsRequests, allFleetsRequests, allSimsRequests}) {
+function DashboardPage({user, fleets, sims, clearances, settings, dispatch, location,
+                           balanceUserRequests, allClearancesRequests, allFleetsRequests, allSimsRequests}) {
     // Local effects
     useEffect(() => {
         dispatch(emitAllSimsFetch());
@@ -49,11 +49,6 @@ function DashboardPage({user, fleets, sims, clearances, agents, settings, dispat
         return sims.filter(sim => types.FLEET_TYPE === sim.type.name).reduce((acc, val) => acc + parseInt(val.balance, 10), 0)
         // eslint-disable-next-line
     }, [sims]);
-    const resourcesData = useMemo(() => {
-        return agents.filter(agent => types.RESOURCE_TYPE === agent.reference).length
-        // eslint-disable-next-line
-    }, [agents]);
-
 
     const mtnFleetsData = useMemo(() => {
         const data = fleets.filter(fleet => (fleet.status === PENDING) && fleet.operator.id === '1');
@@ -111,6 +106,62 @@ function DashboardPage({user, fleets, sims, clearances, agents, settings, dispat
                                     />
                                 </div>
                             }
+
+
+
+
+
+
+
+                            {cardsData.includes(setting.CARD_FLEETS_REQUESTS_MTN) &&
+                                <div className="col-lg-4 col-md-4 col-sm-6">
+                                    <DashboardCardComponent color='bg-success'
+                                                            operator={{id: '1'}}
+                                                            request={allFleetsRequests}
+                                                            url={path.REQUESTS_FLEETS_PAGE_PATH}
+                                                            data={formatNumber(mtnFleetsData.value)}
+                                                            label={`${setting.LABEL_FLEETS_REQUESTS_MTN} (${mtnFleetsData.number})`}
+                                    />
+                                </div>
+                            }
+                            {cardsData.includes(setting.CARD_CLEARANCES_REQUEST_MTN) &&
+                                <div className="col-lg-4 col-md-4 col-sm-6">
+                                    <DashboardCardComponent color='bg-primary'
+                                                            operator={{id: '1'}}
+                                                            request={allClearancesRequests}
+                                                            url={path.REQUESTS_CLEARANCES_PAGE_PATH}
+                                                            data={formatNumber(mtnClearancesData.value)}
+                                                            label={`${setting.LABEL_CLEARANCES_REQUEST_MTN} (${mtnClearancesData.number})`}
+                                    />
+                                </div>
+                            }
+                            {cardsData.includes(setting.CARD_FLEETS_REQUESTS_ORANGE) &&
+                                <div className="col-lg-4 col-md-4 col-sm-6">
+                                    <DashboardCardComponent color='bg-success'
+                                                            operator={{id: '2'}}
+                                                            request={allFleetsRequests}
+                                                            url={path.REQUESTS_FLEETS_PAGE_PATH}
+                                                            data={formatNumber(orangeFleetsData.value)}
+                                                            label={`${setting.LABEL_FLEETS_REQUESTS_ORANGE} (${orangeFleetsData.number})`}
+                                    />
+                                </div>
+                            }
+                            {cardsData.includes(setting.CARD_CLEARANCES_REQUEST_ORANGE) &&
+                                <div className="col-lg-4 col-md-4 col-sm-6">
+                                    <DashboardCardComponent color='bg-primary'
+                                                            operator={{id: '2'}}
+                                                            request={allClearancesRequests}
+                                                            url={path.REQUESTS_CLEARANCES_PAGE_PATH}
+                                                            data={formatNumber(orangeClearancesData.value)}
+                                                            label={`${setting.LABEL_CLEARANCES_REQUEST_ORANGE} (${orangeClearancesData.number})`}
+                                    />
+                                </div>
+                            }
+
+
+
+
+
                             {cardsData.includes(setting.CARD_FLEETS_REQUESTS) &&
                                 <div className="col-lg-3 col-md-4 col-sm-6">
                                     <DashboardCardComponent icon='fa fa-rss'
@@ -146,13 +197,11 @@ DashboardPage.propTypes = {
     sims: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
     fleets: PropTypes.array.isRequired,
-    agents: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     settings: PropTypes.object.isRequired,
     clearances: PropTypes.array.isRequired,
     allSimsRequests: PropTypes.object.isRequired,
-    allAgentsRequests: PropTypes.object.isRequired,
     allFleetsRequests: PropTypes.object.isRequired,
     balanceUserRequests: PropTypes.object.isRequired,
     allClearancesRequests: PropTypes.object.isRequired,
