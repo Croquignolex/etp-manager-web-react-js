@@ -86,9 +86,9 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
                     <div className='container-fluid'>
                         <div className="row">
                             {cardsData.includes(setting.CARD_BALANCE) &&
-                                <div className="col-lg-3 col-md-4 col-sm-6">
+                                <div className="col-lg-4 col-md-4 col-sm-6">
                                     <DashboardCardComponent color='bg-dark'
-                                                            icon='fa fa-coin'
+                                                            icon='fa fa-money-bill'
                                                             url={path.PROFILE_PAGE_PATH}
                                                             label={setting.LABEL_BALANCE}
                                                             request={balanceUserRequests}
@@ -97,8 +97,8 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
                                 </div>
                             }
                             {cardsData.includes(setting.CARD_FLEET_SIMS_FLEETS) &&
-                                <div className="col-lg-3 col-md-4 col-sm-6">
-                                    <DashboardCardComponent icon='fa fa-phone'
+                                <div className="col-lg-4 col-md-4 col-sm-6">
+                                    <DashboardCardComponent icon='fa fa-rss'
                                                             color='bg-secondary'
                                                             request={allSimsRequests}
                                                             url={path.FLEETS_SIMS_PAGE_PATH}
@@ -107,13 +107,6 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
                                     />
                                 </div>
                             }
-
-
-
-
-
-
-
                             {cardsData.includes(setting.CARD_FLEETS_REQUESTS_MTN) &&
                                 <div className="col-lg-4 col-md-4 col-sm-6">
                                     <DashboardWithOperatorCardComponent color='bg-success'

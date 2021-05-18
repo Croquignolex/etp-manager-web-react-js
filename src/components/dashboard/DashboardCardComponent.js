@@ -7,7 +7,7 @@ import ErrorAlertComponent from "../ErrorAlertComponent";
 import {requestFailed, requestLoading} from "../../functions/generalFunctions";
 
 // Component
-function DashboardCardComponent({request, operator, label, color, data, url}) {
+function DashboardCardComponent({request, label, color, data, url, icon}) {
     // Render
     return (
         <>
@@ -15,7 +15,12 @@ function DashboardCardComponent({request, operator, label, color, data, url}) {
                 requestFailed(request) ? <ErrorAlertComponent message={request.message} /> : (
                     <div className={`small-box ${color}`}>
                         <div className="inner">
-                            <h4 className="text-right">{data}</h4>
+                            <h4 className="text-right">
+                                <div className="float-left">
+                                    <i className={icon} />
+                                </div>
+                                {data}
+                            </h4>
                             <span>{label}</span>
                         </div>
                         <Link to={url} className="small-box-footer">
@@ -38,7 +43,6 @@ DashboardCardComponent.propTypes = {
     color: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     request: PropTypes.object.isRequired,
-    operator: PropTypes.object.isRequired,
 };
 
 export default React.memo(DashboardCardComponent);
