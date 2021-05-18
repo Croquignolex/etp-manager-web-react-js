@@ -2,9 +2,8 @@ import PropTypes from 'prop-types';
 import React, {useEffect, useMemo} from 'react';
 
 import {PENDING} from "../constants/typeConstants";
-import * as types from "../constants/typeConstants";
 import * as path from "../constants/pagePathConstants";
-import {emitAllSimsFetch} from "../redux/sims/actions";
+import {emitFleetsSimsFetch} from "../redux/sims/actions";
 import * as setting from "../constants/settingsConstants";
 import {emitAllFleetsFetch} from "../redux/fleets/actions";
 import {formatNumber} from "../functions/generalFunctions";
@@ -22,11 +21,11 @@ import DashboardWithOperatorCardComponent from "../components/dashboard/Dashboar
 
 // Component
 function DashboardPage({user, fleets, sims, clearances, settings, dispatch, location,
-                           balanceUserRequests, allClearancesRequests, allFleetsRequests, allSimsRequests}) {
+                           balanceUserRequests, allClearancesRequests, allFleetsRequests, simsRequests}) {
     // Local effects
     useEffect(() => {
-        dispatch(emitAllSimsFetch());
         dispatch(emitAllFleetsFetch());
+        dispatch(emitFleetsSimsFetch());
         dispatch(emitFetchUserBalance());
         dispatch(emitAllClearancesFetch());
         // Cleaner error alert while component did unmount without store dependency
@@ -46,11 +45,18 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
 
     // Data
     const cardsData = settings.cards;
-    const fleetSimsFleetsData = useMemo(() => {
-        return sims.filter(sim => types.FLEET_TYPE === sim.type.name).reduce((acc, val) => acc + parseInt(val.balance, 10), 0)
-        // eslint-disable-next-line
+    const mtnFleetSimsFleetsData = useMemo(() => {
+        const data = sims.filter(sim => (sim.operator.id === '1'));
+        const number = data.length
+        const value = data.reduce((acc, val) => acc + parseInt(val.balance, 10), 0)
+        return {number, value}
     }, [sims]);
-
+    const orangeFleetSimsFleetsData = useMemo(() => {
+        const data = sims.filter(sim => (sim.operator.id === '2'));
+        const number = data.length
+        const value = data.reduce((acc, val) => acc + parseInt(val.balance, 10), 0)
+        return {number, value}
+    }, [sims]);
     const mtnFleetsData = useMemo(() => {
         const data = fleets.filter(fleet => (fleet.status === PENDING) && fleet.operator.id === '1');
         const number = data.length
@@ -76,7 +82,6 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
         return {number, value}
     }, [clearances]);
 
-
     // Render
     return (
         <AppLayoutContainer pathname={location.pathname}>
@@ -96,14 +101,25 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
                                     />
                                 </div>
                             }
-                            {cardsData.includes(setting.CARD_FLEET_SIMS_FLEETS) &&
+                            {cardsData.includes(setting.CARD_FLEET_SIMS_FLEETS_MTN) &&
                                 <div className="col-lg-4 col-md-4 col-sm-6">
-                                    <DashboardCardComponent icon='fa fa-rss'
-                                                            color='bg-secondary'
-                                                            request={allSimsRequests}
-                                                            url={path.FLEETS_SIMS_PAGE_PATH}
-                                                            label={setting.LABEL_FLEET_SIMS_FLEETS}
-                                                            data={formatNumber(fleetSimsFleetsData)}
+                                    <DashboardWithOperatorCardComponent color='bg-secondary'
+                                                                        operator={{id: '1'}}
+                                                                        request={simsRequests}
+                                                                        url={path.FLEETS_SIMS_PAGE_PATH}
+                                                                        data={formatNumber(mtnFleetSimsFleetsData.value)}
+                                                                        label={`${setting.LABEL_FLEET_SIMS_FLEETS_MTN} (${mtnFleetsData.number})`}
+                                    />
+                                </div>
+                            }
+                            {cardsData.includes(setting.CARD_FLEET_SIMS_FLEETS_ORANGE) &&
+                                <div className="col-lg-4 col-md-4 col-sm-6">
+                                    <DashboardWithOperatorCardComponent color='bg-secondary'
+                                                                        operator={{id: '2'}}
+                                                                        request={simsRequests}
+                                                                        url={path.FLEETS_SIMS_PAGE_PATH}
+                                                                        data={formatNumber(orangeFleetSimsFleetsData.value)}
+                                                                        label={`${setting.LABEL_FLEET_SIMS_FLEETS_ORANGE} (${mtnFleetsData.number})`}
                                     />
                                 </div>
                             }
@@ -118,6 +134,17 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
                                     />
                                 </div>
                             }
+                            {cardsData.includes(setting.CARD_FLEETS_REQUESTS_ORANGE) &&
+                                <div className="col-lg-4 col-md-4 col-sm-6">
+                                    <DashboardWithOperatorCardComponent color='bg-success'
+                                                                        operator={{id: '2'}}
+                                                                        request={allFleetsRequests}
+                                                                        url={path.REQUESTS_FLEETS_PAGE_PATH}
+                                                                        data={formatNumber(orangeFleetsData.value)}
+                                                                        label={`${setting.LABEL_FLEETS_REQUESTS_ORANGE} (${orangeFleetsData.number})`}
+                                    />
+                                </div>
+                            }
                             {cardsData.includes(setting.CARD_CLEARANCES_REQUEST_MTN) &&
                                 <div className="col-lg-4 col-md-4 col-sm-6">
                                     <DashboardWithOperatorCardComponent color='bg-primary'
@@ -126,17 +153,6 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
                                                             url={path.REQUESTS_CLEARANCES_PAGE_PATH}
                                                             data={formatNumber(mtnClearancesData.value)}
                                                             label={`${setting.LABEL_CLEARANCES_REQUEST_MTN} (${mtnClearancesData.number})`}
-                                    />
-                                </div>
-                            }
-                            {cardsData.includes(setting.CARD_FLEETS_REQUESTS_ORANGE) &&
-                                <div className="col-lg-4 col-md-4 col-sm-6">
-                                    <DashboardWithOperatorCardComponent color='bg-success'
-                                                            operator={{id: '2'}}
-                                                            request={allFleetsRequests}
-                                                            url={path.REQUESTS_FLEETS_PAGE_PATH}
-                                                            data={formatNumber(orangeFleetsData.value)}
-                                                            label={`${setting.LABEL_FLEETS_REQUESTS_ORANGE} (${orangeFleetsData.number})`}
                                     />
                                 </div>
                             }
@@ -168,7 +184,7 @@ DashboardPage.propTypes = {
     location: PropTypes.object.isRequired,
     settings: PropTypes.object.isRequired,
     clearances: PropTypes.array.isRequired,
-    allSimsRequests: PropTypes.object.isRequired,
+    simsRequests: PropTypes.object.isRequired,
     allFleetsRequests: PropTypes.object.isRequired,
     balanceUserRequests: PropTypes.object.isRequired,
     allClearancesRequests: PropTypes.object.isRequired,
