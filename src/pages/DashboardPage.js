@@ -18,6 +18,7 @@ import {storeAllFleetsRequestReset} from "../redux/requests/fleets/actions";
 import {storeUserBalanceFetchRequestReset} from "../redux/requests/user/actions";
 import DashboardCardComponent from "../components/dashboard/DashboardCardComponent";
 import {storeAllClearancesRequestReset} from "../redux/requests/clearances/actions";
+import DashboardWithOperatorCardComponent from "../components/dashboard/DashboardWithOperatorCardComponent";
 
 // Component
 function DashboardPage({user, fleets, sims, clearances, settings, dispatch, location,
@@ -115,7 +116,7 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
 
                             {cardsData.includes(setting.CARD_FLEETS_REQUESTS_MTN) &&
                                 <div className="col-lg-4 col-md-4 col-sm-6">
-                                    <DashboardCardComponent color='bg-success'
+                                    <DashboardWithOperatorCardComponent color='bg-success'
                                                             operator={{id: '1'}}
                                                             request={allFleetsRequests}
                                                             url={path.REQUESTS_FLEETS_PAGE_PATH}
@@ -126,7 +127,7 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
                             }
                             {cardsData.includes(setting.CARD_CLEARANCES_REQUEST_MTN) &&
                                 <div className="col-lg-4 col-md-4 col-sm-6">
-                                    <DashboardCardComponent color='bg-primary'
+                                    <DashboardWithOperatorCardComponent color='bg-primary'
                                                             operator={{id: '1'}}
                                                             request={allClearancesRequests}
                                                             url={path.REQUESTS_CLEARANCES_PAGE_PATH}
@@ -137,7 +138,7 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
                             }
                             {cardsData.includes(setting.CARD_FLEETS_REQUESTS_ORANGE) &&
                                 <div className="col-lg-4 col-md-4 col-sm-6">
-                                    <DashboardCardComponent color='bg-success'
+                                    <DashboardWithOperatorCardComponent color='bg-success'
                                                             operator={{id: '2'}}
                                                             request={allFleetsRequests}
                                                             url={path.REQUESTS_FLEETS_PAGE_PATH}
@@ -148,39 +149,12 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
                             }
                             {cardsData.includes(setting.CARD_CLEARANCES_REQUEST_ORANGE) &&
                                 <div className="col-lg-4 col-md-4 col-sm-6">
-                                    <DashboardCardComponent color='bg-primary'
+                                    <DashboardWithOperatorCardComponent color='bg-primary'
                                                             operator={{id: '2'}}
                                                             request={allClearancesRequests}
                                                             url={path.REQUESTS_CLEARANCES_PAGE_PATH}
                                                             data={formatNumber(orangeClearancesData.value)}
                                                             label={`${setting.LABEL_CLEARANCES_REQUEST_ORANGE} (${orangeClearancesData.number})`}
-                                    />
-                                </div>
-                            }
-
-
-
-
-
-                            {cardsData.includes(setting.CARD_FLEETS_REQUESTS) &&
-                                <div className="col-lg-3 col-md-4 col-sm-6">
-                                    <DashboardCardComponent icon='fa fa-rss'
-                                                            color='bg-danger'
-                                                            data={fleets.length}
-                                                            request={allFleetsRequests}
-                                                            url={path.REQUESTS_FLEETS_PAGE_PATH}
-                                                            label={setting.LABEL_FLEETS_REQUESTS}
-                                    />
-                                </div>
-                            }
-                            {cardsData.includes(setting.CARD_CLEARANCES_REQUEST) &&
-                                <div className="col-lg-3 col-md-4 col-sm-6">
-                                    <DashboardCardComponent color='bg-warning'
-                                                            icon='fa fa-rss-square'
-                                                            data={clearances.length}
-                                                            request={allClearancesRequests}
-                                                            url={path.REQUESTS_CLEARANCES_PAGE_PATH}
-                                                            label={setting.LABEL_CLEARANCES_REQUEST}
                                     />
                                 </div>
                             }
