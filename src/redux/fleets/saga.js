@@ -108,11 +108,12 @@ export function* emitFleetAddSupply() {
 }
 
 // Extract fleet data
-function extractFleetData(apiSim, apiUser, apiAgent, apiClaimer, apiFleet) {
+function extractFleetData(apiSim, apiUser, apiAgent, apiClaimer, apiFleet, apiOperator) {
     let fleet = {
         id: '', amount: '', status: '', creation: '',
 
         agent: {id: '', name: ''},
+        operator: {id: '', name: ''},
         sim: {id: '', name: '', number: ''},
         claimant: {id: '', name: '', phone: ''},
     };
@@ -137,6 +138,12 @@ function extractFleetData(apiSim, apiUser, apiAgent, apiClaimer, apiFleet) {
             id: apiClaimer.id.toString(),
         }
     }
+    if(apiOperator) {
+        fleet.operator = {
+            name: apiOperator.nom,
+            id: apiOperator.id.toString(),
+        }
+    }
     if(apiFleet) {
         fleet.actionLoader = false;
         fleet.status = apiFleet.statut;
@@ -158,7 +165,8 @@ function extractFleetsData(apiFleets) {
                 data.user,
                 data.agent,
                 data.demandeur,
-                data.demande
+                data.demande,
+                data.operateur,
             ));
         });
     }

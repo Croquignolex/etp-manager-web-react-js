@@ -84,11 +84,12 @@ export function* emitAllClearancesFetch() {
 }
 
 // Extract clearance data
-function extractClearanceData(apiSim, apiUser, apiAgent, apiClaimer, apiFleet) {
+function extractClearanceData(apiSim, apiUser, apiAgent, apiClaimer, apiFleet, apiOperator) {
     let fleet = {
         id: '', amount: '', status: '', creation: '',
 
         agent: {id: '', name: ''},
+        operator: {id: '', name: ''},
         sim: {id: '', name: '', number: ''},
         claimant: {id: '', name: '', phone: ''},
     };
@@ -113,6 +114,12 @@ function extractClearanceData(apiSim, apiUser, apiAgent, apiClaimer, apiFleet) {
             id: apiClaimer.id.toString(),
         }
     }
+    if(apiOperator) {
+        fleet.operator = {
+            name: apiOperator.nom,
+            id: apiOperator.id.toString(),
+        }
+    }
     if(apiFleet) {
         fleet.actionLoader = false;
         fleet.status = apiFleet.statut;
@@ -134,7 +141,8 @@ function extractClearancesData(apiClearances) {
                 data.user,
                 data.agent,
                 data.demandeur,
-                data.demande
+                data.demande,
+                data.operateur,
             ));
         });
     }
