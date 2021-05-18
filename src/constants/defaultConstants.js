@@ -14,4 +14,4 @@ export const DEFAULT_COUNTRY = 'CAMAEROUN';
 
 export const UNKNOWN = 'INCONNU';
 
-export const CURRENCY = ' xaf';
+export const CURRENCY = ' fcfa';

@@ -2,13 +2,13 @@ import PropTypes from "prop-types";
 import React, {useState} from 'react';
 
 import LoaderComponent from "../LoaderComponent";
+import OperatorComponent from "../OperatorComponent";
 import FormModalComponent from "../modals/FormModalComponent";
-import {DONE, PENDING, PROCESSING} from "../../constants/typeConstants";
 import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
+import {DONE, PENDING, PROCESSING} from "../../constants/typeConstants";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
 import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
 import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer";
-import OperatorComponent from "../OperatorComponent";
 
 // Component
 function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {

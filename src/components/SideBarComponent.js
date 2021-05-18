@@ -128,7 +128,7 @@ function buildRequestsMenu() {
         icon: 'fa fa-paste',
         sub: [
             {name: page.REQUESTS_FLEETS_PAGE, path: path.REQUESTS_FLEETS_PAGE_PATH},
-            // {name: page.REQUESTS_CLEARANCES_PAGE, path: path.REQUESTS_CLEARANCES_PAGE_PATH}
+            {name: page.REQUESTS_CLEARANCES_PAGE, path: path.REQUESTS_CLEARANCES_PAGE_PATH}
         ]
     };
 }
