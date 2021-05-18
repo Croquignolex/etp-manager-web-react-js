@@ -78,6 +78,7 @@ export function* emitAddTransfer() {
                 apiResponse.data.puce_receptrice,
                 apiResponse.data.utilisateur,
                 apiResponse.data.flottage,
+                apiResponse.data.operateur,
             );
             // Fire event to redux
             yield put(storeSetNewTransferData({transfer}))
@@ -91,12 +92,13 @@ export function* emitAddTransfer() {
 }
 
 // Extract transfer data
-function extractTransferData(apiSimOutgoing, apiSimIncoming, apiUser, apiTransfer) {
+function extractTransferData(apiSimOutgoing, apiSimIncoming, apiUser, apiTransfer, apiOperator) {
     let transfer = {
         id: '', reference: '', amount: '', creation: '',
         note: '', remaining: '', status: '',
 
         user: {id: '', name: ''},
+        operator: {id: '', name: ''},
         sim_outgoing: {id: '', name: '', number: ''},
         sim_incoming: {id: '', name: '', number: ''},
     };
@@ -120,8 +122,15 @@ function extractTransferData(apiSimOutgoing, apiSimIncoming, apiUser, apiTransfe
             id: apiUser.id.toString()
         };
     }
+    if(apiOperator) {
+        transfer.operator = {
+            name: apiOperator.nom,
+            id: apiOperator.id.toString(),
+        }
+    }
     if(apiTransfer) {
         transfer.actionLoader = false;
+        transfer.status = apiTransfer.statut;
         transfer.amount = apiTransfer.montant;
         transfer.id = apiTransfer.id.toString();
         transfer.creation = apiTransfer.created_at;
@@ -138,6 +147,7 @@ export function extractTransfersData(apiTransfers) {
             data.puce_receptrice,
             data.utilisateur,
             data.flottage,
+            data.operateur,
         ));
     });
     return transfers;

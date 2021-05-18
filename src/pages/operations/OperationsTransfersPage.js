@@ -131,6 +131,7 @@ function searchEngine(data, _needle) {
             return (
                 needleSearch(item.amount, _needle) ||
                 needleSearch(item.user.name, _needle) ||
+                needleSearch(item.operator.name, _needle) ||
                 needleSearch(item.sim_incoming.number, _needle) ||
                 needleSearch(item.sim_outgoing.number, _needle) ||
                 needleSearch(dateToString(item.creation), _needle)
