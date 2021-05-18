@@ -17,7 +17,7 @@ function SideBarComponent({user, pathname}) {
     const authorisedMenu = useMemo(() => {
         return [
             buildDashboardMenu(),
-            // buildRequestsMenu(),
+            buildRequestsMenu(),
             // buildOperationsMenu(),
             // buildRecoveriesMenu(),
             // buildCheckoutMenu(),

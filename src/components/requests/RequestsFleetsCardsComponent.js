@@ -8,6 +8,7 @@ import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
 import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
 import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer";
+import OperatorComponent from "../OperatorComponent";
 
 // Component
 function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {
@@ -38,13 +39,16 @@ function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {
                                 </div>
                                 <div className="card-body">
                                     <ul className="list-group list-group-unbordered">
+                                        <OperatorComponent operator={item.operator} />
                                         <li className="list-group-item">
                                             <b>Création</b>
                                             <span className="float-right">{dateToString(item.creation)}</span>
                                         </li>
                                         <li className="list-group-item">
                                             <b>Montant demandé</b>
-                                            <span className="float-right">{formatNumber(item.amount)}</span>
+                                            <span className="float-right text-success text-bold">
+                                                {formatNumber(item.amount)}
+                                            </span>
                                         </li>
                                         {(DONE === item.status) &&
                                             <li className="list-group-item">
@@ -84,7 +88,7 @@ function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {
                                                         className="btn btn-theme"
                                                         onClick={() => handleSupplyModalShow(item)}
                                                 >
-                                                    <i className="fa fa-plus" /> Effectuer un flottage
+                                                    <i className="fa fa-check" /> Effectuer un flottage
                                                 </button>
                                             }
                                         </div>
