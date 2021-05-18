@@ -22,7 +22,7 @@ import {
 import DisabledInput from "../form/DisabledInput";
 
 // Component
-function RequestsFleetsAddSupplyComponent({fleet, request, sims, allSimsRequests, dispatch, handleClose}) {
+function RequestsFleetsAddSupplyComponent({fleet, request, sims, simsRequests, dispatch, handleClose}) {
     // Local state
     const [sim, setSim] = useState(DEFAULT_FORM_DATA);
     const [amount, setAmount] = useState({...DEFAULT_FORM_DATA, data: fleet.remaining});
@@ -58,8 +58,10 @@ function RequestsFleetsAddSupplyComponent({fleet, request, sims, allSimsRequests
 
     // Build select options
     const simSelectOptions = useMemo(() => {
-        return dataToArrayForSelect(mappedSims(sims.filter(item => FLEET_TYPE === item.type.name)))
-    }, [sims]);
+        return dataToArrayForSelect(mappedSims(
+            sims.filter(item => fleet.operator.id === item.operator.id)
+        ))
+    }, [sims, fleet.operator.id]);
 
     // Reset error alert
     const shouldResetErrorData = () => {
@@ -92,7 +94,7 @@ function RequestsFleetsAddSupplyComponent({fleet, request, sims, allSimsRequests
     return (
         <>
             {requestFailed(request) && <ErrorAlertComponent message={request.message} />}
-            {requestFailed(allSimsRequests) && <ErrorAlertComponent message={allSimsRequests.message} />}
+            {requestFailed(simsRequests) && <ErrorAlertComponent message={simsRequests.message} />}
             <form onSubmit={handleSubmit}>
                 <div className="row">
                     <div className='col-sm-6'>
@@ -116,7 +118,7 @@ function RequestsFleetsAddSupplyComponent({fleet, request, sims, allSimsRequests
                                          label='Puce de flottage'
                                          options={simSelectOptions}
                                          handleInput={handleSimSelect}
-                                         requestProcessing={requestLoading(allSimsRequests)}
+                                         requestProcessing={requestLoading(simsRequests)}
                         />
                     </div>
                     <div className='col-sm-6'>
@@ -142,7 +144,7 @@ RequestsFleetsAddSupplyComponent.propTypes = {
     dispatch: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired,
     handleClose: PropTypes.func.isRequired,
-    allSimsRequests: PropTypes.object.isRequired,
+    simsRequests: PropTypes.object.isRequired,
 };
 
 export default React.memo(RequestsFleetsAddSupplyComponent);

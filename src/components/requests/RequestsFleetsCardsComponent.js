@@ -88,7 +88,7 @@ function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {
                                                         className="btn btn-theme"
                                                         onClick={() => handleSupplyModalShow(item)}
                                                 >
-                                                    <i className="fa fa-check" /> Effectuer un flottage
+                                                    <i className="fa fa-check" /> Flotter
                                                 </button>
                                             }
                                         </div>
