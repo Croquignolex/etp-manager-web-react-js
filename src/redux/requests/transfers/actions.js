@@ -14,6 +14,11 @@ export const STORE_ADD_TRANSFER_REQUEST_RESET = 'STORE_ADD_TRANSFER_REQUEST_RESE
 export const STORE_ADD_TRANSFER_REQUEST_FAILED = 'STORE_ADD_TRANSFER_REQUEST_FAILED';
 export const STORE_ADD_TRANSFER_REQUEST_SUCCEEDED = 'STORE_ADD_TRANSFER_REQUEST_SUCCEEDED';
 
+export const STORE_CONFIRM_TRANSFER_REQUEST_INIT = 'STORE_CONFIRM_TRANSFER_REQUEST_INIT';
+export const STORE_CONFIRM_TRANSFER_REQUEST_RESET = 'STORE_CONFIRM_TRANSFER_REQUEST_RESET';
+export const STORE_CONFIRM_TRANSFER_REQUEST_FAILED = 'STORE_CONFIRM_TRANSFER_REQUEST_FAILED';
+export const STORE_CONFIRM_TRANSFER_REQUEST_SUCCEEDED = 'STORE_CONFIRM_TRANSFER_REQUEST_SUCCEEDED';
+
 // ======================================================== Transfers
 // Set transfers init data into store
 export const storeTransfersRequestInit = () => ({
@@ -79,4 +84,26 @@ export const storeAddTransferRequestSucceed = ({message}) => ({
 // Set add transfer reset data into store
 export const storeAddTransferRequestReset = () => ({
     type: STORE_ADD_TRANSFER_REQUEST_RESET
+});
+// ======================================================== Confirm transfer
+// Set confirm transfer init data into store
+export const storeConfirmTransferRequestInit = () => ({
+    type: STORE_CONFIRM_TRANSFER_REQUEST_INIT
+});
+
+// Set confirm transfer failed data into store
+export const storeConfirmTransferRequestFailed = ({message}) => ({
+    message,
+    type: STORE_CONFIRM_TRANSFER_REQUEST_FAILED
+});
+
+// Set confirm transfer succeeded data into store
+export const storeConfirmTransferRequestSucceed = ({message}) => ({
+    message,
+    type: STORE_CONFIRM_TRANSFER_REQUEST_SUCCEEDED
+});
+
+// Set confirm transfer reset data into store
+export const storeConfirmTransferRequestReset = () => ({
+    type: STORE_CONFIRM_TRANSFER_REQUEST_RESET
 });

@@ -6,9 +6,12 @@ import {
     EMIT_ADD_TRANSFER,
     EMIT_TRANSFERS_FETCH,
     storeSetTransfersData,
+    EMIT_CONFIRM_TRANSFER,
+    storeUpdateTransferData,
     storeSetNewTransferData,
     storeSetNextTransfersData,
     EMIT_NEXT_TRANSFERS_FETCH,
+    storeSetTransferActionData,
     storeStopInfiniteScrollTransferData
 } from "./actions";
 import {
@@ -20,7 +23,10 @@ import {
     storeNextTransfersRequestInit,
     storeAddTransferRequestSucceed,
     storeNextTransfersRequestFailed,
-    storeNextTransfersRequestSucceed
+    storeConfirmTransferRequestInit,
+    storeNextTransfersRequestSucceed,
+    storeConfirmTransferRequestFailed,
+    storeConfirmTransferRequestSucceed
 } from "../requests/transfers/actions";
 
 // Fetch transfers from API
@@ -88,6 +94,29 @@ export function* emitAddTransfer() {
         } catch (message) {
             // Fire event for request
             yield put(storeAddTransferRequestFailed({message}));
+        }
+    });
+}
+
+// Confirm transfer from API
+export function* emitConfirmTransfer() {
+    yield takeLatest(EMIT_CONFIRM_TRANSFER, function*({id}) {
+        try {
+            // Fire event at redux to toggle action loader
+            yield put(storeSetTransferActionData({id}));
+            // Fire event for request
+            yield put(storeConfirmTransferRequestInit());
+            const apiResponse = yield call(apiPostRequest, `${api.CONFIRM_TRANSFER_API_PATH}/${id}`);
+            // Fire event to redux
+            yield put(storeUpdateTransferData({id}));
+            // Fire event at redux to toggle action loader
+            yield put(storeSetTransferActionData({id}));
+            // Fire event for request
+            yield put(storeConfirmTransferRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeSetTransferActionData({id}));
+            yield put(storeConfirmTransferRequestFailed({message}));
         }
     });
 }
@@ -167,6 +196,7 @@ export default function* sagaTransfers() {
     yield all([
         fork(emitAddTransfer),
         fork(emitTransfersFetch),
+        fork(emitConfirmTransfer),
         fork(emitNextTransfersFetch),
     ]);
 }

@@ -1,4 +1,7 @@
+import Lodash from "lodash";
+
 import * as actions from "./actions";
+import {DONE} from "../../constants/typeConstants";
 
 // Partial global store for users data management
 const initialState = {
@@ -26,6 +29,28 @@ function reduce(state = initialState, action) {
         // Resolve event to set new transfer data
         case actions.STORE_SET_NEW_TRANSFER_DATA:
             nextState = {...state, list: [action.transfer, ...state.list]}
+            return nextState || state;
+        // Resolve event to update transfer data
+        case actions.STORE_UPDATE_TRANSFER_DATA:
+            nextState = {
+                ...state,
+                list: Lodash.map(state.list, (item) => {
+                    if(item.id === action.id) {
+                        item.status = DONE;
+                    }
+                    return item;
+                })
+            };
+            return nextState || state;
+        // Resolve event to set transfer action data
+        case actions.STORE_SET_TRANSFER_ACTION_DATA:
+            nextState = {
+                ...state,
+                list: Lodash.map(state.list, (item) => {
+                    if(item.id === action.id) item.actionLoader = !item.actionLoader;
+                    return item;
+                })
+            };
             return nextState || state;
         // Unknown action
         default: return state;

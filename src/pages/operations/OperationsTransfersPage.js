@@ -12,7 +12,7 @@ import {storeAllSimsRequestReset} from "../../redux/requests/sims/actions";
 import FormModalComponent from "../../components/modals/FormModalComponent";
 import {OPERATIONS_TRANSFERS_PAGE} from "../../constants/pageNameConstants";
 import ConfirmModalComponent from "../../components/modals/ConfirmModalComponent";
-import {emitNextTransfersFetch, emitTransfersFetch} from "../../redux/transfers/actions";
+import {emitConfirmTransfer, emitNextTransfersFetch, emitTransfersFetch} from "../../redux/transfers/actions";
 import OperationsTransfersCardsComponent from "../../components/operations/OperationsTransfersCardsComponent";
 import {storeNextTransfersRequestReset, storeTransfersRequestReset} from "../../redux/requests/transfers/actions";
 import OperationsTransfersAddTransferContainer from "../../containers/operations/OperationsTransfersAddTransferContainer";
@@ -81,7 +81,7 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
     // Trigger when clearance confirm confirmed on modal
     const handleConfirm = (id) => {
         handleConfirmModalHide();
-        // dispatch(emitConfirmRefuel({id}));
+        dispatch(emitConfirmTransfer({id}));
     };
 
     // Render

@@ -6,6 +6,7 @@ const initialState = {
     add: {failed: false, loading: false, succeeded: false, message: ""},
     list: {failed: false, loading: false, succeeded: false, message: ""},
     next: {failed: false, loading: false, succeeded: false, message: ""},
+    apply: {failed: false, loading: false, succeeded: false, message: ""},
 };
 
 // Reduce
@@ -62,6 +63,23 @@ function reduce(state = initialState, action) {
         // Resolve event to set add transfer reset request store data
         case actions.STORE_ADD_TRANSFER_REQUEST_RESET:
             nextState = {...state, add: initialState.add};
+            return nextState || state;
+        // ======================================================== Confirm transfer
+        // Resolve event to set confirm transfer init request store data
+        case actions.STORE_CONFIRM_TRANSFER_REQUEST_INIT:
+            nextState = {...state, apply: requestInitValue()};
+            return nextState || state;
+        // Resolve event to set confirm transfer failed request store data
+        case actions.STORE_CONFIRM_TRANSFER_REQUEST_FAILED:
+            nextState = {...state, apply: requestFailedValue(action.message)};
+            return nextState || state;
+        // Resolve event to set confirm transfer succeeded request store data
+        case actions.STORE_CONFIRM_TRANSFER_REQUEST_SUCCEEDED:
+            nextState = {...state, apply: requestSucceededValue(action.message)};
+            return nextState || state;
+        // Resolve event to set confirm transfer reset request store data
+        case actions.STORE_CONFIRM_TRANSFER_REQUEST_RESET:
+            nextState = {...state, apply: initialState.apply};
             return nextState || state;
         // ========================================================
         // Unknown action
