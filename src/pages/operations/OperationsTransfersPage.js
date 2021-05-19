@@ -21,11 +21,13 @@ import {
     storeConfirmTransferRequestReset
 } from "../../redux/requests/transfers/actions";
 import {
+    applySuccess,
     dateToString,
     formatNumber,
     needleSearch,
     requestFailed,
     requestLoading,
+    requestSucceeded,
 } from "../../functions/generalFunctions";
 
 // Component
@@ -45,6 +47,15 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
         };
         // eslint-disable-next-line
     }, []);
+
+    // Local effects
+    useEffect(() => {
+        // Reset inputs while toast (well done) into current scope
+        if(requestSucceeded(transfersRequests.apply)) {
+            applySuccess(transfersRequests.apply.message);
+        }
+        // eslint-disable-next-line
+    }, [transfersRequests.apply]);
 
     const handleNeedleInput = (data) => {
         setNeedle(data)
