@@ -14,8 +14,12 @@ import {OPERATIONS_TRANSFERS_PAGE} from "../../constants/pageNameConstants";
 import ConfirmModalComponent from "../../components/modals/ConfirmModalComponent";
 import {emitConfirmTransfer, emitNextTransfersFetch, emitTransfersFetch} from "../../redux/transfers/actions";
 import OperationsTransfersCardsComponent from "../../components/operations/OperationsTransfersCardsComponent";
-import {storeNextTransfersRequestReset, storeTransfersRequestReset} from "../../redux/requests/transfers/actions";
 import OperationsTransfersAddTransferContainer from "../../containers/operations/OperationsTransfersAddTransferContainer";
+import {
+    storeTransfersRequestReset,
+    storeNextTransfersRequestReset,
+    storeConfirmTransferRequestReset
+} from "../../redux/requests/transfers/actions";
 import {
     dateToString,
     formatNumber,
@@ -51,6 +55,7 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
         dispatch(storeAllSimsRequestReset());
         dispatch(storeTransfersRequestReset());
         dispatch(storeNextTransfersRequestReset());
+        dispatch(storeConfirmTransferRequestReset());
     };
 
     // Fetch next transfers data to enhance infinite scroll
@@ -105,6 +110,7 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
                                             {/* Error message */}
                                             {requestFailed(transfersRequests.list) && <ErrorAlertComponent message={transfersRequests.list.message} />}
                                             {requestFailed(transfersRequests.next) && <ErrorAlertComponent message={transfersRequests.next.message} />}
+                                            {requestFailed(transfersRequests.apply) && <ErrorAlertComponent message={transfersRequests.apply.message} />}
                                             <button type="button"
                                                     className="btn btn-theme mb-2"
                                                     onClick={handleTransferModalShow}
