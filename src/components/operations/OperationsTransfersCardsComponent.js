@@ -75,10 +75,10 @@ function OperationsTransfersCardsComponent({transfers, handleConfirmModalShow}) 
                                         </li>
                                     </ul>
                                     {(item.status === PROCESSING && item.type.name === FLEET_TYPE) && (
-                                        <div className="mt-3 text-center">
+                                        <div className="mt-3 text-right">
                                             {item.actionLoader ? <LoaderComponent little={true} /> : (
                                                 <button type="button"
-                                                        className="btn btn-theme "
+                                                        className="btn btn-theme btn-sm"
                                                         onClick={() => handleConfirmModalShow(item)}
                                                 >
                                                     <i className="fa fa-check" /> Confirmer
