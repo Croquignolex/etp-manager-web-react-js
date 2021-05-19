@@ -181,7 +181,7 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
 // Search engine
 function searchEngine(data, _needle) {
     // Avoid empty filtering
-    if(_needle !== '' && _needle !== undefined) {S
+    if(_needle !== '' && _needle !== undefined) {
         // Filter
         data = data.filter((item) => {
             return (

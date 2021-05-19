@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
 import PropTypes from "prop-types";
+import React, {useState} from 'react';
 
 import OperatorComponent from "../OperatorComponent";
 import FormModalComponent from "../modals/FormModalComponent";
 import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
+import {DONE, PENDING, PROCESSING} from "../../constants/typeConstants";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
 import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
 import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer";
@@ -32,9 +33,7 @@ function RequestsClearancesCardsComponent({clearances}) {
                     return (
                         <div className="col-lg-4 col-md-6" key={key}>
                             <div className="card">
-                                <div className={`${fleetTypeBadgeColor(item.status).background} card-header`}>
-                                    <h3 className="card-title">{fleetTypeBadgeColor(item.status).text}</h3>
-                                </div>
+                                <div className={`${fleetTypeBadgeColor(item.status).background} card-header`} />
                                 <div className="card-body">
                                     <ul className="list-group list-group-unbordered">
                                         <OperatorComponent operator={item.operator} />
@@ -75,6 +74,11 @@ function RequestsClearancesCardsComponent({clearances}) {
                                         <li className="list-group-item">
                                             <b>Demandeur</b>
                                             <span className="float-right">{item.claimant.name}</span>
+                                        </li>
+                                        <li className="list-group-item">
+                                            {item.status === DONE && <b className="text-success text-bold">Pris en charge totalement</b>}
+                                            {item.status === PROCESSING && <b className="text-primary text-bold">Pris en charge partiellement</b>}
+                                            {item.status === PENDING && <b className="text-danger text-bold">En attente de prise en charge</b>}
                                         </li>
                                     </ul>
                                 </div>

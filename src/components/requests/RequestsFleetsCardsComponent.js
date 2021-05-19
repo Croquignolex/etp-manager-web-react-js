@@ -34,9 +34,7 @@ function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {
                     return (
                         <div className="col-lg-4 col-md-6" key={key}>
                             <div className="card">
-                                <div className={`${fleetTypeBadgeColor(item.status).background} card-header`}>
-                                    <h3 className="card-title">{fleetTypeBadgeColor(item.status).text}</h3>
-                                </div>
+                                <div className={`${fleetTypeBadgeColor(item.status).background} card-header`} />
                                 <div className="card-body">
                                     <ul className="list-group list-group-unbordered">
                                         <OperatorComponent operator={item.operator} />
@@ -80,6 +78,10 @@ function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {
                                             <b>Demandeur</b>
                                             <span className="float-right">{item.claimant.name}</span>
                                         </li>
+                                        <li className="list-group-item">
+                                            {item.status === DONE && <b className="text-success text-bold">Flottée</b>}
+                                            {item.status === PENDING && <b className="text-danger text-bold">En attente de flottage</b>}
+                                        </li>
                                     </ul>
                                     {[PENDING, PROCESSING].includes(item.status) &&
                                         <div className="mt-3 text-center">
@@ -88,7 +90,7 @@ function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {
                                                         className="btn btn-theme"
                                                         onClick={() => handleSupplyModalShow(item)}
                                                 >
-                                                    <i className="fa fa-check" /> Flotter
+                                                    <i className="fa fa-rss" /> Flotter
                                                 </button>
                                             }
                                         </div>

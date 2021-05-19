@@ -5,9 +5,9 @@ import LoaderComponent from "../LoaderComponent";
 import OperatorComponent from "../OperatorComponent";
 import FormModalComponent from "../modals/FormModalComponent";
 import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
+import {DONE, FLEET_TYPE, PROCESSING} from "../../constants/typeConstants";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
 import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
-import {DONE, FLEET_TYPE, PROCESSING} from "../../constants/typeConstants";
 
 // Component
 function OperationsTransfersCardsComponent({transfers, handleConfirmModalShow}) {
@@ -33,22 +33,7 @@ function OperationsTransfersCardsComponent({transfers, handleConfirmModalShow}) 
                     return (
                         <div className="col-lg-4 col-md-6" key={key}>
                             <div className="card">
-                                <div className={`${fleetTypeBadgeColor(item.status).background} card-header`}>
-                                    <h3 className="card-title">{fleetTypeBadgeColor(item.status).text}</h3>
-                                    <div className="card-tools">
-                                        {(item.status === PROCESSING && item.type.name === FLEET_TYPE) && (
-                                            item.actionLoader ? <LoaderComponent little={true} /> : (
-                                                <button type="button"
-                                                        title="Confirmer"
-                                                        className="btn btn-tool"
-                                                        onClick={() => handleConfirmModalShow(item)}
-                                                >
-                                                    <i className="fa fa-check" />
-                                                </button>
-                                            )
-                                        )}
-                                    </div>
-                                </div>
+                                <div className={`${fleetTypeBadgeColor(item.status).background} card-header`} />
                                 <div className="card-body">
                                     <ul className="list-group list-group-unbordered">
                                         <OperatorComponent operator={item.operator} />
@@ -85,12 +70,22 @@ function OperationsTransfersCardsComponent({transfers, handleConfirmModalShow}) 
                                             <span className="float-right">{item.user.name}</span>
                                         </li>
                                         <li className="list-group-item">
-                                            {(item.status === DONE)
-                                                ? <b className="text-success">Confirmé</b>
-                                                : <b className="text-danger">En attente de confirmation</b>
-                                            }
+                                            {item.status === DONE && <b className="text-success text-bold">Confirmé</b>}
+                                            {item.status === PROCESSING && <b className="text-danger text-bold">En attente de confirmation</b>}
                                         </li>
                                     </ul>
+                                    {(item.status === PROCESSING && item.type.name === FLEET_TYPE) && (
+                                        <div className="mt-3 text-center">
+                                            {!item.actionLoader ? <LoaderComponent little={true} /> : (
+                                                <button type="button"
+                                                        className="btn btn-theme "
+                                                        onClick={() => handleConfirmModalShow(item)}
+                                                >
+                                                    <i className="fa fa-check" /> Confirmer
+                                                </button>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
