@@ -125,7 +125,7 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
                                                     className="btn btn-theme mb-2"
                                                     onClick={handleSupplyModalShow}
                                             >
-                                                <i className="fa fa-plus" /> Effectuer un flottage
+                                                <i className="fa fa-rss" /> Effectuer un flottage
                                             </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)

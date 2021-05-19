@@ -29,7 +29,9 @@ function SupplyRecoveriesListComponent({recoveries, recoveriesRequestsList}) {
                                            return (
                                                <tr key={key}>
                                                    <td>{dateToString(item.creation)}</td>
-                                                   <td className='text-right'>{formatNumber(item.amount)}</td>
+                                                   <td className='text-right text-success text-bold'>
+                                                       {formatNumber(item.amount)}
+                                                   </td>
                                                    <td>{item.collector.name}</td>
                                                </tr>
                                            )

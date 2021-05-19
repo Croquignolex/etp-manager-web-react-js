@@ -1,12 +1,27 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from "prop-types";
 
 import LoaderComponent from "../LoaderComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
-import {dateToString, formatNumber, requestFailed, requestLoading} from "../../functions/generalFunctions";
+import FormModalComponent from "../modals/FormModalComponent";
+import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
+import {
+    dateToString,
+    formatNumber,
+    requestFailed,
+    requestLoading
+} from "../../functions/generalFunctions";
 
 // Component
 function SupplyReturnsListComponent({returns, returnsRequestsList}) {
+    // Local states
+    const [simDetailsModal, setSimDetailsModal] = useState({show: false, header: "DETAIL DE LA PUCE", id: ''});
+
+    // Hide sim details modal form
+    const handleSimDetailsModalHide = () => {
+        setSimDetailsModal({...simDetailsModal, show: false})
+    }
+
     // Render
     return (
         <>
@@ -31,9 +46,21 @@ function SupplyReturnsListComponent({returns, returnsRequestsList}) {
                                             return (
                                                 <tr key={key}>
                                                     <td>{dateToString(item.creation)}</td>
-                                                    <td className='text-right'>{formatNumber(item.amount)}</td>
-                                                    <td>{item.sim_outgoing.number}</td>
-                                                    <td>{item.sim_incoming.number}</td>
+                                                    <td className='text-right text-success text-bold'>
+                                                        {formatNumber(item.amount)}
+                                                    </td>
+                                                    <td>
+                                                        {item.sim_outgoing.number}
+                                                        <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
+                                                           onClick={() => setSimDetailsModal({...simDetailsModal, show: true, id: item.sim_outgoing.id})}
+                                                        />
+                                                    </td>
+                                                    <td>
+                                                        {item.sim_incoming.number}
+                                                        <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
+                                                           onClick={() => setSimDetailsModal({...simDetailsModal, show: true, id: item.sim_incoming.id})}
+                                                        />
+                                                    </td>
                                                     <td>{item.collector.name}</td>
                                                 </tr>
                                             )
@@ -54,6 +81,10 @@ function SupplyReturnsListComponent({returns, returnsRequestsList}) {
                     </table>
                 </div>
             </div>
+            {/* Modal */}
+            <FormModalComponent small={true} modal={simDetailsModal} handleClose={handleSimDetailsModalHide}>
+                <SimDetailsContainer id={simDetailsModal.id} />
+            </FormModalComponent>
         </>
     )
 }

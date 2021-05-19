@@ -4,11 +4,11 @@ import React, {useState} from 'react';
 import LoaderComponent from "../LoaderComponent";
 import OperatorComponent from "../OperatorComponent";
 import FormModalComponent from "../modals/FormModalComponent";
+import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 import {DONE, PENDING, PROCESSING} from "../../constants/typeConstants";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
 import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
 import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer";
-import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 
 // Component
 function OperationsFleetsCardsComponent({supplies, handleFleetRecoveryModalShow, handleCashRecoveryModalShow, handleSupplyDetailsModalShow}) {
@@ -88,7 +88,7 @@ function OperationsFleetsCardsComponent({supplies, handleFleetRecoveryModalShow,
                                             </span>
                                         </li>
                                         <li className="list-group-item">
-                                            <b>Gestionaire</b>
+                                            <b>Responsable</b>
                                             <span className="float-right">{item.supplier.name}</span>
                                         </li>
                                         <li className="list-group-item">
