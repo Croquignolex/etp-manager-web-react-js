@@ -7,6 +7,7 @@ import FormModalComponent from "../modals/FormModalComponent";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
 import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
 import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer";
+import OperatorComponent from "../OperatorComponent";
 
 // Component
 function OperationsFleetsCardsComponent({supplies, handleFleetRecoveryModalShow, handleCashRecoveryModalShow, handleSupplyDetailsModalShow}) {
@@ -54,6 +55,7 @@ function OperationsFleetsCardsComponent({supplies, handleFleetRecoveryModalShow,
                                 </div>
                                 <div className="card-body">
                                     <ul className="list-group list-group-unbordered">
+                                        <OperatorComponent operator={item.operator} />
                                         <li className="list-group-item">
                                             <b>Création</b>
                                             <span className="float-right">{dateToString(item.creation)}</span>
