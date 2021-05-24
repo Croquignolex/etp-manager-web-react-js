@@ -1,7 +1,7 @@
 import { all, takeLatest, put, fork, call } from 'redux-saga/effects'
 
 import * as api from "../../constants/apiConstants";
-import {apiGetRequest, apiPostRequest, getFileFromServer} from "../../functions/axiosFunctions";
+import {apiGetRequest, apiPostRequest} from "../../functions/axiosFunctions";
 import {
     EMIT_NEW_RECOVERY,
     EMIT_RECOVERIES_FETCH,
@@ -67,14 +67,11 @@ export function* emitNextRecoveriesFetch() {
 
 // New recovery from API
 export function* emitNewRecovery() {
-    yield takeLatest(EMIT_NEW_RECOVERY, function*({supply, amount, receipt}) {
+    yield takeLatest(EMIT_NEW_RECOVERY, function*({supply, amount}) {
         try {
             // Fire event for request
             yield put(storeRecoverRequestInit());
-            const data = new FormData();
-            data.append('recu', receipt);
-            data.append('montant', amount);
-            data.append('id_flottage', supply);
+            const data = {montant: amount, id_flottage: supply}
             const apiResponse = yield call(apiPostRequest, api.NEW_CASH_RECOVERIES_API_PATH, data);
             // Fire event to redux
             yield put(storeUpdateSupplyData({id: supply, amount}));
@@ -110,7 +107,7 @@ export function* emitSupplyRecoveriesFetch() {
 // Extract recovery data
 function extractRecoveryData(apiRecovery, apiUser, apiAgent, apiCollector) {
     let recovery = {
-        id: '', amount: '', creation: '', receipt: '',
+        id: '', amount: '', creation: '',
 
         agent: {id: '', name: ''},
         collector: {id: '', name: ''},
@@ -132,7 +129,6 @@ function extractRecoveryData(apiRecovery, apiUser, apiAgent, apiCollector) {
         recovery.amount = apiRecovery.montant;
         recovery.id = apiRecovery.id.toString();
         recovery.creation = apiRecovery.created_at;
-        recovery.receipt = getFileFromServer(apiRecovery.recu);
     }
     return recovery;
 }

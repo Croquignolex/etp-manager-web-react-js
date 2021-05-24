@@ -5,9 +5,7 @@ import DisabledInput from "../form/DisabledInput";
 import ButtonComponent from "../form/ButtonComponent";
 import AmountComponent from "../form/AmountComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
-import * as constants from "../../constants/defaultConstants";
 import {emitNewRecovery} from "../../redux/recoveries/actions";
-import FileDocumentComponent from "../form/FileDocumentComponent";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {fileChecker, requiredChecker} from "../../functions/checkerFunctions";
@@ -17,7 +15,6 @@ import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../
 // Component
 function OperationsCashRecoveryComponent({supply, request, dispatch, handleClose}) {
     // Local state
-    const [doc, setDoc] = useState(constants.DEFAULT_FORM_DATA);
     const [amount, setAmount] = useState({...DEFAULT_FORM_DATA, data: supply.remaining});
 
     // Local effects
@@ -39,11 +36,6 @@ function OperationsCashRecoveryComponent({supply, request, dispatch, handleClose
         // eslint-disable-next-line
     }, [request]);
 
-    const handleFileInput = (data) => {
-        shouldResetErrorData();
-        setDoc({...doc, isValid: true, data})
-    }
-
     const handleAmountInput = (data) => {
         shouldResetErrorData();
         setAmount({...amount, isValid: true, data})
@@ -58,18 +50,15 @@ function OperationsCashRecoveryComponent({supply, request, dispatch, handleClose
     const handleSubmit = (e) => {
         e.preventDefault();
         shouldResetErrorData();
-        const _document = fileChecker(doc);
         const _amount = requiredChecker(amount);
         // Set value
         setAmount(_amount);
-        setDoc(_document);
-        const validationOK = (_amount.isValid && _document.isValid);
+        const validationOK = (_amount.isValid);
         // Check
         if(validationOK) {
             dispatch(emitNewRecovery({
                 supply: supply.id,
-                amount: _amount.data,
-                receipt: _document.data,
+                amount: _amount.data
             }));
         }
         else playWarningSound();
@@ -92,15 +81,6 @@ function OperationsCashRecoveryComponent({supply, request, dispatch, handleClose
                                          id='inputFleet'
                                          label='Montant'
                                          handleInput={handleAmountInput}
-                        />
-                    </div>
-                </div>
-                <div className='row'>
-                    <div className='col'>
-                        <FileDocumentComponent id='file'
-                                               input={doc}
-                                               label='Réçus (facultatif)'
-                                               handleInput={handleFileInput}
                         />
                     </div>
                 </div>
