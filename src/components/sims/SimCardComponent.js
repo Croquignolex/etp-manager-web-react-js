@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import PropTypes from "prop-types";
 
+import OperatorComponent from "../OperatorComponent";
 import FormModalComponent from "../modals/FormModalComponent";
 import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer";
 import {dateToString, formatNumber, upperFirstCase} from "../../functions/generalFunctions";
@@ -11,7 +12,6 @@ import {
     CORPORATE_TYPE,
     AGENT_RESOURCE_COLLECTOR_CORPORATE_TYPE
 } from "../../constants/typeConstants";
-import OperatorComponent from "../OperatorComponent";
 
 // Component
 function SimCardComponent({sim}) {
