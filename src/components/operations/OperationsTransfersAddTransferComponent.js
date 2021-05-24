@@ -5,19 +5,16 @@ import ButtonComponent from "../form/ButtonComponent";
 import AmountComponent from "../form/AmountComponent";
 import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
+import {emitAllSimsFetch} from "../../redux/sims/actions";
 import {emitAddTransfer} from "../../redux/transfers/actions";
 import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {COLLECTOR_TYPE, FLEET_TYPE} from "../../constants/typeConstants";
+import {storeAllSimsRequestReset} from "../../redux/requests/sims/actions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
 import {storeAddTransferRequestReset} from "../../redux/requests/transfers/actions";
-import {
-    applySuccess,
-    requestFailed,
-    requestLoading,
-    requestSucceeded
-} from "../../functions/generalFunctions";
+import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
 function OperationsTransfersAddTransferComponent({request, sims, allSimsRequests, dispatch, handleClose}) {
@@ -28,6 +25,7 @@ function OperationsTransfersAddTransferComponent({request, sims, allSimsRequests
 
     // Local effects
     useEffect(() => {
+        dispatch(emitAllSimsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -72,6 +70,7 @@ function OperationsTransfersAddTransferComponent({request, sims, allSimsRequests
 
     // Reset error alert
     const shouldResetErrorData = () => {
+        dispatch(storeAllSimsRequestReset());
         dispatch(storeAddTransferRequestReset());
     };
 
