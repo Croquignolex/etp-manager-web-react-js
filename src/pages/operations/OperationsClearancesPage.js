@@ -2,17 +2,13 @@ import PropTypes from 'prop-types';
 import React, {useEffect, useState} from 'react';
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import {emitAllSimsFetch} from "../../redux/sims/actions";
-import {emitAllAgentsFetch} from "../../redux/agents/actions";
 import HeaderComponent from "../../components/HeaderComponent";
 import LoaderComponent from "../../components/LoaderComponent";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
-import {storeAllSimsRequestReset} from "../../redux/requests/sims/actions";
 import FormModalComponent from "../../components/modals/FormModalComponent";
 import {OPERATIONS_CLEARANCES_PAGE} from "../../constants/pageNameConstants";
-import {storeAllAgentsRequestReset} from "../../redux/requests/agents/actions";
 import ConfirmModalComponent from "../../components/modals/ConfirmModalComponent";
 import {emitConfirmRefuel, emitNextRefuelsFetch, emitRefuelsFetch} from "../../redux/refuels/actions";
 import OperationsClearancesCardsComponent from "../../components/operations/OperationsClearancesCardsComponent";
@@ -38,8 +34,6 @@ function OperationsClearancesPage({refuels, refuelsRequests, hasMoreData, page, 
     // Local effects
     useEffect(() => {
         dispatch(emitRefuelsFetch());
-        dispatch(emitAllSimsFetch());
-        dispatch(emitAllAgentsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -62,9 +56,7 @@ function OperationsClearancesPage({refuels, refuelsRequests, hasMoreData, page, 
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        dispatch(storeAllSimsRequestReset());
         dispatch(storeRefuelsRequestReset());
-        dispatch(storeAllAgentsRequestReset());
         dispatch(storeNextRefuelsRequestReset());
         dispatch(storeConfirmRefuelRequestReset());
     };
@@ -126,7 +118,13 @@ function OperationsClearancesPage({refuels, refuelsRequests, hasMoreData, page, 
                                                     className="btn btn-theme mb-2"
                                                     onClick={handleRefuelModalShow}
                                             >
-                                                <i className="fa fa-plus" /> Effectuer un déstockage
+                                                <i className="fa fa-rss-square" /> Effectuer un déstockage
+                                            </button>
+                                            <button type="button"
+                                                    className="btn btn-theme mb-2 ml-2"
+                                                    onClick={handleRefuelModalShow}
+                                            >
+                                                <i className="fa fa-user-slash" /> Effectuer un déstockage anonyme
                                             </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)

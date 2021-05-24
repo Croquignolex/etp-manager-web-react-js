@@ -7,7 +7,7 @@ const mapStateToProps = (state) => ({
     sims: state.sims.list,
     agents: state.agents.list,
     request: state.refuelsRequests.add,
-    allSimsRequests: state.simsRequests.all,
+    simsRequests: state.simsRequests.list,
     allAgentsRequests: state.agentsRequests.all,
 });
 

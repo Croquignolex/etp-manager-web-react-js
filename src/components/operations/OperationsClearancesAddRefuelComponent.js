@@ -7,15 +7,19 @@ import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import {FLEET_TYPE} from "../../constants/typeConstants";
 import {emitAddRefuel} from "../../redux/refuels/actions";
+import {emitFleetsSimsFetch} from "../../redux/sims/actions";
+import {emitAllAgentsFetch} from "../../redux/agents/actions";
 import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
+import {storeSimsRequestReset} from "../../redux/requests/sims/actions";
+import {storeAllAgentsRequestReset} from "../../redux/requests/agents/actions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
 import {storeAddRefuelRequestReset} from "../../redux/requests/refuels/actions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
-function OperationsClearancesAddRefuelComponent({request, sims, agents, allAgentsRequests, allSimsRequests, dispatch, handleClose}) {
+function OperationsClearancesAddRefuelComponent({request, sims, agents, allAgentsRequests, simsRequests, dispatch, handleClose}) {
     // Local state
     const [amount, setAmount] = useState(DEFAULT_FORM_DATA);
     const [incomingSim, setIncomingSim] = useState(DEFAULT_FORM_DATA);
@@ -23,6 +27,8 @@ function OperationsClearancesAddRefuelComponent({request, sims, agents, allAgent
 
     // Local effects
     useEffect(() => {
+        dispatch(emitAllAgentsFetch());
+        dispatch(emitFleetsSimsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -68,7 +74,9 @@ function OperationsClearancesAddRefuelComponent({request, sims, agents, allAgent
 
     // Reset error alert
     const shouldResetErrorData = () => {
+        dispatch(storeSimsRequestReset());
         dispatch(storeAddRefuelRequestReset());
+        dispatch(storeAllAgentsRequestReset());
     };
 
     // Trigger add supply form submit
@@ -98,7 +106,7 @@ function OperationsClearancesAddRefuelComponent({request, sims, agents, allAgent
     return (
         <>
             {requestFailed(request) && <ErrorAlertComponent message={request.message} />}
-            {requestFailed(allSimsRequests) && <ErrorAlertComponent message={allSimsRequests.message} />}
+            {requestFailed(simsRequests) && <ErrorAlertComponent message={simsRequests.message} />}
             <form onSubmit={handleSubmit}>
                 <div className='row'>
                     <div className='col-sm-6'>
@@ -127,7 +135,7 @@ function OperationsClearancesAddRefuelComponent({request, sims, agents, allAgent
                                          title='Choisir une puce'
                                          options={incomingSelectOptions}
                                          handleInput={handleIncomingSelect}
-                                         requestProcessing={requestLoading(allSimsRequests)}
+                                         requestProcessing={requestLoading(simsRequests)}
                         />
                     </div>
                 </div>
@@ -146,7 +154,7 @@ OperationsClearancesAddRefuelComponent.propTypes = {
     dispatch: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired,
     handleClose: PropTypes.func.isRequired,
-    allSimsRequests: PropTypes.object.isRequired,
+    simsRequests: PropTypes.object.isRequired,
     allAgentsRequests: PropTypes.object.isRequired,
 };
 
