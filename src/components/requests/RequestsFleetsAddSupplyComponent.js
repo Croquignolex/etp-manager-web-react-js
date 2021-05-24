@@ -1,25 +1,20 @@
 import PropTypes from "prop-types";
 import React, {useEffect, useMemo, useState} from 'react';
 
+import DisabledInput from "../form/DisabledInput";
 import ButtonComponent from "../form/ButtonComponent";
 import AmountComponent from "../form/AmountComponent";
 import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
-import {FLEET_TYPE} from "../../constants/typeConstants";
+import {emitFleetsSimsFetch} from "../../redux/sims/actions";
 import {emitFleetAddSupply} from "../../redux/fleets/actions";
 import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
-import {storeAllSimsRequestReset} from "../../redux/requests/sims/actions";
+import {storeSimsRequestReset} from "../../redux/requests/sims/actions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
 import {storeFleetSupplyRequestReset} from "../../redux/requests/fleets/actions";
-import {
-    applySuccess,
-    requestFailed,
-    requestLoading,
-    requestSucceeded
-} from "../../functions/generalFunctions";
-import DisabledInput from "../form/DisabledInput";
+import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
 function RequestsFleetsAddSupplyComponent({fleet, request, sims, simsRequests, dispatch, handleClose}) {
@@ -29,6 +24,7 @@ function RequestsFleetsAddSupplyComponent({fleet, request, sims, simsRequests, d
 
     // Local effects
     useEffect(() => {
+        dispatch(emitFleetsSimsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -65,8 +61,8 @@ function RequestsFleetsAddSupplyComponent({fleet, request, sims, simsRequests, d
 
     // Reset error alert
     const shouldResetErrorData = () => {
+        dispatch(storeSimsRequestReset());
         dispatch(storeFleetSupplyRequestReset());
-        dispatch(storeAllSimsRequestReset());
     };
 
     // Trigger add supply form submit
