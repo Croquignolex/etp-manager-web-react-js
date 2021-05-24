@@ -22,6 +22,12 @@ import {
     storeNextSuppliesRequestFailed,
     storeNextSuppliesRequestSucceed
 } from "../requests/supplies/actions";
+import {EMIT_ADD_ANONYMOUS, storeSetNewAnonymousData} from "../anonymous/actions";
+import {
+    storeAddAnonymousRequestFailed,
+    storeAddAnonymousRequestInit,
+    storeAddAnonymousRequestSucceed
+} from "../requests/anonymous/actions";
 
 // Fetch supplies from API
 export function* emitSuppliesFetch() {
@@ -92,6 +98,34 @@ export function* emitAddSupply() {
         }
     });
 }
+
+// Fleets new anonymous supply from API
+export function* emitAddAnonymous() {
+    yield takeLatest(EMIT_ADD_ANONYMOUS, function*({sim, amount, receiver, receiverSim}) {
+        try {
+            // Fire event for request
+            yield put(storeAddAnonymousRequestInit());
+            const data = {montant: amount, id_puce_from: sim, nom_agent: receiver, nro_puce_to: receiverSim};
+            const apiResponse = yield call(apiPostRequest, api.CREATE_ANONYMOUS_FLEET_API_PATH, data);
+            if(apiResponse.data !== null) {
+                // Extract data
+                const anonymous = extractAnoData(
+                    apiResponse.data.puce_emetrice,
+                    apiResponse.data.user,
+                    apiResponse.data.flottage,
+                );
+                // Fire event to redux
+                yield put(storeSetNewAnonymousData({anonymous}))
+            }
+            // Fire event for request
+            yield put(storeAddAnonymousRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeAddAnonymousRequestFailed({message}));
+        }
+    });
+}
+
 
 // Extract supply data
 function extractSupplyData(apiSimOutgoing, apiSimIncoming, apiUser, apiAgent, apiSupplier, apiSupply, apiOperator) {

@@ -12,11 +12,10 @@ import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {phoneChecker, requiredChecker} from "../../functions/checkerFunctions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
-import {storeAddAnonymousRequestReset} from "../../redux/requests/anonymous/actions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
-function OperationsTransfersAddTransferComponent({request, sims, allSimsRequests, dispatch, handleClose}) {
+function OperationsFleetsAddAnonymousFleetsComponent({request, sims, allSimsRequests, dispatch, handleClose}) {
     // Local state
     const [amount, setAmount] = useState(DEFAULT_FORM_DATA);
     const [receiver, setReceiver] = useState(DEFAULT_FORM_DATA);
@@ -150,7 +149,7 @@ function OperationsTransfersAddTransferComponent({request, sims, allSimsRequests
 }
 
 // Prop types to ensure destroyed props data type
-OperationsTransfersAddTransferComponent.propTypes = {
+OperationsFleetsAddAnonymousFleetsComponent.propTypes = {
     sims: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired,
@@ -158,4 +157,4 @@ OperationsTransfersAddTransferComponent.propTypes = {
     allSimsRequests: PropTypes.object.isRequired,
 };
 
-export default React.memo(OperationsTransfersAddTransferComponent);
+export default React.memo(OperationsFleetsAddAnonymousFleetsComponent);

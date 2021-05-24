@@ -1,12 +1,12 @@
 import {connect} from "react-redux";
 
-import OperationsAnonymousAddAnonymousComponent from "../../components/operations/OperationsAnonymousAddAnonymousComponent";
+import OperationsFleetsAddAnonymousFleetsComponent from "../../components/operations/OperationsFleetsAddAnonymousFleetsComponent";
 
 // Map state function to component props
 const mapStateToProps = (state) => ({
     sims: state.sims.list,
-    request: state.anonymousRequests.add,
     allSimsRequests: state.simsRequests.all,
+    request: state.suppliesRequests.anonymous,
 });
 
 // Map dispatch function to component props
@@ -15,4 +15,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 // Connect component to Redux
-export default connect(mapStateToProps, mapDispatchToProps)(OperationsAnonymousAddAnonymousComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(OperationsFleetsAddAnonymousFleetsComponent);

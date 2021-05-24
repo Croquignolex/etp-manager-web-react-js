@@ -14,6 +14,11 @@ export const STORE_ADD_SUPPLY_REQUEST_RESET = 'STORE_ADD_SUPPLY_REQUEST_RESET';
 export const STORE_ADD_SUPPLY_REQUEST_FAILED = 'STORE_ADD_SUPPLY_REQUEST_FAILED';
 export const STORE_ADD_SUPPLY_REQUEST_SUCCEEDED = 'STORE_ADD_SUPPLY_REQUEST_SUCCEEDED';
 
+export const STORE_ADD_ANONYMOUS_SUPPLY_REQUEST_INIT = 'STORE_ADD_ANONYMOUS_SUPPLY_REQUEST_INIT';
+export const STORE_ADD_ANONYMOUS_SUPPLY_REQUEST_RESET = 'STORE_ADD_ANONYMOUS_SUPPLY_REQUEST_RESET';
+export const STORE_ADD_ANONYMOUS_SUPPLY_REQUEST_FAILED = 'STORE_ADD_ANONYMOUS_SUPPLY_REQUEST_FAILED';
+export const STORE_ADD_ANONYMOUS_SUPPLY_REQUEST_SUCCEEDED = 'STORE_ADD_ANONYMOUS_SUPPLY_REQUEST_SUCCEEDED';
+
 // ======================================================== Supplies
 // Set supplies init data into store
 export const storeSuppliesRequestInit = () => ({
@@ -79,4 +84,26 @@ export const storeAddSupplyRequestSucceed = ({message}) => ({
 // Set add supply reset data into store
 export const storeAddSupplyRequestReset = () => ({
     type: STORE_ADD_SUPPLY_REQUEST_RESET
+});
+// ======================================================== Add anonymous supply
+// Set add anonymous supply init data into store
+export const storeAddAnonymousSupplyRequestInit = () => ({
+    type: STORE_ADD_ANONYMOUS_SUPPLY_REQUEST_INIT
+});
+
+// Set add anonymous supply failed data into store
+export const storeAddAnonymousSupplyRequestFailed = ({message}) => ({
+    message,
+    type: STORE_ADD_ANONYMOUS_SUPPLY_REQUEST_FAILED
+});
+
+// Set add anonymous supply succeeded data into store
+export const storeAddAnonymousSupplyRequestSucceed = ({message}) => ({
+    message,
+    type: STORE_ADD_ANONYMOUS_SUPPLY_REQUEST_SUCCEEDED
+});
+
+// Set add anonymous supply reset data into store
+export const storeAddAnonymousSupplyRequestReset = () => ({
+    type: STORE_ADD_ANONYMOUS_SUPPLY_REQUEST_RESET
 });

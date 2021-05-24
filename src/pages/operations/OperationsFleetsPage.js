@@ -21,14 +21,14 @@ import OperationsCashRecoveryContainer from "../../containers/operations/Operati
 import {dateToString, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
 import {storeNextSuppliesRequestReset, storeSuppliesRequestReset} from "../../redux/requests/supplies/actions";
 import OperationsFleetsAddSupplyContainer from "../../containers/operations/OperationsFleetsAddSupplyContainer";
-import OperationsAnonymousAddAnonymousContainer from "../../containers/operations/OperationsAnonymousAddAnonymousContainer";
+import OperationsFleetsAddAnonymousSupplyContainer from "../../containers/operations/OperationsFleetsAddAnonymousSupplyContainer";
 
 // Component
 function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
     const [supplyModal, setSupplyModal] = useState({show: false, header: 'EFFECTUER UN FLOTTAGE'});
-    const [anonymousModal, setAnonymousModal] = useState({show: false, header: 'EFFECTUER UN FLOTTAGE ANONYME'});
+    const [anonymousSupplyModal, setAnonymousSupplyModal] = useState({show: false, header: 'EFFECTUER UN FLOTTAGE ANONYME'});
     const [returnModal, setReturnModal] = useState({show: false, header: 'EFFECTUER UN RETOUR FLOTTE', item: {}});
     const [recoveryModal, setRecoveryModal] = useState({show: false, header: "EFFECTUER UN RECOUVREMENT D'ESPECE", item: {}});
     const [supplyDetailsModal, setSupplyDetailsModal] = useState({show: false, header: "DETAIL DU FLOTTAGE AGENT", supply: ''});
@@ -72,14 +72,14 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
         setSupplyModal({...supplyModal, show: false})
     }
 
-    // Show anonymous modal form
-    const handleAnonymousModalShow = (item) => {
-        setAnonymousModal({...anonymousModal, item, show: true})
+    // Show anonymous supply modal form
+    const handleAnonymousSupplyModalShow = (item) => {
+        setAnonymousSupplyModal({...anonymousSupplyModal, item, show: true})
     }
 
-    // Hide anonymous modal form
-    const handleAnonymousModalHide = () => {
-        setAnonymousModal({...anonymousModal, show: false})
+    // Hide anonymous supply modal form
+    const handleAnonymousSupplyModalHide = () => {
+        setAnonymousSupplyModal({...anonymousSupplyModal, show: false})
     }
 
     // Show return modal form
@@ -141,7 +141,7 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
                                             </button>
                                             <button type="button"
                                                     className="btn btn-theme mb-2 ml-2"
-                                                    onClick={handleAnonymousModalShow}
+                                                    onClick={handleAnonymousSupplyModalShow}
                                             >
                                                 <i className="fa fa-user-slash" /> Effectuer un flottage anonyme
                                             </button>
@@ -179,8 +179,8 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
             <FormModalComponent modal={supplyModal} handleClose={handleSupplyModalHide}>
                 <OperationsFleetsAddSupplyContainer handleClose={handleSupplyModalHide} />
             </FormModalComponent>
-            <FormModalComponent modal={anonymousModal} handleClose={handleAnonymousModalHide}>
-                <OperationsAnonymousAddAnonymousContainer handleClose={handleAnonymousModalHide} />
+            <FormModalComponent modal={anonymousSupplyModal} handleClose={handleAnonymousSupplyModalHide}>
+                <OperationsFleetsAddAnonymousSupplyContainer handleClose={handleAnonymousSupplyModalHide} />
             </FormModalComponent>
             <FormModalComponent modal={returnModal} handleClose={handleReturnModalHide}>
                 <OperationsFleetsReturnContainer supply={returnModal.item}
