@@ -111,13 +111,13 @@ function OperationsFleetsCardsComponent({supplies, handleFleetRecoveryModalShow,
                                                             className="btn btn-theme btn-sm mb-2"
                                                             onClick={() => handleFleetRecoveryModalShow(item)}
                                                     >
-                                                        <i className="fa fa-rss" /> Retour flotte
+                                                        <i className="fa fa-redo" /> Retour flotte
                                                     </button><br/>
                                                     <button type="button"
                                                             className="btn btn-theme mb-2 btn-sm"
                                                             onClick={() => handleCashRecoveryModalShow(item)}
                                                     >
-                                                        <i className="fa fa-money-bill" /> Recouvrement espèce
+                                                        <i className="fa fa-hand-paper" /> Recouvrement espèce
                                                     </button>
                                                 </>
                                             )

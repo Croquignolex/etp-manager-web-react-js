@@ -126,7 +126,7 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
                                                     className="btn btn-theme mb-2"
                                                     onClick={handleTransferModalShow}
                                             >
-                                                <i className="fa fa-plus" /> Transferer la flotte
+                                                <i className="fa fa-exchange" /> Transferer la flotte
                                             </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
