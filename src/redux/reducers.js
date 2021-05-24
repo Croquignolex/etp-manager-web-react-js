@@ -16,7 +16,6 @@ import supplies from './supplies/reducer';
 import operators from './operators/reducer';
 import handovers from './handovers/reducer';
 import transfers from './transfers/reducer';
-import anonymous from './anonymous/reducer';
 import recoveries from './recoveries/reducer';
 import clearances from './clearances/reducer';
 import collectors from './collectors/reducer';
@@ -39,7 +38,6 @@ import expensesRequests from './requests/expenses/reducer';
 import operatorsRequests from './requests/operators/reducer';
 import handoversRequests from './requests/handovers/reducer';
 import transfersRequests from './requests/transfers/reducer';
-import anonymousRequests from './requests/anonymous/reducer';
 import collectorsRequests from './requests/collectors/reducer';
 import clearancesRequests from './requests/clearances/reducer';
 import recoveriesRequests from './requests/recoveries/reducer';
@@ -65,7 +63,6 @@ export default {
     handovers,
     operators,
     transfers,
-    anonymous,
     recoveries,
     clearances,
     collectors,
@@ -88,7 +85,6 @@ export default {
     transfersRequests,
     handoversRequests,
     operatorsRequests,
-    anonymousRequests,
     recoveriesRequests,
     clearancesRequests,
     collectorsRequests,

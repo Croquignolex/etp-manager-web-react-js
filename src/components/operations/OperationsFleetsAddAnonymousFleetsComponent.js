@@ -7,11 +7,12 @@ import AmountComponent from "../form/AmountComponent";
 import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import {FLEET_TYPE} from "../../constants/typeConstants";
-import {emitAddAnonymous} from "../../redux/anonymous/actions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
+import {emitAddAnonymousSupply} from "../../redux/supplies/actions";
 import {phoneChecker, requiredChecker} from "../../functions/checkerFunctions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
+import {storeAddAnonymousSupplyRequestReset} from "../../redux/requests/supplies/actions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
@@ -68,7 +69,7 @@ function OperationsFleetsAddAnonymousFleetsComponent({request, sims, allSimsRequ
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        dispatch(storeAddAnonymousRequestReset());
+        dispatch(storeAddAnonymousSupplyRequestReset());
     };
 
     // Trigger add supply form submit
@@ -87,7 +88,7 @@ function OperationsFleetsAddAnonymousFleetsComponent({request, sims, allSimsRequ
         const validationOK = (_amount.isValid && _receiver.isValid && _outgoingSim.isValid && _receiverSim.isValid);
         // Check
         if(validationOK) {
-            dispatch(emitAddAnonymous({
+            dispatch(emitAddAnonymousSupply({
                 amount: _amount.data,
                 sim: _outgoingSim.data,
                 receiver: _receiver.data,

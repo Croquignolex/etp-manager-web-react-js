@@ -9,6 +9,7 @@ import {
     storeSetNewSupplyData,
     storeSetNextSuppliesData,
     EMIT_NEXT_SUPPLIES_FETCH,
+    EMIT_ADD_ANONYMOUS_SUPPLY,
     storeStopInfiniteScrollSupplyData
 } from "./actions";
 import {
@@ -20,14 +21,11 @@ import {
     storeNextSuppliesRequestInit,
     storeAddSupplyRequestSucceed,
     storeNextSuppliesRequestFailed,
-    storeNextSuppliesRequestSucceed
+    storeNextSuppliesRequestSucceed,
+    storeAddAnonymousSupplyRequestInit,
+    storeAddAnonymousSupplyRequestFailed,
+    storeAddAnonymousSupplyRequestSucceed
 } from "../requests/supplies/actions";
-import {EMIT_ADD_ANONYMOUS, storeSetNewAnonymousData} from "../anonymous/actions";
-import {
-    storeAddAnonymousRequestFailed,
-    storeAddAnonymousRequestInit,
-    storeAddAnonymousRequestSucceed
-} from "../requests/anonymous/actions";
 
 // Fetch supplies from API
 export function* emitSuppliesFetch() {
@@ -100,28 +98,30 @@ export function* emitAddSupply() {
 }
 
 // Fleets new anonymous supply from API
-export function* emitAddAnonymous() {
-    yield takeLatest(EMIT_ADD_ANONYMOUS, function*({sim, amount, receiver, receiverSim}) {
+export function* emitAddAnonymousSupply() {
+    yield takeLatest(EMIT_ADD_ANONYMOUS_SUPPLY, function*({sim, amount, receiver, receiverSim}) {
         try {
             // Fire event for request
-            yield put(storeAddAnonymousRequestInit());
+            yield put(storeAddAnonymousSupplyRequestInit());
             const data = {montant: amount, id_puce_from: sim, nom_agent: receiver, nro_puce_to: receiverSim};
-            const apiResponse = yield call(apiPostRequest, api.CREATE_ANONYMOUS_FLEET_API_PATH, data);
-            if(apiResponse.data !== null) {
-                // Extract data
-                const anonymous = extractAnoData(
-                    apiResponse.data.puce_emetrice,
-                    apiResponse.data.user,
-                    apiResponse.data.flottage,
-                );
-                // Fire event to redux
-                yield put(storeSetNewAnonymousData({anonymous}))
-            }
+            const apiResponse = yield call(apiPostRequest, api.NEW_ANONYMOUS_SUPPLY_API_PATH, data);
+            // Extract data
+            const supply = extractSupplyData(
+                apiResponse.data.puce_emetrice,
+                apiResponse.data.puce_receptrice,
+                apiResponse.data.user,
+                apiResponse.data.agent,
+                apiResponse.data.gestionnaire,
+                apiResponse.data.approvisionnement,
+                apiResponse.data.operateur,
+            );
+            // Fire event to redux
+            yield put(storeSetNewSupplyData({supply}))
             // Fire event for request
-            yield put(storeAddAnonymousRequestSucceed({message: apiResponse.message}));
+            yield put(storeAddAnonymousSupplyRequestSucceed({message: apiResponse.message}));
         } catch (message) {
             // Fire event for request
-            yield put(storeAddAnonymousRequestFailed({message}));
+            yield put(storeAddAnonymousSupplyRequestFailed({message}));
         }
     });
 }
@@ -205,5 +205,6 @@ export default function* sagaSupplies() {
         fork(emitAddSupply),
         fork(emitSuppliesFetch),
         fork(emitNextSuppliesFetch),
+        fork(emitAddAnonymousSupply),
     ]);
 }

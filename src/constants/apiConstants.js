@@ -89,13 +89,10 @@ export const NEW_TRANSFERS_API_PATH = `${API_URL}/flottage_rz`;
 export const TRANSFERS_API_PATH = `${API_URL}/list_all_flottage_interne`;
 export const CONFIRM_TRANSFER_API_PATH = `${API_URL}/approuve_flottage_interne`;
 
-// Anonymous
-export const ANONYMOUS_FLEETS_API_PATH = `${API_URL}/list_flottage_anonyme`;
-export const CREATE_ANONYMOUS_FLEET_API_PATH = `${API_URL}/flottage_anonyme`;
-
 // Supplies
 export const SUPPLIES_API_PATH = `${API_URL}/list_all_flottage`;
 export const NEW_SUPPLY_API_PATH = `${API_URL}/flottage_express`;
+export const NEW_ANONYMOUS_SUPPLY_API_PATH = `${API_URL}/flottage_anonyme`;
 
 // Refuels
 export const REFUELS_API_PATH = `${API_URL}/list_destockage`;

@@ -9,6 +9,7 @@ export const STORE_STOP_INFINITE_SCROLL_SUPPLY_DATA = 'STORE_STOP_INFINITE_SCROL
 export const EMIT_ADD_SUPPLY = 'EMIT_ADD_SUPPLY';
 export const EMIT_SUPPLIES_FETCH = 'EMIT_SUPPLIES_FETCH';
 export const EMIT_NEXT_SUPPLIES_FETCH = 'EMIT_NEXT_SUPPLIES_FETCH';
+export const EMIT_ADD_ANONYMOUS_SUPPLY = 'EMIT_ADD_ANONYMOUS_SUPPLY';
 
 //====================== Reducer trigger actions
 // Set supplies data in store
@@ -65,3 +66,14 @@ export const emitAddSupply = ({amount, managerSim, agentSim, agent}) => ({
     managerSim,
     type: EMIT_ADD_SUPPLY
 });
+
+
+// Emit add anonymous supply
+export const emitAddAnonymousSupply = ({sim, amount, receiver, receiverSim}) => ({
+    sim,
+    amount,
+    receiver,
+    receiverSim,
+    type: EMIT_ADD_ANONYMOUS_SUPPLY
+});
+
