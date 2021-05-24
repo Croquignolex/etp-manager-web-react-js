@@ -10,13 +10,8 @@ import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import {emitClearancesFetch, emitNextClearancesFetch} from "../../redux/clearances/actions";
 import RequestsClearancesCardsComponent from "../../components/requests/RequestsClearancesCardsComponent";
+import {dateToString, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
 import {storeClearancesRequestReset, storeNextClearancesRequestReset} from "../../redux/requests/clearances/actions";
-import {
-    dateToString,
-    needleSearch,
-    requestFailed,
-    requestLoading,
-} from "../../functions/generalFunctions";
 
 // Component
 function RequestsClearancesPage({clearances, clearancesRequests, hasMoreData, page, dispatch, location}) {
