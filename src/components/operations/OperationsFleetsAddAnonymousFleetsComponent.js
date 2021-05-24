@@ -7,16 +7,18 @@ import AmountComponent from "../form/AmountComponent";
 import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import {FLEET_TYPE} from "../../constants/typeConstants";
+import {emitFleetsSimsFetch} from "../../redux/sims/actions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {emitAddAnonymousSupply} from "../../redux/supplies/actions";
+import {storeSimsRequestReset} from "../../redux/requests/sims/actions";
 import {phoneChecker, requiredChecker} from "../../functions/checkerFunctions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
 import {storeAddAnonymousSupplyRequestReset} from "../../redux/requests/supplies/actions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
-function OperationsFleetsAddAnonymousFleetsComponent({request, sims, allSimsRequests, dispatch, handleClose}) {
+function OperationsFleetsAddAnonymousFleetsComponent({request, sims, simsRequests, dispatch, handleClose}) {
     // Local state
     const [amount, setAmount] = useState(DEFAULT_FORM_DATA);
     const [receiver, setReceiver] = useState(DEFAULT_FORM_DATA);
@@ -25,6 +27,7 @@ function OperationsFleetsAddAnonymousFleetsComponent({request, sims, allSimsRequ
 
     // Local effects
     useEffect(() => {
+        dispatch(emitFleetsSimsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -69,6 +72,7 @@ function OperationsFleetsAddAnonymousFleetsComponent({request, sims, allSimsRequ
 
     // Reset error alert
     const shouldResetErrorData = () => {
+        dispatch(storeSimsRequestReset());
         dispatch(storeAddAnonymousSupplyRequestReset());
     };
 
@@ -102,7 +106,7 @@ function OperationsFleetsAddAnonymousFleetsComponent({request, sims, allSimsRequ
     return (
         <>
             {requestFailed(request) && <ErrorAlertComponent message={request.message} />}
-            {requestFailed(allSimsRequests) && <ErrorAlertComponent message={allSimsRequests.message} />}
+            {requestFailed(simsRequests) && <ErrorAlertComponent message={simsRequests.message} />}
             <form onSubmit={handleSubmit}>
                 <div className='row'>
                     <div className='col-sm-6'>
@@ -112,7 +116,7 @@ function OperationsFleetsAddAnonymousFleetsComponent({request, sims, allSimsRequ
                                          title='Choisir une puce'
                                          options={outgoingSelectOptions}
                                          handleInput={handleOutgoingSelect}
-                                         requestProcessing={requestLoading(allSimsRequests)}
+                                         requestProcessing={requestLoading(simsRequests)}
                         />
                     </div>
                     <div className='col-sm-6'>
@@ -155,7 +159,7 @@ OperationsFleetsAddAnonymousFleetsComponent.propTypes = {
     dispatch: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired,
     handleClose: PropTypes.func.isRequired,
-    allSimsRequests: PropTypes.object.isRequired,
+    simsRequests: PropTypes.object.isRequired,
 };
 
 export default React.memo(OperationsFleetsAddAnonymousFleetsComponent);
