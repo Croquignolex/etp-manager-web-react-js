@@ -8,17 +8,14 @@ import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import {FLEET_TYPE} from "../../constants/typeConstants";
 import {emitNewReturn} from "../../redux/returns/actions";
+import {emitAllSimsFetch} from "../../redux/sims/actions";
 import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
+import {storeAllSimsRequestReset} from "../../redux/requests/sims/actions";
 import {storeReturnRequestReset} from "../../redux/requests/returns/actions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
-import {
-    applySuccess,
-    requestFailed,
-    requestLoading,
-    requestSucceeded
-} from "../../functions/generalFunctions";
+import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
 function OperationsFleetsReturnComponent({supply, request, sims, allSimsRequests, dispatch, handleClose}) {
@@ -29,6 +26,7 @@ function OperationsFleetsReturnComponent({supply, request, sims, allSimsRequests
 
     // Local effects
     useEffect(() => {
+        dispatch(emitAllSimsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -74,6 +72,7 @@ function OperationsFleetsReturnComponent({supply, request, sims, allSimsRequests
     // Reset error alert
     const shouldResetErrorData = () => {
         dispatch(storeReturnRequestReset());
+        dispatch(storeAllSimsRequestReset());
     };
 
     // Trigger add supply form submit

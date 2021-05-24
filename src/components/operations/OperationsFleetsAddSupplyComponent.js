@@ -6,18 +6,17 @@ import AmountComponent from "../form/AmountComponent";
 import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import {FLEET_TYPE} from "../../constants/typeConstants";
+import {emitAllSimsFetch} from "../../redux/sims/actions";
 import {emitAddSupply} from "../../redux/supplies/actions";
+import {emitAllAgentsFetch} from "../../redux/agents/actions";
 import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
+import {storeAllSimsRequestReset} from "../../redux/requests/sims/actions";
+import {storeAllAgentsRequestReset} from "../../redux/requests/agents/actions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
 import {storeAddSupplyRequestReset} from "../../redux/requests/supplies/actions";
-import {
-    applySuccess,
-    requestFailed,
-    requestLoading,
-    requestSucceeded
-} from "../../functions/generalFunctions";
+import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
 function OperationsFleetsAddSupplyComponent({request, sims, agents, allAgentsRequests, allSimsRequests, dispatch, handleClose}) {
@@ -29,6 +28,8 @@ function OperationsFleetsAddSupplyComponent({request, sims, agents, allAgentsReq
 
     // Local effects
     useEffect(() => {
+        dispatch(emitAllSimsFetch());
+        dispatch(emitAllAgentsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -83,7 +84,9 @@ function OperationsFleetsAddSupplyComponent({request, sims, agents, allAgentsReq
 
     // Reset error alert
     const shouldResetErrorData = () => {
+        dispatch(storeAllSimsRequestReset());
         dispatch(storeAddSupplyRequestReset());
+        dispatch(storeAllAgentsRequestReset());
     };
 
     // Trigger add supply form submit
