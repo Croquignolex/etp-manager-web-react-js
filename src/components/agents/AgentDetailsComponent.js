@@ -5,7 +5,9 @@ import LoaderComponent from "../LoaderComponent";
 import AgentCniComponent from "./AgentCniComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import {emitAgentFetch} from "../../redux/agents/actions";
+import {emitAllZonesFetch} from "../../redux/zones/actions";
 import AgentSimsListComponent from "./AgentSimsListComponent";
+import {emitAllOperatorsFetch} from "../../redux/operators/actions";
 import AgentPrimaryInfoComponent from "./AgentPrimaryInfoComponent";
 import AgentSecondaryInfoComponent from "./AgentSecondaryInfoComponent";
 import {storeAgentRequestReset} from "../../redux/requests/agents/actions";
@@ -16,6 +18,8 @@ function AgentDetailsComponent({id, agent, dispatch, request}) {
     // Local effects
     useEffect(() => {
         dispatch(emitAgentFetch({id}));
+        dispatch(emitAllZonesFetch());
+        dispatch(emitAllOperatorsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
