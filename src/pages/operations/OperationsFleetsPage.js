@@ -21,12 +21,14 @@ import OperationsCashRecoveryContainer from "../../containers/operations/Operati
 import {dateToString, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
 import {storeNextSuppliesRequestReset, storeSuppliesRequestReset} from "../../redux/requests/supplies/actions";
 import OperationsFleetsAddSupplyContainer from "../../containers/operations/OperationsFleetsAddSupplyContainer";
+import OperationsAnonymousAddAnonymousContainer from "../../containers/operations/OperationsAnonymousAddAnonymousContainer";
 
 // Component
 function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
     const [supplyModal, setSupplyModal] = useState({show: false, header: 'EFFECTUER UN FLOTTAGE'});
+    const [anonymousModal, setAnonymousModal] = useState({show: false, header: 'EFFECTUER UN FLOTTAGE ANONYME'});
     const [returnModal, setReturnModal] = useState({show: false, header: 'EFFECTUER UN RETOUR FLOTTE', item: {}});
     const [recoveryModal, setRecoveryModal] = useState({show: false, header: "EFFECTUER UN RECOUVREMENT D'ESPECE", item: {}});
     const [supplyDetailsModal, setSupplyDetailsModal] = useState({show: false, header: "DETAIL DU FLOTTAGE AGENT", supply: ''});
@@ -68,6 +70,16 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
     // Hide supply modal form
     const handleSupplyModalHide = () => {
         setSupplyModal({...supplyModal, show: false})
+    }
+
+    // Show anonymous modal form
+    const handleAnonymousModalShow = (item) => {
+        setAnonymousModal({...anonymousModal, item, show: true})
+    }
+
+    // Hide anonymous modal form
+    const handleAnonymousModalHide = () => {
+        setAnonymousModal({...anonymousModal, show: false})
     }
 
     // Show return modal form
@@ -127,6 +139,12 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
                                             >
                                                 <i className="fa fa-rss" /> Effectuer un flottage
                                             </button>
+                                            <button type="button"
+                                                    className="btn btn-theme mb-2 ml-2"
+                                                    onClick={handleAnonymousModalShow}
+                                            >
+                                                <i className="fa fa-user-slash" /> Effectuer un flottage anonyme
+                                            </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
                                                 ? <OperationsFleetsCardsComponent supplies={searchEngine(supplies, needle)}
@@ -160,6 +178,9 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
             {/* Modal */}
             <FormModalComponent modal={supplyModal} handleClose={handleSupplyModalHide}>
                 <OperationsFleetsAddSupplyContainer handleClose={handleSupplyModalHide} />
+            </FormModalComponent>
+            <FormModalComponent modal={anonymousModal} handleClose={handleAnonymousModalHide}>
+                <OperationsAnonymousAddAnonymousContainer handleClose={handleAnonymousModalHide} />
             </FormModalComponent>
             <FormModalComponent modal={returnModal} handleClose={handleReturnModalHide}>
                 <OperationsFleetsReturnContainer supply={returnModal.item}
