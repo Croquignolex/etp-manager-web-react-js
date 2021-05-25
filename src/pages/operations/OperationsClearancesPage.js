@@ -13,6 +13,7 @@ import ConfirmModalComponent from "../../components/modals/ConfirmModalComponent
 import {emitConfirmRefuel, emitNextRefuelsFetch, emitRefuelsFetch} from "../../redux/refuels/actions";
 import OperationsClearancesCardsComponent from "../../components/operations/OperationsClearancesCardsComponent";
 import OperationsClearancesAddRefuelContainer from "../../containers/operations/OperationsClearancesAddRefuelContainer";
+import OperationsFleetsAddAnonymousRefuelContainer from "../../containers/operations/OperationsFleetsAddAnonymousRefuelContainer";
 import {storeRefuelsRequestReset, storeNextRefuelsRequestReset, storeConfirmRefuelRequestReset} from "../../redux/requests/refuels/actions";
 import {
     applySuccess,
@@ -30,6 +31,7 @@ function OperationsClearancesPage({refuels, refuelsRequests, hasMoreData, page, 
     const [needle, setNeedle] = useState('');
     const [confirmModal, setConfirmModal] = useState({show: false, body: '', id: 0});
     const [refuelModal, setRefuelModal] = useState({show: false, header: 'EFFECTUER UN DESTOCKAGE'});
+    const [anonymousRefuelModal, setAnonymousRefuelModal] = useState({show: false, header: 'EFFECTUER UN DESTOCKAGE ANONYME'});
 
     // Local effects
     useEffect(() => {
@@ -74,6 +76,16 @@ function OperationsClearancesPage({refuels, refuelsRequests, hasMoreData, page, 
     // Hide refuel modal form
     const handleRefuelModalHide = () => {
         setRefuelModal({...refuelModal, show: false})
+    }
+
+    // Show anonymous refuel modal form
+    const handleAnonymousRefuelModalShow = (item) => {
+        setAnonymousRefuelModal({...anonymousRefuelModal, item, show: true})
+    }
+
+    // Hide anonymous refuel modal form
+    const handleAnonymousRefuelModalHide = () => {
+        setAnonymousRefuelModal({...anonymousRefuelModal, show: false})
     }
 
     // Show confirm modal form
@@ -122,7 +134,7 @@ function OperationsClearancesPage({refuels, refuelsRequests, hasMoreData, page, 
                                             </button>
                                             <button type="button"
                                                     className="btn btn-theme mb-2 ml-2"
-                                                    onClick={handleRefuelModalShow}
+                                                    onClick={handleAnonymousRefuelModalShow}
                                             >
                                                 <i className="fa fa-user-slash" /> Effectuer un déstockage anonyme
                                             </button>
@@ -160,6 +172,9 @@ function OperationsClearancesPage({refuels, refuelsRequests, hasMoreData, page, 
             <FormModalComponent modal={refuelModal} handleClose={handleRefuelModalHide}>
                 <OperationsClearancesAddRefuelContainer handleClose={handleRefuelModalHide} />
             </FormModalComponent>
+            <FormModalComponent modal={anonymousRefuelModal} handleClose={handleAnonymousRefuelModalHide}>
+                <OperationsFleetsAddAnonymousRefuelContainer handleClose={handleAnonymousRefuelModalHide} />
+            </FormModalComponent>
         </>
     )
 }
@@ -174,6 +189,7 @@ function searchEngine(data, _needle) {
                 needleSearch(item.amount, _needle) ||
                 needleSearch(item.sim.number, _needle) ||
                 needleSearch(item.agent.name, _needle) ||
+                needleSearch(item.operator.name, _needle) ||
                 needleSearch(item.collector.name, _needle) ||
                 needleSearch(dateToString(item.creation), _needle)
             )
