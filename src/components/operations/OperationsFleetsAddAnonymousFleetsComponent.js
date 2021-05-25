@@ -67,7 +67,7 @@ function OperationsFleetsAddAnonymousFleetsComponent({request, sims, simsRequest
 
     // Build select options
     const outgoingSelectOptions = useMemo(() => {
-        return dataToArrayForSelect(mappedSims(sims.filter(item => FLEET_TYPE === item.type.name)))
+        return dataToArrayForSelect(mappedSims(sims))
     }, [sims]);
 
     // Reset error alert
