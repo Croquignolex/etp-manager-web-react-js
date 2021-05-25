@@ -7,13 +7,14 @@ const initialState = {
     list: {failed: false, loading: false, succeeded: false, message: ""},
     next: {failed: false, loading: false, succeeded: false, message: ""},
     apply: {failed: false, loading: false, succeeded: false, message: ""},
+    anonymous: {failed: false, loading: false, succeeded: false, message: ""},
 };
 
 // Reduce
 function reduce(state = initialState, action) {
     let nextState;
     switch (action.type) {
-        // ======================================================== Payment
+        // ======================================================== Refuels
         // Resolve event to set refuels init request store data
         case actions.STORE_REFUELS_REQUEST_INIT:
             nextState = {...state, list: requestInitValue()};
@@ -47,7 +48,7 @@ function reduce(state = initialState, action) {
         case actions.STORE_NEXT_REFUELS_REQUEST_RESET:
             nextState = {...state, next: initialState.next};
             return nextState || state;
-        // ======================================================== Fleet refuel
+        // ======================================================== Add refuel
         // Resolve event to set add refuel init request store data
         case actions.STORE_ADD_REFUEL_REQUEST_INIT:
             nextState = {...state, add: requestInitValue()};
@@ -80,6 +81,23 @@ function reduce(state = initialState, action) {
         // Resolve event to set confirm refuel  reset request store data
         case actions.STORE_CONFIRM_REFUEL_REQUEST_RESET:
             nextState = {...state, apply: initialState.apply};
+            return nextState || state;
+        // ======================================================== Add anonymous refuel
+        // Resolve event to set add anonymous refuel init request store data
+        case actions.STORE_ADD_ANONYMOUS_REFUEL_REQUEST_INIT:
+            nextState = {...state, anonymous: requestInitValue()};
+            return nextState || state;
+        // Resolve event to set add anonymous refuel failed request store data
+        case actions.STORE_ADD_ANONYMOUS_REFUEL_REQUEST_FAILED:
+            nextState = {...state, anonymous: requestFailedValue(action.message)};
+            return nextState || state;
+        // Resolve event to set add anonymous refuel succeeded request store data
+        case actions.STORE_ADD_ANONYMOUS_REFUEL_REQUEST_SUCCEEDED:
+            nextState = {...state, anonymous: requestSucceededValue(action.message)};
+            return nextState || state;
+        // Resolve event to set add anonymous refuel reset request store data
+        case actions.STORE_ADD_ANONYMOUS_REFUEL_REQUEST_RESET:
+            nextState = {...state, anonymous: initialState.anonymous};
             return nextState || state;
         // ========================================================
         // Unknown action

@@ -19,6 +19,11 @@ export const STORE_CONFIRM_REFUEL_REQUEST_RESET = 'STORE_CONFIRM_REFUEL_REQUEST_
 export const STORE_CONFIRM_REFUEL_REQUEST_FAILED = 'STORE_CONFIRM_REFUEL_REQUEST_FAILED';
 export const STORE_CONFIRM_REFUEL_REQUEST_SUCCEEDED = 'STORE_CONFIRM_REFUEL_REQUEST_SUCCEEDED';
 
+export const STORE_ADD_ANONYMOUS_REFUEL_REQUEST_INIT = 'STORE_ADD_ANONYMOUS_REFUEL_REQUEST_INIT';
+export const STORE_ADD_ANONYMOUS_REFUEL_REQUEST_RESET = 'STORE_ADD_ANONYMOUS_REFUEL_REQUEST_RESET';
+export const STORE_ADD_ANONYMOUS_REFUEL_REQUEST_FAILED = 'STORE_ADD_ANONYMOUS_REFUEL_REQUEST_FAILED';
+export const STORE_ADD_ANONYMOUS_REFUEL_REQUEST_SUCCEEDED = 'STORE_ADD_ANONYMOUS_REFUEL_REQUEST_SUCCEEDED';
+
 // ======================================================== Refuels
 // Set refuels init data into store
 export const storeRefuelsRequestInit = () => ({
@@ -106,4 +111,26 @@ export const storeConfirmRefuelRequestSucceed = ({message}) => ({
 // Set confirm refuel reset data into store
 export const storeConfirmRefuelRequestReset = () => ({
     type: STORE_CONFIRM_REFUEL_REQUEST_RESET
+});
+// ======================================================== Add anonymous refuel
+// Set add anonymous refuel init data into store
+export const storeAddAnonymousRefuelRequestInit = () => ({
+    type: STORE_ADD_ANONYMOUS_REFUEL_REQUEST_INIT
+});
+
+// Set add anonymous refuel failed data into store
+export const storeAddAnonymousRefuelRequestFailed = ({message}) => ({
+    message,
+    type: STORE_ADD_ANONYMOUS_REFUEL_REQUEST_FAILED
+});
+
+// Set add anonymous refuel succeeded data into store
+export const storeAddAnonymousRefuelRequestSucceed = ({message}) => ({
+    message,
+    type: STORE_ADD_ANONYMOUS_REFUEL_REQUEST_SUCCEEDED
+});
+
+// Set add anonymous refuel reset data into store
+export const storeAddAnonymousRefuelRequestReset = () => ({
+    type: STORE_ADD_ANONYMOUS_REFUEL_REQUEST_RESET
 });
