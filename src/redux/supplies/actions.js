@@ -67,7 +67,6 @@ export const emitAddSupply = ({amount, managerSim, agentSim, agent}) => ({
     type: EMIT_ADD_SUPPLY
 });
 
-
 // Emit add anonymous supply
 export const emitAddAnonymousSupply = ({sim, amount, receiver, receiverSim}) => ({
     sim,

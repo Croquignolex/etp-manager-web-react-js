@@ -13,6 +13,7 @@ import {
     storeSetNextRefuelsData,
     EMIT_NEXT_REFUELS_FETCH,
     storeSetRefuelActionData,
+    EMIT_ADD_ANONYMOUS_REFUEL,
     storeStopInfiniteScrollRefuelData
 } from "./actions";
 import {
@@ -27,8 +28,12 @@ import {
     storeConfirmRefuelRequestInit,
     storeNextRefuelsRequestSucceed,
     storeConfirmRefuelRequestFailed,
-    storeConfirmRefuelRequestSucceed
+    storeConfirmRefuelRequestSucceed,
+    storeAddAnonymousRefuelRequestInit,
+    storeAddAnonymousRefuelRequestFailed,
+    storeAddAnonymousRefuelRequestSucceed
 } from "../requests/refuels/actions";
+
 
 // Fetch refuels from API
 export function* emitRefuelsFetch() {
@@ -115,6 +120,27 @@ export function* emitConfirmRefuel() {
     });
 }
 
+// Fleets new anonymous refuel from API
+export function* emitAddAnonymousRefuel() {
+    yield takeLatest(EMIT_ADD_ANONYMOUS_REFUEL, function*({sim, amount, sender}) {
+        try {
+            // Fire event for request
+            yield put(storeAddAnonymousRefuelRequestInit());
+            const data = {montant: amount, id_puce_to: sim, nom_agent: sender};
+            const apiResponse = yield call(apiPostRequest, api.NEW_ANONYMOUS_REFUEL_API_PATH, data);
+            // Extract data
+            const refuel = extractRefuelData(apiResponse.data);
+            // Fire event to redux
+            yield put(storeSetNewRefuelData({refuel}))
+            // Fire event for request
+            yield put(storeAddAnonymousRefuelRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeAddAnonymousRefuelRequestFailed({message}));
+        }
+    });
+}
+
 // Extract refuel data
 function extractRefuelData(apiRefuel) {
     let refuel = {
@@ -184,5 +210,6 @@ export default function* sagaRefuels() {
         fork(emitRefuelsFetch),
         fork(emitConfirmRefuel),
         fork(emitNextRefuelsFetch),
+        fork(emitAddAnonymousRefuel),
     ]);
 }
