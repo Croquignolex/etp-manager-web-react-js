@@ -126,7 +126,6 @@ export function* emitAddAnonymousSupply() {
     });
 }
 
-
 // Extract supply data
 function extractSupplyData(apiSimOutgoing, apiSimIncoming, apiUser, apiAgent, apiSupplier, apiSupply, apiOperator) {
     let supply = {
