@@ -8,9 +8,11 @@ import {emitNewAgent} from "../../redux/agents/actions";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import TextareaComponent from "../form/TextareaComponent";
 import FileImageComponent from "../form/FileImageComponent";
+import {emitAllZonesFetch} from "../../redux/zones/actions";
 import * as constants from "../../constants/defaultConstants";
 import FileDocumentComponent from "../form/FileDocumentComponent";
 import {playWarningSound} from "../../functions/playSoundFunctions";
+import {storeAllZonesRequestReset} from "../../redux/requests/zones/actions";
 import {storeAddAgentRequestReset} from "../../redux/requests/agents/actions";
 import {dataToArrayForSelect, mappedZones} from "../../functions/arrayFunctions";
 import {fileChecker, imageChecker, phoneChecker, requiredChecker} from "../../functions/checkerFunctions";
@@ -31,6 +33,7 @@ function AgentNewComponent({type, zones, request, allZonesRequests, dispatch, ha
 
     // Local effects
     useEffect(() => {
+        dispatch(emitAllZonesFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -100,6 +103,7 @@ function AgentNewComponent({type, zones, request, allZonesRequests, dispatch, ha
 
     // Reset error alert
     const shouldResetErrorData = () => {
+        dispatch(storeAllZonesRequestReset());
         dispatch(storeAddAgentRequestReset());
     };
 

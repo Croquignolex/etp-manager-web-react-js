@@ -21,8 +21,8 @@ function SideBarComponent({user, pathname}) {
             buildOperationsMenu(),
             buildRecoveriesMenu(),
             // buildCheckoutMenu(),
-            // buildSimsMenu(),
-            // buildAgentsMenu(),
+            buildSimsMenu(),
+            buildAgentsMenu(),
         ];
         // eslint-disable-next-line
     }, [pathname]);

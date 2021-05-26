@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from "prop-types";
 
 import LoaderComponent from "../LoaderComponent";
+import {dateToString} from "../../functions/generalFunctions";
 import {agentTypeBadgeColor} from "../../functions/typeFunctions";
-import {dateToString, formatNumber} from "../../functions/generalFunctions";
 
 // Component
 function AgentsCardsComponent({agents, handleBlock, handleBlockModalShow, handleAgentDetailsModalShow}) {
@@ -60,10 +60,6 @@ function AgentsCardsComponent({agents, handleBlock, handleBlockModalShow, handle
                                         <li className="list-group-item">
                                             <b>Zone</b>
                                             <span className="float-right">{item.zone.name}</span>
-                                        </li>
-                                        <li className="list-group-item">
-                                            <b>Solde total</b>
-                                            <span className="float-right text-success text-bold">{formatNumber(item.account.balance)}</span>
                                         </li>
                                         <li className="list-group-item">
                                             <b>Crée par</b>

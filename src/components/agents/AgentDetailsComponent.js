@@ -11,7 +11,9 @@ import {emitAllOperatorsFetch} from "../../redux/operators/actions";
 import AgentPrimaryInfoComponent from "./AgentPrimaryInfoComponent";
 import AgentSecondaryInfoComponent from "./AgentSecondaryInfoComponent";
 import {storeAgentRequestReset} from "../../redux/requests/agents/actions";
+import {storeAllZonesRequestReset} from "../../redux/requests/zones/actions";
 import {requestFailed, requestLoading} from "../../functions/generalFunctions";
+import {storeAllOperatorsRequestReset} from "../../redux/requests/operators/actions";
 
 // Component
 function AgentDetailsComponent({id, agent, dispatch, request}) {
@@ -30,6 +32,8 @@ function AgentDetailsComponent({id, agent, dispatch, request}) {
     // Reset error alert
     const shouldResetErrorData = () => {
         dispatch(storeAgentRequestReset());
+        dispatch(storeAllZonesRequestReset());
+        dispatch(storeAllOperatorsRequestReset());
     };
 
     // Render
