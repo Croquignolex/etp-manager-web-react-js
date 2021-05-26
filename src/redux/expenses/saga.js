@@ -1,14 +1,15 @@
 import {all, call, fork, put, takeLatest} from 'redux-saga/effects'
 
+import {DONE} from "../../constants/typeConstants";
 import * as api from "../../constants/apiConstants";
-import {apiGetRequest, apiPostRequest, getFileFromServer} from "../../functions/axiosFunctions";
+import {apiGetRequest, apiPostRequest} from "../../functions/axiosFunctions";
 import {
     EMIT_ADD_EXPENSE,
     EMIT_EXPENSES_FETCH,
     storeSetExpensesData,
-    EMIT_NEXT_EXPENSES_FETCH,
     storeSetNewExpenseData,
     storeSetNextExpensesData,
+    EMIT_NEXT_EXPENSES_FETCH,
     storeStopInfiniteScrollExpenseData
 } from "./actions";
 import {
@@ -96,7 +97,7 @@ export function* emitAddExpense() {
 // Extract expense data
 function extractExpenseData(apiExpense, apiManager) {
     let expense = {
-        id: '',  name: '', mount: '', creation: '', receipt: '', reason: '', description: '',
+        id: '',  name: '', mount: '', creation: '', receipt: '', reason: '', description: '', status: '',
 
         manager: {id: '', name: ''},
     };
@@ -107,13 +108,13 @@ function extractExpenseData(apiExpense, apiManager) {
         };
     }
     if(apiExpense) {
+        expense.status = DONE;
         expense.name = apiExpense.name;
         expense.reason = apiExpense.reason;
         expense.amount = apiExpense.amount;
         expense.id = apiExpense.id.toString();
         expense.creation = apiExpense.created_at;
         expense.description = apiExpense.description;
-        expense.receipt = getFileFromServer(apiExpense.receipt);
     }
     return expense;
 }

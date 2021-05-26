@@ -19,7 +19,7 @@ import CheckoutExpensesAddExpenseContainer from "../../containers/checkout/Check
 function CheckoutExpensesPage({expenses, expensesRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
-    const [expenseModal, setExpenseModal] = useState({show: false, header: 'EFFECTUER UN DECAISSEMENT'});
+    const [expenseModal, setExpenseModal] = useState({show: false, header: "DECAISSEMENT D'ESPECES"});
 
     // Local effects
     useEffect(() => {
@@ -81,7 +81,7 @@ function CheckoutExpensesPage({expenses, expensesRequests, hasMoreData, page, di
                                                     className="btn btn-theme mb-2"
                                                     onClick={handleExpenseModalShow}
                                             >
-                                                <i className="fa fa-plus" /> Effectuer un décaissement
+                                                <i className="fa fa-coins" /> Effectuer un décaissement
                                             </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
