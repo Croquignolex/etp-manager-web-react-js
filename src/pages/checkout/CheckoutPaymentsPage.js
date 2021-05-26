@@ -11,7 +11,11 @@ import ConfirmModalComponent from "../../components/modals/ConfirmModalComponent
 import {COLLECTOR_CHECKOUT_PAYMENTS_PAGE} from "../../constants/pageNameConstants";
 import CheckoutPaymentsCardsComponent from "../../components/checkout/CheckoutPaymentsCardsComponent";
 import {emitConfirmPayment, emitNextPaymentsFetch, emitPaymentsFetch} from "../../redux/payments/actions";
-import {storeNextPaymentsRequestReset, storePaymentsRequestReset} from "../../redux/requests/payments/actions";
+import {
+    storePaymentsRequestReset,
+    storeNextPaymentsRequestReset,
+    storeConfirmPaymentRequestReset
+} from "../../redux/requests/payments/actions";
 import {
     dateToString,
     formatNumber,
@@ -44,6 +48,7 @@ function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, di
     const shouldResetErrorData = () => {
         dispatch(storePaymentsRequestReset());
         dispatch(storeNextPaymentsRequestReset());
+        dispatch(storeConfirmPaymentRequestReset());
     };
 
     // Fetch next payments data to enhance infinite scroll
@@ -88,6 +93,7 @@ function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, di
                                             {/* Error message */}
                                             {requestFailed(paymentsRequests.list) && <ErrorAlertComponent message={paymentsRequests.list.message} />}
                                             {requestFailed(paymentsRequests.next) && <ErrorAlertComponent message={paymentsRequests.next.message} />}
+                                            {requestFailed(paymentsRequests.apply) && <ErrorAlertComponent message={paymentsRequests.apply.message} />}
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
                                                 ? <CheckoutPaymentsCardsComponent payments={searchEngine(payments, needle)}
