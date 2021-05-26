@@ -1,8 +1,10 @@
 import PropTypes from "prop-types";
 import React, {useState} from 'react';
 
-import {DONE} from "../../constants/typeConstants";
+import OperatorComponent from "../OperatorComponent";
 import FormModalComponent from "../modals/FormModalComponent";
+import {DONE, PROCESSING} from "../../constants/typeConstants";
+import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
 import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
 
@@ -24,13 +26,10 @@ function OperationsAffordsCardsComponent({affords}) {
                     return (
                         <div className="col-lg-4 col-md-6" key={key}>
                             <div className="card">
-                                <div className={`card-header ${item.status === DONE ? 'bg-secondary' : 'bg-primary'}`}>
-                                    <h3 className="card-title text-bold">
-                                        <i className="fa fa-money-bill" /> {formatNumber(item.amount)}
-                                    </h3>
-                                </div>
+                                <div className={`${fleetTypeBadgeColor(item.status).background} card-header`} />
                                 <div className="card-body">
                                     <ul className="list-group list-group-unbordered">
+                                        <OperatorComponent operator={item.operator} />
                                         <li className="list-group-item">
                                             <b>Création</b>
                                             <span className="float-right">{dateToString(item.creation)}</span>
@@ -38,6 +37,12 @@ function OperationsAffordsCardsComponent({affords}) {
                                         <li className="list-group-item">
                                             <b>Fournisseur</b>
                                             <span className="float-right">{item.vendor.name}</span>
+                                        </li>
+                                        <li className="list-group-item">
+                                            <b>Monant</b>
+                                            <span className="float-right text-success text-bold">
+                                                {formatNumber(item.amount)}
+                                            </span>
                                         </li>
                                         <li className="list-group-item">
                                             <b>Puce réceptrice</b>
@@ -53,18 +58,9 @@ function OperationsAffordsCardsComponent({affords}) {
                                             <span className="float-right">{item.collector.name}</span>
                                         </li>
                                         <li className="list-group-item">
-                                            {(item.status === DONE)
-                                                ? <b className="text-success">Confirmé</b>
-                                                : <b className="text-danger">En attente de confirmation</b>
-                                            }
+                                            {item.status === DONE && <b className="text-success text-bold">Confirmé</b>}
+                                            {item.status === PROCESSING && <b className="text-danger text-bold">En attente de confirmation</b>}
                                         </li>
-                                        {item.receipt && (
-                                            <li className="list-group-item text-center">
-                                                <a download target='_blank' href={item.receipt} rel='noopener noreferrer' className="btn btn-theme">
-                                                    <i className="fa fa-file-archive" /> Reçus
-                                                </a>
-                                            </li>
-                                        )}
                                     </ul>
                                 </div>
                             </div>

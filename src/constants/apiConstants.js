@@ -74,15 +74,17 @@ export const ALL_MANAGERS_API_PATH = `${API_URL}/gestionnaires_all`;
 // Operators
 export const All_OPERATORS_API_PATH = `${API_URL}/flote_list_all`;
 
+// Affords
+export const AFFORDS_API_PATH = `${API_URL}/list_approvisionnement`;
+
 // Recoveries
 export const NEW_CASH_RECOVERIES_API_PATH = `${API_URL}/recouvrement`;
 export const NEW_FLEET_RECOVERIES_API_PATH = `${API_URL}/retour_flotte`;
+export const CASH_RECOVERIES_API_PATH = `${API_URL}/list_all_recouvrement`;
 export const FLEET_RECOVERIES_API_PATH = `${API_URL}/list_all_retour_flotte`;
 export const SUPPLY_CASH_RECOVERIES_API_PATH = `${API_URL}/list_recouvrement`;
 export const SUPPLY_FLEET_RECOVERIES_API_PATH = `${API_URL}/list_retour_flotte`;
 export const CONFIRM_FLEET_RECOVERIES_API_PATH = `${API_URL}/approuve_retour_flotte`;
-
-export const CASH_RECOVERIES_API_PATH = `${API_URL}/list_all_recouvrement`;
 
 // Transfers
 export const NEW_TRANSFERS_API_PATH = `${API_URL}/flottage_rz`;
@@ -99,7 +101,3 @@ export const REFUELS_API_PATH = `${API_URL}/list_destockage`;
 export const NEW_REFUEL_API_PATH = `${API_URL}/approvisionnement_etp`;
 export const CONFIRM_REFUEL_API_PATH = `${API_URL}/approuve_destockage`;
 export const NEW_ANONYMOUS_REFUEL_API_PATH = `${API_URL}/destockage_anonyme`;
-
-// Affords
-export const AFFORDS_API_PATH = `${API_URL}/list_approvisionnement`;
-export const CONFIRM_AFFORD_API_PATH = `${API_URL}/approuve_approvisionnement`;

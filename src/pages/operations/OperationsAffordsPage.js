@@ -100,6 +100,7 @@ function searchEngine(data, _needle) {
                 needleSearch(item.amount, _needle) ||
                 needleSearch(item.vendor, _needle) ||
                 needleSearch(item.sim.number, _needle) ||
+                needleSearch(item.operator.name, _needle) ||
                 needleSearch(item.collector.name, _needle) ||
                 needleSearch(dateToString(item.creation), _needle)
             )

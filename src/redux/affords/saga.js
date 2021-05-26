@@ -64,11 +64,13 @@ function extractAffordData(apiAfford) {
     let afford = {
         id: '', amount: '', creation: '', vendor: '', receipt: '', status: '',
 
+        operator: {id: '', name: ''},
         collector: {id: '', name: ''},
         sim: {id: '', name: '', number: ''},
     };
 
     const apiSim = apiAfford.puce;
+    const apiOperator = apiAfford.operateur;
     const apiCollector = apiAfford.recouvreur;
 
     if(apiSim) {
@@ -83,6 +85,12 @@ function extractAffordData(apiAfford) {
             name: apiCollector.name,
             id: apiCollector.id.toString()
         };
+    }
+    if(apiOperator) {
+        afford.operator = {
+            name: apiOperator.nom,
+            id: apiOperator.id.toString(),
+        }
     }
     if(apiAfford) {
         afford.actionLoader = false;
