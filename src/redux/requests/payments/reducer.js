@@ -5,6 +5,7 @@ import {requestFailedValue, requestInitValue, requestSucceededValue} from "../..
 const initialState = {
     list: {failed: false, loading: false, succeeded: false, message: ""},
     next: {failed: false, loading: false, succeeded: false, message: ""},
+    apply: {failed: false, loading: false, succeeded: false, message: ""},
 };
 
 // Reduce
@@ -44,6 +45,19 @@ function reduce(state = initialState, action) {
         // Resolve event to set next payments reset request store data
         case actions.STORE_NEXT_PAYMENTS_REQUEST_RESET:
             nextState = {...state, next: initialState.next};
+            return nextState || state;
+        // ======================================================== Confirm payment
+        // Resolve event to set confirm payment init request store data
+        case actions.STORE_CONFIRM_PAYMENT_REQUEST_FAILED:
+            nextState = {...state, apply: requestFailedValue(action.message)};
+            return nextState || state;
+        // Resolve event to set confirm payment  succeeded request store data
+        case actions.STORE_CONFIRM_PAYMENT_REQUEST_SUCCEEDED:
+            nextState = {...state, apply: requestSucceededValue(action.message)};
+            return nextState || state;
+        // Resolve event to set confirm payment  reset request store data
+        case actions.STORE_CONFIRM_PAYMENT_REQUEST_RESET:
+            nextState = {...state, apply: initialState.apply};
             return nextState || state;
         // ========================================================
         // Unknown action

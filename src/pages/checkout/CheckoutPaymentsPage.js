@@ -9,8 +9,8 @@ import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import ConfirmModalComponent from "../../components/modals/ConfirmModalComponent";
 import {COLLECTOR_CHECKOUT_PAYMENTS_PAGE} from "../../constants/pageNameConstants";
-import {emitNextPaymentsFetch, emitPaymentsFetch} from "../../redux/payments/actions";
 import CheckoutPaymentsCardsComponent from "../../components/checkout/CheckoutPaymentsCardsComponent";
+import {emitConfirmPayment, emitNextPaymentsFetch, emitPaymentsFetch} from "../../redux/payments/actions";
 import {storeNextPaymentsRequestReset, storePaymentsRequestReset} from "../../redux/requests/payments/actions";
 import {
     dateToString,
@@ -64,7 +64,7 @@ function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, di
     // Trigger when clearance confirm confirmed on modal
     const handleConfirm = (id) => {
         handleConfirmModalHide();
-        // dispatch(emitConfirmRefuel({id}));
+        dispatch(emitConfirmPayment({id}));
     };
 
     // Render
