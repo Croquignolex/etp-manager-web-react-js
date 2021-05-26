@@ -61,7 +61,6 @@ function OperationsClearancesAddRefuelComponent({request, sims, agents, allAgent
         setAmount({...amount, isValid: true, data})
     }
 
-
     // Build select options
     const incomingSelectOptions = useMemo(() => {
         return dataToArrayForSelect(mappedSims(sims.filter(item => FLEET_TYPE === item.type.name)))

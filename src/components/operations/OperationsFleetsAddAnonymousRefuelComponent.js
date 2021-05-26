@@ -7,11 +7,11 @@ import AmountComponent from "../form/AmountComponent";
 import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import {emitFleetsSimsFetch} from "../../redux/sims/actions";
-import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {emitAddAnonymousRefuel} from "../../redux/refuels/actions";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {storeSimsRequestReset} from "../../redux/requests/sims/actions";
+import {phoneChecker, requiredChecker} from "../../functions/checkerFunctions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
 import {storeAddAnonymousRefuelRequestReset} from "../../redux/requests/refuels/actions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
@@ -21,6 +21,7 @@ function OperationsFleetsAddAnonymousRefuelComponent({request, sims, simsRequest
     // Local state
     const [amount, setAmount] = useState(DEFAULT_FORM_DATA);
     const [sender, setSender] = useState(DEFAULT_FORM_DATA);
+    const [senderSim, setSenderSim] = useState(DEFAULT_FORM_DATA);
     const [incomingSim, setIncomingSim] = useState(DEFAULT_FORM_DATA);
 
     // Local effects
@@ -58,6 +59,11 @@ function OperationsFleetsAddAnonymousRefuelComponent({request, sims, simsRequest
         setSender({...sender, isValid: true, data})
     }
 
+    const handleSenderSimInput = (data) => {
+        shouldResetErrorData();
+        setSenderSim({...senderSim, isValid: true, data})
+    }
+
     // Build select options
     const incomingSelectOptions = useMemo(() => {
         return dataToArrayForSelect(mappedSims(sims))
@@ -75,18 +81,23 @@ function OperationsFleetsAddAnonymousRefuelComponent({request, sims, simsRequest
         shouldResetErrorData();
         const _amount = requiredChecker(amount);
         const _sender = requiredChecker(sender);
+        const _senderSim = phoneChecker(senderSim);
         const _incomingSim = requiredChecker(incomingSim);
         // Set value
         setAmount(_amount);
         setSender(_sender);
         setIncomingSim(_incomingSim);
-        const validationOK = (_amount.isValid && _sender.isValid && _incomingSim.isValid);
+        const validationOK = (
+            _amount.isValid && _sender.isValid &&
+            _incomingSim.isValid && _senderSim.isValid
+        );
         // Check
         if(validationOK) {
             dispatch(emitAddAnonymousRefuel({
                 sender: _sender.data,
                 amount: _amount.data,
                 sim: _incomingSim.data,
+                senderSim: _senderSim.data,
             }));
         }
         else playWarningSound();
@@ -116,6 +127,14 @@ function OperationsFleetsAddAnonymousRefuelComponent({request, sims, simsRequest
                     </div>
                 </div>
                 <div className='row'>
+                    <div className='col-sm-6'>
+                        <InputComponent type='text'
+                                        input={senderSim}
+                                        id='inputAnonymousSim'
+                                        label="Puce de l'agent anonyme"
+                                        handleInput={handleSenderSimInput}
+                        />
+                    </div>
                     <div className='col-sm-6'>
                         <SelectComponent input={incomingSim}
                                          id='inputSimManger'
