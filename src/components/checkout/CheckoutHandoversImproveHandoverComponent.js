@@ -75,7 +75,6 @@ function CheckoutHandoversImproveHandoverComponent({user, balance, request, mana
         // Check
         if(validationOK) {
             dispatch(emitImproveHandover({
-                balance,
                 amount: _amount.data,
                 receiver: _manager.data,
             }));

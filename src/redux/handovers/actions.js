@@ -50,9 +50,8 @@ export const emitNextHandoversFetch = ({page}) => ({
 });
 
 // Emit improve handover
-export const emitImproveHandover = ({amount, receiver, balance}) => ({
+export const emitImproveHandover = ({amount, receiver}) => ({
     amount,
-    balance,
     receiver,
     type: EMIT_IMPROVE_HANDOVER
 });

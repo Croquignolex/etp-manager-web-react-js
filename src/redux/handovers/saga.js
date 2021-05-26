@@ -22,7 +22,6 @@ import {
     storeImproveHandoverRequestFailed,
     storeImproveHandoverRequestSucceed
 } from "../requests/handovers/actions";
-import {storeSetUserBalanceData} from "../user/actions";
 
 // Fetch handovers from API
 export function* emitHandoversFetch() {
@@ -67,7 +66,7 @@ export function* emitNextHandoversFetch() {
 
 // Fleets improve handover from API
 export function* emitImproveHandover() {
-    yield takeLatest(EMIT_IMPROVE_HANDOVER, function*({balance, amount, receiver}) {
+    yield takeLatest(EMIT_IMPROVE_HANDOVER, function*({amount, receiver}) {
         try {
             // Fire event for request
             yield put(storeImproveHandoverRequestInit());
@@ -79,7 +78,6 @@ export function* emitImproveHandover() {
                 apiResponse.data.recepteur,
                 apiResponse.data.versement
             );
-            yield put(storeSetUserBalanceData({balance: balance - amount}));
             // Fire event to redux
             yield put(storeSetNewHandoverData({handover}))
             // Fire event for request
