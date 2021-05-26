@@ -45,10 +45,6 @@ function RecoveriesCashCardsComponent({recoveries}) {
                                                 />
                                             </span>
                                         </li>
-                                        <li className="list-group-item">
-                                            <b>Responsable</b>
-                                            <span className="float-right">{item.collector.name}</span>
-                                        </li>
                                     </ul>
                                 </div>
                             </div>
