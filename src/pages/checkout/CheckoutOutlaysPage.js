@@ -5,13 +5,11 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import HeaderComponent from "../../components/HeaderComponent";
 import LoaderComponent from "../../components/LoaderComponent";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
-import {emitAllCollectorsFetch} from "../../redux/collectors/actions";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import FormModalComponent from "../../components/modals/FormModalComponent";
 import {COLLECTOR_CHECKOUT_OUTlAYS_PAGE} from "../../constants/pageNameConstants";
 import {emitNextOutlaysFetch, emitOutlaysFetch} from "../../redux/outlays/actions";
-import {storeAllCollectorsRequestReset} from "../../redux/requests/collectors/actions";
 import CheckoutOutlaysCardsComponent from "../../components/checkout/CheckoutOutlaysCardsComponent";
 import {dateToString, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
 import {storeNextOutlaysRequestReset, storeOutlaysRequestReset} from "../../redux/requests/outlays/actions";
@@ -26,7 +24,6 @@ function CheckoutOutlaysPage({outlays, outlaysRequests, hasMoreData, page, dispa
     // Local effects
     useEffect(() => {
         dispatch(emitOutlaysFetch());
-        dispatch(emitAllCollectorsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -42,7 +39,6 @@ function CheckoutOutlaysPage({outlays, outlaysRequests, hasMoreData, page, dispa
     const shouldResetErrorData = () => {
         dispatch(storeOutlaysRequestReset());
         dispatch(storeNextOutlaysRequestReset());
-        dispatch(storeAllCollectorsRequestReset());
     };
 
     // Fetch next outlays data to enhance infinite scroll
@@ -85,7 +81,7 @@ function CheckoutOutlaysPage({outlays, outlaysRequests, hasMoreData, page, dispa
                                                     className="btn btn-theme mb-2"
                                                     onClick={handleOutlayModalShow}
                                             >
-                                                <i className="fa fa-plus" /> Effectuer un décaissement RZ
+                                                <i className="fa fa-plus" /> Décaissement vers un RZ
                                             </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)

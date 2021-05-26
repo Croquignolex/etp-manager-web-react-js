@@ -54,10 +54,12 @@ export const TOGGLE_AGENT_STATUS_API_PATH = `${API_URL}/edit_agent_status`;
 export const NEW_HANDOVER_API_PATH = `${API_URL}/passation`;
 export const REVENUES_API_PATH = `${API_URL}/treasuries_in`;
 export const EXPENSES_API_PATH = `${API_URL}/treasuries_out`;
-export const NEW_OUTLAY_API_PATH = `${API_URL}/decaissement`;
 export const NEW_REVENUE_API_PATH = `${API_URL}/treasury_in`;
 export const NEW_EXPENSE_API_PATH = `${API_URL}/treasury_out`;
 export const HANDOVERS_API_PATH = `${API_URL}/passations_list`;
+
+// Outlay
+export const NEW_OUTLAY_API_PATH = `${API_URL}/decaissement`;
 export const OUTLAYS_API_PATH = `${API_URL}/decaissement_list`;
 
 // Payment

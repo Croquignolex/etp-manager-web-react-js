@@ -66,14 +66,11 @@ export function* emitNextOutlaysFetch() {
 
 // Fleets new payment from API
 export function* emitAddOutlay() {
-    yield takeLatest(EMIT_ADD_OUTLAY, function*({amount, collector, receipt}) {
+    yield takeLatest(EMIT_ADD_OUTLAY, function*({amount, collector}) {
         try {
             // Fire event for request
             yield put(storeAddOutlayRequestInit());
-            const data = new FormData();
-            data.append('id_receveur', collector);
-            data.append('recu', receipt);
-            data.append('montant', amount);
+            const data = {id_receveur: collector, montant: amount}
             const apiResponse = yield call(apiPostRequest, api.NEW_OUTLAY_API_PATH, data);
             // Extract data
             const outlay = extractOutlayData(
@@ -95,7 +92,7 @@ export function* emitAddOutlay() {
 // Extract payment data
 function extractOutlayData(apiManager, apiCollector, apiOutlay) {
     let outlay = {
-        id: '', amount: '', creation: '', receipt: '',
+        id: '', amount: '', creation: '',
 
         manager: {id: '', name: ''},
         collector: {id: '', name: ''},
@@ -113,10 +110,10 @@ function extractOutlayData(apiManager, apiCollector, apiOutlay) {
         };
     }
     if(apiOutlay) {
+        outlay.status = apiOutlay.statut;
         outlay.amount = apiOutlay.montant;
         outlay.id = apiOutlay.id.toString();
         outlay.creation = apiOutlay.created_at;
-        outlay.receipt = getFileFromServer(apiOutlay.recu);
     }
     return outlay;
 }

@@ -10,19 +10,21 @@ import FileDocumentComponent from "../form/FileDocumentComponent";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {dataToArrayForSelect} from "../../functions/arrayFunctions";
+import {emitAllCollectorsFetch} from "../../redux/collectors/actions";
 import {fileChecker, requiredChecker} from "../../functions/checkerFunctions";
 import {storeAddOutlayRequestReset} from "../../redux/requests/outlays/actions";
+import {storeAllCollectorsRequestReset} from "../../redux/requests/collectors/actions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
 function CheckoutOutlaysAddOutlayComponent({request, collectors, allCollectorsRequests, dispatch, handleClose}) {
     // Local state
-    const [doc, setDoc] = useState(DEFAULT_FORM_DATA);
     const [amount, setAmount] = useState(DEFAULT_FORM_DATA);
     const [collector, setCollector] = useState(DEFAULT_FORM_DATA);
 
     // Local effects
     useEffect(() => {
+        dispatch(emitAllCollectorsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -50,11 +52,6 @@ function CheckoutOutlaysAddOutlayComponent({request, collectors, allCollectorsRe
         setAmount({...amount, isValid: true, data})
     }
 
-    const handleFileInput = (data) => {
-        shouldResetErrorData();
-        setDoc({...doc, isValid: true, data})
-    }
-
     // Build select options
     const collectorSelectOptions = useMemo(() => {
         return dataToArrayForSelect(collectors)
@@ -63,24 +60,22 @@ function CheckoutOutlaysAddOutlayComponent({request, collectors, allCollectorsRe
     // Reset error alert
     const shouldResetErrorData = () => {
         dispatch(storeAddOutlayRequestReset());
+        dispatch(storeAllCollectorsRequestReset());
     };
 
     // Trigger add supply form submit
     const handleSubmit = (e) => {
         e.preventDefault();
         shouldResetErrorData();
-        const _doc = fileChecker(doc);
         const _amount = requiredChecker(amount);
         const _collector = requiredChecker(collector);
-        // Set valueS
-        setDoc(_doc);
+        // Set value
         setAmount(_amount);
         setCollector(_collector);
-        const validationOK = (_amount.isValid && _collector.isValid && _doc.isValid);
+        const validationOK = (_amount.isValid && _collector.isValid);
         // Check
         if(validationOK) {
             dispatch(emitAddOutlay({
-                receipt: _doc.data,
                 amount: _amount.data,
                 collector: _collector.data,
             }));
@@ -110,15 +105,6 @@ function CheckoutOutlaysAddOutlayComponent({request, collectors, allCollectorsRe
                                          id='inputAmount'
                                          label='Montant à décaisser'
                                          handleInput={handleAmountInput}
-                        />
-                    </div>
-                </div>
-                <div className='row'>
-                    <div className='col'>
-                        <FileDocumentComponent id='file'
-                                               input={doc}
-                                               label='Réçus (facultatif)'
-                                               handleInput={handleFileInput}
                         />
                     </div>
                 </div>

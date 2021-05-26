@@ -50,9 +50,8 @@ export const emitNextOutlaysFetch = ({page}) => ({
 });
 
 // Emit add outlay
-export const emitAddOutlay = ({amount, collector, receipt}) => ({
+export const emitAddOutlay = ({amount, collector}) => ({
     amount,
-    receipt,
     collector,
     type: EMIT_ADD_OUTLAY
 });
