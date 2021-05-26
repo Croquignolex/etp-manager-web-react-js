@@ -5,9 +5,9 @@ import ButtonComponent from "../form/ButtonComponent";
 import AmountComponent from "../form/AmountComponent";
 import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
-import {emitFetchUserBalance} from "../../redux/user/actions";
 import {requiredChecker} from "../../functions/checkerFunctions";
 import {emitImproveHandover} from "../../redux/handovers/actions";
+import {emitAllManagersFetch} from "../../redux/managers/actions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {dataToArrayForSelect} from "../../functions/arrayFunctions";
@@ -23,7 +23,7 @@ function CheckoutHandoversImproveHandoverComponent({user, balance, request, mana
 
     // Local effects
     useEffect(() => {
-        dispatch(emitFetchUserBalance());
+        dispatch(emitAllManagersFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
