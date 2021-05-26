@@ -1,12 +1,10 @@
 import {all, call, fork, put, takeLatest} from 'redux-saga/effects'
 
 import * as api from "../../constants/apiConstants";
-import {apiGetRequest, apiPostRequest, getFileFromServer} from "../../functions/axiosFunctions";
+import {apiGetRequest} from "../../functions/axiosFunctions";
 import {
-    EMIT_ADD_PAYMENT,
     EMIT_PAYMENTS_FETCH,
     storeSetPaymentsData,
-    storeSetNewPaymentData,
     storeSetNextPaymentsData,
     EMIT_NEXT_PAYMENTS_FETCH,
     storeStopInfiniteScrollPaymentData
@@ -14,11 +12,8 @@ import {
 import {
     storePaymentsRequestInit,
     storePaymentsRequestFailed,
-    storeAddPaymentRequestInit,
     storePaymentsRequestSucceed,
-    storeAddPaymentRequestFailed,
     storeNextPaymentsRequestInit,
-    storeAddPaymentRequestSucceed,
     storeNextPaymentsRequestFailed,
     storeNextPaymentsRequestSucceed
 } from "../requests/payments/actions";
@@ -64,38 +59,10 @@ export function* emitNextPaymentsFetch() {
     });
 }
 
-// Fleets new payment from API
-export function* emitAddPayment() {
-    yield takeLatest(EMIT_ADD_PAYMENT, function*({amount, collector, receipt}) {
-        try {
-            // Fire event for request
-            yield put(storeAddPaymentRequestInit());
-            const data = new FormData();
-            data.append('id_donneur', collector);
-            data.append('recu', receipt);
-            data.append('montant', amount);
-            const apiResponse = yield call(apiPostRequest, api.NEW_PAYMENT_API_PATH, data);
-            // Extract data
-            const payment = extractPaymentData(
-                apiResponse.data.gestionnaire,
-                apiResponse.data.recouvreur,
-                apiResponse.data.versement
-            );
-            // Fire event to redux
-            yield put(storeSetNewPaymentData({payment}))
-            // Fire event for request
-            yield put(storeAddPaymentRequestSucceed({message: apiResponse.message}));
-        } catch (message) {
-            // Fire event for request
-            yield put(storeAddPaymentRequestFailed({message}));
-        }
-    });
-}
-
 // Extract payment data
 function extractPaymentData(apiManager, apiCollector, apiPayment) {
     let payment = {
-        id: '',  amount: '', creation: '', receipt: '',
+        id: '',  amount: '', creation: '', status: '',
 
         manager: {id: '', name: ''},
         collector: {id: '', name: ''},
@@ -114,9 +81,9 @@ function extractPaymentData(apiManager, apiCollector, apiPayment) {
     }
     if(apiPayment) {
         payment.amount = apiPayment.montant;
+        payment.status = apiPayment.statut;
         payment.id = apiPayment.id.toString();
         payment.creation = apiPayment.created_at;
-        payment.receipt = getFileFromServer(apiPayment.recu);
     }
     return payment;
 }
@@ -137,7 +104,6 @@ export function extractPaymentsData(apiPayments) {
 // Combine to export all functions at once
 export default function* sagaPayments() {
     yield all([
-        fork(emitAddPayment),
         fork(emitPaymentsFetch),
         fork(emitNextPaymentsFetch),
     ]);

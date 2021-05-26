@@ -4,11 +4,11 @@ import React, {useState} from 'react';
 import LoaderComponent from "../LoaderComponent";
 import OperatorComponent from "../OperatorComponent";
 import FormModalComponent from "../modals/FormModalComponent";
-import {DONE, FLEET_TYPE, PROCESSING} from "../../constants/typeConstants";
+import {DONE, PROCESSING} from "../../constants/typeConstants";
+import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
 import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
 import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer";
-import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 
 // Component
 function OperationsClearancesCardsComponent({refuels, handleConfirmModalShow}) {
