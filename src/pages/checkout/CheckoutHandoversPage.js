@@ -5,13 +5,11 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import {emitFetchUserBalance} from "../../redux/user/actions";
 import HeaderComponent from "../../components/HeaderComponent";
 import LoaderComponent from "../../components/LoaderComponent";
-import {emitAllManagersFetch} from "../../redux/managers/actions";
 import {HANDING_OVER_PAGE} from "../../constants/pageNameConstants";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import FormModalComponent from "../../components/modals/FormModalComponent";
-import {storeAllManagersRequestReset} from "../../redux/requests/managers/actions";
 import {storeUserBalanceFetchRequestReset} from "../../redux/requests/user/actions";
 import {emitHandoversFetch, emitNextHandoversFetch} from "../../redux/handovers/actions";
 import CheckoutHandoversCardsComponent from "../../components/checkout/CheckoutHandoversCardsComponent";
@@ -29,7 +27,6 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
     useEffect(() => {
         dispatch(emitHandoversFetch());
         dispatch(emitFetchUserBalance());
-        dispatch(emitAllManagersFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -44,7 +41,6 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
     // Reset error alert
     const shouldResetErrorData = () => {
         dispatch(storeHandoversRequestReset());
-        dispatch(storeAllManagersRequestReset());
         dispatch(storeNextHandoversRequestReset());
         dispatch(storeUserBalanceFetchRequestReset());
     };

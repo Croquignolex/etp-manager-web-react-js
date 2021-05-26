@@ -5,18 +5,15 @@ import ButtonComponent from "../form/ButtonComponent";
 import AmountComponent from "../form/AmountComponent";
 import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
+import {emitFetchUserBalance} from "../../redux/user/actions";
 import {requiredChecker} from "../../functions/checkerFunctions";
 import {emitImproveHandover} from "../../redux/handovers/actions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {dataToArrayForSelect} from "../../functions/arrayFunctions";
+import {storeAllManagersRequestReset} from "../../redux/requests/managers/actions";
 import {storeImproveHandoverRequestReset} from "../../redux/requests/handovers/actions";
-import {
-    applySuccess,
-    requestFailed,
-    requestLoading,
-    requestSucceeded
-} from "../../functions/generalFunctions";
+import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
 function CheckoutHandoversImproveHandoverComponent({user, balance, request, managers, allManagersRequests, dispatch, handleClose}) {
@@ -26,6 +23,7 @@ function CheckoutHandoversImproveHandoverComponent({user, balance, request, mana
 
     // Local effects
     useEffect(() => {
+        dispatch(emitFetchUserBalance());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -60,6 +58,7 @@ function CheckoutHandoversImproveHandoverComponent({user, balance, request, mana
 
     // Reset error alert
     const shouldResetErrorData = () => {
+        dispatch(storeAllManagersRequestReset());
         dispatch(storeImproveHandoverRequestReset());
     };
 

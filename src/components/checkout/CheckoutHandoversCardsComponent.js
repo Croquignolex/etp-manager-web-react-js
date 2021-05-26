@@ -41,7 +41,7 @@ function CheckoutHandoversCardsComponent({handovers}) {
                 {handovers.length === 0 &&
                     <div className="col-12">
                         <div className='alert custom-active text-center'>
-                            Pas de passation de service éffectuees
+                            Pas de passation de service éffectuées
                         </div>
                     </div>
                 }
