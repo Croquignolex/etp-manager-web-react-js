@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from "prop-types";
 
+import LoaderComponent from "../LoaderComponent";
+import {DONE, PROCESSING} from "../../constants/typeConstants";
 import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
-import {DONE, PROCESSING} from "../../constants/typeConstants";
 
 // Component
-function CheckoutHandoversCardsComponent({handovers}) {
+function CheckoutHandoversCardsComponent({handovers, user, handleConfirmModalShow}) {
     // Render
     return (
         <>
@@ -41,6 +42,18 @@ function CheckoutHandoversCardsComponent({handovers}) {
                                             {item.status === PROCESSING && <b className="text-danger text-bold">En attente de confirmation</b>}
                                         </li>
                                     </ul>
+                                    {((item.status === PROCESSING) && (item.receiver.id === user)) && (
+                                        <div className="mt-3 text-right">
+                                            {item.actionLoader ? <LoaderComponent little={true} /> : (
+                                                <button type="button"
+                                                        className="btn btn-theme btn-sm"
+                                                        onClick={() => handleConfirmModalShow(item)}
+                                                >
+                                                    <i className="fa fa-check" /> Confirmer
+                                                </button>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -60,7 +73,9 @@ function CheckoutHandoversCardsComponent({handovers}) {
 
 // Prop types to ensure destroyed props data type
 CheckoutHandoversCardsComponent.propTypes = {
-    handovers: PropTypes.array.isRequired
+    user: PropTypes.string.isRequired,
+    handovers: PropTypes.array.isRequired,
+    handleConfirmModalShow: PropTypes.func.isRequired,
 };
 
 export default React.memo(CheckoutHandoversCardsComponent);

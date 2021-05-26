@@ -10,17 +10,25 @@ import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import FormModalComponent from "../../components/modals/FormModalComponent";
+import ConfirmModalComponent from "../../components/modals/ConfirmModalComponent";
 import {storeUserBalanceFetchRequestReset} from "../../redux/requests/user/actions";
 import {emitHandoversFetch, emitNextHandoversFetch} from "../../redux/handovers/actions";
 import CheckoutHandoversCardsComponent from "../../components/checkout/CheckoutHandoversCardsComponent";
-import {dateToString, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
 import {storeHandoversRequestReset, storeNextHandoversRequestReset} from "../../redux/requests/handovers/actions";
 import CheckoutHandoversImproveHandoverContainer from "../../containers/checkout/CheckoutHandoversImproveHandoverContainer";
+import {
+    dateToString,
+    formatNumber,
+    needleSearch,
+    requestFailed,
+    requestLoading
+} from "../../functions/generalFunctions";
 
 // Component
-function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page, dispatch, location}) {
+function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page, user, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
+    const [confirmModal, setConfirmModal] = useState({show: false, body: '', id: 0});
     const [handoverModal, setHandoverModal] = useState({show: false, header: 'EFFECTUER UNE PASSATION DE SERVICE'});
 
     // Local effects
@@ -60,6 +68,22 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
         setHandoverModal({...handoverModal, show: false})
     }
 
+    // Show confirm modal form
+    const handleConfirmModalShow = ({id, amount, sender}) => {
+        setConfirmModal({...confirmModal, id, body: `Confirmer la reception des espèces provenant de ${sender.name} de ${formatNumber(amount)}?`, show: true})
+    }
+
+    // Hide confirm modal form
+    const handleConfirmModalHide = () => {
+        setConfirmModal({...confirmModal, show: false})
+    }
+
+    // Trigger when clearance confirm confirmed on modal
+    const handleConfirm = (id) => {
+        handleConfirmModalHide();
+        // dispatch(emitConfirmTransfer({id}));
+    };
+
     // Render
     return (
         <>
@@ -89,7 +113,10 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
                                             </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
-                                                ? <CheckoutHandoversCardsComponent handovers={searchEngine(handovers, needle)} />
+                                                ? <CheckoutHandoversCardsComponent user={user}
+                                                                                   handovers={searchEngine(handovers, needle)}
+                                                                                   handleConfirmModalShow={handleConfirmModalShow}
+                                                />
                                                 : (requestLoading(handoversRequests.list) ? <LoaderComponent /> :
                                                         <InfiniteScroll hasMore={hasMoreData}
                                                                         loader={<LoaderComponent />}
@@ -97,7 +124,10 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
                                                                         next={handleNextHandoversData}
                                                                         style={{ overflow: 'hidden' }}
                                                         >
-                                                            <CheckoutHandoversCardsComponent handovers={handovers} />
+                                                            <CheckoutHandoversCardsComponent user={user}
+                                                                                             handovers={handovers}
+                                                                                             handleConfirmModalShow={handleConfirmModalShow}
+                                                            />
                                                         </InfiniteScroll>
                                                 )
                                             }
@@ -110,6 +140,10 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
                 </div>
             </AppLayoutContainer>
             {/* Modal */}
+            <ConfirmModalComponent modal={confirmModal}
+                                   handleModal={handleConfirm}
+                                   handleClose={handleConfirmModalHide}
+            />
             <FormModalComponent modal={handoverModal} handleClose={handleHandoverModalHide}>
                 <CheckoutHandoversImproveHandoverContainer handleClose={handleHandoverModalHide} />
             </FormModalComponent>

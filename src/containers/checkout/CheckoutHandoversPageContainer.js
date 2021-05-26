@@ -8,6 +8,7 @@ setPageTitle(HANDING_OVER_PAGE);
 
 // Map state function to component props
 const mapStateToProps = (state) => ({
+    user: state.user.id,
     page: state.handovers.page,
     handovers: state.handovers.list,
     hasMoreData: state.handovers.hasMoreData,
