@@ -71,9 +71,7 @@ export function* emitImproveHandover() {
         try {
             // Fire event for request
             yield put(storeImproveHandoverRequestInit());
-            const data = new FormData();
-            data.append('id_receveur', receiver);
-            data.append('montant', amount);
+            const data = {id_receveur: receiver, montant: amount};
             const apiResponse = yield call(apiPostRequest, api.NEW_HANDOVER_API_PATH, data);
             // Extract data
             const handover = extractHandoverData(
@@ -96,7 +94,7 @@ export function* emitImproveHandover() {
 // Extract handover data
 function extractHandoverData(apiSender, apiReceiver, apiHandover) {
     let handover = {
-        id: '', amount: '', creation: '',
+        id: '', amount: '', creation: '', status: '',
 
         sender: {id: '', name: ''},
         receiver: {id: '', name: ''},
@@ -114,6 +112,7 @@ function extractHandoverData(apiSender, apiReceiver, apiHandover) {
         };
     }
     if(apiHandover) {
+        handover.status = apiHandover.statut;
         handover.amount = apiHandover.montant;
         handover.id = apiHandover.id.toString();
         handover.creation = apiHandover.created_at;

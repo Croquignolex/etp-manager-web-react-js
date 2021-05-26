@@ -85,7 +85,7 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
                                                     className="btn btn-theme mb-2"
                                                     onClick={handleHandoverModalShow}
                                             >
-                                                <i className="fa fa-plus" /> Effectuer une passation de service
+                                                <i className="fa fa-handshake" /> Effectuer une passation de service
                                             </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)

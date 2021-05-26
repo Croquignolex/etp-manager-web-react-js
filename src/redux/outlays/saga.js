@@ -1,7 +1,7 @@
 import {all, call, fork, put, takeLatest} from 'redux-saga/effects'
 
 import * as api from "../../constants/apiConstants";
-import {apiGetRequest, apiPostRequest, getFileFromServer} from "../../functions/axiosFunctions";
+import {apiGetRequest, apiPostRequest} from "../../functions/axiosFunctions";
 import {
     storeOutlaysRequestInit,
     storeOutlaysRequestFailed,
@@ -92,7 +92,7 @@ export function* emitAddOutlay() {
 // Extract payment data
 function extractOutlayData(apiManager, apiCollector, apiOutlay) {
     let outlay = {
-        id: '', amount: '', creation: '',
+        id: '', amount: '', creation: '', status: '',
 
         manager: {id: '', name: ''},
         collector: {id: '', name: ''},

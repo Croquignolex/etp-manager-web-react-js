@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from "prop-types";
 
+import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
+import {DONE, PROCESSING} from "../../constants/typeConstants";
 
 // Component
 function CheckoutHandoversCardsComponent({handovers}) {
@@ -13,11 +15,7 @@ function CheckoutHandoversCardsComponent({handovers}) {
                     return (
                         <div className="col-lg-4 col-md-6" key={key}>
                             <div className="card">
-                                <div className="card-header bg-secondary">
-                                    <h3 className="card-title text-bold">
-                                        <i className="fa fa-money-bill-alt" /> {formatNumber(item.amount)}
-                                    </h3>
-                                </div>
+                                <div className={`${fleetTypeBadgeColor(item.status).background} card-header`} />
                                 <div className="card-body">
                                     <ul className="list-group list-group-unbordered">
                                         <li className="list-group-item">
@@ -31,6 +29,16 @@ function CheckoutHandoversCardsComponent({handovers}) {
                                         <li className="list-group-item">
                                             <b>Recepteur</b>
                                             <span className="float-right">{item.receiver.name}</span>
+                                        </li>
+                                        <li className="list-group-item">
+                                            <b>Monant</b>
+                                            <span className="float-right text-success text-bold">
+                                                {formatNumber(item.amount)}
+                                            </span>
+                                        </li>
+                                        <li className="list-group-item">
+                                            {item.status === DONE && <b className="text-success text-bold">Confirmé</b>}
+                                            {item.status === PROCESSING && <b className="text-danger text-bold">En attente de confirmation</b>}
                                         </li>
                                     </ul>
                                 </div>
