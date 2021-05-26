@@ -19,7 +19,7 @@ import CheckoutOutlaysAddOutlayContainer from "../../containers/checkout/Checkou
 function CheckoutOutlaysPage({outlays, outlaysRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
-    const [outlayModal, setOutlayModal] = useState({show: false, header: 'EFFECTUER UN DECAISSEMENT RZ'});
+    const [outlayModal, setOutlayModal] = useState({show: false, header: "DECAISSEMENT D'ESPECES VERS UN RZ"});
 
     // Local effects
     useEffect(() => {

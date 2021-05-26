@@ -50,11 +50,10 @@ export const emitNextRevenuesFetch = ({page}) => ({
 });
 
 // Emit add revenue
-export const emitAddRevenue = ({amount, name, reason, description, receipt}) => ({
+export const emitAddRevenue = ({amount, name, reason, description}) => ({
     name,
     reason,
     amount,
-    receipt,
     description,
     type: EMIT_ADD_REVENUE
 });
