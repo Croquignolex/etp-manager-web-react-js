@@ -50,7 +50,9 @@ function RecoveriesFleetsCardsComponent({returns, handleConfirmModalShow}) {
                                         </li>
                                         <li className="list-group-item">
                                             <b>Flotte retournée</b>
-                                            <span className="float-right">{formatNumber(item.amount)}</span>
+                                            <span className="float-right text-success text-bold">
+                                                {formatNumber(item.amount)}
+                                            </span>
                                         </li>
                                         <li className="list-group-item">
                                             <b>Puce agent</b>
