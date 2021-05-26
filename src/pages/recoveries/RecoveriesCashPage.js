@@ -11,16 +11,8 @@ import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import {emitNextRecoveriesFetch, emitRecoveriesFetch} from "../../redux/recoveries/actions";
 import RecoveriesCashCardsComponent from "../../components/recoveries/RecoveriesCashCardsComponent";
-import {
-    dateToString,
-    needleSearch,
-    requestFailed,
-    requestLoading,
-} from "../../functions/generalFunctions";
-import {
-    storeRecoveriesRequestReset,
-    storeNextRecoveriesRequestReset
-} from "../../redux/requests/recoveries/actions";
+import {dateToString, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
+import {storeRecoveriesRequestReset, storeNextRecoveriesRequestReset} from "../../redux/requests/recoveries/actions";
 
 // Component
 function RecoveriesCashPage({recoveries, recoveriesRequests, hasMoreData, page, dispatch, location}) {

@@ -1,5 +1,6 @@
 import { all, takeLatest, put, fork, call } from 'redux-saga/effects'
 
+import {DONE} from "../../constants/typeConstants";
 import * as api from "../../constants/apiConstants";
 import {apiGetRequest, apiPostRequest} from "../../functions/axiosFunctions";
 import {
@@ -125,6 +126,7 @@ function extractRecoveryData(apiRecovery, apiUser, apiAgent, apiCollector) {
         };
     }
     if(apiRecovery) {
+        recovery.status = DONE;
         recovery.actionLoader = false;
         recovery.amount = apiRecovery.montant;
         recovery.id = apiRecovery.id.toString();

@@ -19,7 +19,7 @@ function SideBarComponent({user, pathname}) {
             buildDashboardMenu(),
             buildRequestsMenu(),
             buildOperationsMenu(),
-            // buildRecoveriesMenu(),
+            buildRecoveriesMenu(),
             // buildCheckoutMenu(),
             // buildSimsMenu(),
             // buildAgentsMenu(),
@@ -156,7 +156,7 @@ function buildRecoveriesMenu() {
         icon: 'fa fa-share',
         sub: [
             {name: page.RECOVERIES_CASH_PAGE, path: path.RECOVERIES_CASH_PAGE_PATH},
-            {name: page.RECOVERIES_FLEET_PAGE, path: path.RECOVERIES_FLEETS_PAGE_PATH},
+            // {name: page.RECOVERIES_FLEET_PAGE, path: path.RECOVERIES_FLEETS_PAGE_PATH},
         ]
     }
 }
