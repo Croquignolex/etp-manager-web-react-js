@@ -71,12 +71,7 @@ export function* emitAddExpense() {
         try {
             // Fire event for request
             yield put(storeAddExpenseRequestInit());
-            const data = new FormData();
-            data.append('nom', name);
-            data.append('raison', reason);
-            data.append('description', description);
-            data.append('recu', receipt);
-            data.append('montant', amount);
+            const data = {nom: name, raison: reason, description: description, montant: amount}
             const apiResponse = yield call(apiPostRequest, api.NEW_EXPENSE_API_PATH, data);
             // Extract data
             const expense = extractExpenseData(

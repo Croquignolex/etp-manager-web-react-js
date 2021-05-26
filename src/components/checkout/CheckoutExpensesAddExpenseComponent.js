@@ -7,17 +7,15 @@ import AmountComponent from "../form/AmountComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import TextareaComponent from "../form/TextareaComponent";
 import {emitAddExpense} from "../../redux/expenses/actions";
-import FileDocumentComponent from "../form/FileDocumentComponent";
+import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
-import {fileChecker, requiredChecker} from "../../functions/checkerFunctions";
 import {storeAddExpenseRequestReset} from "../../redux/requests/expenses/actions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
 function CheckoutExpensesAddExpenseComponent({request, dispatch, handleClose}) {
     // Local state
-    const [doc, setDoc] = useState(DEFAULT_FORM_DATA);
     const [name, setName] = useState(DEFAULT_FORM_DATA);
     const [amount, setAmount] = useState(DEFAULT_FORM_DATA);
     const [reason, setReason] = useState(DEFAULT_FORM_DATA);
@@ -62,11 +60,6 @@ function CheckoutExpensesAddExpenseComponent({request, dispatch, handleClose}) {
         setDescription({...description, isValid: true, data})
     }
 
-    const handleFileInput = (data) => {
-        shouldResetErrorData();
-        setDoc({...doc, isValid: true, data})
-    }
-
     // Reset error alert
     const shouldResetErrorData = () => {
         dispatch(storeAddExpenseRequestReset());
@@ -76,21 +69,18 @@ function CheckoutExpensesAddExpenseComponent({request, dispatch, handleClose}) {
     const handleSubmit = (e) => {
         e.preventDefault();
         shouldResetErrorData();
-        const _doc = fileChecker(doc);
         const _name = requiredChecker(name);
         const _amount = requiredChecker(amount);
         const _reason = requiredChecker(reason);
         // Set value
-        setDoc(_doc);
         setName(_name);
         setAmount(_amount);
         setReason(_reason);
-        const validationOK = (_amount.isValid && _name.isValid && _doc.isValid && _reason.isValid);
+        const validationOK = (_amount.isValid && _name.isValid && _reason.isValid);
         // Check
         if(validationOK) {
             dispatch(emitAddExpense({
                 name: _name.data,
-                receipt: _doc.data,
                 amount: _amount.data,
                 reason: _reason.data,
                 description: description.data
@@ -134,15 +124,6 @@ function CheckoutExpensesAddExpenseComponent({request, dispatch, handleClose}) {
                                            input={description}
                                            id='inputDescription'
                                            handleInput={handleDescriptionInput}
-                        />
-                    </div>
-                </div>
-                <div className='row'>
-                    <div className='col'>
-                        <FileDocumentComponent id='file'
-                                               input={doc}
-                                               label='Réçus (facultatif)'
-                                               handleInput={handleFileInput}
                         />
                     </div>
                 </div>
