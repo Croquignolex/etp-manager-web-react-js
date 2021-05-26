@@ -8,8 +8,8 @@ import {
     EMIT_RECOVERIES_FETCH,
     storeSetRecoveriesData,
     EMIT_NEXT_RECOVERIES_FETCH,
-    EMIT_SUPPLY_RECOVERIES_FETCH,
     storeSetNextRecoveriesData,
+    EMIT_SUPPLY_RECOVERIES_FETCH,
     storeStopInfiniteScrollRecoveryData
 } from "./actions";
 import {
