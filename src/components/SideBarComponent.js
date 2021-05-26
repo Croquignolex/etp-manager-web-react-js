@@ -20,7 +20,7 @@ function SideBarComponent({user, pathname}) {
             buildRequestsMenu(),
             buildOperationsMenu(),
             buildRecoveriesMenu(),
-            // buildCheckoutMenu(),
+            buildCheckoutMenu(),
             buildSimsMenu(),
             buildAgentsMenu(),
         ];
@@ -168,8 +168,8 @@ function buildCheckoutMenu() {
         icon: 'fa fa-coins',
         sub: [
             {name: page.CHECKOUT_PAYMENTS_PAGE, path: path.CHECKOUT_PAYMENTS_PAGE_PATH},
-            {name: page.CHECKOUT_OUTlAYS_PAGE, path: path.CHECKOUT_OUTLAYS_PAGE_PATH},
-            {name: page.HANDING_OVER_PAGE, path: path.HANDING_OVER_PAGE_PATH},
+            // {name: page.CHECKOUT_OUTlAYS_PAGE, path: path.CHECKOUT_OUTLAYS_PAGE_PATH},
+            // {name: page.HANDING_OVER_PAGE, path: path.HANDING_OVER_PAGE_PATH},
         ]
     }
 }

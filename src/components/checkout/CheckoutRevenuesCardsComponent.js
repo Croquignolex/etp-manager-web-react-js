@@ -32,13 +32,6 @@ function CheckoutRevenuesCardsComponent({revenues}) {
                                             <b>Motif</b>
                                             <span className="float-right">{item.reason}</span>
                                         </li>
-                                        {item.receipt && (
-                                            <li className="list-group-item text-center">
-                                                <a download target='_blank' href={item.receipt} rel='noopener noreferrer' className="btn btn-theme">
-                                                    <i className="fa fa-file-archive" /> Reçus
-                                                </a>
-                                            </li>
-                                        )}
                                     </ul>
                                 </div>
                             </div>

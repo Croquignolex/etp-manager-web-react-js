@@ -81,7 +81,7 @@ function CheckoutOutlaysPage({outlays, outlaysRequests, hasMoreData, page, dispa
                                                     className="btn btn-theme mb-2"
                                                     onClick={handleOutlayModalShow}
                                             >
-                                                <i className="fa fa-plus" /> Décaissement vers un RZ
+                                                <i className="fa fa-coins" /> Décaissement vers un RZ
                                             </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)

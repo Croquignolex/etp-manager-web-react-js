@@ -81,7 +81,7 @@ function CheckoutRevenuesPage({revenues, revenuesRequests, hasMoreData, page, di
                                                     className="btn btn-theme mb-2"
                                                     onClick={handleRevenueModalShow}
                                             >
-                                                <i className="fa fa-plus" /> Effectuer un encaissement
+                                                <i className="fa fa-coins" /> Effectuer un encaissement
                                             </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
