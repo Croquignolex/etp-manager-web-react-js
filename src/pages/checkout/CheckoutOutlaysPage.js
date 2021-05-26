@@ -61,7 +61,7 @@ function CheckoutOutlaysPage({outlays, outlaysRequests, hasMoreData, page, dispa
         <>
             <AppLayoutContainer pathname={location.pathname}>
                 <div className="content-wrapper">
-                    <HeaderComponent title={COLLECTOR_CHECKOUT_OUTlAYS_PAGE} icon={'fa fa-arrow-circle-down'} />
+                    <HeaderComponent title={COLLECTOR_CHECKOUT_OUTlAYS_PAGE} icon={'fa fa-arrow-circle-up'} />
                     <section className="content">
                         <div className='container-fluid'>
                             <div className="row">

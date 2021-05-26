@@ -61,7 +61,7 @@ function CheckoutRevenuesPage({revenues, revenuesRequests, hasMoreData, page, di
         <>
             <AppLayoutContainer pathname={location.pathname}>
                 <div className="content-wrapper">
-                    <HeaderComponent title={CHECKOUT_PAYMENTS_PAGE} icon={'fa fa-arrow-circle-up'} />
+                    <HeaderComponent title={CHECKOUT_PAYMENTS_PAGE} icon={'fa fa-arrow-circle-down'} />
                     <section className="content">
                         <div className='container-fluid'>
                             <div className="row">

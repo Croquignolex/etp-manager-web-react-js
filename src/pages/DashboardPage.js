@@ -93,7 +93,7 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
                             {cardsData.includes(setting.CARD_BALANCE) &&
                                 <div className="col-lg-4 col-md-4 col-sm-6">
                                     <DashboardCardComponent color='bg-dark'
-                                                            icon='fa fa-money-bill'
+                                                            icon='fa fa-coins'
                                                             url={path.PROFILE_PAGE_PATH}
                                                             label={setting.LABEL_BALANCE}
                                                             request={balanceUserRequests}
