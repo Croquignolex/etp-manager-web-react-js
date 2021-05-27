@@ -6,9 +6,9 @@ import ButtonComponent from "../form/ButtonComponent";
 import AmountComponent from "../form/AmountComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import {emitNewRecovery} from "../../redux/recoveries/actions";
+import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
-import {fileChecker, requiredChecker} from "../../functions/checkerFunctions";
 import {storeRecoverRequestReset} from "../../redux/requests/recoveries/actions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 

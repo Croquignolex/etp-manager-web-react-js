@@ -2,8 +2,8 @@ import PropTypes from "prop-types";
 import React, {useState} from 'react';
 
 import FormModalComponent from "../modals/FormModalComponent";
+import {dateToString} from "../../functions/generalFunctions";
 import {agentTypeBadgeColor} from "../../functions/typeFunctions";
-import {dateToString, formatNumber} from "../../functions/generalFunctions";
 import AgentPrimaryInfoEditContainer from "../../containers/agents/AgentPrimaryInfoEditContainer";
 
 // Component
