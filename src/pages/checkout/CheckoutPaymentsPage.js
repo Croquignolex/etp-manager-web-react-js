@@ -17,11 +17,13 @@ import {
     storeConfirmPaymentRequestReset
 } from "../../redux/requests/payments/actions";
 import {
+    applySuccess,
     dateToString,
     formatNumber,
     needleSearch,
     requestFailed,
-    requestLoading
+    requestLoading,
+    requestSucceeded
 } from "../../functions/generalFunctions";
 
 // Component
@@ -39,6 +41,15 @@ function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, di
         };
         // eslint-disable-next-line
     }, []);
+
+    // Local effects
+    useEffect(() => {
+        // Reset inputs while toast (well done) into current scope
+        if(requestSucceeded(paymentsRequests.apply)) {
+            applySuccess(paymentsRequests.apply.message);
+        }
+        // eslint-disable-next-line
+    }, [paymentsRequests.apply]);
 
     const handleNeedleInput = (data) => {
         setNeedle(data)
