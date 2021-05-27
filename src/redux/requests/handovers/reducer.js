@@ -5,6 +5,7 @@ import {requestFailedValue, requestInitValue, requestSucceededValue} from "../..
 const initialState = {
     list: {failed: false, loading: false, succeeded: false, message: ""},
     next: {failed: false, loading: false, succeeded: false, message: ""},
+    apply: {failed: false, loading: false, succeeded: false, message: ""},
     improve: {failed: false, loading: false, succeeded: false, message: ""},
 };
 
@@ -46,7 +47,7 @@ function reduce(state = initialState, action) {
         case actions.STORE_NEXT_HANDOVERS_REQUEST_RESET:
             nextState = {...state, next: initialState.next};
             return nextState || state;
-        // ======================================================== Fleet supply
+        // ======================================================== Improve handover
         // Resolve event to set improve handover init request store data
         case actions.STORE_IMPROVE_HANDOVER_REQUEST_INIT:
             nextState = {...state, improve: requestInitValue()};
@@ -62,6 +63,23 @@ function reduce(state = initialState, action) {
         // Resolve event to set improve handover reset request store data
         case actions.STORE_IMPROVE_HANDOVER_REQUEST_RESET:
             nextState = {...state, improve: initialState.improve};
+            return nextState || state;
+        // ======================================================== Confirm handover
+        // Resolve event to set confirm handover init request store data
+        case actions.STORE_CONFIRM_HANDOVER_REQUEST_INIT:
+            nextState = {...state, apply: requestInitValue()};
+            return nextState || state;
+        // Resolve event to set confirm handover failed request store data
+        case actions.STORE_CONFIRM_HANDOVER_REQUEST_FAILED:
+            nextState = {...state, apply: requestFailedValue(action.message)};
+            return nextState || state;
+        // Resolve event to set confirm handover succeeded request store data
+        case actions.STORE_CONFIRM_HANDOVER_REQUEST_SUCCEEDED:
+            nextState = {...state, apply: requestSucceededValue(action.message)};
+            return nextState || state;
+        // Resolve event to set confirm handover reset request store data
+        case actions.STORE_CONFIRM_HANDOVER_REQUEST_RESET:
+            nextState = {...state, apply: initialState.apply};
             return nextState || state;
         // ========================================================
         // Unknown action

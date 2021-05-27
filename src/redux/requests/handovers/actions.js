@@ -14,6 +14,11 @@ export const STORE_IMPROVE_HANDOVER_REQUEST_RESET = 'STORE_IMPROVE_HANDOVER_REQU
 export const STORE_IMPROVE_HANDOVER_REQUEST_FAILED = 'STORE_IMPROVE_HANDOVER_REQUEST_FAILED';
 export const STORE_IMPROVE_HANDOVER_REQUEST_SUCCEEDED = 'STORE_IMPROVE_HANDOVER_REQUEST_SUCCEEDED';
 
+export const STORE_CONFIRM_HANDOVER_REQUEST_INIT = 'STORE_CONFIRM_HANDOVER_REQUEST_INIT';
+export const STORE_CONFIRM_HANDOVER_REQUEST_RESET = 'STORE_CONFIRM_HANDOVER_REQUEST_RESET';
+export const STORE_CONFIRM_HANDOVER_REQUEST_FAILED = 'STORE_CONFIRM_HANDOVER_REQUEST_FAILED';
+export const STORE_CONFIRM_HANDOVER_REQUEST_SUCCEEDED = 'STORE_CONFIRM_HANDOVER_REQUEST_SUCCEEDED';
+
 // ======================================================== Payments
 // Set handovers init data into store
 export const storeHandoversRequestInit = () => ({
@@ -79,4 +84,26 @@ export const storeImproveHandoverRequestSucceed = ({message}) => ({
 // Set improve handover reset data into store
 export const storeImproveHandoverRequestReset = () => ({
     type: STORE_IMPROVE_HANDOVER_REQUEST_RESET
+});
+// ======================================================== Confirm handover
+// Set confirm handover init data into store
+export const storeConfirmHandoverRequestInit = () => ({
+    type: STORE_CONFIRM_HANDOVER_REQUEST_INIT
+});
+
+// Set confirm handover failed data into store
+export const storeConfirmHandoverRequestFailed = ({message}) => ({
+    message,
+    type: STORE_CONFIRM_HANDOVER_REQUEST_FAILED
+});
+
+// Set confirm handover succeeded data into store
+export const storeConfirmHandoverRequestSucceed = ({message}) => ({
+    message,
+    type: STORE_CONFIRM_HANDOVER_REQUEST_SUCCEEDED
+});
+
+// Set confirm handover reset data into store
+export const storeConfirmHandoverRequestReset = () => ({
+    type: STORE_CONFIRM_HANDOVER_REQUEST_RESET
 });

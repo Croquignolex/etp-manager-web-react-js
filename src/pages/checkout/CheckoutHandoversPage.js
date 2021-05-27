@@ -80,8 +80,8 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
 
     // Trigger when clearance confirm confirmed on modal
     const handleConfirm = (id) => {
-        handleConfirmModalHide();
-        // dispatch(emitConfirmTransfer({id}));
+        handleConfirmModalHide();S
+        dispatch(emitConfirmTransfer({id}));
     };
 
     // Render
