@@ -14,9 +14,21 @@ import ConfirmModalComponent from "../../components/modals/ConfirmModalComponent
 import {storeUserBalanceFetchRequestReset} from "../../redux/requests/user/actions";
 import CheckoutHandoversCardsComponent from "../../components/checkout/CheckoutHandoversCardsComponent";
 import {emitConfirmHandover, emitHandoversFetch, emitNextHandoversFetch} from "../../redux/handovers/actions";
-import {storeHandoversRequestReset, storeNextHandoversRequestReset} from "../../redux/requests/handovers/actions";
-import {dateToString, formatNumber, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
 import CheckoutHandoversImproveHandoverContainer from "../../containers/checkout/CheckoutHandoversImproveHandoverContainer";
+import {
+    storeHandoversRequestReset,
+    storeNextHandoversRequestReset,
+    storeConfirmHandoverRequestReset
+} from "../../redux/requests/handovers/actions";
+import {
+    applySuccess,
+    dateToString,
+    formatNumber,
+    needleSearch,
+    requestFailed,
+    requestLoading,
+    requestSucceeded
+} from "../../functions/generalFunctions";
 
 // Component
 function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page, user, dispatch, location}) {
@@ -36,6 +48,15 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
         // eslint-disable-next-line
     }, []);
 
+    // Local effects
+    useEffect(() => {
+        // Reset inputs while toast (well done) into current scope
+        if(requestSucceeded(handoversRequests.apply)) {
+            applySuccess(handoversRequests.apply.message);
+        }
+        // eslint-disable-next-line
+    }, [handoversRequests.apply]);
+
     const handleNeedleInput = (data) => {
         setNeedle(data)
     }
@@ -43,8 +64,8 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
     // Reset error alert
     const shouldResetErrorData = () => {
         dispatch(storeHandoversRequestReset());
-        dispatch(storeHandoversRequestReset());
         dispatch(storeNextHandoversRequestReset());
+        dispatch(storeConfirmHandoverRequestReset());
         dispatch(storeUserBalanceFetchRequestReset());
     };
 
