@@ -43,6 +43,7 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
     // Reset error alert
     const shouldResetErrorData = () => {
         dispatch(storeHandoversRequestReset());
+        dispatch(storeHandoversRequestReset());
         dispatch(storeNextHandoversRequestReset());
         dispatch(storeUserBalanceFetchRequestReset());
     };
@@ -99,6 +100,7 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
                                             {/* Error message */}
                                             {requestFailed(handoversRequests.list) && <ErrorAlertComponent message={handoversRequests.list.message} />}
                                             {requestFailed(handoversRequests.next) && <ErrorAlertComponent message={handoversRequests.next.message} />}
+                                            {requestFailed(handoversRequests.apply) && <ErrorAlertComponent message={handoversRequests.apply.message} />}
                                             <button type="button"
                                                     className="btn btn-theme mb-2"
                                                     onClick={handleHandoverModalShow}

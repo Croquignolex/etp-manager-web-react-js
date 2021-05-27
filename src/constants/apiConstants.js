@@ -51,12 +51,15 @@ export const AGENT_ZONE_UPDATE_API_PATH = `${API_URL}/edit_zone_agent`;
 export const TOGGLE_AGENT_STATUS_API_PATH = `${API_URL}/edit_agent_status`;
 
 // Checkout
-export const NEW_HANDOVER_API_PATH = `${API_URL}/passation`;
 export const REVENUES_API_PATH = `${API_URL}/treasuries_in`;
 export const EXPENSES_API_PATH = `${API_URL}/treasuries_out`;
 export const NEW_REVENUE_API_PATH = `${API_URL}/treasury_in`;
 export const NEW_EXPENSE_API_PATH = `${API_URL}/treasury_out`;
+
+// Handovers
+export const NEW_HANDOVER_API_PATH = `${API_URL}/passation`;
 export const HANDOVERS_API_PATH = `${API_URL}/passations_list`;
+export const CONFIRM_HANDOVER_API_PATH = `${API_URL}/approuve_passation`;
 
 // Outlay
 export const NEW_OUTLAY_API_PATH = `${API_URL}/decaissement`;

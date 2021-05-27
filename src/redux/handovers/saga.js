@@ -6,9 +6,12 @@ import {
     EMIT_HANDOVERS_FETCH,
     storeSetHandoversData,
     EMIT_IMPROVE_HANDOVER,
+    EMIT_CONFIRM_HANDOVER,
     storeSetNewHandoverData,
+    storeUpdateHandoverData,
     storeSetNextHandoversData,
     EMIT_NEXT_HANDOVERS_FETCH,
+    storeSetHandoverActionData,
     storeStopInfiniteScrollHandoverData
 } from "./actions";
 import {
@@ -17,10 +20,13 @@ import {
     storeHandoversRequestSucceed,
     storeNextHandoversRequestInit,
     storeImproveHandoverRequestInit,
+    storeConfirmHandoverRequestInit,
     storeNextHandoversRequestFailed,
     storeNextHandoversRequestSucceed,
     storeImproveHandoverRequestFailed,
-    storeImproveHandoverRequestSucceed
+    storeConfirmHandoverRequestFailed,
+    storeImproveHandoverRequestSucceed,
+    storeConfirmHandoverRequestSucceed
 } from "../requests/handovers/actions";
 
 // Fetch handovers from API
@@ -89,6 +95,29 @@ export function* emitImproveHandover() {
     });
 }
 
+// Confirm handover from API
+export function* emitConfirmHandover() {
+    yield takeLatest(EMIT_CONFIRM_HANDOVER, function*({id}) {
+        try {
+            // Fire event at redux to toggle action loader
+            yield put(storeSetHandoverActionData({id}));
+            // Fire event for request
+            yield put(storeConfirmHandoverRequestInit());
+            const apiResponse = yield call(apiPostRequest, `${api.CONFIRM_HANDOVER_API_PATH}/${id}`);
+            // Fire event to redux
+            yield put(storeUpdateHandoverData({id}));
+            // Fire event at redux to toggle action loader
+            yield put(storeSetHandoverActionData({id}));
+            // Fire event for request
+            yield put(storeConfirmHandoverRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeSetHandoverActionData({id}));
+            yield put(storeConfirmHandoverRequestFailed({message}));
+        }
+    });
+}
+
 // Extract handover data
 function extractHandoverData(apiSender, apiReceiver, apiHandover) {
     let handover = {
@@ -137,6 +166,7 @@ export default function* sagaHandovers() {
     yield all([
         fork(emitHandoversFetch),
         fork(emitImproveHandover),
+        fork(emitConfirmHandover),
         fork(emitNextHandoversFetch),
     ]);
 }
