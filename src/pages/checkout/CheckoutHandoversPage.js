@@ -12,17 +12,11 @@ import TableSearchComponent from "../../components/TableSearchComponent";
 import FormModalComponent from "../../components/modals/FormModalComponent";
 import ConfirmModalComponent from "../../components/modals/ConfirmModalComponent";
 import {storeUserBalanceFetchRequestReset} from "../../redux/requests/user/actions";
-import {emitHandoversFetch, emitNextHandoversFetch} from "../../redux/handovers/actions";
 import CheckoutHandoversCardsComponent from "../../components/checkout/CheckoutHandoversCardsComponent";
+import {emitConfirmHandover, emitHandoversFetch, emitNextHandoversFetch} from "../../redux/handovers/actions";
 import {storeHandoversRequestReset, storeNextHandoversRequestReset} from "../../redux/requests/handovers/actions";
+import {dateToString, formatNumber, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
 import CheckoutHandoversImproveHandoverContainer from "../../containers/checkout/CheckoutHandoversImproveHandoverContainer";
-import {
-    dateToString,
-    formatNumber,
-    needleSearch,
-    requestFailed,
-    requestLoading
-} from "../../functions/generalFunctions";
 
 // Component
 function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page, user, dispatch, location}) {
@@ -80,8 +74,8 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
 
     // Trigger when clearance confirm confirmed on modal
     const handleConfirm = (id) => {
-        handleConfirmModalHide();S
-        dispatch(emitConfirmTransfer({id}));
+        handleConfirmModalHide();
+        dispatch(emitConfirmHandover({id}));
     };
 
     // Render

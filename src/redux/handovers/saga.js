@@ -110,6 +110,7 @@ function extractHandoverData(apiSender, apiReceiver, apiHandover) {
         };
     }
     if(apiHandover) {
+        handover.actionLoader = false;
         handover.status = apiHandover.statut;
         handover.amount = apiHandover.montant;
         handover.id = apiHandover.id.toString();

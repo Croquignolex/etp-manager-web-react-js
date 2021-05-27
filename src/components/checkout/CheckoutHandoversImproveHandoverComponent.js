@@ -6,12 +6,12 @@ import AmountComponent from "../form/AmountComponent";
 import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import {requiredChecker} from "../../functions/checkerFunctions";
-import {emitImproveHandover} from "../../redux/handovers/actions";
 import {emitAllManagersFetch} from "../../redux/managers/actions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {dataToArrayForSelect} from "../../functions/arrayFunctions";
 import {storeAllManagersRequestReset} from "../../redux/requests/managers/actions";
+import {emitHandoversFetch, emitImproveHandover} from "../../redux/handovers/actions";
 import {storeImproveHandoverRequestReset} from "../../redux/requests/handovers/actions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
@@ -36,7 +36,8 @@ function CheckoutHandoversImproveHandoverComponent({user, balance, request, mana
         // Reset inputs while toast (well done) into current scope
         if(requestSucceeded(request)) {
             applySuccess(request.message);
-            handleClose()
+            dispatch(emitHandoversFetch());
+            handleClose();
         }
         // eslint-disable-next-line
     }, [request]);
