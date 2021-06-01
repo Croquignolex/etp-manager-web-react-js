@@ -20,6 +20,7 @@ import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../
 // Component
 function OperationsFleetsReturnComponent({supply, request, sims, allSimsRequests, dispatch, handleClose}) {
     // Local state
+    const [selectedOp, setSelectedOp] = useState('');
     const [outgoingSim, setOutgoingSim] = useState(DEFAULT_FORM_DATA);
     const [incomingSim, setIncomingSim] = useState(DEFAULT_FORM_DATA);
     const [amount, setAmount] = useState({...DEFAULT_FORM_DATA, data: supply.remaining});
@@ -46,6 +47,8 @@ function OperationsFleetsReturnComponent({supply, request, sims, allSimsRequests
 
     const handleOutgoingSelect = (data) => {
         shouldResetErrorData();
+        const foundSim = sims.find(item => item.id === data);
+        setSelectedOp(foundSim && foundSim.operator.id);
         setOutgoingSim({...outgoingSim,  isValid: true, data})
     }
 
@@ -61,8 +64,10 @@ function OperationsFleetsReturnComponent({supply, request, sims, allSimsRequests
 
     // Build select options
     const incomingSelectOptions = useMemo(() => {
-        return dataToArrayForSelect(mappedSims(sims.filter(item => FLEET_TYPE === item.type.name)))
-    }, [sims]);
+        return dataToArrayForSelect(mappedSims(sims.filter(
+            item => (FLEET_TYPE === item.type.name) && (item.operator.id === selectedOp)
+        )))
+    }, [sims, selectedOp]);
 
     // Build select options
     const outgoingSelectOptions = useMemo(() => {
