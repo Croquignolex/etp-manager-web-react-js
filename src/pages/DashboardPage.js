@@ -108,7 +108,7 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
                                                                         request={simsRequests}
                                                                         url={path.FLEETS_SIMS_PAGE_PATH}
                                                                         data={formatNumber(mtnFleetSimsFleetsData.value)}
-                                                                        label={`${setting.LABEL_FLEET_SIMS_FLEETS_MTN} (${mtnFleetsData.number})`}
+                                                                        label={`${setting.LABEL_FLEET_SIMS_FLEETS_MTN} (${mtnFleetSimsFleetsData.number})`}
                                     />
                                 </div>
                             }
@@ -119,7 +119,7 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
                                                                         request={simsRequests}
                                                                         url={path.FLEETS_SIMS_PAGE_PATH}
                                                                         data={formatNumber(orangeFleetSimsFleetsData.value)}
-                                                                        label={`${setting.LABEL_FLEET_SIMS_FLEETS_ORANGE} (${mtnFleetsData.number})`}
+                                                                        label={`${setting.LABEL_FLEET_SIMS_FLEETS_ORANGE} (${orangeFleetSimsFleetsData.number})`}
                                     />
                                 </div>
                             }
