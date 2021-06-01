@@ -10,8 +10,8 @@ import {emitAddTransfer} from "../../redux/transfers/actions";
 import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
-import {COLLECTOR_TYPE, FLEET_TYPE} from "../../constants/typeConstants";
 import {storeAllSimsRequestReset} from "../../redux/requests/sims/actions";
+import {FLEET_TYPE, MASTER_COLLECTOR_TYPE} from "../../constants/typeConstants";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
 import {storeAddTransferRequestReset} from "../../redux/requests/transfers/actions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
@@ -60,7 +60,7 @@ function OperationsTransfersAddTransferComponent({request, sims, allSimsRequests
 
     // Build select options
     const incomingSelectOptions = useMemo(() => {
-        return dataToArrayForSelect(mappedSims(sims.filter(item => COLLECTOR_TYPE === item.type.name)))
+        return dataToArrayForSelect(mappedSims(sims.filter(item => MASTER_COLLECTOR_TYPE.includes(item.type.name))))
     }, [sims]);
 
     // Build select options
