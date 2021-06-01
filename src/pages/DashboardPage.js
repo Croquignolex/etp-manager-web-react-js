@@ -91,7 +91,7 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
                     <div className='container-fluid'>
                         <div className="row">
                             {cardsData.includes(setting.CARD_BALANCE) &&
-                                <div className="col-lg-4 col-md-4 col-sm-6">
+                                <div className="col-lg-3 col-md-4 col-sm-6">
                                     <DashboardCardComponent color='bg-dark'
                                                             icon='fa fa-coins'
                                                             url={path.PROFILE_PAGE_PATH}
@@ -102,7 +102,7 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
                                 </div>
                             }
                             {cardsData.includes(setting.CARD_FLEET_SIMS_FLEETS_MTN) &&
-                                <div className="col-lg-4 col-md-4 col-sm-6">
+                                <div className="col-lg-3 col-md-4 col-sm-6">
                                     <DashboardWithOperatorCardComponent color='bg-secondary'
                                                                         operator={{id: '1'}}
                                                                         request={simsRequests}
@@ -113,7 +113,7 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
                                 </div>
                             }
                             {cardsData.includes(setting.CARD_FLEET_SIMS_FLEETS_ORANGE) &&
-                                <div className="col-lg-4 col-md-4 col-sm-6">
+                                <div className="col-lg-3 col-md-4 col-sm-6">
                                     <DashboardWithOperatorCardComponent color='bg-secondary'
                                                                         operator={{id: '2'}}
                                                                         request={simsRequests}
@@ -124,7 +124,7 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
                                 </div>
                             }
                             {cardsData.includes(setting.CARD_FLEETS_REQUESTS_MTN) &&
-                                <div className="col-lg-4 col-md-4 col-sm-6">
+                                <div className="col-lg-3 col-md-4 col-sm-6">
                                     <DashboardWithOperatorCardComponent color='bg-success'
                                                             operator={{id: '1'}}
                                                             request={allFleetsRequests}
@@ -135,7 +135,7 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
                                 </div>
                             }
                             {cardsData.includes(setting.CARD_FLEETS_REQUESTS_ORANGE) &&
-                                <div className="col-lg-4 col-md-4 col-sm-6">
+                                <div className="col-lg-3 col-md-4 col-sm-6">
                                     <DashboardWithOperatorCardComponent color='bg-success'
                                                                         operator={{id: '2'}}
                                                                         request={allFleetsRequests}
@@ -146,7 +146,7 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
                                 </div>
                             }
                             {cardsData.includes(setting.CARD_CLEARANCES_REQUEST_MTN) &&
-                                <div className="col-lg-4 col-md-4 col-sm-6">
+                                <div className="col-lg-3 col-md-4 col-sm-6">
                                     <DashboardWithOperatorCardComponent color='bg-primary'
                                                             operator={{id: '1'}}
                                                             request={allClearancesRequests}
@@ -157,7 +157,7 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
                                 </div>
                             }
                             {cardsData.includes(setting.CARD_CLEARANCES_REQUEST_ORANGE) &&
-                                <div className="col-lg-4 col-md-4 col-sm-6">
+                                <div className="col-lg-3 col-md-4 col-sm-6">
                                     <DashboardWithOperatorCardComponent color='bg-primary'
                                                             operator={{id: '2'}}
                                                             request={allClearancesRequests}

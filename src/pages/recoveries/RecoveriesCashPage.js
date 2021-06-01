@@ -49,7 +49,7 @@ function RecoveriesCashPage({recoveries, recoveriesRequests, hasMoreData, page, 
         <>
             <AppLayoutContainer pathname={location.pathname}>
                 <div className="content-wrapper">
-                    <HeaderComponent title={RECOVERIES_CASH_PAGE} icon={'fa fa-money-bill'} />
+                    <HeaderComponent title={RECOVERIES_CASH_PAGE} icon={'fa fa-coins'} />
                     <section className="content">
                         <div className='container-fluid'>
                             <div className="row">

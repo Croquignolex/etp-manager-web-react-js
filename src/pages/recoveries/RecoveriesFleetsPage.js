@@ -85,7 +85,7 @@ function RecoveriesFleetsPage({returns, returnsRequests, hasMoreData, page, disp
         <>
             <AppLayoutContainer pathname={location.pathname}>
                 <div className="content-wrapper">
-                    <HeaderComponent title={RECOVERIES_FLEET_PAGE} icon={'fa fa-wifi'} />
+                    <HeaderComponent title={RECOVERIES_FLEET_PAGE} icon={'fa fa-redo'} />
                     <section className="content">
                         <div className='container-fluid'>
                             <div className="row">
