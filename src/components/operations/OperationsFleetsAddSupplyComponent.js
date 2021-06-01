@@ -22,6 +22,7 @@ import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../
 function OperationsFleetsAddSupplyComponent({request, sims, agents, allAgentsRequests, allSimsRequests, dispatch, handleClose}) {
     // Local state
     const [amount, setAmount] = useState(DEFAULT_FORM_DATA);
+    const [selectedOp, setSelectedOp] = useState('');
     const [outgoingSim, setOutgoingSim] = useState(DEFAULT_FORM_DATA);
     const [incomingSim, setIncomingSim] = useState(DEFAULT_FORM_DATA);
     const [agent, setAgent] = useState({...DEFAULT_FORM_DATA, data: 0});
@@ -49,6 +50,8 @@ function OperationsFleetsAddSupplyComponent({request, sims, agents, allAgentsReq
 
     const handleOutgoingSelect = (data) => {
         shouldResetErrorData();
+        const foundSim = sims.find(item => item.id === data);
+        setSelectedOp(foundSim && foundSim.operator.id);
         setOutgoingSim({...outgoingSim,  isValid: true, data})
     }
 
@@ -69,8 +72,10 @@ function OperationsFleetsAddSupplyComponent({request, sims, agents, allAgentsReq
 
     // Build select options
     const incomingSelectOptions = useMemo(() => {
-        return dataToArrayForSelect(mappedSims(sims.filter(item => item.agent.id === agent.data)))
-    }, [sims, agent.data]);
+        return dataToArrayForSelect(mappedSims(sims.filter(
+            item => (item.agent.id === agent.data) && (item.operator.id === selectedOp)
+        )))
+    }, [sims, agent.data, selectedOp]);
 
     // Build select options
     const outgoingSelectOptions = useMemo(() => {
@@ -102,7 +107,10 @@ function OperationsFleetsAddSupplyComponent({request, sims, agents, allAgentsReq
         setAmount(_amount);
         setOutgoingSim(_outgoingSim);
         setIncomingSim(_incomingSim);
-        const validationOK = (_amount.isValid && _incomingSim.isValid && _outgoingSim.isValid && _agent.isValid );
+        const validationOK = (
+            _amount.isValid && _incomingSim.isValid &&
+            _outgoingSim.isValid && _agent.isValid
+        );
         // Check
         if(validationOK) {
             dispatch(emitAddSupply({
