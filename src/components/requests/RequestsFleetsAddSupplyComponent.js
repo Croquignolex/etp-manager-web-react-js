@@ -6,8 +6,8 @@ import ButtonComponent from "../form/ButtonComponent";
 import AmountComponent from "../form/AmountComponent";
 import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
-import {emitFleetsSimsFetch} from "../../redux/sims/actions";
 import {emitFleetAddSupply} from "../../redux/fleets/actions";
+import {emitAllFleetSimsFetch} from "../../redux/sims/actions";
 import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
@@ -24,7 +24,7 @@ function RequestsFleetsAddSupplyComponent({fleet, request, sims, simsRequests, d
 
     // Local effects
     useEffect(() => {
-        dispatch(emitFleetsSimsFetch());
+        dispatch(emitAllFleetSimsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();

@@ -7,6 +7,7 @@ const initialState = {
     list: {failed: false, loading: false, succeeded: false, message: ""},
     next: {failed: false, loading: false, succeeded: false, message: ""},
     show: {failed: false, loading: false, succeeded: false, message: ""},
+    fleet: {failed: false, loading: false, succeeded: false, message: ""},
 };
 
 // Reduce
@@ -80,6 +81,23 @@ function reduce(state = initialState, action) {
         // Resolve event to set sim reset request store data
         case actions.STORE_SIM_REQUEST_RESET:
             nextState = {...state, show: initialState.show};
+            return nextState || state;
+        // ======================================================== All flee sims
+        // Resolve event to set all fleet sims init request store data
+        case actions.STORE_ALL_FLEET_SIMS_REQUEST_INIT:
+            nextState = {...state, fleet: requestInitValue()};
+            return nextState || state;
+        // Resolve event to set all fleet sims failed request store data
+        case actions.STORE_ALL_FLEET_SIMS_REQUEST_FAILED:
+            nextState = {...state, fleet: requestFailedValue(action.message)};
+            return nextState || state;
+        // Resolve event to set all fleet sims succeeded request store data
+        case actions.STORE_ALL_FLEET_SIMS_REQUEST_SUCCEEDED:
+            nextState = {...state, fleet: requestSucceededValue(action.message)};
+            return nextState || state;
+        // Resolve event to set all fleet sims reset request store data
+        case actions.STORE_ALL_FLEET_SIMS_REQUEST_RESET:
+            nextState = {...state, fleet: initialState.fleet};
             return nextState || state;
         // ========================================================
         // Unknown action

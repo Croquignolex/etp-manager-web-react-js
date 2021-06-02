@@ -35,6 +35,7 @@ export const AGENTS_SIMS_API_PATH = `${API_URL}/puce_list_all_agent`;
 export const FLEETS_SIMS_API_PATH = `${API_URL}/puce_list_gestionnaire`;
 export const COLLECTORS_SIMS_API_PATH = `${API_URL}/puce_list_collector`;
 export const RESOURCES_SIMS_API_PATH = `${API_URL}/puce_list_all_resource`;
+export const ALL_FLEETS_SIMS_API_PATH = `${API_URL}/puce_list_gestionnaire_all`;
 
 // Agents
 export const AGENT_API_PATH = `${API_URL}/show_agent`;
