@@ -24,6 +24,11 @@ export const STORE_ALL_FLEET_SIMS_REQUEST_RESET = 'STORE_ALL_FLEET_SIMS_REQUEST_
 export const STORE_ALL_FLEET_SIMS_REQUEST_FAILED = 'STORE_ALL_FLEET_SIMS_REQUEST_FAILED';
 export const STORE_ALL_FLEET_SIMS_REQUEST_SUCCEEDED = 'STORE_ALL_FLEET_SIMS_REQUEST_SUCCEEDED';
 
+export const STORE_ALL_INTERNAL_SIMS_REQUEST_INIT = 'STORE_ALL_INTERNAL_SIMS_REQUEST_INIT';
+export const STORE_ALL_INTERNAL_SIMS_REQUEST_RESET = 'STORE_ALL_INTERNAL_SIMS_REQUEST_RESET';
+export const STORE_ALL_INTERNAL_SIMS_REQUEST_FAILED = 'STORE_ALL_INTERNAL_SIMS_REQUEST_FAILED';
+export const STORE_ALL_INTERNAL_SIMS_REQUEST_SUCCEEDED = 'STORE_ALL_INTERNAL_SIMS_REQUEST_SUCCEEDED';
+
 // ======================================================== Sims
 // Set sims init data into store
 export const storeSimsRequestInit = () => ({
@@ -133,4 +138,26 @@ export const storeSimRequestSucceed = ({message}) => ({
 // Set sim reset data into store
 export const storeSimRequestReset = () => ({
     type: STORE_SIM_REQUEST_RESET
+});
+// ======================================================== All internals sims
+// Set all internals sims init data into store
+export const storeAllInternalSimsRequestInit = () => ({
+    type: STORE_ALL_INTERNAL_SIMS_REQUEST_INIT
+});
+
+// Set all internals sims failed data into store
+export const storeAllInternalSimsRequestFailed = ({message}) => ({
+    message,
+    type: STORE_ALL_INTERNAL_SIMS_REQUEST_FAILED
+});
+
+// Set all internals sims succeeded data into store
+export const storeAllInternalSimsRequestSucceed = ({message}) => ({
+    message,
+    type: STORE_ALL_INTERNAL_SIMS_REQUEST_SUCCEEDED
+});
+
+// Set all internals sims reset data into store
+export const storeAllInternalSimsRequestReset = () => ({
+    type: STORE_ALL_INTERNAL_SIMS_REQUEST_RESET
 });

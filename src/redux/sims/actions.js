@@ -12,6 +12,7 @@ export const EMIT_ALL_SIMS_FETCH = 'EMIT_ALL_SIMS_FETCH';
 export const EMIT_NEXT_SIMS_FETCH = 'EMIT_NEXT_SIMS_FETCH';
 export const EMIT_FLEETS_SIMS_FETCH = 'EMIT_FLEETS_SIMS_FETCH';
 export const EMIT_AGENTS_SIMS_FETCH = 'EMIT_AGENTS_SIMS_FETCH';
+export const EMIT_INTERNAL_SIMS_FETCH = 'EMIT_INTERNAL_SIMS_FETCH';
 export const EMIT_MANAGERS_SIMS_FETCH = 'EMIT_MANAGERS_SIMS_FETCH';
 export const EMIT_RESOURCES_SIMS_FETCH = 'EMIT_RESOURCES_SIMS_FETCH';
 export const EMIT_ALL_FLEETS_SIMS_FETCH = 'EMIT_ALL_FLEETS_SIMS_FETCH';
@@ -115,4 +116,9 @@ export const emitSimFetch = ({id}) => ({
 // Emit all fleet sims fetch
 export const emitAllFleetSimsFetch = () => ({
     type: EMIT_ALL_FLEETS_SIMS_FETCH
+});
+
+// Emit all internal sims fetch
+export const emitAllInternalSimsFetch = () => ({
+    type: EMIT_INTERNAL_SIMS_FETCH
 });

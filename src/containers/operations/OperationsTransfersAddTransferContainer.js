@@ -6,7 +6,7 @@ import OperationsTransfersAddTransferComponent from "../../components/operations
 const mapStateToProps = (state) => ({
     sims: state.sims.list,
     request: state.transfersRequests.add,
-    allSimsRequests: state.simsRequests.all,
+    allSimsRequests: state.simsRequests.internal,
 });
 
 // Map dispatch function to component props

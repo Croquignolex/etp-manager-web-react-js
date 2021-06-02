@@ -11,7 +11,7 @@ import {emitAllFleetSimsFetch} from "../../redux/sims/actions";
 import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
-import {storeSimsRequestReset} from "../../redux/requests/sims/actions";
+import {storeAllFleetSimsRequestReset} from "../../redux/requests/sims/actions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
 import {storeFleetSupplyRequestReset} from "../../redux/requests/fleets/actions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
@@ -61,8 +61,8 @@ function RequestsFleetsAddSupplyComponent({fleet, request, sims, simsRequests, d
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        dispatch(storeSimsRequestReset());
         dispatch(storeFleetSupplyRequestReset());
+        dispatch(storeAllFleetSimsRequestReset());
     };
 
     // Trigger add supply form submit
