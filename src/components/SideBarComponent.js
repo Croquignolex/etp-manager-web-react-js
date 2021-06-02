@@ -143,8 +143,6 @@ function buildOperationsMenu() {
             {name: page.OPERATIONS_FLEETS_PAGE, path: path.OPERATIONS_FLEETS_PAGE_PATH},
             {name: page.OPERATIONS_CLEARANCES_PAGE, path: path.OPERATIONS_CLEARANCES_PAGE_PATH},
             {name: page.OPERATIONS_AFFORDS_PAGE, path: path.OPERATION_AFFORDS_PAGE_PATH},
-            {name: page.COLLECTOR_CHECKOUT_PAYMENTS_PAGE, path: path.COLLECTOR_CHECKOUT_PAYMENTS_PAGE_PATH},
-            {name: page.COLLECTOR_CHECKOUT_OUTlAYS_PAGE, path: path.COLLECTOR_CHECKOUT_OUTLAYS_PAGE_PATH},
         ]
     }
 }
@@ -167,9 +165,11 @@ function buildCheckoutMenu() {
         name: page.CHECKOUT,
         icon: 'fa fa-coins',
         sub: [
-            {name: page.CHECKOUT_PAYMENTS_PAGE, path: path.CHECKOUT_PAYMENTS_PAGE_PATH},
-            {name: page.CHECKOUT_OUTlAYS_PAGE, path: path.CHECKOUT_OUTLAYS_PAGE_PATH},
-            {name: page.HANDING_OVER_PAGE, path: path.HANDING_OVER_PAGE_PATH},
+            {name: page.CHECKOUT_EXTERNAL_OUTLAYS_PAGE, path: path.CHECKOUT_EXTERNAL_OUTLAYS_PAGE_PATH},
+            {name: page.CHECKOUT_EXTERNAL_PAYMENTS_PAGE, path: path.CHECKOUT_EXTERNAL_PAYMENTS_PAGE_PATH},
+            {name: page.CHECKOUT_INTERNAL_OUTLAYS_PAGE, path: path.CHECKOUT_INTERNAL_OUTLAYS_PAGE_PATH},
+            {name: page.CHECKOUT_INTERNAL_PAYMENTS_PAGE, path: path.CHECKOUT_INTERNAL_PAYMENTS_PAGE_PATH},
+            {name: page.CHECKOUT_HANDING_OVER_PAGE, path: path.CHECKOUT_HANDING_OVER_PAGE_PATH},
         ]
     }
 }
