@@ -30,7 +30,7 @@ function CheckoutPaymentsCardsComponent({payments, handleConfirmModalShow}) {
                                             </span>
                                         </li>
                                         <li className="list-group-item">
-                                            <b>Responsable</b>
+                                            <b>Emetteur</b>
                                             <span className="float-right">{item.manager.name}</span>
                                         </li>
                                         <li className="list-group-item">

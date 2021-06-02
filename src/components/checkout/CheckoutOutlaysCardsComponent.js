@@ -29,7 +29,7 @@ function CheckoutOutlaysCardsComponent({outlays}) {
                                             </span>
                                         </li>
                                         <li className="list-group-item">
-                                            <b>Responsable</b>
+                                            <b>Receptteur</b>
                                             <span className="float-right">{item.collector.name}</span>
                                         </li>
                                         <li className="list-group-item">
