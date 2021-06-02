@@ -1,6 +1,4 @@
 // User
-import {CHECKOUT_HANDING_OVER_PAGE} from "./pageNameConstants";
-
 export const PROFILE_PAGE_PATH = "/profile";
 export const SETTINGS_PAGE_PATH = "/settings";
 export const DASHBOARD_PAGE_PATH = "/dashboard";
