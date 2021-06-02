@@ -6,13 +6,13 @@ import ButtonComponent from "../form/ButtonComponent";
 import AmountComponent from "../form/AmountComponent";
 import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
-import {emitFleetsSimsFetch} from "../../redux/sims/actions";
+import {emitAllFleetSimsFetch} from "../../redux/sims/actions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {emitAddAnonymousRefuel} from "../../redux/refuels/actions";
 import {playWarningSound} from "../../functions/playSoundFunctions";
-import {storeSimsRequestReset} from "../../redux/requests/sims/actions";
 import {phoneChecker, requiredChecker} from "../../functions/checkerFunctions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
+import {storeAllFleetSimsRequestReset} from "../../redux/requests/sims/actions";
 import {storeAddAnonymousRefuelRequestReset} from "../../redux/requests/refuels/actions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
@@ -26,7 +26,7 @@ function OperationsFleetsAddAnonymousRefuelComponent({request, sims, simsRequest
 
     // Local effects
     useEffect(() => {
-        dispatch(emitFleetsSimsFetch());
+        dispatch(emitAllFleetSimsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -71,7 +71,7 @@ function OperationsFleetsAddAnonymousRefuelComponent({request, sims, simsRequest
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        dispatch(storeSimsRequestReset());
+        dispatch(storeAllFleetSimsRequestReset());
         dispatch(storeAddAnonymousRefuelRequestReset());
     };
 

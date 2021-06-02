@@ -102,7 +102,7 @@ export function* emitAllInternalSimsFetch() {
 }
 
 // Fetch all fleets sims from API
-export function* emitAllFleetsSimsFetch() {
+export function* emitAllFleetSimsFetch() {
     yield takeLatest(EMIT_ALL_FLEETS_SIMS_FETCH, function*() {
         try {
             // Fire event for request
@@ -371,7 +371,7 @@ export default function* sagaSims() {
         fork(emitAllSimsFetch),
         fork(emitFleetsSimsFetch),
         fork(emitAgentsSimsFetch),
-        fork(emitAllFleetsSimsFetch),
+        fork(emitAllFleetSimsFetch),
         fork(emitResourcesSimsFetch),
         fork(emitNextFleetsSimsFetch),
         fork(emitCollectorsSimsFetch),

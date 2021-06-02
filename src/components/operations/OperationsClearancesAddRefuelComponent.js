@@ -7,15 +7,15 @@ import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import {FLEET_TYPE} from "../../constants/typeConstants";
 import {emitAddRefuel} from "../../redux/refuels/actions";
-import {emitFleetsSimsFetch} from "../../redux/sims/actions";
 import {emitAllAgentsFetch} from "../../redux/agents/actions";
+import {emitAllFleetSimsFetch} from "../../redux/sims/actions";
 import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
-import {storeSimsRequestReset} from "../../redux/requests/sims/actions";
 import {storeAllAgentsRequestReset} from "../../redux/requests/agents/actions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
 import {storeAddRefuelRequestReset} from "../../redux/requests/refuels/actions";
+import {storeAllFleetSimsRequestReset} from "../../redux/requests/sims/actions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
@@ -28,7 +28,7 @@ function OperationsClearancesAddRefuelComponent({request, sims, agents, allAgent
     // Local effects
     useEffect(() => {
         dispatch(emitAllAgentsFetch());
-        dispatch(emitFleetsSimsFetch());
+        dispatch(emitAllFleetSimsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -73,9 +73,9 @@ function OperationsClearancesAddRefuelComponent({request, sims, agents, allAgent
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        dispatch(storeSimsRequestReset());
         dispatch(storeAddRefuelRequestReset());
         dispatch(storeAllAgentsRequestReset());
+        dispatch(storeAllFleetSimsRequestReset());
     };
 
     // Trigger add supply form submit
