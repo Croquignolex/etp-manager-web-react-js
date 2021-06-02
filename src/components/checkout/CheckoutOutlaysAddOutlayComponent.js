@@ -24,6 +24,7 @@ function CheckoutOutlaysAddOutlayComponent({request, collectors, allCollectorsRe
     // Local effects
     useEffect(() => {
         dispatch(emitAllCollectorsFetch());
+        dispatch(emitAllSuppervisorsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -91,9 +92,9 @@ function CheckoutOutlaysAddOutlayComponent({request, collectors, allCollectorsRe
                 <div className='row'>
                     <div className='col-sm-6'>
                         <SelectComponent input={collector}
+                                         label='Recepteur'
                                          id='inputSimManager'
-                                         label='Responsable de zone'
-                                         title='Choisir un responsable'
+                                         title='Choisir le recepteur'
                                          options={collectorSelectOptions}
                                          handleInput={handleCollectorSelect}
                                          requestProcessing={requestLoading(allCollectorsRequests)}
