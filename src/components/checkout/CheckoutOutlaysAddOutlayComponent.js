@@ -11,12 +11,15 @@ import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {dataToArrayForSelect} from "../../functions/arrayFunctions";
 import {emitAllCollectorsFetch} from "../../redux/collectors/actions";
+import {emitAllSupervisorsFetch} from "../../redux/supervisors/actions";
 import {storeAddOutlayRequestReset} from "../../redux/requests/outlays/actions";
 import {storeAllCollectorsRequestReset} from "../../redux/requests/collectors/actions";
+import {storeAllSupervisorsRequestReset} from "../../redux/requests/supervisors/actions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
-function CheckoutOutlaysAddOutlayComponent({request, collectors, allCollectorsRequests, dispatch, handleClose}) {
+function CheckoutOutlaysAddOutlayComponent({request, collectors, supervisors, dispatch, handleClose,
+                                               allCollectorsRequests, allSupervisorsRequests}) {
     // Local state
     const [amount, setAmount] = useState(DEFAULT_FORM_DATA);
     const [collector, setCollector] = useState(DEFAULT_FORM_DATA);
@@ -24,7 +27,7 @@ function CheckoutOutlaysAddOutlayComponent({request, collectors, allCollectorsRe
     // Local effects
     useEffect(() => {
         dispatch(emitAllCollectorsFetch());
-        dispatch(emitAllSuppervisorsFetch());
+        dispatch(emitAllSupervisorsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -54,13 +57,14 @@ function CheckoutOutlaysAddOutlayComponent({request, collectors, allCollectorsRe
 
     // Build select options
     const collectorSelectOptions = useMemo(() => {
-        return dataToArrayForSelect(collectors)
-    }, [collectors]);
+        return dataToArrayForSelect([...supervisors, ...collectors])
+    }, [collectors, supervisors]);
 
     // Reset error alert
     const shouldResetErrorData = () => {
         dispatch(storeAddOutlayRequestReset());
         dispatch(storeAllCollectorsRequestReset());
+        dispatch(storeAllSupervisorsRequestReset());
     };
 
     // Trigger add supply form submit
@@ -88,6 +92,7 @@ function CheckoutOutlaysAddOutlayComponent({request, collectors, allCollectorsRe
         <>
             {requestFailed(request) && <ErrorAlertComponent message={request.message} />}
             {requestFailed(allCollectorsRequests) && <ErrorAlertComponent message={allCollectorsRequests.message} />}
+            {requestFailed(allSupervisorsRequests) && <ErrorAlertComponent message={allSupervisorsRequests.message} />}
             <form onSubmit={handleSubmit}>
                 <div className='row'>
                     <div className='col-sm-6'>
@@ -97,7 +102,10 @@ function CheckoutOutlaysAddOutlayComponent({request, collectors, allCollectorsRe
                                          title='Choisir le recepteur'
                                          options={collectorSelectOptions}
                                          handleInput={handleCollectorSelect}
-                                         requestProcessing={requestLoading(allCollectorsRequests)}
+                                         requestProcessing={
+                                             requestLoading(allCollectorsRequests) ||
+                                             requestLoading(allCollectorsRequests)
+                                         }
                         />
                     </div>
                     <div className='col-sm-6'>

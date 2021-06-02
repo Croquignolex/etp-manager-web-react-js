@@ -19,6 +19,7 @@ import transfers from './transfers/reducer';
 import recoveries from './recoveries/reducer';
 import clearances from './clearances/reducer';
 import collectors from './collectors/reducer';
+import supervisors from './supervisors/reducer';
 import userRequests from './requests/user/reducer';
 import simsRequests from './requests/sims/reducer';
 import notifications from './notifications/reducer';
@@ -41,6 +42,7 @@ import transfersRequests from './requests/transfers/reducer';
 import collectorsRequests from './requests/collectors/reducer';
 import clearancesRequests from './requests/clearances/reducer';
 import recoveriesRequests from './requests/recoveries/reducer';
+import supervisorsRequests from './requests/supervisors/reducer';
 import notificationsRequests from './requests/notifications/reducer';
 
 // Combine all reducers
@@ -66,6 +68,7 @@ export default {
     recoveries,
     clearances,
     collectors,
+    supervisors,
     simsRequests,
     userRequests,
     zonesRequests,
@@ -88,5 +91,6 @@ export default {
     recoveriesRequests,
     clearancesRequests,
     collectorsRequests,
+    supervisorsRequests,
     notificationsRequests,
 };
