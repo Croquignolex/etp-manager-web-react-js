@@ -45,7 +45,7 @@ function CheckoutOutlaysCardsComponent({outlays}) {
                 {outlays.length === 0 &&
                     <div className="col-12">
                         <div className='alert custom-active text-center'>
-                            Pas de décaissement RZ
+                            Pas de décaissements internes
                         </div>
                     </div>
                 }

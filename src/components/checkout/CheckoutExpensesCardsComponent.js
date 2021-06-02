@@ -44,7 +44,7 @@ function CheckoutExpensesCardsComponent({expenses}) {
                 {expenses.length === 0 &&
                     <div className="col-12">
                         <div className='alert custom-active text-center'>
-                            Pas de décaissement
+                            Pas de décaissements externes
                         </div>
                     </div>
                 }

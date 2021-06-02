@@ -81,7 +81,7 @@ function CheckoutExpensesPage({expenses, expensesRequests, hasMoreData, page, di
                                                     className="btn btn-theme mb-2"
                                                     onClick={handleExpenseModalShow}
                                             >
-                                                <i className="fa fa-coins" /> Effectuer un décaissement
+                                                <i className="fa fa-coins" /> Décaissement externe
                                             </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)

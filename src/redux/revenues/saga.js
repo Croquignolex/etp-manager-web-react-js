@@ -71,12 +71,7 @@ export function* emitAddRevenue() {
         try {
             // Fire event for request
             yield put(storeAddRevenueRequestInit());
-            const data = new FormData();
-            data.append('nom', name);
-            data.append('raison', reason);
-            data.append('description', description);
-            data.append('recu', receipt);
-            data.append('montant', amount);
+            const data = {nom: name, raison: reason, description: description, montant: amount};
             const apiResponse = yield call(apiPostRequest, api.NEW_REVENUE_API_PATH, data);
             // Extract data
             const revenue = extractRevenueData(
