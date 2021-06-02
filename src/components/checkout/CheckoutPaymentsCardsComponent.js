@@ -31,7 +31,7 @@ function CheckoutPaymentsCardsComponent({payments, handleConfirmModalShow}) {
                                         </li>
                                         <li className="list-group-item">
                                             <b>Responsable</b>
-                                            <span className="float-right">{item.collector.name}</span>
+                                            <span className="float-right">{item.manager.name}</span>
                                         </li>
                                         <li className="list-group-item">
                                             {item.status === DONE && <b className="text-success text-bold">Confirmé</b>}
