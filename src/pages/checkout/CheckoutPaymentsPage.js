@@ -8,7 +8,7 @@ import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import ConfirmModalComponent from "../../components/modals/ConfirmModalComponent";
-import {COLLECTOR_CHECKOUT_PAYMENTS_PAGE} from "../../constants/pageNameConstants";
+import {CHECKOUT_INTERNAL_PAYMENTS_PAGE} from "../../constants/pageNameConstants";
 import CheckoutPaymentsCardsComponent from "../../components/checkout/CheckoutPaymentsCardsComponent";
 import {emitConfirmPayment, emitNextPaymentsFetch, emitPaymentsFetch} from "../../redux/payments/actions";
 import {
@@ -88,7 +88,7 @@ function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, di
         <>
             <AppLayoutContainer pathname={location.pathname}>
                 <div className="content-wrapper">
-                    <HeaderComponent title={COLLECTOR_CHECKOUT_PAYMENTS_PAGE} icon={'fa fa-arrow-circle-down'} />
+                    <HeaderComponent title={CHECKOUT_INTERNAL_PAYMENTS_PAGE} icon={'fa fa-arrow-circle-down'} />
                     <section className="content">
                         <div className='container-fluid'>
                             <div className="row">

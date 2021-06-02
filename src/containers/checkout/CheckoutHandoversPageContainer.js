@@ -1,10 +1,10 @@
 import {connect} from "react-redux";
 
 import {setPageTitle} from "../../functions/generalFunctions";
-import {HANDING_OVER_PAGE} from "../../constants/pageNameConstants";
+import {CHECKOUT_HANDING_OVER_PAGE} from "../../constants/pageNameConstants";
 import CheckoutHandoversPage from "../../pages/checkout/CheckoutHandoversPage";
 
-setPageTitle(HANDING_OVER_PAGE);
+setPageTitle(CHECKOUT_HANDING_OVER_PAGE);
 
 // Map state function to component props
 const mapStateToProps = (state) => ({

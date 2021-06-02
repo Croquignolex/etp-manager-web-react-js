@@ -5,11 +5,11 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import {emitFetchUserBalance} from "../../redux/user/actions";
 import HeaderComponent from "../../components/HeaderComponent";
 import LoaderComponent from "../../components/LoaderComponent";
-import {HANDING_OVER_PAGE} from "../../constants/pageNameConstants";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import FormModalComponent from "../../components/modals/FormModalComponent";
+import {CHECKOUT_HANDING_OVER_PAGE} from "../../constants/pageNameConstants";
 import ConfirmModalComponent from "../../components/modals/ConfirmModalComponent";
 import {storeUserBalanceFetchRequestReset} from "../../redux/requests/user/actions";
 import CheckoutHandoversCardsComponent from "../../components/checkout/CheckoutHandoversCardsComponent";
@@ -105,7 +105,7 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
         <>
             <AppLayoutContainer pathname={location.pathname}>
                 <div className="content-wrapper">
-                    <HeaderComponent title={HANDING_OVER_PAGE} icon={'fa fa-handshake'} />
+                    <HeaderComponent title={CHECKOUT_HANDING_OVER_PAGE} icon={'fa fa-handshake'} />
                     <section className="content">
                         <div className='container-fluid'>
                             <div className="row">

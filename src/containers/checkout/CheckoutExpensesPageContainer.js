@@ -1,10 +1,10 @@
 import {connect} from "react-redux";
 
 import {setPageTitle} from "../../functions/generalFunctions";
-import {CHECKOUT_OUTlAYS_PAGE} from "../../constants/pageNameConstants";
 import CheckoutExpensesPage from "../../pages/checkout/CheckoutExpensesPage";
+import {CHECKOUT_EXTERNAL_OUTLAYS_PAGE} from "../../constants/pageNameConstants";
 
-setPageTitle(CHECKOUT_OUTlAYS_PAGE);
+setPageTitle(CHECKOUT_EXTERNAL_OUTLAYS_PAGE);
 
 // Map state function to component props
 const mapStateToProps = (state) => ({

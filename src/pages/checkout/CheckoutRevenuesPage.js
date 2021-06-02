@@ -5,10 +5,10 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import HeaderComponent from "../../components/HeaderComponent";
 import LoaderComponent from "../../components/LoaderComponent";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
-import {CHECKOUT_PAYMENTS_PAGE} from "../../constants/pageNameConstants";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import FormModalComponent from "../../components/modals/FormModalComponent";
+import {CHECKOUT_EXTERNAL_PAYMENTS_PAGE} from "../../constants/pageNameConstants";
 import {emitNextRevenuesFetch, emitRevenuesFetch} from "../../redux/revenues/actions";
 import CheckoutRevenuesCardsComponent from "../../components/checkout/CheckoutRevenuesCardsComponent";
 import {dateToString, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
@@ -61,7 +61,7 @@ function CheckoutRevenuesPage({revenues, revenuesRequests, hasMoreData, page, di
         <>
             <AppLayoutContainer pathname={location.pathname}>
                 <div className="content-wrapper">
-                    <HeaderComponent title={CHECKOUT_PAYMENTS_PAGE} icon={'fa fa-arrow-circle-down'} />
+                    <HeaderComponent title={CHECKOUT_EXTERNAL_PAYMENTS_PAGE} icon={'fa fa-arrow-circle-down'} />
                     <section className="content">
                         <div className='container-fluid'>
                             <div className="row">
