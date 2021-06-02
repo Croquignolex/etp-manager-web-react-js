@@ -5,9 +5,9 @@ import ButtonComponent from "../form/ButtonComponent";
 import AmountComponent from "../form/AmountComponent";
 import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
-import {emitInternalSimsFetch} from "../../redux/sims/saga";
 import {emitAddTransfer} from "../../redux/transfers/actions";
 import {requiredChecker} from "../../functions/checkerFunctions";
+import {emitAllInternalSimsFetch} from "../../redux/sims/actions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {FLEET_TYPE, MASTER_COLLECTOR_TYPE} from "../../constants/typeConstants";
@@ -26,7 +26,7 @@ function OperationsTransfersAddTransferComponent({request, sims, allSimsRequests
 
     // Local effects
     useEffect(() => {
-        dispatch(emitInternalSimsFetch());
+        dispatch(emitAllInternalSimsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
