@@ -13,7 +13,7 @@ const mapStateToProps = (state) => ({
     settings: state.settings,
     fleets: state.fleets.list,
     clearances: state.clearances.list,
-    simsRequests: state.simsRequests.list,
+    simsRequests: state.simsRequests.fleet,
     allFleetsRequests: state.fleetsRequests.all,
     balanceUserRequests: state.userRequests.balance,
     allClearancesRequests: state.clearancesRequests.all,

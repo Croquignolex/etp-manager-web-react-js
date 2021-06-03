@@ -3,17 +3,17 @@ import React, {useEffect, useMemo} from 'react';
 
 import {PENDING} from "../constants/typeConstants";
 import * as path from "../constants/pagePathConstants";
-import {emitFleetsSimsFetch} from "../redux/sims/actions";
 import * as setting from "../constants/settingsConstants";
 import {emitAllFleetsFetch} from "../redux/fleets/actions";
 import {formatNumber} from "../functions/generalFunctions";
 import {emitFetchUserBalance} from "../redux/user/actions";
+import {emitAllFleetSimsFetch} from "../redux/sims/actions";
 import HeaderComponent from "../components/HeaderComponent";
 import {DASHBOARD_PAGE} from "../constants/pageNameConstants";
 import AppLayoutContainer from "../containers/AppLayoutContainer";
 import {emitAllClearancesFetch} from "../redux/clearances/actions";
-import {storeAllSimsRequestReset} from "../redux/requests/sims/actions";
 import {storeAllFleetsRequestReset} from "../redux/requests/fleets/actions";
+import {storeAllFleetSimsRequestReset} from "../redux/requests/sims/actions";
 import {storeUserBalanceFetchRequestReset} from "../redux/requests/user/actions";
 import DashboardCardComponent from "../components/dashboard/DashboardCardComponent";
 import {storeAllClearancesRequestReset} from "../redux/requests/clearances/actions";
@@ -25,8 +25,8 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
     // Local effects
     useEffect(() => {
         dispatch(emitAllFleetsFetch());
-        dispatch(emitFleetsSimsFetch());
         dispatch(emitFetchUserBalance());
+        dispatch(emitAllFleetSimsFetch());
         dispatch(emitAllClearancesFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
@@ -37,8 +37,8 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        dispatch(storeAllSimsRequestReset());
         dispatch(storeAllFleetsRequestReset());
+        dispatch(storeAllFleetSimsRequestReset());
         dispatch(storeAllClearancesRequestReset());
         dispatch(storeUserBalanceFetchRequestReset());
     };
