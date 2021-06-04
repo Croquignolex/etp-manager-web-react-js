@@ -19,7 +19,7 @@ import CheckoutExpensesAddExpenseContainer from "../../containers/checkout/Check
 function CheckoutExpensesPage({expenses, expensesRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
-    const [expenseModal, setExpenseModal] = useState({show: false, header: "DECAISSEMENT D'ESPECES"});
+    const [expenseModal, setExpenseModal] = useState({show: false, header: "DECAISSEMENT D'ESPECES EXTERNE"});
 
     // Local effects
     useEffect(() => {

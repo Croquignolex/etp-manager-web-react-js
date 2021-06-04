@@ -19,7 +19,7 @@ import CheckoutRevenuesAddRevenueContainer from "../../containers/checkout/Check
 function CheckoutRevenuesPage({revenues, revenuesRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
-    const [revenueModal, setRevenueModal] = useState({show: false, header: "ENCAISSEMENT D'ESPECES"});
+    const [revenueModal, setRevenueModal] = useState({show: false, header: "ENCAISSEMENT D'ESPECES EXTERNE"});
 
     // Local effects
     useEffect(() => {

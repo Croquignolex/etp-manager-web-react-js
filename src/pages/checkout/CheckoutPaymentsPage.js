@@ -69,7 +69,7 @@ function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, di
 
     // Show confirm modal form
     const handleConfirmModalShow = ({id, amount, collector}) => {
-        setConfirmModal({...confirmModal, id, body: `Confirmer l'encaissement du responsable ${collector.name} de ${formatNumber(amount)}?`, show: true})
+        setConfirmModal({...confirmModal, id, body: `Confirmer l'encaissement de ${collector.name} de ${formatNumber(amount)}?`, show: true})
     }
 
     // Hide confirm modal form

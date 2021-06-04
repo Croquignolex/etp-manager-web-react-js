@@ -104,7 +104,7 @@ function CheckoutOutlaysAddOutlayComponent({request, collectors, supervisors, di
                                          handleInput={handleCollectorSelect}
                                          requestProcessing={
                                              requestLoading(allCollectorsRequests) ||
-                                             requestLoading(allCollectorsRequests)
+                                             requestLoading(allSupervisorsRequests)
                                          }
                         />
                     </div>
@@ -130,7 +130,9 @@ CheckoutOutlaysAddOutlayComponent.propTypes = {
     request: PropTypes.object.isRequired,
     handleClose: PropTypes.func.isRequired,
     collectors: PropTypes.array.isRequired,
+    supervisors: PropTypes.array.isRequired,
     allCollectorsRequests: PropTypes.object.isRequired,
+    allSupervisorsRequests: PropTypes.object.isRequired,
 };
 
 export default React.memo(CheckoutOutlaysAddOutlayComponent);
