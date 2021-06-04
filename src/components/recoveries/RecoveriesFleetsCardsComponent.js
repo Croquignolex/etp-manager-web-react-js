@@ -110,8 +110,7 @@ function RecoveriesFleetsCardsComponent({returns, handleConfirmModalShow}) {
                 {returns.length === 0 &&
                     <div className="col-12">
                         <div className='alert custom-active text-center'>
-                            Pas de recouvrements d'espèces
-                        </div>
+                            Pas de retours flottes
                     </div>
                 }
             </div>
