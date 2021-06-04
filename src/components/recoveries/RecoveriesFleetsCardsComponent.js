@@ -108,10 +108,11 @@ function RecoveriesFleetsCardsComponent({returns, handleConfirmModalShow}) {
                     )
                 })}
                 {returns.length === 0 &&
-                    <div className="col-12">
-                        <div className='alert custom-active text-center'>
-                            Pas de retours flottes
+                <div className="col-12">
+                    <div className='alert custom-active text-center'>
+                        Pas de retours flottes
                     </div>
+                </div>
                 }
             </div>
             {/* Modal */}
