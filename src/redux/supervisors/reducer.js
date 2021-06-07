@@ -5,13 +5,6 @@ const initialState = {
     page: 1,
     list: [],
     hasMoreData: false,
-
-    current: {
-        id: '', name: '', phone: '', email: '', avatar: '',
-        address: '', creation: '', description: '',
-
-        account: {id: '', balance: ''}
-    },
 };
 
 // Reduce

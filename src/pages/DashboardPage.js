@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, {useEffect, useMemo} from 'react';
 
-import {PENDING} from "../constants/typeConstants";
+import {DONE} from "../constants/typeConstants";
 import * as path from "../constants/pagePathConstants";
 import * as setting from "../constants/settingsConstants";
 import {emitAllFleetsFetch} from "../redux/fleets/actions";
@@ -58,25 +58,25 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
         return {number, value}
     }, [sims]);
     const mtnFleetsData = useMemo(() => {
-        const data = fleets.filter(fleet => (fleet.status === PENDING) && fleet.operator.id === '1');
+        const data = fleets.filter(fleet => (fleet.status !== DONE) && fleet.operator.id === '1');
         const number = data.length
         const value = data.reduce((acc, val) => acc + parseInt(val.amount), 0)
         return {number, value}
     }, [fleets]);
     const orangeFleetsData = useMemo(() => {
-        const data = fleets.filter(fleet => (fleet.status === PENDING) && fleet.operator.id === '2');
+        const data = fleets.filter(fleet => (fleet.status !== DONE) && fleet.operator.id === '2');
         const number = data.length
         const value = data.reduce((acc, val) => acc + parseInt(val.amount), 0)
         return {number, value}
     }, [fleets]);
     const mtnClearancesData = useMemo(() => {
-        const data = clearances.filter(clearance => (clearance.status === PENDING) && clearance.operator.id === '1');
+        const data = clearances.filter(clearance => (clearance.status !== DONE) && clearance.operator.id === '1');
         const number = data.length
         const value = data.reduce((acc, val) => acc + parseInt(val.amount), 0)
         return {number, value}
     }, [clearances]);
     const orangeClearancesData = useMemo(() => {
-        const data = clearances.filter(clearance => (clearance.status === PENDING) && clearance.operator.id === '2');
+        const data = clearances.filter(clearance => (clearance.status !== DONE) && clearance.operator.id === '2');
         const number = data.length
         const value = data.reduce((acc, val) => acc + parseInt(val.amount), 0)
         return {number, value}
