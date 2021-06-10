@@ -57,6 +57,12 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
         const value = data.reduce((acc, val) => acc + parseInt(val.balance, 10), 0)
         return {number, value}
     }, [sims]);
+    const yupFleetSimsFleetsData = useMemo(() => {
+        const data = sims.filter(sim => (sim.operator.id === '3'));
+        const number = data.length
+        const value = data.reduce((acc, val) => acc + parseInt(val.balance, 10), 0)
+        return {number, value}
+    }, [sims]);
     const mtnFleetsData = useMemo(() => {
         const data = fleets.filter(fleet => (fleet.status !== DONE) && fleet.operator.id === '1');
         const number = data.length
@@ -69,6 +75,12 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
         const value = data.reduce((acc, val) => acc + parseInt(val.amount), 0)
         return {number, value}
     }, [fleets]);
+    const yupFleetsData = useMemo(() => {
+        const data = fleets.filter(fleet => (fleet.status !== DONE) && fleet.operator.id === '3');
+        const number = data.length
+        const value = data.reduce((acc, val) => acc + parseInt(val.amount), 0)
+        return {number, value}
+    }, [fleets]);
     const mtnClearancesData = useMemo(() => {
         const data = clearances.filter(clearance => (clearance.status !== DONE) && clearance.operator.id === '1');
         const number = data.length
@@ -77,6 +89,12 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
     }, [clearances]);
     const orangeClearancesData = useMemo(() => {
         const data = clearances.filter(clearance => (clearance.status !== DONE) && clearance.operator.id === '2');
+        const number = data.length
+        const value = data.reduce((acc, val) => acc + parseInt(val.amount), 0)
+        return {number, value}
+    }, [clearances]);
+    const yupClearancesData = useMemo(() => {
+        const data = clearances.filter(clearance => (clearance.status !== DONE) && clearance.operator.id === '3');
         const number = data.length
         const value = data.reduce((acc, val) => acc + parseInt(val.amount), 0)
         return {number, value}
@@ -123,6 +141,17 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
                                     />
                                 </div>
                             }
+                            {cardsData.includes(setting.CARD_FLEET_SIMS_FLEETS_YUP) &&
+                                <div className="col-lg-3 col-md-4 col-sm-6">
+                                    <DashboardWithOperatorCardComponent color='bg-secondary'
+                                                                        operator={{id: '3'}}
+                                                                        request={simsRequests}
+                                                                        url={path.FLEETS_SIMS_PAGE_PATH}
+                                                                        data={formatNumber(yupFleetSimsFleetsData.value)}
+                                                                        label={`${setting.LABEL_FLEET_SIMS_FLEETS_YUP} (${yupFleetSimsFleetsData.number})`}
+                                    />
+                                </div>
+                            }
                             {cardsData.includes(setting.CARD_FLEETS_REQUESTS_MTN) &&
                                 <div className="col-lg-3 col-md-4 col-sm-6">
                                     <DashboardWithOperatorCardComponent color='bg-success'
@@ -145,6 +174,17 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
                                     />
                                 </div>
                             }
+                            {cardsData.includes(setting.CARD_FLEETS_REQUESTS_YUP) &&
+                                <div className="col-lg-3 col-md-4 col-sm-6">
+                                    <DashboardWithOperatorCardComponent color='bg-success'
+                                                                        operator={{id: '3'}}
+                                                                        request={allFleetsRequests}
+                                                                        url={path.REQUESTS_FLEETS_PAGE_PATH}
+                                                                        data={formatNumber(yupFleetsData.value)}
+                                                                        label={`${setting.LABEL_FLEETS_REQUESTS_YUP} (${yupFleetsData.number})`}
+                                    />
+                                </div>
+                            }
                             {cardsData.includes(setting.CARD_CLEARANCES_REQUEST_MTN) &&
                                 <div className="col-lg-3 col-md-4 col-sm-6">
                                     <DashboardWithOperatorCardComponent color='bg-primary'
@@ -164,6 +204,17 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
                                                             url={path.REQUESTS_CLEARANCES_PAGE_PATH}
                                                             data={formatNumber(orangeClearancesData.value)}
                                                             label={`${setting.LABEL_CLEARANCES_REQUEST_ORANGE} (${orangeClearancesData.number})`}
+                                    />
+                                </div>
+                            }
+                            {cardsData.includes(setting.CARD_CLEARANCES_REQUEST_YUP) &&
+                                <div className="col-lg-3 col-md-4 col-sm-6">
+                                    <DashboardWithOperatorCardComponent color='bg-primary'
+                                                                        operator={{id: '3'}}
+                                                                        request={allClearancesRequests}
+                                                                        url={path.REQUESTS_CLEARANCES_PAGE_PATH}
+                                                                        data={formatNumber(yupClearancesData.value)}
+                                                                        label={`${setting.LABEL_CLEARANCES_REQUEST_YUP} (${yupClearancesData.number})`}
                                     />
                                 </div>
                             }
