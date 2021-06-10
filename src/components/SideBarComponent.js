@@ -23,6 +23,7 @@ function SideBarComponent({user, pathname}) {
             buildCheckoutMenu(),
             buildSimsMenu(),
             buildAgentsMenu(),
+            buildVendorsMenu(),
         ];
         // eslint-disable-next-line
     }, [pathname]);
@@ -180,6 +181,16 @@ function buildAgentsMenu() {
         name: page.AGENTS,
         path: path.AGENTS_PAGE_PATH,
         icon: 'fa fa-user-cog',
+        sub: []
+    };
+}
+
+// Build vendors menu
+function buildVendorsMenu() {
+    return {
+        name: page.VENDORS_PAGE,
+        path: path.VENDORS_PAGE_PATH,
+        icon: 'fa fa-user-ninja',
         sub: []
     };
 }
