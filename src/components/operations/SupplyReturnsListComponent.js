@@ -15,7 +15,7 @@ import {
 // Component
 function SupplyReturnsListComponent({returns, returnsRequestsList}) {
     // Local states
-    const [simDetailsModal, setSimDetailsModal] = useState({show: false, header: "DETAIL DE LA PUCE", id: ''});
+    const [simDetailsModal, setSimDetailsModal] = useState({show: false, header: "DETAIL DU COMPTE", id: ''});
 
     // Hide sim details modal form
     const handleSimDetailsModalHide = () => {

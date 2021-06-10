@@ -12,7 +12,7 @@ import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer
 // Component
 function RequestsClearancesCardsComponent({clearances}) {
     // Local states
-    const [simDetailModal, setSimDetailModal] = useState({show: false, header: 'DETAIL DE LA PUCE', id: ''});
+    const [simDetailModal, setSimDetailModal] = useState({show: false, header: 'DETAIL DU COMPTE', id: ''});
     const [agentDetailsModal, setAgentDetailsModal] = useState({show: false, header: "DETAIL DE L'AGENT/RESSOURCE", id: ''});
 
     // Hide sim details modal form

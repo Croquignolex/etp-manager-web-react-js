@@ -12,8 +12,8 @@ import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
 // Component
 function OperationsTransfersCardsComponent({transfers, handleConfirmModalShow}) {
     // Local states
-    const [incomingSimDetailsModal, setIncomingSimDetailsModal] = useState({show: false, header: 'DETAIL DE LA PUCE', id: ''});
-    const [outgoingSimDetailsModal, setOutgoingSimDetailsModal] = useState({show: false, header: 'DETAIL DE LA PUCE', id: ''});
+    const [incomingSimDetailsModal, setIncomingSimDetailsModal] = useState({show: false, header: 'DETAIL DU COMPTE', id: ''});
+    const [outgoingSimDetailsModal, setOutgoingSimDetailsModal] = useState({show: false, header: 'DETAIL DU COMPTE', id: ''});
 
     // Hide incoming sim details modal form
     const handleIncomingSimDetailModalHide = () => {

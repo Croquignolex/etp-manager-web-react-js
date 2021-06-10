@@ -11,7 +11,7 @@ import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer
 // Component
 function SupplyInfoComponent({supply}) {
     // Local states
-    const [simDetailsModal, setSimDetailsModal] = useState({show: false, header: 'DETAIL DE LA PUCE', id: ''});
+    const [simDetailsModal, setSimDetailsModal] = useState({show: false, header: 'DETAIL DU COMPTE', id: ''});
     const [agentDetailsModal, setAgentDetailsModal] = useState({show: false, header: "DETAIL DE L'AGENT/RESSOURCE", id: ''});
 
     // Hide agent details modal form

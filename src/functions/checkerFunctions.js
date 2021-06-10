@@ -1,9 +1,11 @@
 // Check phone input format
 export function phoneChecker(input) {
-    let regex = /^(2|6)[0-9]{8}$/ig;
+    /*let regex = /^(2|6)[0-9]{8}$/ig;
     return regex.test(input.data)
         ? {...input, isValid: true}
-        : {...input, isValid: false, errorMessage: "Format du numéro de téléphone incorrect"}
+        : {...input, isValid: false, errorMessage: "Format du numéro de téléphone incorrect"}*/
+
+    return inRange(input, 6);
 }
 
 // Check password input format

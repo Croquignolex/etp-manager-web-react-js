@@ -14,7 +14,7 @@ import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer
 function OperationsClearancesCardsComponent({refuels, handleConfirmModalShow}) {
     // Local states
     const [agentDetailsModal, setAgentDetailsModal] = useState({show: false, header: "DETAIL DE L'AGENT/RESSOURCE", id: ''});
-    const [outgoingSimDetailsModal, setOutgoingSimDetailsModal] = useState({show: false, header: 'DETAIL DE LA PUCE DE FLOTTAGE', id: ''});
+    const [outgoingSimDetailsModal, setOutgoingSimDetailsModal] = useState({show: false, header: 'DETAIL DU COMPTE DE FLOTTAGE', id: ''});
 
     // Hide outgoing sim details modal form
     const handleOutgoingSimDetailModalHide = () => {
