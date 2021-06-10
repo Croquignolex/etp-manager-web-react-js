@@ -6,6 +6,7 @@ export const NOTIFICATIONS_PAGE = 'Notifications';
 
 // Commons
 export const AGENTS = 'Agents/Resources';
+export const VENDORS_PAGE = 'Fournisseurs';
 
 // Sims
 export const SIMS_PAGE = 'Puces';

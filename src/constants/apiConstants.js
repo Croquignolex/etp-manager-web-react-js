@@ -115,3 +115,8 @@ export const REFUELS_API_PATH = `${API_URL}/list_destockage`;
 export const NEW_REFUEL_API_PATH = `${API_URL}/approvisionnement_etp`;
 export const CONFIRM_REFUEL_API_PATH = `${API_URL}/approuve_destockage`;
 export const NEW_ANONYMOUS_REFUEL_API_PATH = `${API_URL}/destockage_anonyme`;
+
+// Vendors
+export const VENDORS_API_PATH = `${API_URL}/vendors`;
+export const ALL_VENDORS_API_PATH = `${API_URL}/all_vendors`;
+export const VENDOR_DETAILS_API_PATH = `${API_URL}/show_vendor`;

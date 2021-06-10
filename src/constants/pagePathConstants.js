@@ -6,6 +6,7 @@ export const NOTIFICATIONS_PAGE_PATH = "/notifications";
 
 // Commons
 export const AGENTS_PAGE_PATH = "/agents";
+export const VENDORS_PAGE_PATH = "/vendors";
 export const RESOURCES_PAGE_PATH = "/resources";
 
 // Sims
