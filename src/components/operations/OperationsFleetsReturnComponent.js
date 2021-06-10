@@ -129,7 +129,7 @@ function OperationsFleetsReturnComponent({supply, request, sims, allSimsRequests
                     <div className='col-sm-6'>
                         <SelectComponent input={outgoingSim}
                                          id='inputSimAgent'
-                                         label='Puce émetrice'
+                                         label='Compte émetteur'
                                          title='Choisir un compte'
                                          options={outgoingSelectOptions}
                                          handleInput={handleOutgoingSelect}
@@ -139,7 +139,7 @@ function OperationsFleetsReturnComponent({supply, request, sims, allSimsRequests
                     <div className='col-sm-6'>
                         <SelectComponent input={incomingSim}
                                          id='inputSimManager'
-                                         label='Puce receptrice'
+                                         label='Compte recepteur'
                                          title='Choisir un compte'
                                          options={incomingSelectOptions}
                                          handleInput={handleIncomingSelect}

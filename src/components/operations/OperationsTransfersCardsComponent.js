@@ -42,7 +42,7 @@ function OperationsTransfersCardsComponent({transfers, handleConfirmModalShow}) 
                                             <span className="float-right">{dateToString(item.creation)}</span>
                                         </li>
                                         <li className="list-group-item">
-                                            <b>Puce émetrice</b>
+                                            <b>Compte émetteur</b>
                                             <span className="float-right">
                                                 {item.sim_outgoing.number}
                                                 <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
@@ -51,7 +51,7 @@ function OperationsTransfersCardsComponent({transfers, handleConfirmModalShow}) 
                                             </span>
                                         </li>
                                         <li className="list-group-item">
-                                            <b>Puce receptrice</b>
+                                            <b>Compte recepteur</b>
                                             <span className="float-right">
                                                 {item.sim_incoming.number}
                                                 <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"

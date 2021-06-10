@@ -57,7 +57,7 @@ function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {
                                             </li>
                                         }
                                         <li className="list-group-item">
-                                            <b>Puce à flotter</b>
+                                            <b>Compte à flotter</b>
                                             <span className="float-right">
                                                 {item.sim.number}
                                                 <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"

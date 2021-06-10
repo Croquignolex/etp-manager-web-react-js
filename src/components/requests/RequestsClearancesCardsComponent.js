@@ -54,7 +54,7 @@ function RequestsClearancesCardsComponent({clearances}) {
                                             </span>
                                         </li>
                                         <li className="list-group-item">
-                                            <b>Puce à déstocker</b>
+                                            <b>Compte à déstocker</b>
                                             <span className="float-right">
                                             {item.sim.number}
                                                 <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"

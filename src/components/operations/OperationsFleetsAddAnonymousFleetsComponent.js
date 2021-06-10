@@ -111,7 +111,7 @@ function OperationsFleetsAddAnonymousFleetsComponent({request, sims, simsRequest
                     <div className='col-sm-6'>
                         <SelectComponent input={outgoingSim}
                                          id='inputSimManger'
-                                         label='Puce émetrice'
+                                         label='Compte émetteur'
                                          title='Choisir un compte'
                                          options={outgoingSelectOptions}
                                          handleInput={handleOutgoingSelect}
@@ -139,7 +139,7 @@ function OperationsFleetsAddAnonymousFleetsComponent({request, sims, simsRequest
                         <InputComponent type='text'
                                         input={receiverSim}
                                         id='inputAnonymousSim'
-                                        label="Puce de l'agent anonyme"
+                                        label="Compte de l'agent anonyme"
                                         handleInput={handleReceiverSimInput}
                         />
                     </div>

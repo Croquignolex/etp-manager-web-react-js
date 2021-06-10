@@ -152,7 +152,7 @@ function OperationsFleetsAddSupplyComponent({request, sims, agents, allAgentsReq
                     <div className='col-sm-6'>
                         <SelectComponent input={outgoingSim}
                                          id='inputSimManger'
-                                         label='Puce émetrice'
+                                         label='Compte émetteur'
                                          title='Choisir un compte'
                                          options={outgoingSelectOptions}
                                          handleInput={handleOutgoingSelect}
@@ -162,7 +162,7 @@ function OperationsFleetsAddSupplyComponent({request, sims, agents, allAgentsReq
                     <div className='col-sm-6'>
                         <SelectComponent input={incomingSim}
                                          id='inputSimCollector'
-                                         label='Puce receptrice'
+                                         label='Compte recepteur'
                                          title='Choisir un compte'
                                          options={incomingSelectOptions}
                                          handleInput={handleIncomingSelect}
