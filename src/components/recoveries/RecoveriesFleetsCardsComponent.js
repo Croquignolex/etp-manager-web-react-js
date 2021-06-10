@@ -64,7 +64,7 @@ function RecoveriesFleetsCardsComponent({returns, handleConfirmModalShow}) {
                                             </span>
                                         </li>
                                         <li className="list-group-item">
-                                            <b>Puce de flottage</b>
+                                            <b>Compte flottage</b>
                                             <span className="float-right">
                                                 {item.sim_incoming.number}
                                                 <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"

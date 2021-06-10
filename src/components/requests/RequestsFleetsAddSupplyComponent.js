@@ -102,7 +102,7 @@ function RequestsFleetsAddSupplyComponent({fleet, request, sims, simsRequests, d
                     <div className='col-sm-6'>
                         <DisabledInput id='inputSim'
                                        val={fleet.sim.number}
-                                       label='Puce agent/ressource'
+                                       label='Compte agent/ressource'
                         />
                     </div>
                 </div>
@@ -110,8 +110,8 @@ function RequestsFleetsAddSupplyComponent({fleet, request, sims, simsRequests, d
                     <div className='col-sm-6'>
                         <SelectComponent input={sim}
                                          id='inputSim'
-                                         title='Choisir une puce'
-                                         label='Puce de flottage'
+                                         label='Compte flottage'
+                                         title='Choisir un compte'
                                          options={simSelectOptions}
                                          handleInput={handleSimSelect}
                                          requestProcessing={requestLoading(simsRequests)}

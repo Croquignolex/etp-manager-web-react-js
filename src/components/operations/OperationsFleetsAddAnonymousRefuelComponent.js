@@ -139,7 +139,7 @@ function OperationsFleetsAddAnonymousRefuelComponent({request, sims, simsRequest
                         <SelectComponent input={incomingSim}
                                          id='inputSimManger'
                                          label='Puce receptrice'
-                                         title='Choisir une puce'
+                                         title='Choisir un compte'
                                          options={incomingSelectOptions}
                                          handleInput={handleIncomingSelect}
                                          requestProcessing={requestLoading(simsRequests)}

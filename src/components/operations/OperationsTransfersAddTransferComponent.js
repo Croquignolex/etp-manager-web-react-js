@@ -114,7 +114,7 @@ function OperationsTransfersAddTransferComponent({request, sims, allSimsRequests
                         <SelectComponent input={outgoingSim}
                                          id='inputSimManger'
                                          label='Puce émetrice'
-                                         title='Choisir une puce'
+                                         title='Choisir un compte'
                                          options={outgoingSelectOptions}
                                          handleInput={handleOutgoingSelect}
                                          requestProcessing={requestLoading(allSimsRequests)}
@@ -124,7 +124,7 @@ function OperationsTransfersAddTransferComponent({request, sims, allSimsRequests
                         <SelectComponent input={incomingSim}
                                          id='inputSimCollector'
                                          label='Puce receptrice'
-                                         title='Choisir une puce'
+                                         title='Choisir un compte'
                                          options={incomingSelectOptions}
                                          handleInput={handleIncomingSelect}
                                          requestProcessing={requestLoading(allSimsRequests)}

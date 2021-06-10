@@ -112,7 +112,7 @@ function OperationsFleetsAddAnonymousFleetsComponent({request, sims, simsRequest
                         <SelectComponent input={outgoingSim}
                                          id='inputSimManger'
                                          label='Puce émetrice'
-                                         title='Choisir une puce'
+                                         title='Choisir un compte'
                                          options={outgoingSelectOptions}
                                          handleInput={handleOutgoingSelect}
                                          requestProcessing={requestLoading(simsRequests)}
