@@ -52,7 +52,7 @@ function OperationsClearancesCardsComponent({refuels, handleConfirmModalShow}) {
                                             </span>
                                         </li>
                                         <li className="list-group-item">
-                                            <b>Puce réceptrice</b>
+                                            <b>Compte recepteur</b>
                                             <span className="float-right">
                                                 {item.sim.number}
                                                 <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
