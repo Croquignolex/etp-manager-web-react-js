@@ -24,7 +24,7 @@ function SimsCardsComponent({sims}) {
             {sims.length === 0 &&
                 <div className="col-12">
                     <div className='alert custom-active text-center'>
-                        Pas de puces
+                        Pas de comptes
                     </div>
                 </div>
             }
