@@ -107,6 +107,7 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
                 <HeaderComponent title={DASHBOARD_PAGE} icon={'fa fa-tachometer-alt'} />
                 <section className="content">
                     <div className='container-fluid'>
+                        {/* Cash */}
                         <div className="row">
                             {cardsData.includes(setting.CARD_BALANCE) &&
                                 <div className="col-lg-3 col-md-4 col-sm-6">
@@ -119,6 +120,10 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
                                     />
                                 </div>
                             }
+                        </div>
+
+                        {/* Fleets */}
+                        <div className="row">
                             {cardsData.includes(setting.CARD_FLEET_SIMS_FLEETS_MTN) &&
                                 <div className="col-lg-3 col-md-4 col-sm-6">
                                     <DashboardWithOperatorCardComponent color='bg-secondary'
@@ -152,6 +157,10 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
                                     />
                                 </div>
                             }
+                        </div>
+
+                        {/* Fleets requests */}
+                        <div className="row">
                             {cardsData.includes(setting.CARD_FLEETS_REQUESTS_MTN) &&
                                 <div className="col-lg-3 col-md-4 col-sm-6">
                                     <DashboardWithOperatorCardComponent color='bg-success'
@@ -185,6 +194,10 @@ function DashboardPage({user, fleets, sims, clearances, settings, dispatch, loca
                                     />
                                 </div>
                             }
+                        </div>
+
+                        {/* Clearances requests */}
+                        <div className="row">
                             {cardsData.includes(setting.CARD_CLEARANCES_REQUEST_MTN) &&
                                 <div className="col-lg-3 col-md-4 col-sm-6">
                                     <DashboardWithOperatorCardComponent color='bg-primary'
