@@ -91,7 +91,7 @@ export function* emitConfirmPayment() {
 // Extract payment data
 function extractPaymentData(apiManager, apiCollector, apiPayment) {
     let payment = {
-        id: '',  amount: '', creation: '', status: '',
+        id: '',  amount: '', creation: '', status: '', reason: '',
 
         manager: {id: '', name: ''},
         collector: {id: '', name: ''},
@@ -110,6 +110,7 @@ function extractPaymentData(apiManager, apiCollector, apiPayment) {
     }
     if(apiPayment) {
         payment.actionLoader = false;
+        payment.reason = apiPayment.recu;
         payment.status = apiPayment.statut;
         payment.amount = apiPayment.montant;
         payment.id = apiPayment.id.toString();

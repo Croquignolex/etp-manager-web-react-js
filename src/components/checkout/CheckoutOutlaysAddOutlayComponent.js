@@ -6,6 +6,7 @@ import AmountComponent from "../form/AmountComponent";
 import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import {emitAddOutlay} from "../../redux/outlays/actions";
+import TextareaComponent from "../form/TextareaComponent";
 import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
@@ -22,6 +23,7 @@ function CheckoutOutlaysAddOutlayComponent({request, collectors, supervisors, di
                                                allCollectorsRequests, allSupervisorsRequests}) {
     // Local state
     const [amount, setAmount] = useState(DEFAULT_FORM_DATA);
+    const [reason, setReason] = useState(DEFAULT_FORM_DATA);
     const [collector, setCollector] = useState(DEFAULT_FORM_DATA);
 
     // Local effects
@@ -55,6 +57,11 @@ function CheckoutOutlaysAddOutlayComponent({request, collectors, supervisors, di
         setAmount({...amount, isValid: true, data})
     }
 
+    const handleReasonInput = (data) => {
+        shouldResetErrorData();
+        setReason({...reason, isValid: true, data})
+    }
+
     // Build select options
     const collectorSelectOptions = useMemo(() => {
         return dataToArrayForSelect([...supervisors, ...collectors])
@@ -72,15 +79,17 @@ function CheckoutOutlaysAddOutlayComponent({request, collectors, supervisors, di
         e.preventDefault();
         shouldResetErrorData();
         const _amount = requiredChecker(amount);
+        const _reason = requiredChecker(reason);
         const _collector = requiredChecker(collector);
         // Set value
         setAmount(_amount);
         setCollector(_collector);
-        const validationOK = (_amount.isValid && _collector.isValid);
+        const validationOK = (_amount.isValid && _collector.isValid && _reason.isValid);
         // Check
         if(validationOK) {
             dispatch(emitAddOutlay({
                 amount: _amount.data,
+                reason: _reason.data,
                 collector: _collector.data,
             }));
         }
@@ -113,6 +122,15 @@ function CheckoutOutlaysAddOutlayComponent({request, collectors, supervisors, di
                                          id='inputAmount'
                                          label='Montant à décaisser'
                                          handleInput={handleAmountInput}
+                        />
+                    </div>
+                </div>
+                <div className='row'>
+                    <div className='col-sm-6'>
+                        <TextareaComponent input={reason}
+                                           id='inputReason'
+                                           label="Motif du déciassement"
+                                           handleInput={handleReasonInput}
                         />
                     </div>
                 </div>
