@@ -112,8 +112,8 @@ function extractRevenueData(apiRevenue, apiManager, apiVendor) {
     }
     if(apiVendor) {
         revenue.vendor = {
-            name: apiManager.name,
-            id: apiManager.id.toString()
+            name: apiVendor.name,
+            id: apiVendor.id.toString()
         };
     }
     if(apiRevenue) {

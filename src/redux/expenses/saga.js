@@ -112,8 +112,8 @@ function extractExpenseData(apiExpense, apiManager, apiVendor) {
     }
     if(apiVendor) {
         expense.vendor = {
-            name: apiManager.name,
-            id: apiManager.id.toString()
+            name: apiVendor.name,
+            id: apiVendor.id.toString()
         };
     }
     if(apiExpense) {
