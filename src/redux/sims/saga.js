@@ -303,7 +303,7 @@ export function* emitUpdateSimOperator() {
         try {
             // Fire event for request
             yield put(storeEditSimOperatorRequestInit());
-            const data = {flote: operator};
+            const data = {id_flotte: operator};
             const apiResponse = yield call(apiPostRequest, `${api.EDIT_SIM_OPERATOR_API_PATH}/${id}`, data);
             // Extract data
             const sim = extractSimData(
