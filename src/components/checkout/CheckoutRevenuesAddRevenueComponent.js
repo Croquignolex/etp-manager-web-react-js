@@ -12,9 +12,11 @@ import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {storeAddRevenueRequestReset} from "../../redux/requests/revenues/actions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
+import {emitAllVendorsFetch} from "../../redux/vendors/actions";
+import {storeAllVendorsRequestReset} from "../../redux/requests/vendors/actions";
 
 // Component
-function CheckoutRevenuesAddRevenueComponent({request, dispatch, handleClose}) {
+function CheckoutRevenuesAddRevenueComponent({request, vendors, dispatch, handleClose, allVendorsRequests}) {
     // Local state
     const [name, setName] = useState(DEFAULT_FORM_DATA);
     const [amount, setAmount] = useState(DEFAULT_FORM_DATA);
@@ -23,6 +25,7 @@ function CheckoutRevenuesAddRevenueComponent({request, dispatch, handleClose}) {
 
     // Local effects
     useEffect(() => {
+        dispatch(emitAllVendorsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -63,6 +66,7 @@ function CheckoutRevenuesAddRevenueComponent({request, dispatch, handleClose}) {
     // Reset error alert
     const shouldResetErrorData = () => {
         dispatch(storeAddRevenueRequestReset());
+        dispatch(storeAllVendorsRequestReset());
     };
 
     // Trigger add supply form submit
@@ -138,8 +142,10 @@ function CheckoutRevenuesAddRevenueComponent({request, dispatch, handleClose}) {
 // Prop types to ensure destroyed props data type
 CheckoutRevenuesAddRevenueComponent.propTypes = {
     dispatch: PropTypes.func.isRequired,
+    vendors: PropTypes.array.isRequired,
     request: PropTypes.object.isRequired,
     handleClose: PropTypes.func.isRequired,
+    allVendorsRequests: PropTypes.object.isRequired,
 };
 
 export default React.memo(CheckoutRevenuesAddRevenueComponent);

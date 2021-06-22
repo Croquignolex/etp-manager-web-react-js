@@ -4,7 +4,9 @@ import CheckoutRevenuesAddRevenueComponent from "../../components/checkout/Check
 
 // Map state function to component props
 const mapStateToProps = (state) => ({
+    vendors: state.vendors.list,
     request: state.revenuesRequests.add,
+    allVendorsRequests: state.vendorsRequests.all,
 });
 
 // Map dispatch function to component props

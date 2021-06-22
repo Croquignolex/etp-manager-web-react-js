@@ -7,14 +7,16 @@ import AmountComponent from "../form/AmountComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import TextareaComponent from "../form/TextareaComponent";
 import {emitAddExpense} from "../../redux/expenses/actions";
+import {emitAllVendorsFetch} from "../../redux/vendors/actions";
 import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
+import {storeAllVendorsRequestReset} from "../../redux/requests/vendors/actions";
 import {storeAddExpenseRequestReset} from "../../redux/requests/expenses/actions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
-function CheckoutExpensesAddExpenseComponent({request, dispatch, handleClose}) {
+function CheckoutExpensesAddExpenseComponent({request, vendors, dispatch, handleClose, allVendorsRequests}) {
     // Local state
     const [name, setName] = useState(DEFAULT_FORM_DATA);
     const [amount, setAmount] = useState(DEFAULT_FORM_DATA);
@@ -23,6 +25,7 @@ function CheckoutExpensesAddExpenseComponent({request, dispatch, handleClose}) {
 
     // Local effects
     useEffect(() => {
+        dispatch(emitAllVendorsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -63,6 +66,7 @@ function CheckoutExpensesAddExpenseComponent({request, dispatch, handleClose}) {
     // Reset error alert
     const shouldResetErrorData = () => {
         dispatch(storeAddExpenseRequestReset());
+        dispatch(storeAllVendorsRequestReset());
     };
 
     // Trigger add supply form submit
@@ -92,6 +96,7 @@ function CheckoutExpensesAddExpenseComponent({request, dispatch, handleClose}) {
     // Render
     return (
         <>
+            {requestFailed(request) && <ErrorAlertComponent message={request.message} />}
             {requestFailed(request) && <ErrorAlertComponent message={request.message} />}
             <form onSubmit={handleSubmit}>
                 <div className='row'>
@@ -138,8 +143,10 @@ function CheckoutExpensesAddExpenseComponent({request, dispatch, handleClose}) {
 // Prop types to ensure destroyed props data type
 CheckoutExpensesAddExpenseComponent.propTypes = {
     dispatch: PropTypes.func.isRequired,
+    vendors: PropTypes.array.isRequired,
     request: PropTypes.object.isRequired,
     handleClose: PropTypes.func.isRequired,
+    allVendorsRequests: PropTypes.object.isRequired,
 };
 
 export default React.memo(CheckoutExpensesAddExpenseComponent);
