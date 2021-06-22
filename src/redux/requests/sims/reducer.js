@@ -118,6 +118,23 @@ function reduce(state = initialState, action) {
         case actions.STORE_ALL_INTERNAL_SIMS_REQUEST_RESET:
             nextState = {...state, internal: initialState.internal};
             return nextState || state;
+        // ======================================================== Edit sim operator
+        // Resolve event to set edit sim operator init request store data
+        case actions.STORE_EDIT_SIM_OPERATOR_REQUEST_INIT:
+            nextState = {...state, operator: requestInitValue()};
+            return nextState || state;
+        // Resolve event to set edit sim operator failed request store data
+        case actions.STORE_EDIT_SIM_OPERATOR_REQUEST_FAILED:
+            nextState = {...state, operator: requestFailedValue(action.message)};
+            return nextState || state;
+        // Resolve event to set edit sim operator succeeded request store data
+        case actions.STORE_EDIT_SIM_OPERATOR_REQUEST_SUCCEEDED:
+            nextState = {...state, operator: requestSucceededValue(action.message)};
+            return nextState || state;
+        // Resolve event to set edit sim operator reset request store data
+        case actions.STORE_EDIT_SIM_OPERATOR_REQUEST_RESET:
+            nextState = {...state, operator: initialState.operator};
+            return nextState || state;
         // ========================================================
         // Unknown action
         default: return state;

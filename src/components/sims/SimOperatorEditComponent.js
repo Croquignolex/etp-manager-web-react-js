@@ -1,18 +1,17 @@
 import PropTypes from "prop-types";
 import React, {useEffect, useState, useMemo} from 'react';
 
-import InputComponent from "../form/InputComponent";
 import ButtonComponent from "../form/ButtonComponent";
+import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
-import TextareaComponent from "../form/TextareaComponent";
 import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {emitAllOperatorsFetch} from "../../redux/operators/actions";
+import {dataToArrayForSelect} from "../../functions/arrayFunctions";
+import {storeEditSimOperatorRequestReset} from "../../redux/requests/sims/actions";
 import {storeAllOperatorsRequestReset} from "../../redux/requests/operators/actions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
-import {dataToArrayForSelect} from "../../functions/arrayFunctions";
-import SelectComponent from "../form/SelectComponent";
 
 // Component
 function SimOperatorEditComponent({request, sim, operators, dispatch,
@@ -42,8 +41,8 @@ function SimOperatorEditComponent({request, sim, operators, dispatch,
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        dispatch(storeEditSimRequestReset());
         dispatch(storeAllOperatorsRequestReset());
+        dispatch(storeEditSimOperatorRequestReset());
     };
 
     // Build select options
@@ -66,7 +65,7 @@ function SimOperatorEditComponent({request, sim, operators, dispatch,
         const validationOK = _operator.isValid;
         // Check
         if(validationOK) {
-            dispatch(emitUpdateSimOperator({id: agent.id, zone: _zone.data}))
+            dispatch(emitUpdateSimOperator({id: sim.id, operator: _operator.data}))
         }
         else playWarningSound();
     };
