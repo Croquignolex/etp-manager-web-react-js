@@ -5,7 +5,7 @@ import SimCardComponent from "./SimCardComponent";
 import {simTypeBadgeColor} from "../../functions/typeFunctions";
 
 // Component
-function SimsCardsComponent({sims}) {
+function SimsCardsComponent({sims, handleSimDetailsModalShow}) {
     // Render
     return (
         <div className="row m-1">
@@ -16,7 +16,17 @@ function SimsCardsComponent({sims}) {
                             <div className={`${simTypeBadgeColor(item.type.name).background} card-header`}>
                                 <h3 className="card-title">COMPTE {simTypeBadgeColor(item.type.name).text}</h3>
                             </div>
-                            <div className="card-body"><SimCardComponent sim={item} /></div>
+                            <div className="card-body">
+                                <SimCardComponent sim={item} />
+                                <div className="mt-3 text-right">
+                                    <button type="button"
+                                            className="btn btn-sm btn-theme"
+                                            onClick={() => handleSimDetailsModalShow(item)}
+                                    >
+                                        <i className="fa fa-eye" /> Détails
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 )
