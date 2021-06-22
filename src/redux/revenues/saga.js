@@ -1,7 +1,7 @@
 import {all, call, fork, put, takeLatest} from 'redux-saga/effects'
 
 import * as api from "../../constants/apiConstants";
-import {apiGetRequest, apiPostRequest, getFileFromServer} from "../../functions/axiosFunctions";
+import {apiGetRequest, apiPostRequest} from "../../functions/axiosFunctions";
 import {
     EMIT_ADD_REVENUE,
     EMIT_REVENUES_FETCH,
@@ -98,7 +98,7 @@ export function* emitAddRevenue() {
 // Extract revenue data
 function extractRevenueData(apiRevenue, apiManager, apiVendor) {
     let revenue = {
-        id: '',  name: '', mount: '', creation: '', receipt: '', reason: '', description: '',
+        id: '',  name: '', mount: '', creation: '', reason: '', description: '',
 
         vendor: {id: '', name: ''},
         manager: {id: '', name: ''},
@@ -122,7 +122,6 @@ function extractRevenueData(apiRevenue, apiManager, apiVendor) {
         revenue.id = apiRevenue.id.toString();
         revenue.creation = apiRevenue.created_at;
         revenue.description = apiRevenue.description;
-        revenue.receipt = getFileFromServer(apiRevenue.receipt);
     }
     return revenue;
 }
