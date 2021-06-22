@@ -8,7 +8,7 @@ export function fleetTypeBadgeColor(type) {
         case types.DONE: return {background: 'bg-secondary', border: 'border border-secondary', text: 'EFFECTUEE'};
         case types.PENDING: return {background: 'bg-warning', border: 'border border-warning', text: 'EN ATTENTE'};
         case types.PROCESSING: return {background: 'bg-primary', border: 'border border-primary', text: 'EN COURS'};
-        default: return {background: 'bg-default', border: 'border border-default', text: 'INCONNU'};
+        default: return {background: 'bg-secondary', border: 'border border-secondary', text: 'INCONNU'};
     }
 }
 
