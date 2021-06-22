@@ -1,11 +1,21 @@
-import React from 'react';
 import PropTypes from "prop-types";
+import React, {useState} from 'react';
 
+import FormModalComponent from "../modals/FormModalComponent";
 import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
+import VendorDetailsContainer from "../../containers/vendors/VendorDetailsContainer";
 
 // Component
 function CheckoutExpensesCardsComponent({expenses}) {
+    // Local states
+    const [vendorDetailsModal, setVendorDetailsModal] = useState({show: false, header: "DETAIL DU FOURNISSEUR", id: ''});
+
+    // Hide vendor details modal form
+    const handleVendorDetailsModalHide = () => {
+        setVendorDetailsModal({...vendorDetailsModal, show: false})
+    }
+
     // Render
     return (
         <>
@@ -21,10 +31,22 @@ function CheckoutExpensesCardsComponent({expenses}) {
                                             <b>Création</b>
                                             <span className="float-right">{dateToString(item.creation)}</span>
                                         </li>
-                                        <li className="list-group-item">
-                                            <b>Nom</b>
-                                            <span className="float-right">{item.name}</span>
-                                        </li>
+                                        {(item.vendor.id === '') ? (
+                                            <li className="list-group-item">
+                                                <b>Nom</b>
+                                                <span className="float-right">{item.name}</span>
+                                            </li>
+                                        ) : (
+                                            <li className="list-group-item">
+                                                <b>Fournisseur</b>
+                                                <span className="float-right">
+                                                    {item.vendor.name}
+                                                    <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
+                                                       onClick={() => setVendorDetailsModal({...vendorDetailsModal, show: true, id: item.vendor.id})}
+                                                    />
+                                                </span>
+                                            </li>
+                                        )}
                                         <li className="list-group-item">
                                             <b>Monant</b>
                                             <span className="float-right text-success text-bold">
@@ -49,6 +71,10 @@ function CheckoutExpensesCardsComponent({expenses}) {
                     </div>
                 }
             </div>
+            {/* Modal */}
+            <FormModalComponent small={true} modal={vendorDetailsModal} handleClose={handleVendorDetailsModalHide}>
+                <VendorDetailsContainer id={vendorDetailsModal.id} />
+            </FormModalComponent>
         </>
     )
 }
