@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useMemo} from 'react';
 
 import InputComponent from "../form/InputComponent";
 import ButtonComponent from "../form/ButtonComponent";
@@ -14,13 +14,18 @@ import {playWarningSound} from "../../functions/playSoundFunctions";
 import {storeAllVendorsRequestReset} from "../../redux/requests/vendors/actions";
 import {storeAddExpenseRequestReset} from "../../redux/requests/expenses/actions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
+import CheckBoxComponent from "../form/CheckBoxComponent";
+import {dataToArrayForSelect} from "../../functions/arrayFunctions";
+import SelectComponent from "../form/SelectComponent";
 
 // Component
 function CheckoutExpensesAddExpenseComponent({request, vendors, dispatch, handleClose, allVendorsRequests}) {
     // Local state
     const [name, setName] = useState(DEFAULT_FORM_DATA);
+    const [vendor, setVendor] = useState(DEFAULT_FORM_DATA);
     const [amount, setAmount] = useState(DEFAULT_FORM_DATA);
     const [reason, setReason] = useState(DEFAULT_FORM_DATA);
+    const [forVendor, setForVendor] = useState(false);
     const [description, setDescription] = useState(DEFAULT_FORM_DATA);
 
     // Local effects
@@ -58,10 +63,25 @@ function CheckoutExpensesAddExpenseComponent({request, vendors, dispatch, handle
         setName({...name, isValid: true, data})
     }
 
+    const handleDirectPaySelect = (data) => {
+        shouldResetErrorData();
+        setForVendor(!data)
+    }
+
+    const handleVendorInput = (data) => {
+        shouldResetErrorData();
+        setVendor({...vendor, isValid: true, data})
+    }
+
     const handleDescriptionInput = (data) => {
         shouldResetErrorData();
         setDescription({...description, isValid: true, data})
     }
+
+    // Build select options
+    const vendorsSelectOptions = useMemo(() => {
+        return dataToArrayForSelect(vendors)
+    }, [vendors]);
 
     // Reset error alert
     const shouldResetErrorData = () => {
@@ -97,7 +117,7 @@ function CheckoutExpensesAddExpenseComponent({request, vendors, dispatch, handle
     return (
         <>
             {requestFailed(request) && <ErrorAlertComponent message={request.message} />}
-            {requestFailed(request) && <ErrorAlertComponent message={request.message} />}
+            {requestFailed(allVendorsRequests) && <ErrorAlertComponent message={allVendorsRequests.message} />}
             <form onSubmit={handleSubmit}>
                 <div className='row'>
                     <div className='col-sm-6'>
@@ -108,12 +128,23 @@ function CheckoutExpensesAddExpenseComponent({request, vendors, dispatch, handle
                         />
                     </div>
                     <div className='col-sm-6'>
-                        <InputComponent label='Nom'
-                                        type='text'
-                                        input={name}
-                                        id='inputName'
-                                        handleInput={handleNameInput}
-                        />
+                        {forVendor ? (
+                            <SelectComponent input={vendor}
+                                             id='inputVendor'
+                                             label='Fournisseur'
+                                             title='Choisir un fournicceur'
+                                             options={vendorsSelectOptions}
+                                             handleInput={handleVendorInput}
+                                             requestProcessing={requestLoading(allVendorsRequests)}
+                            />
+                        ) : (
+                            <InputComponent label='Nom'
+                                            type='text'
+                                            input={name}
+                                            id='inputName'
+                                            handleInput={handleNameInput}
+                            />
+                        )}
                     </div>
                 </div>
                 <div className='row'>
@@ -129,6 +160,15 @@ function CheckoutExpensesAddExpenseComponent({request, vendors, dispatch, handle
                                            input={description}
                                            id='inputDescription'
                                            handleInput={handleDescriptionInput}
+                        />
+                    </div>
+                </div>
+                <div className='row'>
+                    <div className='col-sm-6'>
+                        <label htmlFor="inputAutoPay">Vers un fournisseur?</label>
+                        <CheckBoxComponent input={forVendor}
+                                           id='inputAutoPay'
+                                           handleInput={handleDirectPaySelect}
                         />
                     </div>
                 </div>
