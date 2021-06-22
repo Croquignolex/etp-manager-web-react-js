@@ -67,16 +67,23 @@ export function* emitNextRevenuesFetch() {
 
 // Fleets new revenue from API
 export function* emitAddRevenue() {
-    yield takeLatest(EMIT_ADD_REVENUE, function*({amount, name, reason, description, receipt}) {
+    yield takeLatest(EMIT_ADD_REVENUE, function*({amount, name, reason, description, vendor}) {
         try {
             // Fire event for request
             yield put(storeAddRevenueRequestInit());
-            const data = {nom: name, raison: reason, description: description, montant: amount};
+            const data = {
+                nom: name,
+                raison: reason,
+                montant: amount,
+                fournisseur: vendor,
+                description: description
+            };
             const apiResponse = yield call(apiPostRequest, api.NEW_REVENUE_API_PATH, data);
             // Extract data
             const revenue = extractRevenueData(
                 apiResponse.data.treasury,
                 apiResponse.data.manager,
+                apiResponse.data.vendor,
             );
             // Fire event to redux
             yield put(storeSetNewRevenueData({revenue}))
@@ -90,14 +97,21 @@ export function* emitAddRevenue() {
 }
 
 // Extract revenue data
-function extractRevenueData(apiRevenue, apiManager) {
+function extractRevenueData(apiRevenue, apiManager, apiVendor) {
     let revenue = {
         id: '',  name: '', mount: '', creation: '', receipt: '', reason: '', description: '', status: '',
 
+        vendor: {id: '', name: ''},
         manager: {id: '', name: ''},
     };
     if(apiManager) {
         revenue.manager = {
+            name: apiManager.name,
+            id: apiManager.id.toString()
+        };
+    }
+    if(apiVendor) {
+        revenue.vendor = {
             name: apiManager.name,
             id: apiManager.id.toString()
         };
@@ -121,7 +135,8 @@ export function extractRevenuesData(apiRevenues) {
     apiRevenues.forEach(data => {
         revenues.push(extractRevenueData(
             data.treasury,
-            data.manager
+            data.manager,
+            data.vendor,
         ));
     });
     return revenues;

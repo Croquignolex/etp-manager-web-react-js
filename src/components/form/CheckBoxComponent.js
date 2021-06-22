@@ -18,6 +18,10 @@ function CheckBoxComponent({id, input, center, handleInput}) {
                        className="custom-control-input"
                 />
                 <label className="custom-control-label" htmlFor={id} />
+                {input
+                    ? <strong className='text-success'>Oui</strong>
+                    : <strong className='text-secondary'>Non</strong>
+                }
             </div>
         </div>
     )
