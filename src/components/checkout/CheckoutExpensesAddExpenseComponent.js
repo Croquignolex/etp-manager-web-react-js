@@ -104,7 +104,7 @@ function CheckoutExpensesAddExpenseComponent({request, vendors, dispatch, handle
         setVendor(_vendor);
         const validationOK = (
             forVendor
-                ? (_amount.isValid && _name.isValid && _vendor.isValid)
+                ? (_amount.isValid && _reason.isValid && _vendor.isValid)
                 : (_amount.isValid && _name.isValid && _reason.isValid)
         );
         // Check
