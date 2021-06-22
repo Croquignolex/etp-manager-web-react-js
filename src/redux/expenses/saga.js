@@ -67,16 +67,23 @@ export function* emitNextExpensesFetch() {
 
 // Fleets new expense from API
 export function* emitAddExpense() {
-    yield takeLatest(EMIT_ADD_EXPENSE, function*({amount, name, reason, description, receipt}) {
+    yield takeLatest(EMIT_ADD_EXPENSE, function*({amount, name, reason, description, vendor}) {
         try {
             // Fire event for request
             yield put(storeAddExpenseRequestInit());
-            const data = {nom: name, raison: reason, description: description, montant: amount}
+            const data = {
+                nom: name,
+                raison: reason,
+                montant: amount,
+                fournisseur: vendor,
+                description: description,
+            }
             const apiResponse = yield call(apiPostRequest, api.NEW_EXPENSE_API_PATH, data);
             // Extract data
             const expense = extractExpenseData(
                 apiResponse.data.treasury,
                 apiResponse.data.manager,
+                apiResponse.data.vendor,
             );
             // Fire event to redux
             yield put(storeSetNewExpenseData({expense}))
@@ -90,14 +97,21 @@ export function* emitAddExpense() {
 }
 
 // Extract expense data
-function extractExpenseData(apiExpense, apiManager) {
+function extractExpenseData(apiExpense, apiManager, apiVendor) {
     let expense = {
         id: '',  name: '', mount: '', creation: '', receipt: '', reason: '', description: '', status: '',
 
+        vendor: {id: '', name: ''},
         manager: {id: '', name: ''},
     };
     if(apiManager) {
         expense.manager = {
+            name: apiManager.name,
+            id: apiManager.id.toString()
+        };
+    }
+    if(apiVendor) {
+        expense.vendor = {
             name: apiManager.name,
             id: apiManager.id.toString()
         };
@@ -120,7 +134,8 @@ export function extractExpensesData(apiExpenses) {
     apiExpenses.forEach(data => {
         expenses.push(extractExpenseData(
             data.treasury,
-            data.manager
+            data.manager,
+            data.vendor,
         ));
     });
     return expenses;
