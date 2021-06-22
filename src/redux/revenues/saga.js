@@ -1,6 +1,5 @@
 import {all, call, fork, put, takeLatest} from 'redux-saga/effects'
 
-import {DONE} from "../../constants/typeConstants";
 import * as api from "../../constants/apiConstants";
 import {apiGetRequest, apiPostRequest, getFileFromServer} from "../../functions/axiosFunctions";
 import {
