@@ -96,15 +96,22 @@ function CheckoutExpensesAddExpenseComponent({request, vendors, dispatch, handle
         const _name = requiredChecker(name);
         const _amount = requiredChecker(amount);
         const _reason = requiredChecker(reason);
+        const _vendor = requiredChecker(vendor);
         // Set value
         setName(_name);
         setAmount(_amount);
         setReason(_reason);
-        const validationOK = (_amount.isValid && _name.isValid && _reason.isValid);
+        setVendor(_vendor);
+        const validationOK = (
+            forVendor
+                ? (_amount.isValid && _name.isValid && _vendor.isValid)
+                : (_amount.isValid && _name.isValid && _reason.isValid)
+        );
         // Check
         if(validationOK) {
             dispatch(emitAddExpense({
                 name: _name.data,
+                vendor: _vendor.data,
                 amount: _amount.data,
                 reason: _reason.data,
                 description: description.data
