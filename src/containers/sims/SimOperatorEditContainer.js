@@ -5,7 +5,9 @@ import SimOperatorEditComponent from "../../components/sims/SimOperatorEditCompo
 // Map state function to component props
 const mapStateToProps = (state) => ({
     sim: state.sims.current,
+    operators: state.operators.list,
     request: state.simsRequests.operator,
+    allOperatorsRequests: state.operatorsRequests.all,
 });
 
 // Map dispatch function to component props
