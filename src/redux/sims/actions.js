@@ -34,8 +34,9 @@ export const storeSetSimsData = ({sims, hasMoreData, page}) => ({
 });
 
 // Set sim data in store
-export const storeSetSimData = ({sim}) => ({
+export const storeSetSimData = ({sim, alsoInList}) => ({
     sim,
+    alsoInList,
     type: STORE_SET_SIM_DATA
 });
 

@@ -30,6 +30,15 @@ function reduce(state = initialState, action) {
         // Resolve event to set sim data
         case actions.STORE_SET_SIM_DATA:
             nextState = {...state, current: action.sim};
+            if(action.alsoInList) {
+                nextState = {
+                    ...nextState,
+                    list: Lodash.map(nextState.list, (item) => {
+                        if(item.id === action.sim.id) item = action.sim;
+                        return item;
+                    })
+                };
+            }
             return nextState || state;
         // Resolve event to set next sims data
         case actions.STORE_SET_NEXT_SIMS_DATA:
