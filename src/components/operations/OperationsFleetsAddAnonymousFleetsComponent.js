@@ -6,12 +6,13 @@ import ButtonComponent from "../form/ButtonComponent";
 import AmountComponent from "../form/AmountComponent";
 import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
+import CheckBoxComponent from "../form/CheckBoxComponent";
 import {emitAllFleetSimsFetch} from "../../redux/sims/actions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {emitAddAnonymousSupply} from "../../redux/supplies/actions";
-import {storeAllFleetSimsRequestReset} from "../../redux/requests/sims/actions";
 import {phoneChecker, requiredChecker} from "../../functions/checkerFunctions";
+import {storeAllFleetSimsRequestReset} from "../../redux/requests/sims/actions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
 import {storeAddAnonymousSupplyRequestReset} from "../../redux/requests/supplies/actions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
@@ -21,6 +22,7 @@ function OperationsFleetsAddAnonymousFleetsComponent({request, sims, simsRequest
     // Local state
     const [amount, setAmount] = useState(DEFAULT_FORM_DATA);
     const [receiver, setReceiver] = useState(DEFAULT_FORM_DATA);
+    const [directPay, setDirectPay] = useState(false);
     const [outgoingSim, setOutgoingSim] = useState(DEFAULT_FORM_DATA);
     const [receiverSim, setReceiverSim] = useState(DEFAULT_FORM_DATA);
 
@@ -47,6 +49,11 @@ function OperationsFleetsAddAnonymousFleetsComponent({request, sims, simsRequest
     const handleOutgoingSelect = (data) => {
         shouldResetErrorData();
         setOutgoingSim({...outgoingSim,  isValid: true, data})
+    }
+
+    const handleDirectPaySelect = (data) => {
+        shouldResetErrorData();
+        setDirectPay(!data)
     }
 
     const handleAmountInput = (data) => {
@@ -92,6 +99,7 @@ function OperationsFleetsAddAnonymousFleetsComponent({request, sims, simsRequest
         // Check
         if(validationOK) {
             dispatch(emitAddAnonymousSupply({
+                pay: directPay,
                 amount: _amount.data,
                 sim: _outgoingSim.data,
                 receiver: _receiver.data,
@@ -141,6 +149,15 @@ function OperationsFleetsAddAnonymousFleetsComponent({request, sims, simsRequest
                                         id='inputAnonymousSim'
                                         label="Compte de l'agent anonyme"
                                         handleInput={handleReceiverSimInput}
+                        />
+                    </div>
+                </div>
+                <div className='row'>
+                    <div className='col-sm-6'>
+                        <label htmlFor="inputAutoPay">Paiement immédiat?</label>
+                        <CheckBoxComponent input={directPay}
+                                           id='inputAutoPay'
+                                           handleInput={handleDirectPaySelect}
                         />
                     </div>
                 </div>
