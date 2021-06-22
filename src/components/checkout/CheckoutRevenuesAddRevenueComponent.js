@@ -65,7 +65,7 @@ function CheckoutRevenuesAddRevenueComponent({request, vendors, dispatch, handle
 
     const handleDirectPaySelect = (data) => {
         shouldResetErrorData();
-        setForVendor(!data)
+        setForVendor(!data);
     }
 
     const handleVendorInput = (data) => {
@@ -110,11 +110,11 @@ function CheckoutRevenuesAddRevenueComponent({request, vendors, dispatch, handle
         // Check
         if(validationOK) {
             dispatch(emitAddRevenue({
-                name: _name.data,
-                vendor: _vendor.data,
                 amount: _amount.data,
                 reason: _reason.data,
-                description: description.data
+                description: description.data,
+                name: forVendor ? null : _name.data,
+                vendor: forVendor ? _vendor.data : null
             }));
         }
         else playWarningSound();
