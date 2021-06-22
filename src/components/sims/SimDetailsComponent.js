@@ -1,16 +1,29 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from "prop-types";
 
 import LoaderComponent from "../LoaderComponent";
 import SimCardComponent from "./SimCardComponent";
 import {emitSimFetch} from "../../redux/sims/actions";
 import ErrorAlertComponent from "../ErrorAlertComponent";
+import FormModalComponent from "../modals/FormModalComponent";
+import {simTypeBadgeColor} from "../../functions/typeFunctions";
 import {storeSimRequestReset} from "../../redux/requests/sims/actions";
 import {requestFailed, requestLoading} from "../../functions/generalFunctions";
-import {simTypeBadgeColor} from "../../functions/typeFunctions";
 
 // Component
 function SimDetailsComponent({id, sim, dispatch, request}) {
+    // Local states
+    const [operatorEditModal, setOperatorEditModal] = useState({show: false, header: ''});
+
+    // Show operator edit modal form
+    const handleOperatorEditModalShow = () => {
+        setOperatorEditModal({...operatorEditModal, show: true, header: "MODIFIER L'OPERATEUR DE " + sim.name})
+    }
+
+    // Hide operator edit modal form
+    const handleOperatorEditModalHide = () => {
+        setOperatorEditModal({...operatorEditModal, show: false})
+    }
 
     // Local effects
     useEffect(() => {
@@ -32,14 +45,25 @@ function SimDetailsComponent({id, sim, dispatch, request}) {
         <>
             {requestLoading(request)  ? <LoaderComponent /> : (
                 requestFailed(request) ? <ErrorAlertComponent message={request.message} /> : (
-                    <div className="card">
-                        <div className={`${simTypeBadgeColor(sim.type.name).background} card-header`}>
-                            <h3 className="card-title">COMPTE {simTypeBadgeColor(sim.type.name).text}</h3>
+                    <div className="row">
+                        <div className="col-lg-12 col-md-12">
+                            <button type="button" className="btn btn-theme mb-1" onClick={handleOperatorEditModalShow}>
+                                <i className="fa fa-pencil" /> Modifier l'opérateur
+                            </button>
+                            <div className="card">
+                                <div className={`${simTypeBadgeColor(sim.type.name).background} card-header`}>
+                                    <h3 className="card-title">COMPTE {simTypeBadgeColor(sim.type.name).text}</h3>
+                                </div>
+                                <div className="card-body"><SimCardComponent sim={sim} /></div>
+                            </div>
                         </div>
-                        <div className="card-body"><SimCardComponent sim={sim} /></div>
                     </div>
                 )
             )}
+            {/* Modal */}
+            <FormModalComponent small={true} modal={operatorEditModal} handleClose={handleOperatorEditModalHide}>
+                <SimInfoEditContainer handleClose={handleOperatorEditModalHide} />
+            </FormModalComponent>
         </>
     )
 }
