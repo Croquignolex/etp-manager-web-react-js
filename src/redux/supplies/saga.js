@@ -1,5 +1,6 @@
 import {all, call, fork, put, takeLatest} from 'redux-saga/effects'
 
+import {DONE} from "../../constants/typeConstants";
 import * as api from "../../constants/apiConstants";
 import {apiGetRequest, apiPostRequest} from "../../functions/axiosFunctions";
 import {
@@ -70,11 +71,17 @@ export function* emitNextSuppliesFetch() {
 
 // Fleets new supply from API
 export function* emitAddSupply() {
-    yield takeLatest(EMIT_ADD_SUPPLY, function*({amount, managerSim, agentSim, agent}) {
+    yield takeLatest(EMIT_ADD_SUPPLY, function*({amount, managerSim, agentSim, agent, pay}) {
         try {
             // Fire event for request
             yield put(storeAddSupplyRequestInit());
-            const data = {montant: amount, id_puce_flottage: managerSim, id_puce_agent: agentSim, id_agent: agent};
+            const data = {
+                montant: amount,
+                id_agent: agent,
+                id_puce_agent: agentSim,
+                id_puce_flottage: managerSim,
+                direct_pay: pay ? DONE : null
+            };
             const apiResponse = yield call(apiPostRequest, api.NEW_SUPPLY_API_PATH, data);
             // Extract data
             const supply = extractSupplyData(
@@ -99,11 +106,17 @@ export function* emitAddSupply() {
 
 // Fleets new anonymous supply from API
 export function* emitAddAnonymousSupply() {
-    yield takeLatest(EMIT_ADD_ANONYMOUS_SUPPLY, function*({sim, amount, receiver, receiverSim}) {
+    yield takeLatest(EMIT_ADD_ANONYMOUS_SUPPLY, function*({sim, amount, receiver, receiverSim, pay}) {
         try {
             // Fire event for request
             yield put(storeAddAnonymousSupplyRequestInit());
-            const data = {montant: amount, id_puce_from: sim, nom_agent: receiver, nro_puce_to: receiverSim};
+            const data = {
+                montant: amount,
+                id_puce_from: sim,
+                nom_agent: receiver,
+                nro_puce_to: receiverSim,
+                direct_pay: pay ? DONE : null
+            };
             const apiResponse = yield call(apiPostRequest, api.NEW_ANONYMOUS_SUPPLY_API_PATH, data);
             // Extract data
             const supply = extractSupplyData(
