@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
 import PropTypes from "prop-types";
+import React, {useEffect, useState} from 'react';
 
 import LoaderComponent from "../LoaderComponent";
 import SimCardComponent from "./SimCardComponent";
@@ -9,6 +9,7 @@ import FormModalComponent from "../modals/FormModalComponent";
 import {simTypeBadgeColor} from "../../functions/typeFunctions";
 import {storeSimRequestReset} from "../../redux/requests/sims/actions";
 import {requestFailed, requestLoading} from "../../functions/generalFunctions";
+import SimOperatorEditContainer from "../../containers/sims/SimOperatorEditContainer";
 
 // Component
 function SimDetailsComponent({id, sim, dispatch, request}) {
@@ -62,7 +63,7 @@ function SimDetailsComponent({id, sim, dispatch, request}) {
             )}
             {/* Modal */}
             <FormModalComponent small={true} modal={operatorEditModal} handleClose={handleOperatorEditModalHide}>
-                <SimInfoEditContainer handleClose={handleOperatorEditModalHide} />
+                <SimOperatorEditContainer handleClose={handleOperatorEditModalHide} />
             </FormModalComponent>
         </>
     )

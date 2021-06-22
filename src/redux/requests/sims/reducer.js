@@ -9,6 +9,7 @@ const initialState = {
     show: {failed: false, loading: false, succeeded: false, message: ""},
     fleet: {failed: false, loading: false, succeeded: false, message: ""},
     internal: {failed: false, loading: false, succeeded: false, message: ""},
+    operator: {failed: false, loading: false, succeeded: false, message: ""},
 };
 
 // Reduce
