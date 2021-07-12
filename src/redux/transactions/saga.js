@@ -7,7 +7,7 @@ import {dateToString, shortDateToString} from "../../functions/generalFunctions"
 import {
     storeTransactionsRequestInit,
     storeTransactionsRequestFailed,
-    storeTransactionsRequestSucceedS
+    storeTransactionsRequestSucceed
 } from "../requests/transactions/actions";
 
 // Fetch transactions from API

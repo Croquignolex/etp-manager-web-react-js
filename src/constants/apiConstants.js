@@ -121,3 +121,7 @@ export const NEW_ANONYMOUS_REFUEL_API_PATH = `${API_URL}/destockage_anonyme`;
 export const VENDORS_API_PATH = `${API_URL}/vendors`;
 export const ALL_VENDORS_API_PATH = `${API_URL}/all_vendors`;
 export const VENDOR_DETAILS_API_PATH = `${API_URL}/show_vendor`;
+
+// Report
+export const PERSONAL_MOVEMENTS_API_PATH = `${API_URL}/movements_personal`;
+export const PERSONAL_TRANSACTIONS_API_PATH = `${API_URL}/transactions_personal`;

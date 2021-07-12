@@ -62,6 +62,11 @@ export function dateToString(date) {
     return date && moment(date).format('DD/MM/YYYY HH:mm');
 }
 
+// Convert API date to short string
+export function shortDateToString(date, separator = '/') {
+    return date && moment(date).format(`DD${separator}MM${separator}YYYY`);
+}
+
 // Format string to handle space
 export function formatString(text, maxCharacters) {
     // Extract
