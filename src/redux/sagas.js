@@ -19,10 +19,12 @@ import supplies from './supplies/saga';
 import handovers from './handovers/saga';
 import operators from './operators/saga';
 import transfers from './transfers/saga';
+import movements from './movements/saga';
 import clearances from './clearances/saga';
 import collectors from './collectors/saga';
 import recoveries from './recoveries/saga';
 import supervisors from './supervisors/saga';
+import transactions from './transactions/saga';
 import notifications from './notifications/saga';
 
 // Combine all saga middleware
@@ -45,12 +47,14 @@ export default function* sagas() {
         managers(),
         settings(),
         transfers(),
+        movements(),
         handovers(),
         operators(),
         clearances(),
         recoveries(),
         collectors(),
         supervisors(),
+        transactions(),
         notifications(),
     ]);
 }

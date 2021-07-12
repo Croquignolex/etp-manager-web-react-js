@@ -35,3 +35,7 @@ export const CHECKOUT_INTERNAL_PAYMENTS_PAGE_PATH = "/checkout/internal-payments
 // Requests
 export const REQUESTS_FLEETS_PAGE_PATH = "/requests/fleets";
 export const REQUESTS_CLEARANCES_PAGE_PATH = "/requests/clearances";
+
+// Reports
+export const MOVEMENTS_PAGE_PATH = "/reports/movements";
+export const TRANSACTIONS_PAGE_PATH = "/reports/transactions";

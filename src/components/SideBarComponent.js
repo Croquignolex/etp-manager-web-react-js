@@ -24,6 +24,7 @@ function SideBarComponent({user, pathname}) {
             buildSimsMenu(),
             buildAgentsMenu(),
             buildVendorsMenu(),
+            buildReportsMenu(),
         ];
         // eslint-disable-next-line
     }, [pathname]);
@@ -193,6 +194,18 @@ function buildVendorsMenu() {
         icon: 'fa fa-user-ninja',
         sub: []
     };
+}
+
+// Build reports menu
+function buildReportsMenu() {
+    return {
+        name: page.REPORTS_PAGE,
+        icon: 'fa fa-table',
+        sub: [
+            {name: page.MOVEMENTS_REPORTS, path: path.MOVEMENTS_PAGE_PATH},
+            {name: page.TRANSACTIONS_REPORTS, path: path.TRANSACTIONS_PAGE_PATH},
+        ]
+    }
 }
 
 // Build sims menu

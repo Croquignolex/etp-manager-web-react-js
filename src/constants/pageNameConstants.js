@@ -39,3 +39,8 @@ export const CHECKOUT_EXTERNAL_PAYMENTS_PAGE = 'Encaissements externes';
 export const REQUESTS = 'Demandes';
 export const REQUESTS_FLEETS_PAGE = 'Flottes';
 export const REQUESTS_CLEARANCES_PAGE = 'Déstockages';
+
+// Reports
+export const REPORTS_PAGE = 'Mes listing';
+export const MOVEMENTS_REPORTS = 'Mouvements de caisse';
+export const TRANSACTIONS_REPORTS = 'Transactions de flotte';

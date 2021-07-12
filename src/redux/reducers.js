@@ -14,6 +14,7 @@ import settings from './settings/reducer';
 import payments from './payments/reducer';
 import managers from './managers/reducer';
 import supplies from './supplies/reducer';
+import movements from './movements/reducer';
 import operators from './operators/reducer';
 import handovers from './handovers/reducer';
 import transfers from './transfers/reducer';
@@ -21,6 +22,7 @@ import recoveries from './recoveries/reducer';
 import clearances from './clearances/reducer';
 import collectors from './collectors/reducer';
 import supervisors from './supervisors/reducer';
+import transactions from './transactions/reducer';
 import userRequests from './requests/user/reducer';
 import simsRequests from './requests/sims/reducer';
 import notifications from './notifications/reducer';
@@ -41,10 +43,12 @@ import expensesRequests from './requests/expenses/reducer';
 import operatorsRequests from './requests/operators/reducer';
 import handoversRequests from './requests/handovers/reducer';
 import transfersRequests from './requests/transfers/reducer';
+import movementsRequests from './requests/movements/reducer';
 import collectorsRequests from './requests/collectors/reducer';
 import clearancesRequests from './requests/clearances/reducer';
 import recoveriesRequests from './requests/recoveries/reducer';
 import supervisorsRequests from './requests/supervisors/reducer';
+import transactionsRequests from './requests/transactions/reducer';
 import notificationsRequests from './requests/notifications/reducer';
 
 // Combine all reducers
@@ -68,12 +72,14 @@ export default {
     handovers,
     operators,
     transfers,
+    movements,
     recoveries,
     clearances,
     collectors,
     supervisors,
     simsRequests,
     userRequests,
+    transactions,
     zonesRequests,
     notifications,
     fleetsRequests,
@@ -90,11 +96,13 @@ export default {
     settingsRequests,
     paymentsRequests,
     transfersRequests,
+    movementsRequests,
     handoversRequests,
     operatorsRequests,
     recoveriesRequests,
     clearancesRequests,
     collectorsRequests,
     supervisorsRequests,
+    transactionsRequests,
     notificationsRequests,
 };

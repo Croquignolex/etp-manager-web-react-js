@@ -47,6 +47,9 @@ function AppRoutes({history}) {
                 {/* Other pages */}
                 <RestrictedRouteContainer exact path={path.AGENTS_PAGE_PATH} component={asyncComponent(() => import('./containers/agents/AgentsPageContainer'))} />
                 <RestrictedRouteContainer exact path={path.VENDORS_PAGE_PATH} component={asyncComponent(() => import('./containers/vendors/VendorsPageContainer'))} />
+                {/* Report */}
+                <RestrictedRouteContainer exact path={path.MOVEMENTS_PAGE_PATH} component={asyncComponent(() => import('./containers/reports/MovementsReportsPageContainer'))} />
+                <RestrictedRouteContainer exact path={path.TRANSACTIONS_PAGE_PATH} component={asyncComponent(() => import('./containers/reports/TransactionsReportsPageContainer'))} />
                 {/* 404 page */}
                 <Route component={asyncComponent(() => import('./pages/NotFoundPage'))} />
             </Switch>
