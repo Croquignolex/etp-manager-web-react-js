@@ -7,8 +7,8 @@ import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import {FLEET_TYPE} from "../../constants/typeConstants";
 import {emitAllSimsFetch} from "../../redux/sims/actions";
-import {emitAddExpense} from "../../redux/expenses/actions";
 import {emitAllAgentsFetch} from "../../redux/agents/actions";
+import {emitAddFleetReturn} from "../../redux/returns/actions";
 import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
@@ -97,28 +97,20 @@ function RecoveriesFleetsAddReturnComponent({request, agents, sims, dispatch, ha
     const handleSubmit = (e) => {
         e.preventDefault();
         shouldResetErrorData();
-        const _name = requiredChecker(name);
         const _amount = requiredChecker(amount);
-        const _reason = requiredChecker(reason);
-        const _vendor = requiredChecker(vendor);
+        const _outgoingSim = requiredChecker(outgoingSim);
+        const _incomingSim = requiredChecker(incomingSim);
         // Set value
-        setName(_name);
         setAmount(_amount);
-        setReason(_reason);
-        setVendor(_vendor);
-        const validationOK = (
-            forVendor
-                ? (_amount.isValid && _reason.isValid && _vendor.isValid)
-                : (_amount.isValid && _name.isValid && _reason.isValid)
-        );
+        setOutgoingSim(_outgoingSim);
+        setIncomingSim(_incomingSim);
+        const validationOK = (_amount.isValid && _incomingSim.isValid && _outgoingSim.isValid);
         // Check
         if(validationOK) {
-            dispatch(emitAddExpense({
+            dispatch(emitAddFleetReturn({
                 amount: _amount.data,
-                reason: _reason.data,
-                description: description.data,
-                name: forVendor ? null : _name.data,
-                vendor: forVendor ? _vendor.data : null
+                agentSim: _outgoingSim.data,
+                managerSim: _incomingSim.data
             }));
         }
         else playWarningSound();
