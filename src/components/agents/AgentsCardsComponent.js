@@ -19,15 +19,6 @@ function AgentsCardsComponent({agents, handleBlock, handleBlockModalShow, handle
                                     <h3 className="card-title">
                                         {agentTypeBadgeColor(item.reference).text}
                                     </h3>
-                                    <div className="card-tools">
-                                        <button type="button"
-                                                title="Détails"
-                                                className=" btn-tool btn"
-                                                onClick={() => handleAgentDetailsModalShow(item)}
-                                        >
-                                            <i className="fa fa-eye" />
-                                        </button>
-                                    </div>
                                 </div>
                                 <div className="card-body">
                                     <div className="text-center mb-3">
@@ -66,6 +57,14 @@ function AgentsCardsComponent({agents, handleBlock, handleBlockModalShow, handle
                                             <span className="float-right">{item.creator.name}</span>
                                         </li>
                                     </ul>
+                                    <div className="mt-3 text-right">
+                                        <button type="button"
+                                                className="btn btn-sm btn-theme"
+                                                onClick={() => handleAgentDetailsModalShow(item)}
+                                        >
+                                            <i className="fa fa-eye" /> Détails
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
