@@ -1,8 +1,11 @@
 // Reducer action types
+import {STORE_SET_NEW_SUPPLY_DATA} from "../supplies/actions";
+
 export const STORE_SET_RETURNS_DATA = 'STORE_SET_RETURNS_DATA';
 export const STORE_UPDATE_RETURN_DATA = 'STORE_UPDATE_RETURN_DATA';
 export const STORE_SET_NEXT_RETURNS_DATA = 'STORE_SET_NEXT_RETURNS_DATA';
 export const STORE_SET_RETURN_ACTION_DATA = 'STORE_SET_RETURN_ACTION_DATA';
+export const STORE_SET_ADD_FLEET_RETURN_DATA = 'STORE_SET_ADD_FLEET_RETURN_DATA';
 export const STORE_STOP_INFINITE_SCROLL_RETURNS_DATA = 'STORE_STOP_INFINITE_SCROLL_RETURNS_DATA';
 
 // Middleware action types
@@ -20,6 +23,12 @@ export const storeSetReturnsData = ({returns, hasMoreData, page}) => ({
     returns,
     hasMoreData,
     type: STORE_SET_RETURNS_DATA
+});
+
+// Set add fleet return data in store
+export const storeSetAddFleetReturnData = ({data}) => ({
+    data,
+    type: STORE_SET_ADD_FLEET_RETURN_DATA
 });
 
 // Set next returns data in store

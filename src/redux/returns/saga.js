@@ -8,12 +8,12 @@ import {
     EMIT_RETURNS_FETCH,
     EMIT_CONFIRM_RETURN,
     storeSetReturnsData,
-    EMIT_NEXT_RETURNS_FETCH,
     storeUpdateReturnData,
-    EMIT_SUPPLY_RETURNS_FETCH,
+    EMIT_NEXT_RETURNS_FETCH,
     storeSetNextReturnsData,
     storeSetReturnActionData,
-    storeStopInfiniteScrollReturnData
+    EMIT_SUPPLY_RETURNS_FETCH,
+    storeStopInfiniteScrollReturnData, EMIT_ADD_FLEET_RETURN
 } from "./actions";
 import {
     storeReturnRequestInit,
@@ -28,6 +28,9 @@ import {
     storeNextReturnsRequestSucceed,
     storeConfirmReturnRequestFailed,
     storeConfirmReturnRequestSucceed,
+    storeAddFleetReturnRequestInit,
+    storeAddFleetReturnRequestFailed,
+    storeAddFleetReturnRequestSucceed,
 } from "../requests/returns/actions";
 
 // Fetch returns from API
@@ -109,6 +112,25 @@ export function* emitNewReturn() {
         } catch (message) {
             // Fire event for request
             yield put(storeReturnRequestFailed({message}));
+        }
+    });
+}
+
+// New  add fleet from API
+export function* emitAddFleetReturn() {
+    yield takeLatest(EMIT_ADD_FLEET_RETURN, function*({amount, agentSim, managerSim}) {
+        try {
+            // Fire event for request
+            yield put(storeAddFleetReturnRequestInit());
+            const data = {montant: amount, puce_agent: agentSim, puce_flottage: managerSim};
+            const apiResponse = yield call(apiPostRequest, api.NEW_FLEET_RECOVERIES_API_PATH, data);
+            // Fire event to redux
+            yield put(storeUpdateSupplyData({id: supply, amount}));
+            // Fire event for request
+            yield put(storeAddFleetReturnRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeAddFleetReturnRequestFailed({message}));
         }
     });
 }
@@ -212,6 +234,7 @@ export default function* sagaReturns() {
         fork(emitNewReturn),
         fork(emitReturnsFetch),
         fork(emitConfirmReturn),
+        fork(emitAddFleetReturn),
         fork(emitNextReturnsFetch),
         fork(emitSupplyReturnsFetch),
     ]);
