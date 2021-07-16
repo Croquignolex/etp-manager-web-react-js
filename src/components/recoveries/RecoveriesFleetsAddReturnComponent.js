@@ -20,11 +20,11 @@ import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../
 
 // Component
 function RecoveriesFleetsAddReturnComponent({request, agents, sims, dispatch, handleClose, allSimsRequests, allAgentsRequests}) {
-    const [agent, setAgent] = useState(DEFAULT_FORM_DATA);
     const [amount, setAmount] = useState(DEFAULT_FORM_DATA);
     const [selectedOp, setSelectedOp] = useState('');
     const [outgoingSim, setOutgoingSim] = useState(DEFAULT_FORM_DATA);
     const [incomingSim, setIncomingSim] = useState(DEFAULT_FORM_DATA);
+    const [agent, setAgent] = useState({...DEFAULT_FORM_DATA, data: 0});
 
     // Local effects
     useEffect(() => {
