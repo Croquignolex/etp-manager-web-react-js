@@ -19,6 +19,11 @@ export const STORE_CONFIRM_RETURN_REQUEST_RESET = 'STORE_CONFIRM_RETURN_REQUEST_
 export const STORE_CONFIRM_RETURN_REQUEST_FAILED = 'STORE_CONFIRM_RETURN_REQUEST_FAILED';
 export const STORE_CONFIRM_RETURN_REQUEST_SUCCEEDED = 'STORE_CONFIRM_RETURN_REQUEST_SUCCEEDED';
 
+export const STORE_ADD_FLEET_RETURN_REQUEST_INIT = 'STORE_ADD_FLEET_RETURN_REQUEST_INIT';
+export const STORE_ADD_FLEET_RETURN_REQUEST_RESET = 'STORE_ADD_FLEET_RETURN_REQUEST_RESET';
+export const STORE_ADD_FLEET_RETURN_REQUEST_FAILED = 'STORE_ADD_FLEET_RETURN_REQUEST_FAILED';
+export const STORE_ADD_FLEET_RETURN_REQUEST_SUCCEEDED = 'STORE_ADD_FLEET_RETURN_REQUEST_SUCCEEDED';
+
 // ======================================================== Returns
 // Set returns init data into store
 export const storeReturnsRequestInit = () => ({
@@ -106,4 +111,26 @@ export const storeConfirmReturnRequestSucceed = ({message}) => ({
 // Set confirm return reset data into store
 export const storeConfirmReturnRequestReset = () => ({
     type: STORE_CONFIRM_RETURN_REQUEST_RESET
+});
+// ======================================================== Add fleet return
+// Set add fleet return init data into store
+export const storeAddFleetReturnRequestInit = () => ({
+    type: STORE_ADD_FLEET_RETURN_REQUEST_INIT
+});
+
+// Set add fleet return failed data into store
+export const storeAddFleetReturnRequestFailed = ({message}) => ({
+    message,
+    type: STORE_ADD_FLEET_RETURN_REQUEST_FAILED
+});
+
+// Set add fleet return succeeded data into store
+export const storeAddFleetReturnRequestSucceed = ({message}) => ({
+    message,
+    type: STORE_ADD_FLEET_RETURN_REQUEST_SUCCEEDED
+});
+
+// Set add fleet return reset data into store
+export const storeAddFleetReturnRequestReset = () => ({
+    type: STORE_ADD_FLEET_RETURN_REQUEST_RESET
 });
