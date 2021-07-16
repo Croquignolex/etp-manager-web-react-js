@@ -9,11 +9,13 @@ import {
     EMIT_CONFIRM_RETURN,
     storeSetReturnsData,
     storeUpdateReturnData,
+    EMIT_ADD_FLEET_RETURN,
     EMIT_NEXT_RETURNS_FETCH,
     storeSetNextReturnsData,
     storeSetReturnActionData,
     EMIT_SUPPLY_RETURNS_FETCH,
-    storeStopInfiniteScrollReturnData, EMIT_ADD_FLEET_RETURN
+    storeSetAddFleetReturnData,
+    storeStopInfiniteScrollReturnData
 } from "./actions";
 import {
     storeReturnRequestInit,
@@ -23,13 +25,13 @@ import {
     storeReturnRequestSucceed,
     storeReturnsRequestSucceed,
     storeNextReturnsRequestInit,
-    storeNextReturnsRequestFailed,
     storeConfirmReturnRequestInit,
+    storeNextReturnsRequestFailed,
+    storeAddFleetReturnRequestInit,
     storeNextReturnsRequestSucceed,
     storeConfirmReturnRequestFailed,
-    storeConfirmReturnRequestSucceed,
-    storeAddFleetReturnRequestInit,
     storeAddFleetReturnRequestFailed,
+    storeConfirmReturnRequestSucceed,
     storeAddFleetReturnRequestSucceed,
 } from "../requests/returns/actions";
 
@@ -123,9 +125,19 @@ export function* emitAddFleetReturn() {
             // Fire event for request
             yield put(storeAddFleetReturnRequestInit());
             const data = {montant: amount, puce_agent: agentSim, puce_flottage: managerSim};
-            const apiResponse = yield call(apiPostRequest, api.NEW_FLEET_RECOVERIES_API_PATH, data);
+            const apiResponse = yield call(apiPostRequest, api.ADD_FLEET_RETURNS_API_PATH, data);
+            // Extract data
+            const returns = extractRecoveryData(
+                apiResponse.data.recouvrement,
+                apiResponse.data.user,
+                apiResponse.data.agent,
+                apiResponse.data.recouvreur,
+                apiResponse.data.puce_agent,
+                apiResponse.data.puce_flottage,
+                apiResponse.data.operateur,
+            );
             // Fire event to redux
-            yield put(storeUpdateSupplyData({id: supply, amount}));
+            yield put(storeSetAddFleetReturnData({data: returns}));
             // Fire event for request
             yield put(storeAddFleetReturnRequestSucceed({message: apiResponse.message}));
         } catch (message) {

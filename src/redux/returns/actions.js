@@ -1,6 +1,4 @@
 // Reducer action types
-import {STORE_SET_NEW_SUPPLY_DATA} from "../supplies/actions";
-
 export const STORE_SET_RETURNS_DATA = 'STORE_SET_RETURNS_DATA';
 export const STORE_UPDATE_RETURN_DATA = 'STORE_UPDATE_RETURN_DATA';
 export const STORE_SET_NEXT_RETURNS_DATA = 'STORE_SET_NEXT_RETURNS_DATA';
