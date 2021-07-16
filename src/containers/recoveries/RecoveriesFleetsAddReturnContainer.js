@@ -1,6 +1,6 @@
 import {connect} from "react-redux";
 
-import RecoveriesFleetsAddRecoveryComponent from "../../components/recoveries/RecoveriesFleetsAddRecoveryComponent";
+import RecoveriesFleetsAddReturnComponent from "../../components/recoveries/RecoveriesFleetsAddReturnComponent";
 
 // Map state function to component props
 const mapStateToProps = (state) => ({
@@ -15,4 +15,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 // Connect component to Redux
-export default connect(mapStateToProps, mapDispatchToProps)(RecoveriesFleetsAddRecoveryComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(RecoveriesFleetsAddReturnComponent);

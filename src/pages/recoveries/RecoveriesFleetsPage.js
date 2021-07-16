@@ -13,7 +13,7 @@ import FormModalComponent from "../../components/modals/FormModalComponent";
 import ConfirmModalComponent from "../../components/modals/ConfirmModalComponent";
 import {emitConfirmReturn, emitNextReturnsFetch, emitReturnsFetch} from "../../redux/returns/actions";
 import RecoveriesFleetsCardsComponent from "../../components/recoveries/RecoveriesFleetsCardsComponent";
-import RecoveriesFleetsAddRecoveryContainer from "../../containers/recoveries/RecoveriesFleetsAddRecoveryContainer";
+import RecoveriesFleetsAddReturnContainer from "../../containers/recoveries/RecoveriesFleetsAddReturnContainer";
 import {storeReturnsRequestReset, storeNextReturnsRequestReset, storeConfirmReturnRequestReset} from "../../redux/requests/returns/actions";
 import {
     applySuccess,
@@ -119,7 +119,7 @@ function RecoveriesFleetsPage({returns, returnsRequests, hasMoreData, page, disp
                                                     className="btn btn-theme mb-2"
                                                     onClick={handleRecoveryModalShow}
                                             >
-                                                <i className="fa fa-fa-redo" /> Effectuer un retour flotte
+                                                <i className="fa fa-redo" /> Effectuer un retour flotte
                                             </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
@@ -154,7 +154,7 @@ function RecoveriesFleetsPage({returns, returnsRequests, hasMoreData, page, disp
             />
             {/* Modal */}
             <FormModalComponent modal={recoveryModal} handleClose={handleRecoveryModalHide}>
-                <RecoveriesFleetsAddRecoveryContainer handleClose={handleRecoveryModalHide} />
+                <RecoveriesFleetsAddReturnContainer handleClose={handleRecoveryModalHide} />
             </FormModalComponent>
         </>
     )
