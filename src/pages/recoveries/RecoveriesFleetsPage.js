@@ -30,7 +30,7 @@ function RecoveriesFleetsPage({returns, returnsRequests, hasMoreData, page, disp
     // Local states
     const [needle, setNeedle] = useState('');
     const [confirmModal, setConfirmModal] = useState({show: false, body: '', id: 0});
-    const [recoveryModal, setRecoveryModal] = useState({show: false, header: "EFFECTUR UN RETOUR FLOTTE"});
+    const [recoveryModal, setRecoveryModal] = useState({show: false, header: "EFFECTUER UN RETOUR FLOTTE"});
 
     // Local effects
     useEffect(() => {
@@ -151,8 +151,7 @@ function RecoveriesFleetsPage({returns, returnsRequests, hasMoreData, page, disp
             <ConfirmModalComponent modal={confirmModal}
                                    handleModal={handleConfirm}
                                    handleClose={handleConfirmModalHide}
-            />
-            {/* Modal */}
+            /> 
             <FormModalComponent modal={recoveryModal} handleClose={handleRecoveryModalHide}>
                 <RecoveriesFleetsAddReturnContainer handleClose={handleRecoveryModalHide} />
             </FormModalComponent>
