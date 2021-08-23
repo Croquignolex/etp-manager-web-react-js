@@ -21,7 +21,7 @@ function SimsCardsComponent({sims, handleSimDetailsModalShow, handleTransactions
                                 <SimCardComponent sim={item} />
                                 <div className="mt-3 text-right">
                                     <button type="button"
-                                            className="btn btn-sm btn-theme"
+                                            className="btn btn-sm btn-theme mb-1"
                                             onClick={() => handleSimDetailsModalShow(item)}
                                     >
                                         <i className="fa fa-eye" /> Détails
