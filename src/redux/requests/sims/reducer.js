@@ -10,6 +10,7 @@ const initialState = {
     fleet: {failed: false, loading: false, succeeded: false, message: ""},
     internal: {failed: false, loading: false, succeeded: false, message: ""},
     operator: {failed: false, loading: false, succeeded: false, message: ""},
+    transactions: {failed: false, loading: false, succeeded: false, message: ""},
 };
 
 // Reduce
@@ -134,6 +135,23 @@ function reduce(state = initialState, action) {
         // Resolve event to set edit sim operator reset request store data
         case actions.STORE_EDIT_SIM_OPERATOR_REQUEST_RESET:
             nextState = {...state, operator: initialState.operator};
+            return nextState || state;
+        // ======================================================== Sim transactions
+        // Resolve event to set sim transactions init request store data
+        case actions.STORE_SIM_TRANSACTIONS_REQUEST_INIT:
+            nextState = {...state, transactions: requestInitValue()};
+            return nextState || state;
+        // Resolve event to set sim transactions failed request store data
+        case actions.STORE_SIM_TRANSACTIONS_REQUEST_FAILED:
+            nextState = {...state, transactions: requestFailedValue(action.message)};
+            return nextState || state;
+        // Resolve event to set sim transactions succeeded request store data
+        case actions.STORE_SIM_TRANSACTIONS_REQUEST_SUCCEEDED:
+            nextState = {...state, transactions: requestSucceededValue(action.message)};
+            return nextState || state;
+        // Resolve event to set sim transactions reset request store data
+        case actions.STORE_SIM_TRANSACTIONS_REQUEST_RESET:
+            nextState = {...state, transactions: initialState.transactions};
             return nextState || state;
         // ========================================================
         // Unknown action

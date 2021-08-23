@@ -124,5 +124,6 @@ export const ALL_VENDORS_API_PATH = `${API_URL}/all_vendors`;
 export const VENDOR_DETAILS_API_PATH = `${API_URL}/show_vendor`;
 
 // Report
+export const SIM_TRANSACTIONS_API_PATH = `${API_URL}/transactions_sim`;
 export const PERSONAL_MOVEMENTS_API_PATH = `${API_URL}/movements_personal`;
 export const PERSONAL_TRANSACTIONS_API_PATH = `${API_URL}/transactions_personal`;

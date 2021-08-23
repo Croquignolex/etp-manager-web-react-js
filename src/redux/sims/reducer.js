@@ -15,7 +15,9 @@ const initialState = {
         agent: {id: '', name: ''},
         company: {id: '', name: ''},
         operator: {id: '', name: ''},
-        collector: {id: '', name: ''}
+        collector: {id: '', name: ''},
+
+        transactions: []
     }
 };
 
@@ -56,6 +58,16 @@ function reduce(state = initialState, action) {
                     if(item.id === action.id) item.actionLoader = !item.actionLoader;
                     return item;
                 })
+            };
+            return nextState || state;
+        // Resolve event to set sim transactions action data
+        case actions.STORE_SET_SIM_TRANSACTIONS_DATA:
+            nextState = {
+                ...state,
+                current: {
+                    ...state.current,
+                    transactions: action.transactions
+                }
             };
             return nextState || state;
         // Unknown action
