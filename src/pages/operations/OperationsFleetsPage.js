@@ -7,15 +7,15 @@ import LoaderComponent from "../../components/LoaderComponent";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import {OPERATIONS_FLEETS_PAGE} from "../../constants/pageNameConstants";
-import TableSearchComponent from "../../components/TableSearchComponent";
 import FormModalComponent from "../../components/modals/FormModalComponent";
-import {emitNextSuppliesFetch, emitSuppliesFetch} from "../../redux/supplies/actions";
 import SupplyDetailsContainer from "../../containers/operations/SupplyDetailsContainer";
+import TableSearchWithButtonComponent from "../../components/TableSearchWithButtonComponent";
 import OperationsFleetsCardsComponent from "../../components/operations/OperationsFleetsCardsComponent";
 import OperationsFleetsReturnContainer from "../../containers/operations/OperationsFleetsReturnContainer";
 import OperationsCashRecoveryContainer from "../../containers/operations/OperationsCashRecoveryContainer";
 import {dateToString, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
 import {storeNextSuppliesRequestReset, storeSuppliesRequestReset} from "../../redux/requests/supplies/actions";
+import {emitNextSuppliesFetch, emitSearchSuppliesFetch, emitSuppliesFetch} from "../../redux/supplies/actions";
 import OperationsFleetsAddSupplyContainer from "../../containers/operations/OperationsFleetsAddSupplyContainer";
 import OperationsFleetsAddAnonymousSupplyContainer from "../../containers/operations/OperationsFleetsAddAnonymousSupplyContainer";
 
@@ -41,6 +41,10 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
 
     const handleNeedleInput = (data) => {
         setNeedle(data)
+    }
+
+    const handleSearchInput = () => {
+        dispatch(emitSearchSuppliesFetch({needle}));
     }
 
     // Reset error alert
@@ -118,7 +122,10 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
                                         {/* Search input */}
                                         <div className="card-header">
                                             <div className="card-tools">
-                                                <TableSearchComponent needle={needle} handleNeedle={handleNeedleInput} />
+                                                <TableSearchWithButtonComponent needle={needle}
+                                                                                handleNeedle={handleNeedleInput}
+                                                                                handleSearch={handleSearchInput}
+                                                />
                                             </div>
                                         </div>
                                         <div className="card-body">
@@ -138,27 +145,29 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
                                                 <i className="fa fa-user-slash" /> Effectuer un flottage anonyme
                                             </button>
                                             {/* Search result & Infinite scroll */}
-                                            {(needle !== '' && needle !== undefined)
-                                                ? <OperationsFleetsCardsComponent supplies={searchEngine(supplies, needle)}
-                                                                                  handleFleetRecoveryModalShow={handleReturnModalShow}
-                                                                                  handleCashRecoveryModalShow={handleRecoveryModalShow}
-                                                                                  handleSupplyDetailsModalShow={handleSupplyDetailsModalShow}
-                                                />
-                                                : (requestLoading(suppliesRequests.list) ? <LoaderComponent /> :
+                                            {requestLoading(suppliesRequests.list) ? <LoaderComponent /> : ((needle !== '' && needle !== undefined) ?
+                                                    (
+                                                        <OperationsFleetsCardsComponent supplies={searchEngine(supplies, needle)}
+                                                                                        handleFleetRecoveryModalShow={handleReturnModalShow}
+                                                                                        handleCashRecoveryModalShow={handleRecoveryModalShow}
+                                                                                        handleSupplyDetailsModalShow={handleSupplyDetailsModalShow}
+                                                        />
+                                                    ) :
+                                                    (
                                                         <InfiniteScroll hasMore={hasMoreData}
                                                                         loader={<LoaderComponent />}
                                                                         dataLength={supplies.length}
                                                                         next={handleNextSuppliesData}
                                                                         style={{ overflow: 'hidden' }}
                                                         >
-                                                            <OperationsFleetsCardsComponent supplies={supplies}
-                                                                                            handleFleetRecoveryModalShow={handleReturnModalShow}
-                                                                                            handleCashRecoveryModalShow={handleRecoveryModalShow}
-                                                                                            handleSupplyDetailsModalShow={handleSupplyDetailsModalShow}
+                                                            <OperationsFleetsCardsComponent  supplies={supplies}
+                                                                                             handleFleetRecoveryModalShow={handleReturnModalShow}
+                                                                                             handleCashRecoveryModalShow={handleRecoveryModalShow}
+                                                                                             handleSupplyDetailsModalShow={handleSupplyDetailsModalShow}
                                                             />
                                                         </InfiniteScroll>
-                                                )
-                                            }
+                                                    )
+                                            )}
                                         </div>
                                     </div>
                                 </div>

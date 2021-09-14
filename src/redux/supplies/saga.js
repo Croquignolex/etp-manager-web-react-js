@@ -11,12 +11,13 @@ import {
     storeSetNextSuppliesData,
     EMIT_NEXT_SUPPLIES_FETCH,
     EMIT_ADD_ANONYMOUS_SUPPLY,
+    EMIT_SEARCH_SUPPLIES_FETCH,
     storeStopInfiniteScrollSupplyData
 } from "./actions";
 import {
     storeSuppliesRequestInit,
-    storeSuppliesRequestFailed,
     storeAddSupplyRequestInit,
+    storeSuppliesRequestFailed,
     storeSuppliesRequestSucceed,
     storeAddSupplyRequestFailed,
     storeNextSuppliesRequestInit,
@@ -140,6 +141,26 @@ export function* emitAddAnonymousSupply() {
     });
 }
 
+// Emit search supplies fetch
+export function* emitSearchSuppliesFetch() {
+    yield takeLatest(EMIT_SEARCH_SUPPLIES_FETCH, function*({needle}) {
+        try {
+            // Fire event for request
+            yield put(storeSuppliesRequestInit());
+            const apiResponse = yield call(apiGetRequest, `${api.SEARCH_SUPPLIES_API_PATH}?needle=${needle}`);
+            // Extract data
+            const supplies = extractSuppliesData(apiResponse.data.flottages);
+            // Fire event to redux
+            yield put(storeSetSuppliesData({supplies, hasMoreData: false, page: 0}));
+            // Fire event for request
+            yield put(storeSuppliesRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeSuppliesRequestFailed({message}));
+        }
+    });
+}
+
 // Extract supply data
 function extractSupplyData(apiSimOutgoing, apiSimIncoming, apiUser, apiAgent, apiSupplier, apiSupply, apiOperator) {
     let supply = {
@@ -219,5 +240,6 @@ export default function* sagaSupplies() {
         fork(emitSuppliesFetch),
         fork(emitNextSuppliesFetch),
         fork(emitAddAnonymousSupply),
+        fork(emitSearchSuppliesFetch),
     ]);
 }
