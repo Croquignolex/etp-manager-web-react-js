@@ -12,6 +12,7 @@ export const EMIT_REFUELS_FETCH = 'EMIT_REFUELS_FETCH';
 export const EMIT_CONFIRM_REFUEL = 'EMIT_CONFIRM_REFUEL';
 export const EMIT_NEXT_REFUELS_FETCH = 'EMIT_NEXT_REFUELS_FETCH';
 export const EMIT_ADD_ANONYMOUS_REFUEL = 'EMIT_ADD_ANONYMOUS_REFUEL';
+export const EMIT_SEARCH_REFUELS_FETCH = 'EMIT_SEARCH_REFUELS_FETCH';
 
 //====================== Reducer trigger actions
 // Set refuels data in store
@@ -88,4 +89,10 @@ export const emitAddAnonymousRefuel = ({sim, amount, sender, senderSim, zone}) =
     sender,
     senderSim,
     type: EMIT_ADD_ANONYMOUS_REFUEL
+});
+
+// Emit search refuels fetch
+export const emitSearchRefuelsFetch = ({needle}) => ({
+    needle,
+    type: EMIT_SEARCH_REFUELS_FETCH
 });
