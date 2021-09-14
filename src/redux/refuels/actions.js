@@ -81,8 +81,9 @@ export const emitAddRefuel = ({agent, amount, sim}) => ({
 });
 
 // Emit add anonymous refuel
-export const emitAddAnonymousRefuel = ({sim, amount, sender, senderSim}) => ({
+export const emitAddAnonymousRefuel = ({sim, amount, sender, senderSim, zone}) => ({
     sim,
+    zone,
     amount,
     sender,
     senderSim,

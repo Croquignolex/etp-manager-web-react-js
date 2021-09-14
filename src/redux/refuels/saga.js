@@ -122,11 +122,11 @@ export function* emitConfirmRefuel() {
 
 // Fleets new anonymous refuel from API
 export function* emitAddAnonymousRefuel() {
-    yield takeLatest(EMIT_ADD_ANONYMOUS_REFUEL, function*({sim, amount, sender, senderSim}) {
+    yield takeLatest(EMIT_ADD_ANONYMOUS_REFUEL, function*({sim, amount, sender, senderSim, zone}) {
         try {
             // Fire event for request
             yield put(storeAddAnonymousRefuelRequestInit());
-            const data = {montant: amount, id_puce_to: sim, nom_agent: sender, nro_puce_from: senderSim};
+            const data = {montant: amount, id_puce_to: sim, nom_agent: sender, nro_puce_from: senderSim, id_zone: zone};
             const apiResponse = yield call(apiPostRequest, api.NEW_ANONYMOUS_REFUEL_API_PATH, data);
             // Extract data
             const refuel = extractRefuelData(apiResponse.data);
