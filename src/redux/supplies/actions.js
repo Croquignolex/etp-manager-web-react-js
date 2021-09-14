@@ -69,9 +69,10 @@ export const emitAddSupply = ({amount, managerSim, agentSim, agent, pay}) => ({
 });
 
 // Emit add anonymous supply
-export const emitAddAnonymousSupply = ({sim, amount, receiver, receiverSim, pay}) => ({
+export const emitAddAnonymousSupply = ({sim, amount, receiver, receiverSim, pay, zone}) => ({
     pay,
     sim,
+    zone,
     amount,
     receiver,
     receiverSim,

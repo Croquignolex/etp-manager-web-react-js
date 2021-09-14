@@ -106,11 +106,12 @@ export function* emitAddSupply() {
 
 // Fleets new anonymous supply from API
 export function* emitAddAnonymousSupply() {
-    yield takeLatest(EMIT_ADD_ANONYMOUS_SUPPLY, function*({sim, amount, receiver, receiverSim, pay}) {
+    yield takeLatest(EMIT_ADD_ANONYMOUS_SUPPLY, function*({sim, amount, receiver, receiverSim, pay, zone}) {
         try {
             // Fire event for request
             yield put(storeAddAnonymousSupplyRequestInit());
             const data = {
+                id_zone: zone,
                 montant: amount,
                 id_puce_from: sim,
                 nom_agent: receiver,

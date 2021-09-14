@@ -5,6 +5,8 @@ import OperationsFleetsAddAnonymousFleetsComponent from "../../components/operat
 // Map state function to component props
 const mapStateToProps = (state) => ({
     sims: state.sims.list,
+    zones: state.zones.list,
+    zonesRequests: state.zonesRequests.all,
     simsRequests: state.simsRequests.fleet,
     request: state.suppliesRequests.anonymous,
 });
