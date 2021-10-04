@@ -9,10 +9,16 @@ import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import FormModalComponent from "../../components/modals/FormModalComponent";
 import {OPERATIONS_TRANSFERS_PAGE} from "../../constants/pageNameConstants";
+import DeleteModelComponent from "../../components/modals/DeleteModalComponent";
 import ConfirmModalComponent from "../../components/modals/ConfirmModalComponent";
-import {emitConfirmTransfer, emitNextTransfersFetch, emitTransfersFetch} from "../../redux/transfers/actions";
 import OperationsTransfersCardsComponent from "../../components/operations/OperationsTransfersCardsComponent";
 import OperationsTransfersAddTransferContainer from "../../containers/operations/OperationsTransfersAddTransferContainer";
+import {
+    emitTransfersFetch,
+    emitCancelTransfer,
+    emitConfirmTransfer,
+    emitNextTransfersFetch
+} from "../../redux/transfers/actions";
 import {
     storeTransfersRequestReset,
     storeNextTransfersRequestReset,
@@ -32,6 +38,7 @@ import {
 function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
+    const [cancelModal, setCancelModal] = useState({show: false, body: '', id: 0});
     const [confirmModal, setConfirmModal] = useState({show: false, body: '', id: 0});
     const [transferModal, setTransferModal] = useState({show: false, header: 'EFFECTUER UN TRANSFERT DE FLOTTE'});
 
@@ -80,6 +87,16 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
         setTransferModal({...transferModal, show: false})
     }
 
+    // Show cancel modal form
+    const handleCancelModalShow = ({id, amount, sim_outgoing}) => {
+        setCancelModal({...cancelModal, id, body: `Annuler le transfert de flotte vers ${sim_outgoing.number} de ${formatNumber(amount)}?`, show: true})
+    }
+
+    // Hide cancel modal form
+    const handleCancelModalHide = () => {
+        setCancelModal({...cancelModal, show: false})
+    }
+
     // Show confirm modal form
     const handleConfirmModalShow = ({id, amount, user}) => {
         setConfirmModal({...confirmModal, id, body: `Confirmer le transfert de flotte de ${user.name} de ${formatNumber(amount)}?`, show: true})
@@ -94,6 +111,12 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
     const handleConfirm = (id) => {
         handleConfirmModalHide();
         dispatch(emitConfirmTransfer({id}));
+    };
+
+    // Trigger when clearance cancel confirmed on modal
+    const handleCancel = (id) => {
+        handleCancelModalHide();
+        dispatch(emitCancelTransfer({id}));
     };
 
     // Render
@@ -126,7 +149,9 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
                                             </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
-                                                ? <OperationsTransfersCardsComponent transfers={searchEngine(transfers, needle)} />
+                                                ? <OperationsTransfersCardsComponent transfers={searchEngine(transfers, needle)}
+                                                                                     handleCancelModalShow={handleCancelModalShow}
+                                                />
                                                 : (requestLoading(transfersRequests.list) ? <LoaderComponent /> :
                                                         <InfiniteScroll hasMore={hasMoreData}
                                                                         loader={<LoaderComponent />}
@@ -135,6 +160,7 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
                                                                         style={{ overflow: 'hidden' }}
                                                         >
                                                             <OperationsTransfersCardsComponent transfers={transfers}
+                                                                                               handleCancelModalShow={handleCancelModalShow}
                                                                                                handleConfirmModalShow={handleConfirmModalShow}
                                                             />
                                                         </InfiniteScroll>
@@ -152,6 +178,10 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
             <ConfirmModalComponent modal={confirmModal}
                                    handleModal={handleConfirm}
                                    handleClose={handleConfirmModalHide}
+            />
+            <DeleteModelComponent modal={cancelModal}
+                                  handleModal={handleCancel}
+                                  handleClose={handleCancelModalHide}
             />
             <FormModalComponent modal={transferModal} handleClose={handleTransferModalHide}>
                 <OperationsTransfersAddTransferContainer handleClose={handleTransferModalHide} />

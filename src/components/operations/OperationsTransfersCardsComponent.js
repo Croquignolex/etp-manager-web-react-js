@@ -5,12 +5,12 @@ import LoaderComponent from "../LoaderComponent";
 import OperatorComponent from "../OperatorComponent";
 import FormModalComponent from "../modals/FormModalComponent";
 import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
-import {DONE, FLEET_TYPE, PROCESSING} from "../../constants/typeConstants";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
 import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
+import {CANCEL, DONE, FLEET_TYPE, PROCESSING} from "../../constants/typeConstants";
 
 // Component
-function OperationsTransfersCardsComponent({transfers, handleConfirmModalShow}) {
+function OperationsTransfersCardsComponent({transfers, handleConfirmModalShow, handleCancelModalShow}) {
     // Local states
     const [incomingSimDetailsModal, setIncomingSimDetailsModal] = useState({show: false, header: 'DETAIL DU COMPTE', id: ''});
     const [outgoingSimDetailsModal, setOutgoingSimDetailsModal] = useState({show: false, header: 'DETAIL DU COMPTE', id: ''});
@@ -71,10 +71,11 @@ function OperationsTransfersCardsComponent({transfers, handleConfirmModalShow}) 
                                         </li>
                                         <li className="list-group-item">
                                             {item.status === DONE && <b className="text-success text-bold">Confirmé</b>}
+                                            {item.status === CANCEL && <b className="text-danger text-bold">Annulé</b>}
                                             {item.status === PROCESSING && <b className="text-danger text-bold">En attente de confirmation</b>}
                                         </li>
                                     </ul>
-                                    {((item.status === PROCESSING) && (item.type.name === FLEET_TYPE)) && (
+                                    {((item.status === PROCESSING) && (item.type.includes('->' + FLEET_TYPE))) && (
                                         <div className="mt-3 text-right">
                                             {item.actionLoader ? <LoaderComponent little={true} /> : (
                                                 <button type="button"
@@ -82,6 +83,18 @@ function OperationsTransfersCardsComponent({transfers, handleConfirmModalShow}) 
                                                         onClick={() => handleConfirmModalShow(item)}
                                                 >
                                                     <i className="fa fa-check" /> Confirmer
+                                                </button>
+                                            )}
+                                        </div>
+                                    )}
+                                    {((item.status === PROCESSING) && (item.type.includes(FLEET_TYPE + '->'))) && (
+                                        <div className="mt-3 text-right">
+                                            {item.actionLoader ? <LoaderComponent little={true} /> : (
+                                                <button type="button"
+                                                        className="btn btn-danger btn-sm"
+                                                        onClick={() => handleCancelModalShow(item)}
+                                                >
+                                                    <i className="fa fa-times" /> Annuler
                                                 </button>
                                             )}
                                         </div>
@@ -113,6 +126,7 @@ function OperationsTransfersCardsComponent({transfers, handleConfirmModalShow}) 
 // Prop types to ensure destroyed props data type
 OperationsTransfersCardsComponent.propTypes = {
     transfers: PropTypes.array.isRequired,
+    handleCancelModalShow: PropTypes.func.isRequired,
     handleConfirmModalShow: PropTypes.func.isRequired,
 };
 

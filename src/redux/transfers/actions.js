@@ -1,6 +1,7 @@
 // Reducer action types
 export const STORE_SET_TRANSFERS_DATA = 'STORE_SET_TRANSFERS_DATA';
 export const STORE_UPDATE_TRANSFER_DATA = 'STORE_UPDATE_TRANSFER_DATA';
+export const STORE_CANCEL_TRANSFER_DATA = 'STORE_CANCEL_TRANSFER_DATA';
 export const STORE_SET_NEW_TRANSFER_DATA = 'STORE_SET_NEW_TRANSFER_DATA';
 export const STORE_SET_NEXT_TRANSFERS_DATA = 'STORE_SET_NEXT_TRANSFERS_DATA';
 export const STORE_SET_TRANSFER_ACTION_DATA = 'STORE_SET_TRANSFER_ACTION_DATA';
@@ -9,6 +10,7 @@ export const STORE_STOP_INFINITE_SCROLL_TRANSFER_DATA = 'STORE_STOP_INFINITE_SCR
 // Middleware action types
 export const EMIT_ADD_TRANSFER = 'EMIT_ADD_TRANSFER';
 export const EMIT_TRANSFERS_FETCH = 'EMIT_TRANSFERS_FETCH';
+export const EMIT_CANCEL_TRANSFER = 'EMIT_CANCEL_TRANSFER';
 export const EMIT_CONFIRM_TRANSFER = 'EMIT_CONFIRM_TRANSFER';
 export const EMIT_NEXT_TRANSFERS_FETCH = 'EMIT_NEXT_TRANSFERS_FETCH';
 
@@ -52,6 +54,12 @@ export const storeUpdateTransferData = ({id}) => ({
     type: STORE_UPDATE_TRANSFER_DATA
 });
 
+// Set cancel transfer data in store
+export const storeCancelTransferData = ({id}) => ({
+    id,
+    type: STORE_CANCEL_TRANSFER_DATA
+});
+
 //====================== Middleware trigger actions
 // Emit transfers fetch
 export const emitTransfersFetch = () => ({
@@ -76,4 +84,10 @@ export const emitAddTransfer = ({amount, managerSim, collectorSim}) => ({
 export const emitConfirmTransfer = ({id}) => ({
     id,
     type: EMIT_CONFIRM_TRANSFER
+});
+
+// Emit cancel transfer
+export const emitCancelTransfer = ({id}) => ({
+    id,
+    type: EMIT_CANCEL_TRANSFER
 });

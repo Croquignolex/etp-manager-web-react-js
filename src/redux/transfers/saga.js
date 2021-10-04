@@ -4,10 +4,12 @@ import * as api from "../../constants/apiConstants";
 import {apiGetRequest, apiPostRequest} from "../../functions/axiosFunctions";
 import {
     EMIT_ADD_TRANSFER,
+    EMIT_CANCEL_TRANSFER,
     EMIT_TRANSFERS_FETCH,
     storeSetTransfersData,
     EMIT_CONFIRM_TRANSFER,
     storeUpdateTransferData,
+    storeCancelTransferData,
     storeSetNewTransferData,
     storeSetNextTransfersData,
     EMIT_NEXT_TRANSFERS_FETCH,
@@ -22,10 +24,13 @@ import {
     storeAddTransferRequestFailed,
     storeNextTransfersRequestInit,
     storeAddTransferRequestSucceed,
+    storeCancelTransferRequestInit,
     storeNextTransfersRequestFailed,
     storeConfirmTransferRequestInit,
+    storeCancelTransferRequestFailed,
     storeNextTransfersRequestSucceed,
     storeConfirmTransferRequestFailed,
+    storeCancelTransferRequestSucceed,
     storeConfirmTransferRequestSucceed
 } from "../requests/transfers/actions";
 
@@ -121,14 +126,36 @@ export function* emitConfirmTransfer() {
     });
 }
 
+// Cancel transfer from API
+export function* emitCancelTransfer() {
+    yield takeLatest(EMIT_CANCEL_TRANSFER, function*({id}) {
+        try {
+            // Fire event at redux to toggle action loader
+            yield put(storeSetTransferActionData({id}));
+            // Fire event for request
+            yield put(storeCancelTransferRequestInit());
+            const apiResponse = yield call(apiPostRequest, `${api.CANCEL_TRANSFER_API_PATH}/${id}`);
+            // Fire event to redux
+            yield put(storeCancelTransferData({id}));
+            // Fire event at redux to toggle action loader
+            yield put(storeSetTransferActionData({id}));
+            // Fire event for request
+            yield put(storeCancelTransferRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeSetTransferActionData({id}));
+            yield put(storeCancelTransferRequestFailed({message}));
+        }
+    });
+}
+
 // Extract transfer data
 function extractTransferData(apiSimOutgoing, apiSimIncoming, apiUser, apiTransfer, apiOperator, apiType) {
     let transfer = {
-        id: '', reference: '', amount: '', creation: '',
-        note: '', remaining: '', status: '',
+        id: '', amount: '', creation: '', status: '', type: '',
 
         user: {id: '', name: ''},
-        type: {id: '', name: ''},
+        // type: {id: '', name: ''},
         operator: {id: '', name: ''},
         sim_outgoing: {id: '', name: '', number: ''},
         sim_incoming: {id: '', name: '', number: ''},
@@ -159,14 +186,15 @@ function extractTransferData(apiSimOutgoing, apiSimIncoming, apiUser, apiTransfe
             id: apiOperator.id.toString(),
         }
     }
-    if(apiType) {
+    /*if(apiType) {
         transfer.type = {
             name: apiType.name,
             id: apiType.id.toString(),
         }
-    }
+    }*/
     if(apiTransfer) {
         transfer.actionLoader = false;
+        transfer.type = apiTransfer.type;
         transfer.status = apiTransfer.statut;
         transfer.amount = apiTransfer.montant;
         transfer.id = apiTransfer.id.toString();
@@ -185,7 +213,7 @@ export function extractTransfersData(apiTransfers) {
             data.utilisateur,
             data.flottage,
             data.operateur,
-            data.type_recepteur
+            // data.type_recepteur
         ));
     });
     return transfers;
@@ -195,6 +223,7 @@ export function extractTransfersData(apiTransfers) {
 export default function* sagaTransfers() {
     yield all([
         fork(emitAddTransfer),
+        fork(emitCancelTransfer),
         fork(emitTransfersFetch),
         fork(emitConfirmTransfer),
         fork(emitNextTransfersFetch),
