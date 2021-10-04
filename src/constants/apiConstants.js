@@ -67,6 +67,7 @@ export const CONFIRM_HANDOVER_API_PATH = `${API_URL}/approuve_passation`;
 // Outlay
 export const NEW_OUTLAY_API_PATH = `${API_URL}/decaissement`;
 export const OUTLAYS_API_PATH = `${API_URL}/decaissement_list`;
+export const CANCEL_OUTLAY_API_PATH = `${API_URL}/annuler_decaissement`;
 
 // Payment
 export const PAYMENTS_API_PATH = `${API_URL}/encaissement_list`;

@@ -6,6 +6,7 @@ const initialState = {
     add: {failed: false, loading: false, succeeded: false, message: ""},
     list: {failed: false, loading: false, succeeded: false, message: ""},
     next: {failed: false, loading: false, succeeded: false, message: ""},
+    cancel: {failed: false, loading: false, succeeded: false, message: ""},
 };
 
 // Reduce
@@ -62,6 +63,23 @@ function reduce(state = initialState, action) {
         // Resolve event to set add outlay reset request store data
         case actions.STORE_ADD_OUTLAY_REQUEST_RESET:
             nextState = {...state, add: initialState.add};
+            return nextState || state;
+        // ======================================================== Cancel outlay
+        // Resolve event to set cancel outlay init request store data
+        case actions.STORE_CANCEL_OUTLAY_REQUEST_INIT:
+            nextState = {...state, cancel: requestInitValue()};
+            return nextState || state;
+        // Resolve event to set cancel outlay failed request store data
+        case actions.STORE_CANCEL_OUTLAY_REQUEST_FAILED:
+            nextState = {...state, cancel: requestFailedValue(action.message)};
+            return nextState || state;
+        // Resolve event to set cancel outlay succeeded request store data
+        case actions.STORE_CANCEL_OUTLAY_REQUEST_SUCCEEDED:
+            nextState = {...state, cancel: requestSucceededValue(action.message)};
+            return nextState || state;
+        // Resolve event to set cancel outlay reset request store data
+        case actions.STORE_CANCEL_OUTLAY_REQUEST_RESET:
+            nextState = {...state, cancel: initialState.cancel};
             return nextState || state;
         // ========================================================
         // Unknown action

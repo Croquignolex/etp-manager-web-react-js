@@ -9,17 +9,23 @@ import {
     storeOutlaysRequestSucceed,
     storeAddOutlayRequestFailed,
     storeNextOutlaysRequestInit,
+    storeCancelOutlayRequestInit,
     storeAddOutlayRequestSucceed,
     storeNextOutlaysRequestFailed,
-    storeNextOutlaysRequestSucceed
+    storeNextOutlaysRequestSucceed,
+    storeCancelOutlayRequestFailed,
+    storeCancelOutlayRequestSucceed
 } from "../requests/outlays/actions";
 import {
     EMIT_ADD_OUTLAY,
     EMIT_OUTLAYS_FETCH,
+    EMIT_CANCEL_OUTLAY,
     storeSetOutlaysData,
     storeSetNewOutlayData,
+    storeCancelOutlayData,
     storeSetNextOutlaysData,
     EMIT_NEXT_OUTLAYS_FETCH,
+    storeSetOutlayActionData,
     storeStopInfiniteScrollOutlayData
 } from "./actions";
 
@@ -89,6 +95,29 @@ export function* emitAddOutlay() {
     });
 }
 
+// Cancel outlay from API
+export function* emitCancelOutlay() {
+    yield takeLatest(EMIT_CANCEL_OUTLAY, function*({id}) {
+        try {
+            // Fire event at redux to toggle action loader
+            yield put(storeSetOutlayActionData({id}));
+            // Fire event for request
+            yield put(storeCancelOutlayRequestInit());
+            const apiResponse = yield call(apiPostRequest, `${api.CANCEL_OUTLAY_API_PATH}/${id}`);
+            // Fire event to redux
+            yield put(storeCancelOutlayData({id}));
+            // Fire event at redux to toggle action loader
+            yield put(storeSetOutlayActionData({id}));
+            // Fire event for request
+            yield put(storeCancelOutlayRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeSetOutlayActionData({id}));
+            yield put(storeCancelOutlayRequestFailed({message}));
+        }
+    });
+}
+
 // Extract payment data
 function extractOutlayData(apiManager, apiCollector, apiOutlay) {
     let outlay = {
@@ -137,6 +166,7 @@ export default function* sagaOutlays() {
     yield all([
         fork(emitAddOutlay),
         fork(emitOutlaysFetch),
+        fork(emitCancelOutlay),
         fork(emitNextOutlaysFetch),
     ]);
 }
