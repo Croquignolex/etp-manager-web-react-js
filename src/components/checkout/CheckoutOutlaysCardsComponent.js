@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from "prop-types";
 
-import {DONE, PROCESSING} from "../../constants/typeConstants";
+import LoaderComponent from "../LoaderComponent";
 import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
+import {CANCEL, DONE, PROCESSING} from "../../constants/typeConstants";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
 
 // Component
-function CheckoutOutlaysCardsComponent({outlays}) {
+function CheckoutOutlaysCardsComponent({outlays, handleCancelModalShow}) {
     // Render
     return (
         <>
@@ -37,9 +38,22 @@ function CheckoutOutlaysCardsComponent({outlays}) {
                                             <span className="float-right">{item.reason}</span>
                                         </li>
                                         <li className="list-group-item">
+                                            {item.status === CANCEL && <b className="text-danger text-bold">Annulé</b>}
                                             {item.status === DONE && <b className="text-success text-bold">Confirmé</b>}
                                             {item.status === PROCESSING && <b className="text-danger text-bold">En attente de confirmation</b>}
                                         </li>
+                                        {(item.status === PROCESSING) && (
+                                            <div className="mt-3 text-right">
+                                                {item.actionLoader ? <LoaderComponent little={true} /> : (
+                                                    <button type="button"
+                                                            className="btn btn-danger btn-sm"
+                                                            onClick={() => handleCancelModalShow(item)}
+                                                    >
+                                                        <i className="fa fa-times" /> Annuler
+                                                    </button>
+                                                )}
+                                            </div>
+                                        )}
                                     </ul>
                                 </div>
                             </div>
@@ -60,7 +74,8 @@ function CheckoutOutlaysCardsComponent({outlays}) {
 
 // Prop types to ensure destroyed props data type
 CheckoutOutlaysCardsComponent.propTypes = {
-    outlays: PropTypes.array.isRequired
+    outlays: PropTypes.array.isRequired,
+    handleCancelModalShow: PropTypes.func.isRequired,
 };
 
 export default React.memo(CheckoutOutlaysCardsComponent);

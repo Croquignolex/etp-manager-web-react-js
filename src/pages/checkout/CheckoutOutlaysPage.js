@@ -8,17 +8,29 @@ import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import FormModalComponent from "../../components/modals/FormModalComponent";
+import DeleteModelComponent from "../../components/modals/DeleteModalComponent";
 import {CHECKOUT_INTERNAL_OUTLAYS_PAGE} from "../../constants/pageNameConstants";
-import {emitNextOutlaysFetch, emitOutlaysFetch} from "../../redux/outlays/actions";
 import CheckoutOutlaysCardsComponent from "../../components/checkout/CheckoutOutlaysCardsComponent";
-import {dateToString, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
-import {storeNextOutlaysRequestReset, storeOutlaysRequestReset} from "../../redux/requests/outlays/actions";
+import {emitCancelOutlay, emitNextOutlaysFetch, emitOutlaysFetch} from "../../redux/outlays/actions";
 import CheckoutOutlaysAddOutlayContainer from "../../containers/checkout/CheckoutOutlaysAddOutlayContainer";
+import {
+    dateToString,
+    formatNumber,
+    needleSearch,
+    requestFailed,
+    requestLoading
+} from "../../functions/generalFunctions";
+import {
+    storeOutlaysRequestReset,
+    storeNextOutlaysRequestReset,
+    storeCancelOutlayRequestReset
+} from "../../redux/requests/outlays/actions";
 
 // Component
 function CheckoutOutlaysPage({outlays, outlaysRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
+    const [cancelModal, setCancelModal] = useState({show: false, body: '', id: 0});
     const [outlayModal, setOutlayModal] = useState({show: false, header: "DECAISSEMENT D'ESPECES INTERNE"});
 
     // Local effects
@@ -39,6 +51,7 @@ function CheckoutOutlaysPage({outlays, outlaysRequests, hasMoreData, page, dispa
     const shouldResetErrorData = () => {
         dispatch(storeOutlaysRequestReset());
         dispatch(storeNextOutlaysRequestReset());
+        dispatch(storeCancelOutlayRequestReset());
     };
 
     // Fetch next outlays data to enhance infinite scroll
@@ -55,6 +68,22 @@ function CheckoutOutlaysPage({outlays, outlaysRequests, hasMoreData, page, dispa
     const handleOutlayModalHide = () => {
         setOutlayModal({...outlayModal, show: false})
     }
+
+    // Show cancel modal form
+    const handleCancelModalShow = ({id, amount, collector}) => {
+        setCancelModal({...cancelModal, id, body: `Annuler le décaissement interne vers ${collector.name} de ${formatNumber(amount)}?`, show: true})
+    }
+
+    // Hide cancel modal form
+    const handleCancelModalHide = () => {
+        setCancelModal({...cancelModal, show: false})
+    }
+
+    // Trigger when clearance cancel confirmed on modal
+    const handleCancel = (id) => {
+        handleCancelModalHide();
+        dispatch(emitCancelOutlay({id}));
+    };
 
     // Render
     return (
@@ -77,6 +106,7 @@ function CheckoutOutlaysPage({outlays, outlaysRequests, hasMoreData, page, dispa
                                             {/* Error message */}
                                             {requestFailed(outlaysRequests.list) && <ErrorAlertComponent message={outlaysRequests.list.message} />}
                                             {requestFailed(outlaysRequests.next) && <ErrorAlertComponent message={outlaysRequests.next.message} />}
+                                            {requestFailed(outlaysRequests.cancel) && <ErrorAlertComponent message={outlaysRequests.cancel.message} />}
                                             <button type="button"
                                                     className="btn btn-theme mb-2"
                                                     onClick={handleOutlayModalShow}
@@ -85,7 +115,9 @@ function CheckoutOutlaysPage({outlays, outlaysRequests, hasMoreData, page, dispa
                                             </button>
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
-                                                ? <CheckoutOutlaysCardsComponent outlays={searchEngine(outlays, needle)} />
+                                                ? <CheckoutOutlaysCardsComponent outlays={searchEngine(outlays, needle)}
+                                                                                 handleCancelModalShow={handleCancelModalShow}
+                                                />
                                                 : (requestLoading(outlaysRequests.list) ? <LoaderComponent /> :
                                                         <InfiniteScroll hasMore={hasMoreData}
                                                                         dataLength={outlays.length}
@@ -93,7 +125,9 @@ function CheckoutOutlaysPage({outlays, outlaysRequests, hasMoreData, page, dispa
                                                                         next={handleNextOutlaysData}
                                                                         style={{ overflow: 'hidden' }}
                                                         >
-                                                            <CheckoutOutlaysCardsComponent outlays={outlays} />
+                                                            <CheckoutOutlaysCardsComponent outlays={outlays}
+                                                                                           handleCancelModalShow={handleCancelModalShow}
+                                                            />
                                                         </InfiniteScroll>
                                                 )
                                             }
@@ -106,6 +140,10 @@ function CheckoutOutlaysPage({outlays, outlaysRequests, hasMoreData, page, dispa
                 </div>
             </AppLayoutContainer>
             {/* Modal */}
+            <DeleteModelComponent modal={cancelModal}
+                                  handleModal={handleCancel}
+                                  handleClose={handleCancelModalHide}
+            />
             <FormModalComponent modal={outlayModal} handleClose={handleOutlayModalHide}>
                 <CheckoutOutlaysAddOutlayContainer handleClose={handleOutlayModalHide} />
             </FormModalComponent>
