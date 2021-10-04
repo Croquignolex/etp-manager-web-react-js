@@ -22,6 +22,7 @@ import {
 import {
     storeTransfersRequestReset,
     storeNextTransfersRequestReset,
+    storeCancelTransferRequestReset,
     storeConfirmTransferRequestReset
 } from "../../redux/requests/transfers/actions";
 import {
@@ -69,6 +70,7 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
     const shouldResetErrorData = () => {
         dispatch(storeTransfersRequestReset());
         dispatch(storeNextTransfersRequestReset());
+        dispatch(storeCancelTransferRequestReset());
         dispatch(storeConfirmTransferRequestReset());
     };
 
@@ -141,6 +143,7 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
                                             {requestFailed(transfersRequests.list) && <ErrorAlertComponent message={transfersRequests.list.message} />}
                                             {requestFailed(transfersRequests.next) && <ErrorAlertComponent message={transfersRequests.next.message} />}
                                             {requestFailed(transfersRequests.apply) && <ErrorAlertComponent message={transfersRequests.apply.message} />}
+                                            {requestFailed(transfersRequests.cancel) && <ErrorAlertComponent message={transfersRequests.cancel.message} />}
                                             <button type="button"
                                                     className="btn btn-theme mb-2"
                                                     onClick={handleTransferModalShow}
