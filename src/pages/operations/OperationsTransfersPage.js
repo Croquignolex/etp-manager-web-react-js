@@ -62,6 +62,15 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
         // eslint-disable-next-line
     }, [transfersRequests.apply]);
 
+    // Local effects
+    useEffect(() => {
+        // Reset inputs while toast (well done) into current scope
+        if(requestSucceeded(transfersRequests.cancel)) {
+            applySuccess(transfersRequests.cancel.message);
+        }
+        // eslint-disable-next-line
+    }, [transfersRequests.cancel]);
+
     const handleNeedleInput = (data) => {
         setNeedle(data)
     }

@@ -14,11 +14,13 @@ import CheckoutOutlaysCardsComponent from "../../components/checkout/CheckoutOut
 import {emitCancelOutlay, emitNextOutlaysFetch, emitOutlaysFetch} from "../../redux/outlays/actions";
 import CheckoutOutlaysAddOutlayContainer from "../../containers/checkout/CheckoutOutlaysAddOutlayContainer";
 import {
+    applySuccess,
     dateToString,
     formatNumber,
     needleSearch,
     requestFailed,
-    requestLoading
+    requestLoading,
+    requestSucceeded
 } from "../../functions/generalFunctions";
 import {
     storeOutlaysRequestReset,
@@ -42,6 +44,15 @@ function CheckoutOutlaysPage({outlays, outlaysRequests, hasMoreData, page, dispa
         };
         // eslint-disable-next-line
     }, []);
+
+    // Local effects
+    useEffect(() => {
+        // Reset inputs while toast (well done) into current scope
+        if(requestSucceeded(outlaysRequests.cancel)) {
+            applySuccess(outlaysRequests.cancel.message);
+        }
+        // eslint-disable-next-line
+    }, [outlaysRequests.cancel]);
 
     const handleNeedleInput = (data) => {
         setNeedle(data)

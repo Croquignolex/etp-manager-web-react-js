@@ -10,14 +10,21 @@ import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import FormModalComponent from "../../components/modals/FormModalComponent";
 import {CHECKOUT_HANDING_OVER_PAGE} from "../../constants/pageNameConstants";
+import DeleteModelComponent from "../../components/modals/DeleteModalComponent";
 import ConfirmModalComponent from "../../components/modals/ConfirmModalComponent";
 import {storeUserBalanceFetchRequestReset} from "../../redux/requests/user/actions";
 import CheckoutHandoversCardsComponent from "../../components/checkout/CheckoutHandoversCardsComponent";
-import {emitConfirmHandover, emitHandoversFetch, emitNextHandoversFetch} from "../../redux/handovers/actions";
 import CheckoutHandoversImproveHandoverContainer from "../../containers/checkout/CheckoutHandoversImproveHandoverContainer";
+import {
+    emitCancelHandover,
+    emitConfirmHandover,
+    emitHandoversFetch,
+    emitNextHandoversFetch
+} from "../../redux/handovers/actions";
 import {
     storeHandoversRequestReset,
     storeNextHandoversRequestReset,
+    storeCancelHandoverRequestReset,
     storeConfirmHandoverRequestReset
 } from "../../redux/requests/handovers/actions";
 import {
@@ -34,6 +41,7 @@ import {
 function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page, user, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
+    const [cancelModal, setCancelModal] = useState({show: false, body: '', id: 0});
     const [confirmModal, setConfirmModal] = useState({show: false, body: '', id: 0});
     const [handoverModal, setHandoverModal] = useState({show: false, header: 'EFFECTUER UNE PASSATION DE SERVICE'});
 
@@ -57,6 +65,15 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
         // eslint-disable-next-line
     }, [handoversRequests.apply]);
 
+    // Local effects
+    useEffect(() => {
+        // Reset inputs while toast (well done) into current scope
+        if(requestSucceeded(handoversRequests.cancel)) {
+            applySuccess(handoversRequests.cancel.message);
+        }
+        // eslint-disable-next-line
+    }, [handoversRequests.cancel]);
+
     const handleNeedleInput = (data) => {
         setNeedle(data)
     }
@@ -65,6 +82,7 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
     const shouldResetErrorData = () => {
         dispatch(storeHandoversRequestReset());
         dispatch(storeNextHandoversRequestReset());
+        dispatch(storeCancelHandoverRequestReset());
         dispatch(storeConfirmHandoverRequestReset());
         dispatch(storeUserBalanceFetchRequestReset());
     };
@@ -84,6 +102,16 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
         setHandoverModal({...handoverModal, show: false})
     }
 
+    // Show cancel modal form
+    const handleCancelModalShow = ({id, amount, receiver}) => {
+        setCancelModal({...cancelModal, id, body: `Annuler la passation de service vers ${receiver.name} de ${formatNumber(amount)}?`, show: true})
+    }
+
+    // Hide cancel modal form
+    const handleCancelModalHide = () => {
+        setCancelModal({...cancelModal, show: false})
+    }
+
     // Show confirm modal form
     const handleConfirmModalShow = ({id, amount, sender}) => {
         setConfirmModal({...confirmModal, id, body: `Confirmer la reception des espèces provenant de ${sender.name} de ${formatNumber(amount)}?`, show: true})
@@ -98,6 +126,12 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
     const handleConfirm = (id) => {
         handleConfirmModalHide();
         dispatch(emitConfirmHandover({id}));
+    };
+
+    // Trigger when clearance cancel confirmed on modal
+    const handleCancel = (id) => {
+        handleCancelModalHide();
+        dispatch(emitCancelHandover({id}));
     };
 
     // Render
@@ -122,6 +156,7 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
                                             {requestFailed(handoversRequests.list) && <ErrorAlertComponent message={handoversRequests.list.message} />}
                                             {requestFailed(handoversRequests.next) && <ErrorAlertComponent message={handoversRequests.next.message} />}
                                             {requestFailed(handoversRequests.apply) && <ErrorAlertComponent message={handoversRequests.apply.message} />}
+                                            {requestFailed(handoversRequests.cancel) && <ErrorAlertComponent message={handoversRequests.cancel.message} />}
                                             <button type="button"
                                                     className="btn btn-theme mb-2"
                                                     onClick={handleHandoverModalShow}
@@ -132,6 +167,7 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
                                             {(needle !== '' && needle !== undefined)
                                                 ? <CheckoutHandoversCardsComponent user={user}
                                                                                    handovers={searchEngine(handovers, needle)}
+                                                                                   handleCancelModalShow={handleCancelModalShow}
                                                                                    handleConfirmModalShow={handleConfirmModalShow}
                                                 />
                                                 : (requestLoading(handoversRequests.list) ? <LoaderComponent /> :
@@ -143,6 +179,7 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
                                                         >
                                                             <CheckoutHandoversCardsComponent user={user}
                                                                                              handovers={handovers}
+                                                                                             handleCancelModalShow={handleCancelModalShow}
                                                                                              handleConfirmModalShow={handleConfirmModalShow}
                                                             />
                                                         </InfiniteScroll>
@@ -160,6 +197,10 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
             <ConfirmModalComponent modal={confirmModal}
                                    handleModal={handleConfirm}
                                    handleClose={handleConfirmModalHide}
+            />
+            <DeleteModelComponent modal={cancelModal}
+                                  handleModal={handleCancel}
+                                  handleClose={handleCancelModalHide}
             />
             <FormModalComponent modal={handoverModal} handleClose={handleHandoverModalHide}>
                 <CheckoutHandoversImproveHandoverContainer handleClose={handleHandoverModalHide} />
