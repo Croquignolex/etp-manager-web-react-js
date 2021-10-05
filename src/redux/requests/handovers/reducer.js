@@ -7,6 +7,7 @@ const initialState = {
     next: {failed: false, loading: false, succeeded: false, message: ""},
     apply: {failed: false, loading: false, succeeded: false, message: ""},
     improve: {failed: false, loading: false, succeeded: false, message: ""},
+    cancel: {failed: false, loading: false, succeeded: false, message: ""},
 };
 
 // Reduce
@@ -80,6 +81,23 @@ function reduce(state = initialState, action) {
         // Resolve event to set confirm handover reset request store data
         case actions.STORE_CONFIRM_HANDOVER_REQUEST_RESET:
             nextState = {...state, apply: initialState.apply};
+            return nextState || state;
+        // ======================================================== Cancel handover
+        // Resolve event to set cancel handover init request store data
+        case actions.STORE_CANCEL_HANDOVER_REQUEST_INIT:
+            nextState = {...state, cancel: requestInitValue()};
+            return nextState || state;
+        // Resolve event to set cancel handover failed request store data
+        case actions.STORE_CANCEL_HANDOVER_REQUEST_FAILED:
+            nextState = {...state, cancel: requestFailedValue(action.message)};
+            return nextState || state;
+        // Resolve event to set cancel handover succeeded request store data
+        case actions.STORE_CANCEL_HANDOVER_REQUEST_SUCCEEDED:
+            nextState = {...state, cancel: requestSucceededValue(action.message)};
+            return nextState || state;
+        // Resolve event to set cancel handover reset request store data
+        case actions.STORE_CANCEL_HANDOVER_REQUEST_RESET:
+            nextState = {...state, cancel: initialState.cancel};
             return nextState || state;
         // ========================================================
         // Unknown action

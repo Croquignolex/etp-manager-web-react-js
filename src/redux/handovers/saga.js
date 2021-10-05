@@ -3,11 +3,13 @@ import {all, call, fork, put, takeLatest} from 'redux-saga/effects'
 import * as api from "../../constants/apiConstants";
 import {apiGetRequest, apiPostRequest} from "../../functions/axiosFunctions";
 import {
+    EMIT_CANCEL_HANDOVER,
     EMIT_HANDOVERS_FETCH,
     storeSetHandoversData,
     EMIT_IMPROVE_HANDOVER,
     EMIT_CONFIRM_HANDOVER,
     storeSetNewHandoverData,
+    storeCancelHandoverData,
     storeUpdateHandoverData,
     storeSetNextHandoversData,
     EMIT_NEXT_HANDOVERS_FETCH,
@@ -19,11 +21,14 @@ import {
     storeHandoversRequestFailed,
     storeHandoversRequestSucceed,
     storeNextHandoversRequestInit,
+    storeCancelHandoverRequestInit,
     storeImproveHandoverRequestInit,
     storeConfirmHandoverRequestInit,
     storeNextHandoversRequestFailed,
+    storeCancelHandoverRequestFailed,
     storeNextHandoversRequestSucceed,
     storeImproveHandoverRequestFailed,
+    storeCancelHandoverRequestSucceed,
     storeConfirmHandoverRequestFailed,
     storeImproveHandoverRequestSucceed,
     storeConfirmHandoverRequestSucceed
@@ -118,6 +123,29 @@ export function* emitConfirmHandover() {
     });
 }
 
+// Cancel transfer from API
+export function* emitCancelHandover() {
+    yield takeLatest(EMIT_CANCEL_HANDOVER, function*({id}) {
+        try {
+            // Fire event at redux to toggle action loader
+            yield put(storeSetHandoverActionData({id}));
+            // Fire event for request
+            yield put(storeCancelHandoverRequestInit());
+            const apiResponse = yield call(apiPostRequest, `${api.CANCEL_HANDOVER_API_PATH}/${id}`);
+            // Fire event to redux
+            yield put(storeCancelHandoverData({id}));
+            // Fire event at redux to toggle action loader
+            yield put(storeSetHandoverActionData({id}));
+            // Fire event for request
+            yield put(storeCancelHandoverRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeSetHandoverActionData({id}));
+            yield put(storeCancelHandoverRequestFailed({message}));
+        }
+    });
+}
+
 // Extract handover data
 function extractHandoverData(apiSender, apiReceiver, apiHandover) {
     let handover = {
@@ -164,6 +192,7 @@ export function extractHandoversData(apiHandovers) {
 // Combine to export all functions at once
 export default function* sagaHandovers() {
     yield all([
+        fork(emitCancelHandover),
         fork(emitHandoversFetch),
         fork(emitImproveHandover),
         fork(emitConfirmHandover),

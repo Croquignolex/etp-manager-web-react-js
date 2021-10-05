@@ -62,6 +62,7 @@ export const NEW_EXPENSE_API_PATH = `${API_URL}/treasury_out`;
 // Handovers
 export const NEW_HANDOVER_API_PATH = `${API_URL}/passation`;
 export const HANDOVERS_API_PATH = `${API_URL}/passations_list`;
+export const CANCEL_HANDOVER_API_PATH = `${API_URL}/annuler_passation`;
 export const CONFIRM_HANDOVER_API_PATH = `${API_URL}/approuve_passation`;
 
 // Outlay
