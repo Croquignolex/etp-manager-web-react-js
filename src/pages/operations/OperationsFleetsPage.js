@@ -8,21 +8,40 @@ import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import {OPERATIONS_FLEETS_PAGE} from "../../constants/pageNameConstants";
 import FormModalComponent from "../../components/modals/FormModalComponent";
+import DeleteModelComponent from "../../components/modals/DeleteModalComponent";
 import SupplyDetailsContainer from "../../containers/operations/SupplyDetailsContainer";
 import TableSearchWithButtonComponent from "../../components/TableSearchWithButtonComponent";
 import OperationsFleetsCardsComponent from "../../components/operations/OperationsFleetsCardsComponent";
 import OperationsFleetsReturnContainer from "../../containers/operations/OperationsFleetsReturnContainer";
 import OperationsCashRecoveryContainer from "../../containers/operations/OperationsCashRecoveryContainer";
-import {dateToString, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
-import {storeNextSuppliesRequestReset, storeSuppliesRequestReset} from "../../redux/requests/supplies/actions";
-import {emitNextSuppliesFetch, emitSearchSuppliesFetch, emitSuppliesFetch} from "../../redux/supplies/actions";
 import OperationsFleetsAddSupplyContainer from "../../containers/operations/OperationsFleetsAddSupplyContainer";
 import OperationsFleetsAddAnonymousSupplyContainer from "../../containers/operations/OperationsFleetsAddAnonymousSupplyContainer";
+import {
+    applySuccess,
+    dateToString,
+    formatNumber,
+    needleSearch,
+    requestFailed,
+    requestLoading,
+    requestSucceeded
+} from "../../functions/generalFunctions";
+import {
+    storeSuppliesRequestReset,
+    storeCancelSupplyRequestReset,
+    storeNextSuppliesRequestReset
+} from "../../redux/requests/supplies/actions";
+import {
+    emitCancelSupply,
+    emitSuppliesFetch,
+    emitNextSuppliesFetch,
+    emitSearchSuppliesFetch
+} from "../../redux/supplies/actions";
 
 // Component
-function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, dispatch, location}) {
+function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, user, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
+    const [cancelModal, setCancelModal] = useState({show: false, body: '', id: 0});
     const [supplyModal, setSupplyModal] = useState({show: false, header: 'EFFECTUER UN FLOTTAGE'});
     const [anonymousSupplyModal, setAnonymousSupplyModal] = useState({show: false, header: 'EFFECTUER UN FLOTTAGE ANONYME'});
     const [returnModal, setReturnModal] = useState({show: false, header: 'EFFECTUER UN RETOUR FLOTTE', item: {}});
@@ -39,6 +58,15 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
         // eslint-disable-next-line
     }, []);
 
+    // Local effects
+    useEffect(() => {
+        // Reset inputs while toast (well done) into current scope
+        if(requestSucceeded(suppliesRequests.cancel)) {
+            applySuccess(suppliesRequests.cancel.message);
+        }
+        // eslint-disable-next-line
+    }, [suppliesRequests.cancel]);
+
     const handleNeedleInput = (data) => {
         setNeedle(data)
     }
@@ -50,6 +78,7 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
     // Reset error alert
     const shouldResetErrorData = () => {
         dispatch(storeSuppliesRequestReset());
+        dispatch(storeCancelSupplyRequestReset());
         dispatch(storeNextSuppliesRequestReset());
     };
 
@@ -108,6 +137,22 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
         setSupplyDetailsModal({...supplyDetailsModal, show: false})
     }
 
+    // Show cancel modal form
+    const handleCancelModalShow = ({id, amount, agent, sim_incoming}) => {
+        setCancelModal({...cancelModal, id, body: `Annuler le flottage vers ${sim_incoming.number} de l'agent ${agent.name} de ${formatNumber(amount)}?`, show: true})
+    }
+
+    // Hide cancel modal form
+    const handleCancelModalHide = () => {
+        setCancelModal({...cancelModal, show: false})
+    }
+
+    // Trigger when clearance cancel confirmed on modal
+    const handleCancel = (id) => {
+        handleCancelModalHide();
+        dispatch(emitCancelSupply({id}));
+    };
+
     // Render
     return (
         <>
@@ -132,6 +177,7 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
                                             {/* Error message */}
                                             {requestFailed(suppliesRequests.list) && <ErrorAlertComponent message={suppliesRequests.list.message} />}
                                             {requestFailed(suppliesRequests.next) && <ErrorAlertComponent message={suppliesRequests.next.message} />}
+                                            {requestFailed(suppliesRequests.cancel) && <ErrorAlertComponent message={suppliesRequests.cancel.message} />}
                                             <button type="button"
                                                     className="btn btn-theme mb-2"
                                                     onClick={handleSupplyModalShow}
@@ -147,7 +193,9 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
                                             {/* Search result & Infinite scroll */}
                                             {requestLoading(suppliesRequests.list) ? <LoaderComponent /> : ((needle !== '' && needle !== undefined) ?
                                                     (
-                                                        <OperationsFleetsCardsComponent supplies={searchEngine(supplies, needle)}
+                                                        <OperationsFleetsCardsComponent user={user}
+                                                                                        supplies={searchEngine(supplies, needle)}
+                                                                                        handleCancelModalShow={handleCancelModalShow}
                                                                                         handleFleetRecoveryModalShow={handleReturnModalShow}
                                                                                         handleCashRecoveryModalShow={handleRecoveryModalShow}
                                                                                         handleSupplyDetailsModalShow={handleSupplyDetailsModalShow}
@@ -160,7 +208,9 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
                                                                         next={handleNextSuppliesData}
                                                                         style={{ overflow: 'hidden' }}
                                                         >
-                                                            <OperationsFleetsCardsComponent  supplies={supplies}
+                                                            <OperationsFleetsCardsComponent  user={user}
+                                                                                             supplies={supplies}
+                                                                                             handleCancelModalShow={handleCancelModalShow}
                                                                                              handleFleetRecoveryModalShow={handleReturnModalShow}
                                                                                              handleCashRecoveryModalShow={handleRecoveryModalShow}
                                                                                              handleSupplyDetailsModalShow={handleSupplyDetailsModalShow}
@@ -177,6 +227,10 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
                 </div>
             </AppLayoutContainer>
             {/* Modal */}
+            <DeleteModelComponent modal={cancelModal}
+                                  handleModal={handleCancel}
+                                  handleClose={handleCancelModalHide}
+            />
             <FormModalComponent modal={supplyModal} handleClose={handleSupplyModalHide}>
                 <OperationsFleetsAddSupplyContainer handleClose={handleSupplyModalHide} />
             </FormModalComponent>
@@ -184,14 +238,10 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, di
                 <OperationsFleetsAddAnonymousSupplyContainer handleClose={handleAnonymousSupplyModalHide} />
             </FormModalComponent>
             <FormModalComponent modal={returnModal} handleClose={handleReturnModalHide}>
-                <OperationsFleetsReturnContainer supply={returnModal.item}
-                                                 handleClose={handleReturnModalHide}
-                />
+                <OperationsFleetsReturnContainer supply={returnModal.item} handleClose={handleReturnModalHide} />
             </FormModalComponent>
             <FormModalComponent modal={recoveryModal} handleClose={handleRecoveryModalHide}>
-                <OperationsCashRecoveryContainer supply={recoveryModal.item}
-                                                 handleClose={handleRecoveryModalHide}
-                />
+                <OperationsCashRecoveryContainer supply={recoveryModal.item} handleClose={handleRecoveryModalHide} />
             </FormModalComponent>
             <FormModalComponent modal={supplyDetailsModal} handleClose={handleSupplyDetailsModalHide}>
                 <SupplyDetailsContainer supply={supplyDetailsModal.supply} />

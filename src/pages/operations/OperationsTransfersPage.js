@@ -99,8 +99,8 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
     }
 
     // Show cancel modal form
-    const handleCancelModalShow = ({id, amount, sim_outgoing}) => {
-        setCancelModal({...cancelModal, id, body: `Annuler le transfert de flotte vers ${sim_outgoing.number} de ${formatNumber(amount)}?`, show: true})
+    const handleCancelModalShow = ({id, amount, sim_incoming}) => {
+        setCancelModal({...cancelModal, id, body: `Annuler le transfert de flotte vers ${sim_incoming.number} de ${formatNumber(amount)}?`, show: true})
     }
 
     // Hide cancel modal form

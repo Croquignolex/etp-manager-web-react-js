@@ -8,6 +8,7 @@ setPageTitle(OPERATIONS_FLEETS_PAGE);
 
 // Map state function to component props
 const mapStateToProps = (state) => ({
+    user: state.user,
     page: state.supplies.page,
     supplies: state.supplies.list,
     hasMoreData: state.supplies.hasMoreData,

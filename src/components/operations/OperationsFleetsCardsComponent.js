@@ -5,13 +5,14 @@ import LoaderComponent from "../LoaderComponent";
 import OperatorComponent from "../OperatorComponent";
 import FormModalComponent from "../modals/FormModalComponent";
 import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
-import {DONE, PENDING, PROCESSING} from "../../constants/typeConstants";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
 import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
+import {CANCEL, DONE, PENDING, PROCESSING} from "../../constants/typeConstants";
 import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer";
 
 // Component
-function OperationsFleetsCardsComponent({supplies, handleFleetRecoveryModalShow, handleCashRecoveryModalShow, handleSupplyDetailsModalShow}) {
+function OperationsFleetsCardsComponent({supplies, user, handleFleetRecoveryModalShow, handleCashRecoveryModalShow,
+                                            handleSupplyDetailsModalShow, handleCancelModalShow}) {
     // Local states
     const [agentDetailsModal, setAgentDetailsModal] = useState({show: false, header: "DETAIL DE L'AGENT/RESSOURCE", id: ''});
     const [incomingSimDetailsModal, setIncomingSimDetailsModal] = useState({show: false, header: 'DETAIL DU COMPTE AGENT', id: ''});
@@ -92,32 +93,50 @@ function OperationsFleetsCardsComponent({supplies, handleFleetRecoveryModalShow,
                                             <span className="float-right">{item.supplier.name}</span>
                                         </li>
                                         <li className="list-group-item">
+                                            {item.status === CANCEL && <b className="text-danger text-bold">Annulé</b>}
                                             {item.status === DONE && <b className="text-success text-bold">Recouvert totalement</b>}
                                             {item.status === PROCESSING && <b className="text-primary text-bold">Recouvert partiellement</b>}
                                             {item.status === PENDING && <b className="text-danger text-bold">En attente de recouvrement</b>}
                                         </li>
                                     </ul>
                                     <div className="mt-3 text-right">
-                                        <button type="button"
-                                                className="btn btn-theme btn-sm mb-2"
-                                                onClick={() => handleSupplyDetailsModalShow(item)}
-                                        >
-                                            <i className="fa fa-eye" /> Details
-                                        </button><br/>
-                                        {item.status !== DONE && (
-                                            item.actionLoader ? <LoaderComponent little={true} /> : (
+                                        {(!item.actionLoader) && (
+                                            <button type="button"
+                                                    className="btn btn-theme btn-sm"
+                                                    onClick={() => handleSupplyDetailsModalShow(item)}
+                                            >
+                                                <i className="fa fa-eye" /> Details
+                                            </button>
+                                        )}
+                                        {((item.status === PENDING) || (item.status === PROCESSING)) && (
+                                            !item.actionLoader && (
                                                 <>
+                                                    <br/>
                                                     <button type="button"
-                                                            className="btn btn-theme btn-sm mb-2"
+                                                            className="btn btn-theme btn-sm my-2"
                                                             onClick={() => handleFleetRecoveryModalShow(item)}
                                                     >
                                                         <i className="fa fa-redo" /> Retour flotte
-                                                    </button><br/>
+                                                    </button>
+                                                    <br/>
                                                     <button type="button"
-                                                            className="btn btn-theme mb-2 btn-sm"
+                                                            className="btn btn-theme btn-sm"
                                                             onClick={() => handleCashRecoveryModalShow(item)}
                                                     >
                                                         <i className="fa fa-hand-paper" /> Recouvrement espèce
+                                                    </button>
+                                                </>
+                                            )
+                                        )}
+                                        {((item.status === PENDING) && (item.supplier.id.toString() === user.id.toString())) && (
+                                            item.actionLoader ? <LoaderComponent little={true} /> : (
+                                                <>
+                                                    <br/>
+                                                    <button type="button"
+                                                            className="btn btn-danger btn-sm mt-2"
+                                                            onClick={() => handleCancelModalShow(item)}
+                                                    >
+                                                        <i className="fa fa-times" /> Annuler
                                                     </button>
                                                 </>
                                             )
@@ -152,7 +171,9 @@ function OperationsFleetsCardsComponent({supplies, handleFleetRecoveryModalShow,
 
 // Prop types to ensure destroyed props data type
 OperationsFleetsCardsComponent.propTypes = {
+    user: PropTypes.object.isRequired,
     supplies: PropTypes.array.isRequired,
+    handleCancelModalShow: PropTypes.func.isRequired,
     handleCashRecoveryModalShow: PropTypes.func.isRequired,
     handleFleetRecoveryModalShow: PropTypes.func.isRequired,
     handleSupplyDetailsModalShow: PropTypes.func.isRequired,
