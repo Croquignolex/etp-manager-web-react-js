@@ -1,12 +1,15 @@
 // Reducer action types
 export const STORE_SET_SUPPLIES_DATA = 'STORE_SET_SUPPLIES_DATA';
+export const STORE_CANCEL_SUPPLY_DATA = 'STORE_CANCEL_SUPPLY_DATA';
 export const STORE_UPDATE_SUPPLY_DATA = 'STORE_UPDATE_SUPPLY_DATA';
 export const STORE_SET_NEW_SUPPLY_DATA = 'STORE_SET_NEW_SUPPLY_DATA';
+export const STORE_SET_SUPPLY_ACTION_DATA = 'STORE_SET_SUPPLY_ACTION_DATA';
 export const STORE_SET_NEXT_SUPPLIES_DATA = 'STORE_SET_NEXT_SUPPLIES_DATA';
 export const STORE_STOP_INFINITE_SCROLL_SUPPLY_DATA = 'STORE_STOP_INFINITE_SCROLL_SUPPLY_DATA';
 
 // Middleware action types
 export const EMIT_ADD_SUPPLY = 'EMIT_ADD_SUPPLY';
+export const EMIT_CANCEL_SUPPLY = 'EMIT_CANCEL_SUPPLY';
 export const EMIT_SUPPLIES_FETCH = 'EMIT_SUPPLIES_FETCH';
 export const EMIT_NEXT_SUPPLIES_FETCH = 'EMIT_NEXT_SUPPLIES_FETCH';
 export const EMIT_ADD_ANONYMOUS_SUPPLY = 'EMIT_ADD_ANONYMOUS_SUPPLY';
@@ -47,6 +50,18 @@ export const storeUpdateSupplyData = ({id, amount}) => ({
     type: STORE_UPDATE_SUPPLY_DATA
 });
 
+// Set cancel supply data in store
+export const storeCancelSupplyData = ({id}) => ({
+    id,
+    type: STORE_CANCEL_SUPPLY_DATA
+});
+
+// Set supply action data in store
+export const storeSetSupplyActionData = ({id}) => ({
+    id,
+    type: STORE_SET_SUPPLY_ACTION_DATA
+});
+
 //====================== Middleware trigger actions
 // Emit supplies fetch
 export const emitSuppliesFetch = () => ({
@@ -84,4 +99,10 @@ export const emitAddAnonymousSupply = ({sim, amount, receiver, receiverSim, pay,
 export const emitSearchSuppliesFetch = ({needle}) => ({
     needle,
     type: EMIT_SEARCH_SUPPLIES_FETCH
+});
+
+// Emit cancel supply
+export const emitCancelSupply = ({id}) => ({
+    id,
+    type: EMIT_CANCEL_SUPPLY
 });

@@ -19,6 +19,11 @@ export const STORE_ADD_ANONYMOUS_SUPPLY_REQUEST_RESET = 'STORE_ADD_ANONYMOUS_SUP
 export const STORE_ADD_ANONYMOUS_SUPPLY_REQUEST_FAILED = 'STORE_ADD_ANONYMOUS_SUPPLY_REQUEST_FAILED';
 export const STORE_ADD_ANONYMOUS_SUPPLY_REQUEST_SUCCEEDED = 'STORE_ADD_ANONYMOUS_SUPPLY_REQUEST_SUCCEEDED';
 
+export const STORE_CANCEL_SUPPLY_REQUEST_INIT = 'STORE_CANCEL_SUPPLY_REQUEST_INIT';
+export const STORE_CANCEL_SUPPLY_REQUEST_RESET = 'STORE_CANCEL_SUPPLY_REQUEST_RESET';
+export const STORE_CANCEL_SUPPLY_REQUEST_FAILED = 'STORE_CANCEL_SUPPLY_REQUEST_FAILED';
+export const STORE_CANCEL_SUPPLY_REQUEST_SUCCEEDED = 'STORE_CANCEL_SUPPLY_REQUEST_SUCCEEDED';
+
 // ======================================================== Supplies
 // Set supplies init data into store
 export const storeSuppliesRequestInit = () => ({
@@ -106,4 +111,26 @@ export const storeAddAnonymousSupplyRequestSucceed = ({message}) => ({
 // Set add anonymous supply reset data into store
 export const storeAddAnonymousSupplyRequestReset = () => ({
     type: STORE_ADD_ANONYMOUS_SUPPLY_REQUEST_RESET
+});
+// ======================================================== Cancel supply
+// Set cancel supply init data into store
+export const storeCancelSupplyRequestInit = () => ({
+    type: STORE_CANCEL_SUPPLY_REQUEST_INIT
+});
+
+// Set cancel supply failed data into store
+export const storeCancelSupplyRequestFailed = ({message}) => ({
+    message,
+    type: STORE_CANCEL_SUPPLY_REQUEST_FAILED
+});
+
+// Set cancel supply succeeded data into store
+export const storeCancelSupplyRequestSucceed = ({message}) => ({
+    message,
+    type: STORE_CANCEL_SUPPLY_REQUEST_SUCCEEDED
+});
+
+// Set cancel supply reset data into store
+export const storeCancelSupplyRequestReset = () => ({
+    type: STORE_CANCEL_SUPPLY_REQUEST_RESET
 });

@@ -1,7 +1,7 @@
 import Lodash from "lodash";
 
 import * as actions from "./actions";
-import {DONE, PROCESSING} from "../../constants/typeConstants";
+import {CANCEL, DONE, PROCESSING} from "../../constants/typeConstants";
 
 // Partial global store for users data management
 const initialState = {
@@ -40,6 +40,28 @@ function reduce(state = initialState, action) {
                         item.remaining = remaining;
                         item.status = remaining > 0 ? PROCESSING : DONE;
                     }
+                    return item;
+                })
+            };
+            return nextState || state;
+        // Resolve event to cancel supply data
+        case actions.STORE_CANCEL_SUPPLY_DATA:
+            nextState = {
+                ...state,
+                list: Lodash.map(state.list, (item) => {
+                    if(item.id === action.id) {
+                        item.status = CANCEL;
+                    }
+                    return item;
+                })
+            };
+            return nextState || state;
+        // Resolve event to set supply action data
+        case actions.STORE_SET_SUPPLY_ACTION_DATA:
+            nextState = {
+                ...state,
+                list: Lodash.map(state.list, (item) => {
+                    if(item.id === action.id) item.actionLoader = !item.actionLoader;
                     return item;
                 })
             };

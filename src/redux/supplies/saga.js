@@ -5,10 +5,13 @@ import * as api from "../../constants/apiConstants";
 import {apiGetRequest, apiPostRequest} from "../../functions/axiosFunctions";
 import {
     EMIT_ADD_SUPPLY,
+    EMIT_CANCEL_SUPPLY,
     EMIT_SUPPLIES_FETCH,
     storeSetSuppliesData,
+    storeCancelSupplyData,
     storeSetNewSupplyData,
     storeSetNextSuppliesData,
+    storeSetSupplyActionData,
     EMIT_NEXT_SUPPLIES_FETCH,
     EMIT_ADD_ANONYMOUS_SUPPLY,
     EMIT_SEARCH_SUPPLIES_FETCH,
@@ -22,8 +25,11 @@ import {
     storeAddSupplyRequestFailed,
     storeNextSuppliesRequestInit,
     storeAddSupplyRequestSucceed,
+    storeCancelSupplyRequestInit,
+    storeCancelSupplyRequestFailed,
     storeNextSuppliesRequestFailed,
     storeNextSuppliesRequestSucceed,
+    storeCancelSupplyRequestSucceed,
     storeAddAnonymousSupplyRequestInit,
     storeAddAnonymousSupplyRequestFailed,
     storeAddAnonymousSupplyRequestSucceed
@@ -161,6 +167,29 @@ export function* emitSearchSuppliesFetch() {
     });
 }
 
+// Cancel supply from API
+export function* emitCancelSupply() {
+    yield takeLatest(EMIT_CANCEL_SUPPLY, function*({id}) {
+        try {
+            // Fire event at redux to toggle action loader
+            yield put(storeSetSupplyActionData({id}));
+            // Fire event for request
+            yield put(storeCancelSupplyRequestInit());
+            const apiResponse = yield call(apiPostRequest, `${api.CANCEL_SUPPLY_API_PATH}/${id}`);
+            // Fire event to redux
+            yield put(storeCancelSupplyData({id}));
+            // Fire event at redux to toggle action loader
+            yield put(storeSetSupplyActionData({id}));
+            // Fire event for request
+            yield put(storeCancelSupplyRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeSetSupplyActionData({id}));
+            yield put(storeCancelSupplyRequestFailed({message}));
+        }
+    });
+}
+
 // Extract supply data
 function extractSupplyData(apiSimOutgoing, apiSimIncoming, apiUser, apiAgent, apiSupplier, apiSupply, apiOperator) {
     let supply = {
@@ -237,6 +266,7 @@ export function extractSuppliesData(apiSupplies) {
 export default function* sagaSupplies() {
     yield all([
         fork(emitAddSupply),
+        fork(emitCancelSupply),
         fork(emitSuppliesFetch),
         fork(emitNextSuppliesFetch),
         fork(emitAddAnonymousSupply),
