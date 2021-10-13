@@ -4,9 +4,9 @@ import React, {useState} from 'react';
 import OperatorComponent from "../OperatorComponent";
 import FormModalComponent from "../modals/FormModalComponent";
 import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
-import {DONE, PENDING, PROCESSING} from "../../constants/typeConstants";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
 import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
+import {CANCEL, DONE, PENDING, PROCESSING} from "../../constants/typeConstants";
 import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer";
 
 // Component
@@ -76,6 +76,7 @@ function RequestsClearancesCardsComponent({clearances}) {
                                             <span className="float-right">{item.claimant.name}</span>
                                         </li>
                                         <li className="list-group-item">
+                                            {item.status === CANCEL && <b className="text-danger text-bold">Annulé</b>}
                                             {item.status === DONE && <b className="text-success text-bold">Pris en charge totalement</b>}
                                             {item.status === PROCESSING && <b className="text-primary text-bold">Pris en charge partiellement</b>}
                                             {item.status === PENDING && <b className="text-danger text-bold">En attente de prise en charge</b>}
