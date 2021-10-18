@@ -18,6 +18,10 @@ function reduce(state = initialState, action) {
         case actions.STORE_SET_HANDOVERS_DATA:
             nextState = {list: action.handovers, page: action.page, hasMoreData: action.hasMoreData};
             return nextState || state;
+        // Resolve event to set handovers data
+        case actions.STORE_SET_GROUP_HANDOVERS_DATA:
+            nextState = {...state, list: action.handovers};
+            return nextState || state;
         // Resolve event to set next handovers data
         case actions.STORE_SET_NEXT_HANDOVERS_DATA:
             nextState = {list: [...state.list, ...action.handovers], page: action.page, hasMoreData: action.hasMoreData};

@@ -4,6 +4,7 @@ export const STORE_UPDATE_HANDOVER_DATA = 'STORE_UPDATE_HANDOVER_DATA';
 export const STORE_CANCEL_HANDOVER_DATA = 'STORE_CANCEL_HANDOVER_DATA';
 export const STORE_SET_NEW_HANDOVER_DATA = 'STORE_SET_NEW_HANDOVER_DATA';
 export const STORE_SET_NEXT_HANDOVERS_DATA = 'STORE_SET_NEXT_HANDOVERS_DATA';
+export const STORE_SET_GROUP_HANDOVERS_DATA = 'STORE_SET_GROUP_HANDOVERS_DATA';
 export const STORE_SET_HANDOVER_ACTION_DATA = 'STORE_SET_HANDOVER_ACTION_DATA';
 export const STORE_STOP_INFINITE_SCROLL_HANDOVER_DATA = 'STORE_STOP_INFINITE_SCROLL_HANDOVER_DATA';
 
@@ -13,6 +14,8 @@ export const EMIT_CANCEL_HANDOVER = 'EMIT_CANCEL_HANDOVER';
 export const EMIT_IMPROVE_HANDOVER = 'EMIT_IMPROVE_HANDOVER';
 export const EMIT_CONFIRM_HANDOVER = 'EMIT_CONFIRM_HANDOVER';
 export const EMIT_NEXT_HANDOVERS_FETCH = 'EMIT_NEXT_HANDOVERS_FETCH';
+export const EMIT_GROUP_CONFIRM_HANDOVER = 'EMIT_GROUP_CONFIRM_HANDOVER';
+export const EMIT_GROUP_HANDOVERS_FETCH = 'EMIT_GROUP_HANDOVERS_FETCH';
 
 //====================== Reducer trigger actions
 // Set handovers data in store
@@ -60,6 +63,11 @@ export const storeCancelHandoverData = ({id}) => ({
     type: STORE_CANCEL_HANDOVER_DATA
 });
 
+// Set group handovers data in store
+export const storeSetGroupHandoversData = ({handovers}) => ({
+    handovers,
+    type: STORE_SET_GROUP_HANDOVERS_DATA
+});
 
 //====================== Middleware trigger actions
 // Emit handovers fetch
@@ -90,4 +98,15 @@ export const emitConfirmHandover = ({id}) => ({
 export const emitCancelHandover = ({id}) => ({
     id,
     type: EMIT_CANCEL_HANDOVER
+});
+
+// Emit group handovers fetch
+export const emitGroupHandoversFetch = () => ({
+    type: EMIT_GROUP_HANDOVERS_FETCH
+});
+
+// Emit group confirm handover
+export const emitGroupConfirmHandover = ({ids}) => ({
+    ids,
+    type: EMIT_GROUP_CONFIRM_HANDOVER
 });

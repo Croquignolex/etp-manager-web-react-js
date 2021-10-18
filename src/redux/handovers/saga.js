@@ -1,3 +1,4 @@
+import Lodash from "lodash";
 import {all, call, fork, put, takeLatest} from 'redux-saga/effects'
 
 import * as api from "../../constants/apiConstants";
@@ -13,7 +14,10 @@ import {
     storeUpdateHandoverData,
     storeSetNextHandoversData,
     EMIT_NEXT_HANDOVERS_FETCH,
+    storeSetGroupHandoversData,
     storeSetHandoverActionData,
+    EMIT_GROUP_HANDOVERS_FETCH,
+    EMIT_GROUP_CONFIRM_HANDOVER,
     storeStopInfiniteScrollHandoverData
 } from "./actions";
 import {
@@ -50,6 +54,49 @@ export function* emitHandoversFetch() {
         } catch (message) {
             // Fire event for request
             yield put(storeHandoversRequestFailed({message}));
+        }
+    });
+}
+
+// Fetch group handovers from API
+export function* emitGroupHandoversFetch() {
+    yield takeLatest(EMIT_GROUP_HANDOVERS_FETCH, function*() {
+        try {
+            // Fire event for request
+            yield put(storeHandoversRequestInit());
+            const apiResponse = yield call(apiGetRequest, api.GROUP_HANDOVERS_API_PATH);
+            // Extract data
+            const handovers = extractHandoversData(apiResponse.data.versements);
+            const groupedHandover = Object.values(Lodash.groupBy(handovers, transfer => transfer.sender.id));
+            // Fire event to redux
+            yield put(storeSetGroupHandoversData({handovers: groupedHandover}));
+            // Fire event for request
+            yield put(storeHandoversRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeHandoversRequestFailed({message}));
+        }
+    });
+}
+
+// Confirm group transfer from API
+export function* emitGroupConfirmHandover() {
+    yield takeLatest(EMIT_GROUP_CONFIRM_HANDOVER, function*({ids}) {
+        try {
+            // Fire event for request
+            yield put(storeConfirmHandoverRequestInit());
+            const apiResponse = yield call(apiPostRequest, api.GROUP_CONFIRM_HANDOVER_API_PATH, {ids});
+            const apiResponse2 = yield call(apiGetRequest, api.GROUP_HANDOVERS_API_PATH);
+            // Extract data
+            const handovers = extractHandoversData(apiResponse2.data.versements);
+            const groupedHandover = Object.values(Lodash.groupBy(handovers, transfer => transfer.sender.id));
+            // Fire event to redux
+            yield put(storeSetGroupHandoversData({handovers: groupedHandover}));
+            // Fire event for request
+            yield put(storeConfirmHandoverRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeConfirmHandoverRequestFailed({message}));
         }
     });
 }
@@ -197,5 +244,7 @@ export default function* sagaHandovers() {
         fork(emitImproveHandover),
         fork(emitConfirmHandover),
         fork(emitNextHandoversFetch),
+        fork(emitGroupHandoversFetch),
+        fork(emitGroupConfirmHandover),
     ]);
 }

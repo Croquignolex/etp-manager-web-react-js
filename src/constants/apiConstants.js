@@ -66,6 +66,8 @@ export const NEW_HANDOVER_API_PATH = `${API_URL}/passation`;
 export const HANDOVERS_API_PATH = `${API_URL}/passations_list`;
 export const CANCEL_HANDOVER_API_PATH = `${API_URL}/annuler_passation`;
 export const CONFIRM_HANDOVER_API_PATH = `${API_URL}/approuve_passation`;
+export const GROUP_HANDOVERS_API_PATH = `${API_URL}/passations_list_groupee`;
+export const GROUP_CONFIRM_HANDOVER_API_PATH = `${API_URL}/approuve_passation_groupee`;
 
 // Outlay
 export const NEW_OUTLAY_API_PATH = `${API_URL}/decaissement`;
