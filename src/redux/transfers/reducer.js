@@ -18,6 +18,10 @@ function reduce(state = initialState, action) {
         case actions.STORE_SET_TRANSFERS_DATA:
             nextState = {list: action.transfers, page: action.page, hasMoreData: action.hasMoreData};
             return nextState || state;
+        // Resolve event to set transfers data
+        case actions.STORE_SET_GROUP_TRANSFERS_DATA:
+            nextState = {...state, list: action.transfers};
+            return nextState || state;
         // Resolve event to set next transfers data
         case actions.STORE_SET_NEXT_TRANSFERS_DATA:
             nextState = {list: [...state.list, ...action.transfers], page: action.page, hasMoreData: action.hasMoreData};

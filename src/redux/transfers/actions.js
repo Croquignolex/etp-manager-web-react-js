@@ -4,6 +4,7 @@ export const STORE_UPDATE_TRANSFER_DATA = 'STORE_UPDATE_TRANSFER_DATA';
 export const STORE_CANCEL_TRANSFER_DATA = 'STORE_CANCEL_TRANSFER_DATA';
 export const STORE_SET_NEW_TRANSFER_DATA = 'STORE_SET_NEW_TRANSFER_DATA';
 export const STORE_SET_NEXT_TRANSFERS_DATA = 'STORE_SET_NEXT_TRANSFERS_DATA';
+export const STORE_SET_GROUP_TRANSFERS_DATA = 'STORE_SET_GROUP_TRANSFERS_DATA';
 export const STORE_SET_TRANSFER_ACTION_DATA = 'STORE_SET_TRANSFER_ACTION_DATA';
 export const STORE_STOP_INFINITE_SCROLL_TRANSFER_DATA = 'STORE_STOP_INFINITE_SCROLL_TRANSFER_DATA';
 
@@ -13,6 +14,7 @@ export const EMIT_TRANSFERS_FETCH = 'EMIT_TRANSFERS_FETCH';
 export const EMIT_CANCEL_TRANSFER = 'EMIT_CANCEL_TRANSFER';
 export const EMIT_CONFIRM_TRANSFER = 'EMIT_CONFIRM_TRANSFER';
 export const EMIT_NEXT_TRANSFERS_FETCH = 'EMIT_NEXT_TRANSFERS_FETCH';
+export const EMIT_GROUP_TRANSFERS_FETCH = 'EMIT_GROUP_TRANSFERS_FETCH';
 
 //====================== Reducer trigger actions
 // Set transfers data in store
@@ -60,6 +62,12 @@ export const storeCancelTransferData = ({id}) => ({
     type: STORE_CANCEL_TRANSFER_DATA
 });
 
+// Set group transfers data in store
+export const storeSetGroupTransfersData = ({transfers}) => ({
+    transfers,
+    type: STORE_SET_GROUP_TRANSFERS_DATA
+});
+
 //====================== Middleware trigger actions
 // Emit transfers fetch
 export const emitTransfersFetch = () => ({
@@ -90,4 +98,9 @@ export const emitConfirmTransfer = ({id}) => ({
 export const emitCancelTransfer = ({id}) => ({
     id,
     type: EMIT_CANCEL_TRANSFER
+});
+
+// Emit group transfers fetch
+export const emitGroupTransfersFetch = () => ({
+    type: EMIT_GROUP_TRANSFERS_FETCH
 });

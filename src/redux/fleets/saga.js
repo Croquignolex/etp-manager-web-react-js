@@ -1,3 +1,4 @@
+import Lodash from "lodash";
 import { all, takeLatest, put, fork, call } from 'redux-saga/effects'
 
 import * as api from "../../constants/apiConstants";
@@ -29,7 +30,6 @@ import {
     storeNextFleetsRequestSucceed,
     storeFleetSupplyRequestSucceed
 } from "../requests/fleets/actions";
-import Lodash from "lodash";
 
 // Fetch fleets from API
 export function* emitFleetsFetch() {

@@ -1,3 +1,4 @@
+import Lodash from "lodash";
 import {all, call, fork, put, takeLatest} from 'redux-saga/effects'
 
 import * as api from "../../constants/apiConstants";
@@ -13,7 +14,9 @@ import {
     storeSetNewTransferData,
     storeSetNextTransfersData,
     EMIT_NEXT_TRANSFERS_FETCH,
+    storeSetGroupTransfersData,
     storeSetTransferActionData,
+    EMIT_GROUP_TRANSFERS_FETCH,
     storeStopInfiniteScrollTransferData
 } from "./actions";
 import {
@@ -45,6 +48,27 @@ export function* emitTransfersFetch() {
             const transfers = extractTransfersData(apiResponse.data.flottages);
             // Fire event to redux
             yield put(storeSetTransfersData({transfers, hasMoreData: apiResponse.data.hasMoreData, page: 2}));
+            // Fire event for request
+            yield put(storeTransfersRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeTransfersRequestFailed({message}));
+        }
+    });
+}
+
+// Fetch group transfers from API
+export function* emitGroupTransfersFetch() {
+    yield takeLatest(EMIT_GROUP_TRANSFERS_FETCH, function*() {
+        try {
+            // Fire event for request
+            yield put(storeTransfersRequestInit());
+            const apiResponse = yield call(apiGetRequest, api.GROUP_TRANSFERS_API_PATH);
+            // Extract data
+            const transfers = extractTransfersData(apiResponse.data.flottages);
+            const groupedTransfer = Object.values(Lodash.groupBy(transfers, transfer => [transfer.sim_outgoing.id, transfer.operator.id]));
+            // Fire event to redux
+            yield put(storeSetGroupTransfersData({transfers: groupedTransfer}));
             // Fire event for request
             yield put(storeTransfersRequestSucceed({message: apiResponse.message}));
         } catch (message) {
@@ -155,7 +179,6 @@ function extractTransferData(apiSimOutgoing, apiSimIncoming, apiUser, apiTransfe
         id: '', amount: '', creation: '', status: '', type: '',
 
         user: {id: '', name: ''},
-        // type: {id: '', name: ''},
         operator: {id: '', name: ''},
         sim_outgoing: {id: '', name: '', number: ''},
         sim_incoming: {id: '', name: '', number: ''},
@@ -227,5 +250,6 @@ export default function* sagaTransfers() {
         fork(emitTransfersFetch),
         fork(emitConfirmTransfer),
         fork(emitNextTransfersFetch),
+        fork(emitGroupTransfersFetch),
     ]);
 }
