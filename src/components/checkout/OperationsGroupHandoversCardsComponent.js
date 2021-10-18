@@ -30,7 +30,7 @@ function CheckoutHandoversCardsComponent({handovers, handleGroupConfirmModalShow
                                         </li>
                                         <li className="list-group-item">
                                             <b>Emetteur</b>
-                                            <span className="float-right">{item[0].sender.name}</span>
+                                            <span className="float-right">{item[0].sender?.name}</span>
                                         </li>
                                         <li className="list-group-item">
                                             <b className="text-danger text-bold">

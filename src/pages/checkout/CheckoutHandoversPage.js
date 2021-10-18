@@ -91,6 +91,7 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
         dispatch(storeCancelHandoverRequestReset());
         dispatch(storeConfirmHandoverRequestReset());
         dispatch(storeUserBalanceFetchRequestReset());
+        // dispatch(emitHandoversFetch());
     };
 
     // Fetch next handovers data to enhance infinite scroll

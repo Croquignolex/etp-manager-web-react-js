@@ -28,11 +28,11 @@ function CheckoutHandoversCardsComponent({handovers, group, user, handleConfirmM
                                         </li>
                                         <li className="list-group-item">
                                             <b>Emetteur</b>
-                                            <span className="float-right">{item.sender.name}</span>
+                                            <span className="float-right">{item.sender?.name}</span>
                                         </li>
                                         <li className="list-group-item">
                                             <b>Recepteur</b>
-                                            <span className="float-right">{item.receiver.name}</span>
+                                            <span className="float-right">{item.receiver?.name}</span>
                                         </li>
                                         <li className="list-group-item">
                                             <b>Monant</b>
@@ -50,7 +50,7 @@ function CheckoutHandoversCardsComponent({handovers, group, user, handleConfirmM
                                     </ul>
                                     {(!group) && (
                                         <>
-                                            {((item.status === PROCESSING) && (item.receiver.id === user)) && (
+                                            {((item.status === PROCESSING) && (item.receiver?.id === user)) && (
                                                 <div className="mt-3 text-right">
                                                     {item.actionLoader ? <LoaderComponent little={true} /> : (
                                                         <button type="button"
@@ -62,7 +62,7 @@ function CheckoutHandoversCardsComponent({handovers, group, user, handleConfirmM
                                                     )}
                                                 </div>
                                             )}
-                                            {((item.status === PROCESSING) && (item.sender.id === user)) && (
+                                            {((item.status === PROCESSING) && (item.sender?.id === user)) && (
                                                 <div className="mt-3 text-right">
                                                     {item.actionLoader ? <LoaderComponent little={true} /> : (
                                                         <button type="button"
