@@ -11,12 +11,15 @@ import {OPERATIONS_CLEARANCES_PAGE} from "../../constants/pageNameConstants";
 import ConfirmModalComponent from "../../components/modals/ConfirmModalComponent";
 import TableSearchWithButtonComponent from "../../components/TableSearchWithButtonComponent";
 import OperationsClearancesCardsComponent from "../../components/operations/OperationsClearancesCardsComponent";
+import OperationsGroupRefuelsCardsComponent from "../../components/operations/OperationsGroupRefuelsCardsComponent";
 import OperationsClearancesAddRefuelContainer from "../../containers/operations/OperationsClearancesAddRefuelContainer";
 import OperationsFleetsAddAnonymousRefuelContainer from "../../containers/operations/OperationsFleetsAddAnonymousRefuelContainer";
 import {
     emitRefuelsFetch,
     emitConfirmRefuel,
     emitNextRefuelsFetch,
+    emitGroupRefuelsFetch,
+    emitGroupConfirmRefuel,
     emitSearchRefuelsFetch
 } from "../../redux/refuels/actions";
 import {
@@ -38,8 +41,11 @@ import {
 function OperationsClearancesPage({refuels, refuelsRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
+    const [groupToggle, setGroupToggle] = useState(false);
     const [confirmModal, setConfirmModal] = useState({show: false, body: '', id: 0});
+    const [groupConfirmModal, setGroupConfirmModal] = useState({show: false, body: '', id: []});
     const [refuelModal, setRefuelModal] = useState({show: false, header: 'EFFECTUER UN DESTOCKAGE'});
+    const [groupDetailModal, setGroupDetailModal] = useState({show: false, header: 'DETAIL DU DESTOCKAGE GROUPE', item: {}});
     const [anonymousRefuelModal, setAnonymousRefuelModal] = useState({show: false, header: 'EFFECTUER UN DESTOCKAGE ANONYME'});
 
     // Local effects
@@ -111,6 +117,47 @@ function OperationsClearancesPage({refuels, refuelsRequests, hasMoreData, page, 
         setConfirmModal({...confirmModal, show: false})
     }
 
+    // Show group supply modal form
+    const handleGroupConfirmModalShow = (item) => {
+        const ids = [];
+        item.forEach(item => {
+            ids.push(item.id);
+        });
+        const amount = item.reduce((acc, val) => acc + val.amount, 0);
+        setGroupConfirmModal({...groupConfirmModal, id: ids, body: `Confirmer le déstockage groupé de ${item[0].agent.name} de ${formatNumber(amount)}?`, show: true})
+    }
+
+    // Hide group supply modal form
+    const handleGroupConfirmModalHide = () => {
+        setGroupConfirmModal({...groupConfirmModal, show: false})
+    }
+
+    // Show group detail modal form
+    const handleGroupDetailsModalShow = (item) => {
+        setGroupDetailModal({...groupDetailModal, item, show: true})
+    }
+
+    // Hide group detail modal form
+    const handleGroupDetailsModalHide = () => {
+        setGroupDetailModal({...groupDetailModal, show: false})
+    }
+
+    const handleGroup = () => {
+        dispatch(emitGroupRefuelsFetch());
+        setGroupToggle(true)
+    }
+
+    const handleUngroup = () => {
+        dispatch(emitRefuelsFetch());
+        setGroupToggle(false);
+    }
+
+    // Trigger when group transfer confirm confirmed on modal
+    const handleGroupConfirm = (id) => {
+        handleGroupConfirmModalHide();
+        dispatch(emitGroupConfirmRefuel({ids: id}));
+    };
+
     // Trigger when clearance confirm confirmed on modal
     const handleConfirm = (id) => {
         handleConfirmModalHide();
@@ -142,38 +189,69 @@ function OperationsClearancesPage({refuels, refuelsRequests, hasMoreData, page, 
                                             {requestFailed(refuelsRequests.list) && <ErrorAlertComponent message={refuelsRequests.list.message} />}
                                             {requestFailed(refuelsRequests.next) && <ErrorAlertComponent message={refuelsRequests.next.message} />}
                                             {requestFailed(refuelsRequests.apply) && <ErrorAlertComponent message={refuelsRequests.next.message} />}
-                                            <button type="button"
-                                                    className="btn btn-theme mb-2"
-                                                    onClick={handleRefuelModalShow}
-                                            >
-                                                <i className="fa fa-rss-square" /> Effectuer un déstockage
-                                            </button>
-                                            <button type="button"
-                                                    className="btn btn-theme mb-2 ml-2"
-                                                    onClick={handleAnonymousRefuelModalShow}
-                                            >
-                                                <i className="fa fa-user-slash" /> Effectuer un déstockage anonyme
-                                            </button>
-                                            {/* Search result & Infinite scroll */}
-                                            {requestLoading(refuelsRequests.list) ? <LoaderComponent /> : ((needle !== '' && needle !== undefined) ?
-                                                    (
-                                                        <OperationsClearancesCardsComponent refuels={searchEngine(refuels, needle)}
-                                                                                            handleConfirmModalShow={handleConfirmModalShow}
-                                                        />
-                                                    ) :
-                                                    (
-                                                        <InfiniteScroll hasMore={hasMoreData}
-                                                                        dataLength={refuels.length}
-                                                                        loader={<LoaderComponent />}
-                                                                        next={handleNextRefuelsData}
-                                                                        style={{ overflow: 'hidden' }}
-                                                        >
-                                                            <OperationsClearancesCardsComponent refuels={refuels}
-                                                                                                handleConfirmModalShow={handleConfirmModalShow}
+                                            {(groupToggle) ?
+                                                ((requestLoading(refuelsRequests.list) || requestLoading(refuelsRequests.apply)) ? <LoaderComponent /> :
+                                                        <>
+                                                            <button type="button"
+                                                                    className="btn btn-secondary mb-2 ml-2"
+                                                                    onClick={handleUngroup}
+                                                            >
+                                                                <i className="fa fa-table" /> Dégrouper
+                                                            </button>
+                                                            <OperationsGroupRefuelsCardsComponent refuels={refuels}
+                                                                                                  handleGroupConfirmModalShow={handleGroupConfirmModalShow}
+                                                                                                  handleGroupDetailsModalShow={handleGroupDetailsModalShow}
                                                             />
-                                                        </InfiniteScroll>
-                                                    )
-                                            )}
+                                                        </>
+                                                ) :
+                                                (
+                                                    <>
+
+                                                        {!requestLoading(refuelsRequests.list) && (
+                                                            <>
+                                                                <button type="button"
+                                                                        className="btn btn-theme mb-2"
+                                                                        onClick={handleRefuelModalShow}
+                                                                >
+                                                                    <i className="fa fa-rss-square" /> Effectuer un déstockage
+                                                                </button>
+                                                                <button type="button"
+                                                                        className="btn btn-theme mb-2 ml-2"
+                                                                        onClick={handleAnonymousRefuelModalShow}
+                                                                >
+                                                                    <i className="fa fa-user-slash" /> Effectuer un déstockage anonyme
+                                                                </button>
+                                                                <button type="button"
+                                                                        className="btn btn-danger mb-2 ml-2"
+                                                                        onClick={handleGroup}
+                                                                >
+                                                                    <i className="fa fa-table"/> Grouper
+                                                                </button>
+                                                            </>
+                                                        )}
+                                                        {/* Search result & Infinite scroll */}
+                                                        {requestLoading(refuelsRequests.list) ? <LoaderComponent /> : ((needle !== '' && needle !== undefined) ?
+                                                                (
+                                                                    <OperationsClearancesCardsComponent refuels={searchEngine(refuels, needle)}
+                                                                                                        handleConfirmModalShow={handleConfirmModalShow}
+                                                                    />
+                                                                ) :
+                                                                (
+                                                                    <InfiniteScroll hasMore={hasMoreData}
+                                                                                    dataLength={refuels.length}
+                                                                                    loader={<LoaderComponent />}
+                                                                                    next={handleNextRefuelsData}
+                                                                                    style={{ overflow: 'hidden' }}
+                                                                    >
+                                                                        <OperationsClearancesCardsComponent refuels={refuels}
+                                                                                                            handleConfirmModalShow={handleConfirmModalShow}
+                                                                        />
+                                                                    </InfiniteScroll>
+                                                                )
+                                                        )}
+                                                    </>
+                                                )
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -187,11 +265,18 @@ function OperationsClearancesPage({refuels, refuelsRequests, hasMoreData, page, 
                                    handleModal={handleConfirm}
                                    handleClose={handleConfirmModalHide}
             />
+            <ConfirmModalComponent modal={groupConfirmModal}
+                                   handleModal={handleGroupConfirm}
+                                   handleClose={handleGroupConfirmModalHide}
+            />
             <FormModalComponent modal={refuelModal} handleClose={handleRefuelModalHide}>
                 <OperationsClearancesAddRefuelContainer handleClose={handleRefuelModalHide} />
             </FormModalComponent>
             <FormModalComponent modal={anonymousRefuelModal} handleClose={handleAnonymousRefuelModalHide}>
                 <OperationsFleetsAddAnonymousRefuelContainer handleClose={handleAnonymousRefuelModalHide} />
+            </FormModalComponent>
+            <FormModalComponent modal={groupDetailModal} handleClose={handleGroupDetailsModalHide}>
+                <OperationsClearancesCardsComponent group refuels={groupDetailModal.item} />
             </FormModalComponent>
         </>
     )

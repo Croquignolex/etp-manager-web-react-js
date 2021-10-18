@@ -77,7 +77,7 @@ function OperationsFleetsCardsComponent({supplies, user, handleFleetRecoveryModa
                                             </span>
                                         </li>
                                         <li className="list-group-item">
-                                            <b>Monant flotté</b>
+                                            <b>Montant flotté</b>
                                             <span className="float-right text-success text-bold">
                                                 {formatNumber(item.amount)}
                                             </span>
