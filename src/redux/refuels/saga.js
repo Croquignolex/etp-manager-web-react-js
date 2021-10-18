@@ -1,3 +1,4 @@
+import Lodash from "lodash";
 import {all, call, fork, put, takeLatest} from 'redux-saga/effects'
 
 import * as api from "../../constants/apiConstants";
@@ -13,8 +14,11 @@ import {
     storeSetNextRefuelsData,
     EMIT_NEXT_REFUELS_FETCH,
     storeSetRefuelActionData,
+    storeSetGroupRefuelsData,
+    EMIT_GROUP_REFUELS_FETCH,
     EMIT_ADD_ANONYMOUS_REFUEL,
     EMIT_SEARCH_REFUELS_FETCH,
+    EMIT_GROUP_CONFIRM_REFUEL,
     storeStopInfiniteScrollRefuelData
 } from "./actions";
 import {
@@ -52,6 +56,49 @@ export function* emitRefuelsFetch() {
         } catch (message) {
             // Fire event for request
             yield put(storeRefuelsRequestFailed({message}));
+        }
+    });
+}
+
+// Fetch group refuels from API
+export function* emitGroupRefuelsFetch() {
+    yield takeLatest(EMIT_GROUP_REFUELS_FETCH, function*() {
+        try {
+            // Fire event for request
+            yield put(storeRefuelsRequestInit());
+            const apiResponse = yield call(apiGetRequest, api.GROUP_REFUELS_API_PATH);
+            // Extract data
+            const refuels = extractRefuelsData(apiResponse.data.destockages);
+            const groupedRefuel = Object.values(Lodash.groupBy(refuels, refuel => [refuel.agent.id, refuel.operator.id]));
+            // Fire event to redux
+            yield put(storeSetGroupRefuelsData({refuels: groupedRefuel}));
+            // Fire event for request
+            yield put(storeRefuelsRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeRefuelsRequestFailed({message}));
+        }
+    });
+}
+
+// Confirm group refuel from API
+export function* emitGroupConfirmRefuel() {
+    yield takeLatest(EMIT_GROUP_CONFIRM_REFUEL, function*({ids}) {
+        try {
+            // Fire event for request
+            yield put(storeConfirmRefuelRequestInit());
+            const apiResponse = yield call(apiPostRequest, api.GROUP_CONFIRM_REFUEL_API_PATH, {ids});
+            const apiResponse2 = yield call(apiGetRequest, api.GROUP_REFUELS_API_PATH);
+            // Extract data
+            const refuels = extractRefuelsData(apiResponse2.data.destockages);
+            const groupedRefuel = Object.values(Lodash.groupBy(refuels, refuel => [refuel.agent.id, refuel.operator.id]));
+            // Fire event to redux
+            yield put(storeSetGroupRefuelsData({refuels: groupedRefuel}));
+            // Fire event for request
+            yield put(storeConfirmRefuelRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeConfirmRefuelRequestFailed({message}));
         }
     });
 }
@@ -231,6 +278,8 @@ export default function* sagaRefuels() {
         fork(emitRefuelsFetch),
         fork(emitConfirmRefuel),
         fork(emitNextRefuelsFetch),
+        fork(emitGroupRefuelsFetch),
         fork(emitAddAnonymousRefuel),
+        fork(emitGroupConfirmRefuel),
     ]);
 }
