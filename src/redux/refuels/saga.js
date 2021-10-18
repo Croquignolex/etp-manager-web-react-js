@@ -64,12 +64,13 @@ export function* emitRefuelsFetch() {
 export function* emitGroupRefuelsFetch() {
     yield takeLatest(EMIT_GROUP_REFUELS_FETCH, function*() {
         try {
+            console.log("into saga")
             // Fire event for request
             yield put(storeRefuelsRequestInit());
             const apiResponse = yield call(apiGetRequest, api.GROUP_REFUELS_API_PATH);
             // Extract data
             const refuels = extractRefuelsData(apiResponse.data.destockages);
-            const groupedRefuel = Object.values(Lodash.groupBy(refuels, refuel => [refuel.agent.id, refuel.operator.id]));
+            const groupedRefuel = Object.values(Lodash.groupBy(refuels, refuel => [refuel.agent.id, refuel.operator.id]));console.log({groupedRefuel})
             // Fire event to redux
             yield put(storeSetGroupRefuelsData({refuels: groupedRefuel}));
             // Fire event for request
