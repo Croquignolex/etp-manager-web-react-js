@@ -7,7 +7,6 @@ import {DONE} from "../../constants/typeConstants";
 const initialState = {
     page: 1,
     list: [],
-    group: [],
     hasMoreData: false
 };
 
@@ -21,7 +20,7 @@ function reduce(state = initialState, action) {
             return nextState || state;
         // Resolve event to set fleets data
         case actions.STORE_SET_GROUP_FLEETS_DATA:
-            nextState = {group: Lodash.groupBy(action.fleets, fleet => fleet.agent.id && fleet.operator.id)};
+            nextState = {...state, list: action.fleets};
             return nextState || state;
         // Resolve event to set next fleets data
         case actions.STORE_SET_NEXT_FLEETS_DATA:

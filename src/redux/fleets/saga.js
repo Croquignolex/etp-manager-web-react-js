@@ -28,6 +28,7 @@ import {
     storeNextFleetsRequestSucceed,
     storeFleetSupplyRequestSucceed
 } from "../requests/fleets/actions";
+import Lodash from "lodash";
 
 // Fetch fleets from API
 export function* emitFleetsFetch() {
@@ -58,8 +59,9 @@ export function* emitGroupFleetsFetch() {
             const apiResponse = yield call(apiGetRequest, api.GROUP_FLEETS_API_PATH);
             // Extract data
             const fleets = extractFleetsData(apiResponse.data.demandes);
+            const groupedFleet = Object.values(Lodash.groupBy(fleets, fleet => [fleet.agent.id, fleet.operator.id]));
             // Fire event to redux
-            yield put(storeSetGroupFleetsData({fleets}));
+            yield put(storeSetGroupFleetsData({fleets: groupedFleet}));
             // Fire event for request
             yield put(storeFleetsRequestSucceed({message: apiResponse.message}));
         } catch (message) {

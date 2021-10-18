@@ -14,6 +14,7 @@ import {emitFleetsFetch, emitGroupFleetsFetch, emitNextFleetsFetch} from "../../
 import {storeFleetsRequestReset, storeNextFleetsRequestReset} from "../../redux/requests/fleets/actions";
 import RequestsFleetsAddSupplyContainer from "../../containers/requests/RequestsFleetsAddSupplyContainer";
 import {dateToString, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
+import RequestsGroupFleetsCardsComponent from "../../components/requests/RequestsGroupFleetsCardsComponent";
 
 // Component
 function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch, location}) {
@@ -67,6 +68,26 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
         setSupplyModal({...supplyModal, show: false})
     }
 
+    // Show group supply modal form
+    const handleGroupSupplyModalShow = (item) => {
+        // setSupplyModal({...supplyModal, item, show: true})
+    }
+
+    // Hide group supply modal form
+    const handleGroupSupplyModalHide = () => {
+        // setSupplyModal({...supplyModal, show: false})
+    }
+
+    // Show supply modal form
+    const handleGroupSupplyDetailsModalShow = (item) => {
+        // setSupplyModal({...supplyModal, item, show: true})
+    }
+
+    // Hide group supply detail modal form
+    const handleGroupSupplyDetailsModalHide = () => {
+        // setSupplyModal({...supplyModal, show: false})
+    }
+
     // Render
     return (
         <>
@@ -89,7 +110,7 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
                                             {requestFailed(fleetsRequests.list) && <ErrorAlertComponent message={fleetsRequests.list.message} />}
                                             {requestFailed(fleetsRequests.next) && <ErrorAlertComponent message={fleetsRequests.next.message} />}
                                             {(groupToggle) ?
-                                                (
+                                                (requestLoading(fleetsRequests.list) ? <LoaderComponent /> :
                                                     <>
                                                         <button type="button"
                                                                 className="btn btn-secondary mb-2 ml-2"
@@ -97,21 +118,23 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
                                                         >
                                                             <i className="fa fa-table" /> Dégrouper
                                                         </button>
-                                                        {requestLoading(fleetsRequests.list) ? <LoaderComponent /> :
-                                                            <RequestsFleetsCardsComponent fleets={searchEngine(fleets, needle)}
-                                                                                          handleSupplyModalShow={handleSupplyModalShow}
-                                                            />
-                                                        }
+                                                        <RequestsGroupFleetsCardsComponent data={fleets}
+                                                                                           handleGroupSupplyModalShow={handleGroupSupplyModalShow}
+                                                                                           handleGroupSupplyDetailsModalShow={handleGroupSupplyDetailsModalShow}
+                                                        />
                                                     </>
                                                 ) :
                                                 (
                                                     <>
-                                                        <button type="button"
-                                                                className="btn btn-danger mb-2 ml-2"
-                                                                onClick={handleGroup}
-                                                        >
-                                                            <i className="fa fa-table" /> Grouper
-                                                        </button>
+
+                                                        {!requestLoading(fleetsRequests.list) && (
+                                                            <button type="button"
+                                                                    className="btn btn-danger mb-2 ml-2"
+                                                                    onClick={handleGroup}
+                                                            >
+                                                                <i className="fa fa-table"/> Grouper
+                                                            </button>
+                                                        )}
                                                         {/* Search result & Infinite scroll */}
                                                         {(needle !== '' && needle !== undefined)
                                                             ? <RequestsFleetsCardsComponent fleets={searchEngine(fleets, needle)}
