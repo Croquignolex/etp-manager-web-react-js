@@ -91,7 +91,6 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
         dispatch(storeCancelHandoverRequestReset());
         dispatch(storeConfirmHandoverRequestReset());
         dispatch(storeUserBalanceFetchRequestReset());
-        // dispatch(emitHandoversFetch());
     };
 
     // Fetch next handovers data to enhance infinite scroll
@@ -290,7 +289,7 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
                 <CheckoutHandoversImproveHandoverContainer handleClose={handleHandoverModalHide} />
             </FormModalComponent>
             <FormModalComponent modal={groupDetailModal} handleClose={handleGroupDetailsModalHide}>
-                <CheckoutHandoversCardsComponent group transfers={groupDetailModal.item} />
+                <CheckoutHandoversCardsComponent group handovers={groupDetailModal.item} />
             </FormModalComponent>
         </>
     )
