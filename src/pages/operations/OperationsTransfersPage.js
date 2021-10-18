@@ -200,12 +200,6 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
                                             {requestFailed(transfersRequests.next) && <ErrorAlertComponent message={transfersRequests.next.message} />}
                                             {requestFailed(transfersRequests.apply) && <ErrorAlertComponent message={transfersRequests.apply.message} />}
                                             {requestFailed(transfersRequests.cancel) && <ErrorAlertComponent message={transfersRequests.cancel.message} />}
-                                            <button type="button"
-                                                    className="btn btn-theme mb-2"
-                                                    onClick={handleTransferModalShow}
-                                            >
-                                                <i className="fa fa-exchange" /> Transferer la flotte
-                                            </button>
                                             {(groupToggle) ?
                                                 ((requestLoading(transfersRequests.list) || requestLoading(transfersRequests.apply)) ? <LoaderComponent /> :
                                                         <>
@@ -225,17 +219,26 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
                                                     <>
 
                                                         {!requestLoading(transfersRequests.list) && (
-                                                            <button type="button"
-                                                                    className="btn btn-danger mb-2 ml-2"
-                                                                    onClick={handleGroup}
-                                                            >
-                                                                <i className="fa fa-table"/> Grouper
-                                                            </button>
+                                                            <>
+                                                                <button type="button"
+                                                                        className="btn btn-theme mb-2 ml-2"
+                                                                        onClick={handleTransferModalShow}
+                                                                >
+                                                                    <i className="fa fa-exchange" /> Transferer la flotte
+                                                                </button>
+                                                                <button type="button"
+                                                                        className="btn btn-danger mb-2 ml-2"
+                                                                        onClick={handleGroup}
+                                                                >
+                                                                    <i className="fa fa-table"/> Grouper
+                                                                </button>
+                                                            </>
                                                         )}
                                                         {/* Search result & Infinite scroll */}
                                                         {(needle !== '' && needle !== undefined)
                                                             ? <OperationsTransfersCardsComponent transfers={searchEngine(transfers, needle)}
                                                                                                  handleCancelModalShow={handleCancelModalShow}
+                                                                                                 handleConfirmModalShow={handleConfirmModalShow}
                                                             />
                                                             : (requestLoading(transfersRequests.list) ? <LoaderComponent /> :
                                                                     <InfiniteScroll hasMore={hasMoreData}
