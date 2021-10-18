@@ -84,7 +84,8 @@ function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {
                                             {item.status === PENDING && <b className="text-danger text-bold">En attente de flottage</b>}
                                         </li>
                                     </ul>
-                                    {[PENDING, PROCESSING].includes(item.status) &&
+                                    {(handleSupplyModalShow) && (
+                                        [PENDING, PROCESSING].includes(item.status) &&
                                         <div className="mt-3 text-right">
                                             {item.actionLoader ? <LoaderComponent little={true} /> :
                                                 <button type="button"
@@ -95,7 +96,7 @@ function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {
                                                 </button>
                                             }
                                         </div>
-                                    }
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -123,7 +124,7 @@ function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {
 // Prop types to ensure destroyed props data type
 RequestsFleetsCardsComponent.propTypes = {
     fleets: PropTypes.array.isRequired,
-    handleSupplyModalShow: PropTypes.func.isRequired
+    handleSupplyModalShow: PropTypes.func
 };
 
 export default React.memo(RequestsFleetsCardsComponent);

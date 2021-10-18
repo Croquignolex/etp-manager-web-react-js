@@ -24,6 +24,7 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
     const [groupToggle, setGroupToggle] = useState(false);
     const [supplyModal, setSupplyModal] = useState({show: false, header: 'EFFECTUER UN FLOTTAGE', item: {}});
     const [groupSupplyModal, setGroupSupplyModal] = useState({show: false, header: 'EFFECTUER UN FLOTTAGE GROUPE', item: {}});
+    const [groupSupplyDetailModal, setGroupSupplyDetailModal] = useState({show: false, header: 'DETAIL DU FLOTTAGE GROUPE', item: {}});
 
     // Local effects
     useEffect(() => {
@@ -82,12 +83,12 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
 
     // Show supply modal form
     const handleGroupSupplyDetailsModalShow = (item) => {
-        // setSupplyModal({...supplyModal, item, show: true})
+        setGroupSupplyDetailModal({...groupSupplyDetailModal, item, show: true})
     }
 
     // Hide group supply detail modal form
     const handleGroupSupplyDetailsModalHide = () => {
-        // setSupplyModal({...supplyModal, show: false})
+        setGroupSupplyDetailModal({...groupSupplyDetailModal, show: false})
     }
 
     // Render
@@ -104,7 +105,7 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
                                         {/* Search input */}
                                         <div className="card-header">
                                             <div className="card-tools">
-                                                <TableSearchComponent needle={needle} handleNeedle={handleNeedleInput} />
+                                                {!groupToggle && <TableSearchComponent needle={needle} handleNeedle={handleNeedleInput}/>}
                                             </div>
                                         </div>
                                         <div className="card-body">
@@ -176,6 +177,9 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
                 <RequestsGroupFleetsAddSupplyContainer fleet={groupSupplyModal.item}
                                                        handleClose={handleGroupSupplyModalHide}
                 />
+            </FormModalComponent>
+            <FormModalComponent modal={groupSupplyDetailModal} handleClose={handleGroupSupplyDetailsModalHide}>
+                <RequestsFleetsCardsComponent fleets={groupSupplyDetailModal.item} />
             </FormModalComponent>
         </>
     )

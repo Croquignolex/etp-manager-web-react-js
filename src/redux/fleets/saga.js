@@ -140,8 +140,9 @@ export function* emitGroupFleetAddSupply() {
             yield put(storeFleetSupplyRequestInit());
             const data = {id_puce: sim, montant: amount, ids_demande_flotte: ids};
             const apiResponse = yield call(apiPostRequest, api.GROUP_FLEET_ADD_SUPPLY_API_PATH, data);
+            const apiResponse2 = yield call(apiGetRequest, api.GROUP_FLEETS_API_PATH);
             // Extract data
-            const fleets = extractFleetsData(apiResponse.data.demandes);
+            const fleets = extractFleetsData(apiResponse2.data.demandes);
             const groupedFleet = Object.values(Lodash.groupBy(fleets, fleet => [fleet.agent.id, fleet.operator.id]));
             // Fire event to redux
             yield put(storeSetGroupFleetsData({fleets: groupedFleet}));

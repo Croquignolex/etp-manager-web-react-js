@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import React, {useState} from 'react';
 
-import LoaderComponent from "../LoaderComponent";
 import OperatorComponent from "../OperatorComponent";
 import FormModalComponent from "../modals/FormModalComponent";
 import {formatNumber} from "../../functions/generalFunctions";
@@ -83,7 +82,7 @@ function RequestsGroupFleetsCardsComponent({fleets, handleGroupSupplyDetailsModa
                     </div>
                 }
             </div>
-             Modal
+            {/* Modal */}
             <FormModalComponent modal={agentDetailsModal} handleClose={handleAgentDetailsModalHide}>
                 <AgentDetailsContainer id={agentDetailsModal.id} />
             </FormModalComponent>
