@@ -37,7 +37,6 @@ import {
     storeCancelTransferRequestSucceed,
     storeConfirmTransferRequestSucceed
 } from "../requests/transfers/actions";
-import {GROUP_CONFIRM_TRANSFER_API_PATH} from "../../constants/apiConstants";
 
 // Fetch transfers from API
 export function* emitTransfersFetch() {
@@ -84,8 +83,6 @@ export function* emitGroupTransfersFetch() {
 export function* emitGroupConfirmTransfer() {
     yield takeLatest(EMIT_GROUP_CONFIRM_TRANSFER, function*({ids}) {
         try {
-            // Fire event at redux to toggle action loader
-            yield put(storeSetTransferActionData({id: ids[0]}));
             // Fire event for request
             yield put(storeConfirmTransferRequestInit());
             const apiResponse = yield call(apiPostRequest, api.GROUP_CONFIRM_TRANSFER_API_PATH, {ids});
@@ -95,13 +92,10 @@ export function* emitGroupConfirmTransfer() {
             const groupedTransfer = Object.values(Lodash.groupBy(transfers, transfer => [transfer.user.id, transfer.operator.id]));
             // Fire event to redux
             yield put(storeSetGroupTransfersData({transfers: groupedTransfer}));
-            // Fire event at redux to toggle action loader
-            yield put(storeSetTransferActionData({id: ids[0]}));
             // Fire event for request
             yield put(storeConfirmTransferRequestSucceed({message: apiResponse.message}));
         } catch (message) {
             // Fire event for request
-            yield put(storeSetTransferActionData({id: ids[0]}));
             yield put(storeConfirmTransferRequestFailed({message}));
         }
     });

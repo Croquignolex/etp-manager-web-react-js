@@ -207,7 +207,7 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
                                                 <i className="fa fa-exchange" /> Transferer la flotte
                                             </button>
                                             {(groupToggle) ?
-                                                (requestLoading(transfersRequests.list) ? <LoaderComponent /> :
+                                                ((requestLoading(transfersRequests.list) || requestLoading(transfersRequests.apply)) ? <LoaderComponent /> :
                                                         <>
                                                             <button type="button"
                                                                     className="btn btn-secondary mb-2 ml-2"
