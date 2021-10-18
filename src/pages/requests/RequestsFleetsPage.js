@@ -179,7 +179,7 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
                 />
             </FormModalComponent>
             <FormModalComponent modal={groupSupplyDetailModal} handleClose={handleGroupSupplyDetailsModalHide}>
-                <RequestsFleetsCardsComponent fleets={groupSupplyDetailModal.item} />
+                <RequestsFleetsCardsComponent group fleets={groupSupplyDetailModal.item} />
             </FormModalComponent>
         </>
     )

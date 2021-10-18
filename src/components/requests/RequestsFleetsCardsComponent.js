@@ -11,7 +11,7 @@ import {CANCEL, DONE, PENDING, PROCESSING} from "../../constants/typeConstants";
 import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer";
 
 // Component
-function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {
+function RequestsFleetsCardsComponent({fleets, group, handleSupplyModalShow}) {
     // Local states
     const [simDetailsModal, setSimDetailsModal] = useState({show: false, header: 'DETAIL DU COMPTE', id: ''});
     const [agentDetailsModal, setAgentDetailsModal] = useState({show: false, header: "DETAIL DE L'AGENT/RESSOURCE", id: ''});
@@ -32,9 +32,12 @@ function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {
             <div className="row m-1">
                 {fleets.map((item, key) => {
                     return (
-                        <div className="col-lg-4 col-md-6" key={key}>
+                        <div className={`${group ? "col-lg-6" : "col-lg-4"} col-md-6`} key={key}>
                             <div className="card">
-                                <div className={`${fleetTypeBadgeColor(item.status).background} card-header`} />
+                                {group
+                                    ? <div className={`bg-secondary card-header`} />
+                                    : <div className={`${fleetTypeBadgeColor(item.status).background} card-header`} />
+                                }
                                 <div className="card-body">
                                     <ul className="list-group list-group-unbordered">
                                         <OperatorComponent operator={item.operator} />
@@ -78,13 +81,15 @@ function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {
                                             <b>Demandeur</b>
                                             <span className="float-right">{item.claimant.name}</span>
                                         </li>
-                                        <li className="list-group-item">
-                                            {item.status === CANCEL && <b className="text-danger text-bold">Annulé</b>}
-                                            {item.status === DONE && <b className="text-success text-bold">Flottée</b>}
-                                            {item.status === PENDING && <b className="text-danger text-bold">En attente de flottage</b>}
-                                        </li>
+                                        {(!group) && (
+                                            <li className="list-group-item">
+                                                {item.status === CANCEL && <b className="text-danger text-bold">Annulé</b>}
+                                                {item.status === DONE && <b className="text-success text-bold">Flottée</b>}
+                                                {item.status === PENDING && <b className="text-danger text-bold">En attente de flottage</b>}
+                                            </li>
+                                        )}
                                     </ul>
-                                    {(handleSupplyModalShow) && (
+                                    {(!group) && (
                                         [PENDING, PROCESSING].includes(item.status) &&
                                         <div className="mt-3 text-right">
                                             {item.actionLoader ? <LoaderComponent little={true} /> :
@@ -123,8 +128,14 @@ function RequestsFleetsCardsComponent({fleets, handleSupplyModalShow}) {
 
 // Prop types to ensure destroyed props data type
 RequestsFleetsCardsComponent.propTypes = {
+    group: PropTypes.bool,
     fleets: PropTypes.array.isRequired,
     handleSupplyModalShow: PropTypes.func
+};
+
+// Prop types to ensure destroyed props data type
+RequestsFleetsCardsComponent.defaultProps = {
+    group: false
 };
 
 export default React.memo(RequestsFleetsCardsComponent);
