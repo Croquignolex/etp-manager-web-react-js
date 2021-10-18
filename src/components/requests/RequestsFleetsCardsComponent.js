@@ -62,24 +62,24 @@ function RequestsFleetsCardsComponent({fleets, group, handleSupplyModalShow}) {
                                         <li className="list-group-item">
                                             <b>Compte à flotter</b>
                                             <span className="float-right">
-                                                {item.sim.number}
+                                                {item.sim?.number}
                                                 <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
-                                                   onClick={() => setSimDetailsModal({...simDetailsModal, show: true, id: item.sim.id})}
+                                                   onClick={() => setSimDetailsModal({...simDetailsModal, show: true, id: item.sim?.id})}
                                                 />
                                             </span>
                                         </li>
                                         <li className="list-group-item">
                                             <b>Agent/Ressource</b>
                                             <span className="float-right">
-                                                {item.agent.name}
+                                                {item.agent?.name}
                                                 <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
-                                                   onClick={() => setAgentDetailsModal({...agentDetailsModal, show: true, id: item.agent.id})}
+                                                   onClick={() => setAgentDetailsModal({...agentDetailsModal, show: true, id: item.agent?.id})}
                                                 />
                                             </span>
                                         </li>
                                         <li className="list-group-item">
                                             <b>Demandeur</b>
-                                            <span className="float-right">{item.claimant.name}</span>
+                                            <span className="float-right">{item.claimant?.name}</span>
                                         </li>
                                         {(!group) && (
                                             <li className="list-group-item">

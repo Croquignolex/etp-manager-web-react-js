@@ -47,7 +47,7 @@ function OperationsTransfersCardsComponent({transfers, group, handleConfirmModal
                                         <li className="list-group-item">
                                             <b>Compte émetteur</b>
                                             <span className="float-right">
-                                                {item.sim_outgoing.number}
+                                                {item.sim_outgoing?.number}
                                                 <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
                                                    onClick={() => setOutgoingSimDetailsModal({...outgoingSimDetailsModal, show: true, id: item.sim_outgoing.id})}
                                                 />
@@ -56,7 +56,7 @@ function OperationsTransfersCardsComponent({transfers, group, handleConfirmModal
                                         <li className="list-group-item">
                                             <b>Compte recepteur</b>
                                             <span className="float-right">
-                                                {item.sim_incoming.number}
+                                                {item.sim_incoming?.number}
                                                 <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
                                                    onClick={() => setIncomingSimDetailsModal({...incomingSimDetailsModal, show: true, id: item.sim_incoming.id})}
                                                 />
@@ -70,7 +70,7 @@ function OperationsTransfersCardsComponent({transfers, group, handleConfirmModal
                                         </li>
                                         <li className="list-group-item">
                                             <b>Emetteur</b>
-                                            <span className="float-right">{item.user.name}</span>
+                                            <span className="float-right">{item.user?.name}</span>
                                         </li>
                                         {(!group) && (
                                             <li className="list-group-item">
