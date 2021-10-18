@@ -14,12 +14,15 @@ import DeleteModelComponent from "../../components/modals/DeleteModalComponent";
 import ConfirmModalComponent from "../../components/modals/ConfirmModalComponent";
 import {storeUserBalanceFetchRequestReset} from "../../redux/requests/user/actions";
 import CheckoutHandoversCardsComponent from "../../components/checkout/CheckoutHandoversCardsComponent";
+import OperationsGroupHandoversCardsComponent from "../../components/checkout/OperationsGroupHandoversCardsComponent";
 import CheckoutHandoversImproveHandoverContainer from "../../containers/checkout/CheckoutHandoversImproveHandoverContainer";
 import {
     emitCancelHandover,
-    emitConfirmHandover,
     emitHandoversFetch,
-    emitNextHandoversFetch
+    emitConfirmHandover,
+    emitNextHandoversFetch,
+    emitGroupHandoversFetch,
+    emitGroupConfirmHandover
 } from "../../redux/handovers/actions";
 import {
     storeHandoversRequestReset,
@@ -41,9 +44,12 @@ import {
 function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page, user, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
+    const [groupToggle, setGroupToggle] = useState(false);
     const [cancelModal, setCancelModal] = useState({show: false, body: '', id: 0});
     const [confirmModal, setConfirmModal] = useState({show: false, body: '', id: 0});
+    const [groupConfirmModal, setGroupConfirmModal] = useState({show: false, body: '', id: []});
     const [handoverModal, setHandoverModal] = useState({show: false, header: 'EFFECTUER UNE PASSATION DE SERVICE'});
+    const [groupDetailModal, setGroupDetailModal] = useState({show: false, header: 'DETAIL DE LA PASSATION DE SERVICE GROUPEE', item: {}});
 
     // Local effects
     useEffect(() => {
@@ -122,6 +128,48 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
         setConfirmModal({...confirmModal, show: false})
     }
 
+    // Show group supply modal form
+    const handleGroupConfirmModalShow = (item) => {
+        const ids = [];
+        item.forEach(item => {
+            ids.push(item.id);
+        });
+        const amount = item.reduce((acc, val) => acc + val.amount, 0);
+        setGroupConfirmModal({...groupConfirmModal, id: ids, body: `Confirmer la passation de service groupée de ${item[0].sender.name} de ${formatNumber(amount)}?`, show: true})
+    }
+
+    // Hide group supply modal form
+    const handleGroupConfirmModalHide = () => {
+        setGroupConfirmModal({...groupConfirmModal, show: false})
+    }
+
+    // Show group detail modal form
+    const handleGroupDetailsModalShow = (item) => {
+        setGroupDetailModal({...groupDetailModal, item, show: true})
+    }
+
+    // Hide group detail modal form
+    const handleGroupDetailsModalHide = () => {
+        setGroupDetailModal({...groupDetailModal, show: false})
+    }
+
+    const handleGroup = () => {
+        dispatch(emitGroupHandoversFetch());
+        setGroupToggle(true)
+    }
+
+    const handleUngroup = () => {
+        dispatch(emitHandoversFetch());
+        dispatch(emitFetchUserBalance());
+        setGroupToggle(false);
+    }
+
+    // Trigger when group transfer confirm confirmed on modal
+    const handleGroupConfirm = (id) => {
+        handleGroupConfirmModalHide();
+        dispatch(emitGroupConfirmHandover({ids: id}));
+    };
+
     // Trigger when clearance confirm confirmed on modal
     const handleConfirm = (id) => {
         handleConfirmModalHide();
@@ -157,32 +205,63 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
                                             {requestFailed(handoversRequests.next) && <ErrorAlertComponent message={handoversRequests.next.message} />}
                                             {requestFailed(handoversRequests.apply) && <ErrorAlertComponent message={handoversRequests.apply.message} />}
                                             {requestFailed(handoversRequests.cancel) && <ErrorAlertComponent message={handoversRequests.cancel.message} />}
-                                            <button type="button"
-                                                    className="btn btn-theme mb-2"
-                                                    onClick={handleHandoverModalShow}
-                                            >
-                                                <i className="fa fa-handshake" /> Effectuer une passation de service
-                                            </button>
-                                            {/* Search result & Infinite scroll */}
-                                            {(needle !== '' && needle !== undefined)
-                                                ? <CheckoutHandoversCardsComponent user={user}
-                                                                                   handovers={searchEngine(handovers, needle)}
-                                                                                   handleCancelModalShow={handleCancelModalShow}
-                                                                                   handleConfirmModalShow={handleConfirmModalShow}
-                                                />
-                                                : (requestLoading(handoversRequests.list) ? <LoaderComponent /> :
-                                                        <InfiniteScroll hasMore={hasMoreData}
-                                                                        loader={<LoaderComponent />}
-                                                                        dataLength={handovers.length}
-                                                                        next={handleNextHandoversData}
-                                                                        style={{ overflow: 'hidden' }}
-                                                        >
-                                                            <CheckoutHandoversCardsComponent user={user}
-                                                                                             handovers={handovers}
-                                                                                             handleCancelModalShow={handleCancelModalShow}
-                                                                                             handleConfirmModalShow={handleConfirmModalShow}
+                                            {(groupToggle) ?
+                                                ((requestLoading(handoversRequests.list) || requestLoading(handoversRequests.apply)) ? <LoaderComponent /> :
+                                                        <>
+                                                            <button type="button"
+                                                                    className="btn btn-secondary mb-2 ml-2"
+                                                                    onClick={handleUngroup}
+                                                            >
+                                                                <i className="fa fa-table" /> Dégrouper
+                                                            </button>
+                                                            <OperationsGroupHandoversCardsComponent handovers={handovers}
+                                                                                                    handleGroupConfirmModalShow={handleGroupConfirmModalShow}
+                                                                                                    handleGroupDetailsModalShow={handleGroupDetailsModalShow}
                                                             />
-                                                        </InfiniteScroll>
+                                                        </>
+                                                ) :
+                                                (
+                                                    <>
+
+                                                        {!requestLoading(handoversRequests.list) && (
+                                                            <>
+                                                                <button type="button"
+                                                                        className="btn btn-theme mb-2"
+                                                                        onClick={handleHandoverModalShow}
+                                                                >
+                                                                    <i className="fa fa-handshake" /> Passation de service
+                                                                </button>
+                                                                <button type="button"
+                                                                        className="btn btn-danger mb-2 ml-2"
+                                                                        onClick={handleGroup}
+                                                                >
+                                                                    <i className="fa fa-table"/> Grouper
+                                                                </button>
+                                                            </>
+                                                        )}
+                                                        {/* Search result & Infinite scroll */}
+                                                        {(needle !== '' && needle !== undefined)
+                                                            ? <CheckoutHandoversCardsComponent user={user}
+                                                                                               handovers={searchEngine(handovers, needle)}
+                                                                                               handleCancelModalShow={handleCancelModalShow}
+                                                                                               handleConfirmModalShow={handleConfirmModalShow}
+                                                            />
+                                                            : (requestLoading(handoversRequests.list) ? <LoaderComponent /> :
+                                                                    <InfiniteScroll hasMore={hasMoreData}
+                                                                                    loader={<LoaderComponent />}
+                                                                                    dataLength={handovers.length}
+                                                                                    next={handleNextHandoversData}
+                                                                                    style={{ overflow: 'hidden' }}
+                                                                    >
+                                                                        <CheckoutHandoversCardsComponent user={user}
+                                                                                                         handovers={handovers}
+                                                                                                         handleCancelModalShow={handleCancelModalShow}
+                                                                                                         handleConfirmModalShow={handleConfirmModalShow}
+                                                                        />
+                                                                    </InfiniteScroll>
+                                                            )
+                                                        }
+                                                    </>
                                                 )
                                             }
                                         </div>
@@ -198,12 +277,19 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
                                    handleModal={handleConfirm}
                                    handleClose={handleConfirmModalHide}
             />
+            <ConfirmModalComponent modal={groupConfirmModal}
+                                   handleModal={handleGroupConfirm}
+                                   handleClose={handleGroupConfirmModalHide}
+            />
             <DeleteModelComponent modal={cancelModal}
                                   handleModal={handleCancel}
                                   handleClose={handleCancelModalHide}
             />
             <FormModalComponent modal={handoverModal} handleClose={handleHandoverModalHide}>
                 <CheckoutHandoversImproveHandoverContainer handleClose={handleHandoverModalHide} />
+            </FormModalComponent>
+            <FormModalComponent modal={groupDetailModal} handleClose={handleGroupDetailsModalHide}>
+                <CheckoutHandoversCardsComponent group transfers={groupDetailModal.item} />
             </FormModalComponent>
         </>
     )
