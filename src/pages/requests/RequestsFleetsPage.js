@@ -15,6 +15,7 @@ import {storeFleetsRequestReset, storeNextFleetsRequestReset} from "../../redux/
 import RequestsFleetsAddSupplyContainer from "../../containers/requests/RequestsFleetsAddSupplyContainer";
 import {dateToString, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
 import RequestsGroupFleetsCardsComponent from "../../components/requests/RequestsGroupFleetsCardsComponent";
+import RequestsGroupFleetsAddSupplyContainer from "../../containers/requests/RequestsGroupFleetsAddSupplyContainer";
 
 // Component
 function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch, location}) {
@@ -22,6 +23,7 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
     const [needle, setNeedle] = useState('');
     const [groupToggle, setGroupToggle] = useState(false);
     const [supplyModal, setSupplyModal] = useState({show: false, header: 'EFFECTUER UN FLOTTAGE', item: {}});
+    const [groupSupplyModal, setGroupSupplyModal] = useState({show: false, header: 'EFFECTUER UN FLOTTAGE GROUPE', item: {}});
 
     // Local effects
     useEffect(() => {
@@ -70,12 +72,12 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
 
     // Show group supply modal form
     const handleGroupSupplyModalShow = (item) => {
-        // setSupplyModal({...supplyModal, item, show: true})
+        setGroupSupplyModal({...groupSupplyModal, item, show: true})
     }
 
     // Hide group supply modal form
     const handleGroupSupplyModalHide = () => {
-        // setSupplyModal({...supplyModal, show: false})
+        setGroupSupplyModal({...groupSupplyModal, show: false})
     }
 
     // Show supply modal form
@@ -118,7 +120,7 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
                                                         >
                                                             <i className="fa fa-table" /> Dégrouper
                                                         </button>
-                                                        <RequestsGroupFleetsCardsComponent data={fleets}
+                                                        <RequestsGroupFleetsCardsComponent fleets={fleets}
                                                                                            handleGroupSupplyModalShow={handleGroupSupplyModalShow}
                                                                                            handleGroupSupplyDetailsModalShow={handleGroupSupplyDetailsModalShow}
                                                         />
@@ -168,6 +170,11 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
             <FormModalComponent modal={supplyModal} handleClose={handleSupplyModalHide}>
                 <RequestsFleetsAddSupplyContainer fleet={supplyModal.item}
                                                   handleClose={handleSupplyModalHide}
+                />
+            </FormModalComponent>
+            <FormModalComponent modal={groupSupplyModal} handleClose={handleGroupSupplyModalHide}>
+                <RequestsGroupFleetsAddSupplyContainer fleet={groupSupplyModal.item}
+                                                       handleClose={handleGroupSupplyModalHide}
                 />
             </FormModalComponent>
         </>

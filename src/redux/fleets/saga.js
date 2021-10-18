@@ -12,6 +12,7 @@ import {
     storeSetNextFleetsData,
     EMIT_GROUP_FLEETS_FETCH,
     storeSetGroupFleetsData,
+    EMIT_GROUP_FLEET_ADD_SUPPLY,
     storeStopInfiniteScrollFleetData
 } from "./actions";
 import {
@@ -131,6 +132,28 @@ export function* emitFleetAddSupply() {
     });
 }
 
+// Fleet add group supply from API
+export function* emitGroupFleetAddSupply() {
+    yield takeLatest(EMIT_GROUP_FLEET_ADD_SUPPLY, function*({ids, amount, sim}) {
+        try {
+            // Fire event for request
+            yield put(storeFleetSupplyRequestInit());
+            const data = {id_puce: sim, montant: amount, ids_demande_flotte: ids};
+            const apiResponse = yield call(apiPostRequest, api.GROUP_FLEET_ADD_SUPPLY_API_PATH, data);
+            // Extract data
+            const fleets = extractFleetsData(apiResponse.data.demandes);
+            const groupedFleet = Object.values(Lodash.groupBy(fleets, fleet => [fleet.agent.id, fleet.operator.id]));
+            // Fire event to redux
+            yield put(storeSetGroupFleetsData({fleets: groupedFleet}));
+            // Fire event for request
+            yield put(storeFleetSupplyRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeFleetSupplyRequestFailed({message}));
+        }
+    });
+}
+
 // Extract fleet data
 function extractFleetData(apiSim, apiUser, apiAgent, apiClaimer, apiFleet, apiOperator) {
     let fleet = {
@@ -205,5 +228,6 @@ export default function* sagaFleets() {
         fork(emitFleetAddSupply),
         fork(emitNextFleetsFetch),
         fork(emitGroupFleetsFetch),
+        fork(emitGroupFleetAddSupply),
     ]);
 }

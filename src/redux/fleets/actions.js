@@ -12,6 +12,7 @@ export const EMIT_ALL_FLEETS_FETCH = 'EMIT_ALL_FLEETS_FETCH';
 export const EMIT_FLEET_ADD_SUPPLY = 'EMIT_FLEET_ADD_SUPPLY';
 export const EMIT_NEXT_FLEETS_FETCH = 'EMIT_NEXT_FLEETS_FETCH';
 export const EMIT_GROUP_FLEETS_FETCH = 'EMIT_GROUP_FLEETS_FETCH';
+export const EMIT_GROUP_FLEET_ADD_SUPPLY = 'EMIT_GROUP_FLEET_ADD_SUPPLY';
 
 //====================== Reducer trigger actions
 // Set fleets data in store
@@ -77,6 +78,14 @@ export const emitFleetAddSupply = ({id, amount, sim}) => ({
     sim,
     amount,
     type: EMIT_FLEET_ADD_SUPPLY
+});
+
+// Emit group fleet add
+export const emitGroupFleetAddSupply = ({ids, amount, sim}) => ({
+    ids,
+    sim,
+    amount,
+    type: EMIT_GROUP_FLEET_ADD_SUPPLY
 });
 
 // Emit group fleets fetch
