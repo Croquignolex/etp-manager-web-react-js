@@ -9,8 +9,8 @@ import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import FormModalComponent from "../../components/modals/FormModalComponent";
-import {emitFleetsFetch, emitNextFleetsFetch} from "../../redux/fleets/actions";
 import RequestsFleetsCardsComponent from "../../components/requests/RequestsFleetsCardsComponent";
+import {emitFleetsFetch, emitGroupFleetsFetch, emitNextFleetsFetch} from "../../redux/fleets/actions";
 import {storeFleetsRequestReset, storeNextFleetsRequestReset} from "../../redux/requests/fleets/actions";
 import RequestsFleetsAddSupplyContainer from "../../containers/requests/RequestsFleetsAddSupplyContainer";
 import {dateToString, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
@@ -19,6 +19,7 @@ import {dateToString, needleSearch, requestFailed, requestLoading} from "../../f
 function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
+    const [groupToggle, setGroupToggle] = useState(false);
     const [supplyModal, setSupplyModal] = useState({show: false, header: 'EFFECTUER UN FLOTTAGE', item: {}});
 
     // Local effects
@@ -33,6 +34,16 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
 
     const handleNeedleInput = (data) => {
         setNeedle(data)
+    }
+
+    const handleGroup = () => {
+        dispatch(emitGroupFleetsFetch());
+        setGroupToggle(true)
+    }
+
+    const handleUngroup = () => {
+        dispatch(emitFleetsFetch());
+        setGroupToggle(false);
     }
 
     // Reset error alert
@@ -77,22 +88,49 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
                                             {/* Error message */}
                                             {requestFailed(fleetsRequests.list) && <ErrorAlertComponent message={fleetsRequests.list.message} />}
                                             {requestFailed(fleetsRequests.next) && <ErrorAlertComponent message={fleetsRequests.next.message} />}
-                                            {/* Search result & Infinite scroll */}
-                                            {(needle !== '' && needle !== undefined)
-                                                ? <RequestsFleetsCardsComponent fleets={searchEngine(fleets, needle)}
-                                                                                handleSupplyModalShow={handleSupplyModalShow}
-                                                />
-                                                : (requestLoading(fleetsRequests.list) ? <LoaderComponent /> :
-                                                        <InfiniteScroll hasMore={hasMoreData}
-                                                                        dataLength={fleets.length}
-                                                                        next={handleNextFleetsData}
-                                                                        loader={<LoaderComponent />}
-                                                                        style={{ overflow: 'hidden' }}
+                                            {(groupToggle) ?
+                                                (
+                                                    <>
+                                                        <button type="button"
+                                                                className="btn btn-secondary mb-2 ml-2"
+                                                                onClick={handleUngroup}
                                                         >
-                                                            <RequestsFleetsCardsComponent fleets={fleets}
+                                                            <i className="fa fa-table" /> Dégrouper
+                                                        </button>
+                                                        {requestLoading(fleetsRequests.list) ? <LoaderComponent /> :
+                                                            <RequestsFleetsCardsComponent fleets={searchEngine(fleets, needle)}
                                                                                           handleSupplyModalShow={handleSupplyModalShow}
                                                             />
-                                                        </InfiniteScroll>
+                                                        }
+                                                    </>
+                                                ) :
+                                                (
+                                                    <>
+                                                        <button type="button"
+                                                                className="btn btn-danger mb-2 ml-2"
+                                                                onClick={handleGroup}
+                                                        >
+                                                            <i className="fa fa-table" /> Grouper
+                                                        </button>
+                                                        {/* Search result & Infinite scroll */}
+                                                        {(needle !== '' && needle !== undefined)
+                                                            ? <RequestsFleetsCardsComponent fleets={searchEngine(fleets, needle)}
+                                                                                            handleSupplyModalShow={handleSupplyModalShow}
+                                                            />
+                                                            : (requestLoading(fleetsRequests.list) ? <LoaderComponent /> :
+                                                                    <InfiniteScroll hasMore={hasMoreData}
+                                                                                    dataLength={fleets.length}
+                                                                                    next={handleNextFleetsData}
+                                                                                    loader={<LoaderComponent />}
+                                                                                    style={{ overflow: 'hidden' }}
+                                                                    >
+                                                                        <RequestsFleetsCardsComponent fleets={fleets}
+                                                                                                      handleSupplyModalShow={handleSupplyModalShow}
+                                                                        />
+                                                                    </InfiniteScroll>
+                                                            )
+                                                        }
+                                                    </>
                                                 )
                                             }
                                         </div>

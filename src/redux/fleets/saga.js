@@ -10,6 +10,8 @@ import {
     EMIT_FLEET_ADD_SUPPLY,
     EMIT_NEXT_FLEETS_FETCH,
     storeSetNextFleetsData,
+    EMIT_GROUP_FLEETS_FETCH,
+    storeSetGroupFleetsData,
     storeStopInfiniteScrollFleetData
 } from "./actions";
 import {
@@ -38,6 +40,26 @@ export function* emitFleetsFetch() {
             const fleets = extractFleetsData(apiResponse.data.demandes);
             // Fire event to redux
             yield put(storeSetFleetsData({fleets, hasMoreData: apiResponse.data.hasMoreData, page: 2}));
+            // Fire event for request
+            yield put(storeFleetsRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeFleetsRequestFailed({message}));
+        }
+    });
+}
+
+// Fetch group fleets from API
+export function* emitGroupFleetsFetch() {
+    yield takeLatest(EMIT_GROUP_FLEETS_FETCH, function*() {
+        try {
+            // Fire event for request
+            yield put(storeFleetsRequestInit());
+            const apiResponse = yield call(apiGetRequest, api.GROUP_FLEETS_API_PATH);
+            // Extract data
+            const fleets = extractFleetsData(apiResponse.data.demandes);
+            // Fire event to redux
+            yield put(storeSetGroupFleetsData({fleets}));
             // Fire event for request
             yield put(storeFleetsRequestSucceed({message: apiResponse.message}));
         } catch (message) {
@@ -180,5 +202,6 @@ export default function* sagaFleets() {
         fork(emitAllFleetsFetch),
         fork(emitFleetAddSupply),
         fork(emitNextFleetsFetch),
+        fork(emitGroupFleetsFetch),
     ]);
 }

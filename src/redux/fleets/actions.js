@@ -2,6 +2,7 @@
 export const STORE_SET_FLEETS_DATA = 'STORE_SET_FLEETS_DATA';
 export const STORE_UPDATE_FLEET_DATA = 'STORE_UPDATE_FLEET_DATA';
 export const STORE_SET_NEXT_FLEETS_DATA = 'STORE_SET_NEXT_FLEETS_DATA';
+export const STORE_SET_GROUP_FLEETS_DATA = 'STORE_SET_GROUP_FLEETS_DATA';
 export const STORE_SET_FLEET_ACTION_DATA = 'STORE_SET_FLEET_ACTION_DATA';
 export const STORE_STOP_INFINITE_SCROLL_FLEETS_DATA = 'STORE_STOP_INFINITE_SCROLL_FLEETS_DATA';
 
@@ -10,6 +11,7 @@ export const EMIT_FLEETS_FETCH = 'EMIT_FLEETS_FETCH';
 export const EMIT_ALL_FLEETS_FETCH = 'EMIT_ALL_FLEETS_FETCH';
 export const EMIT_FLEET_ADD_SUPPLY = 'EMIT_FLEET_ADD_SUPPLY';
 export const EMIT_NEXT_FLEETS_FETCH = 'EMIT_NEXT_FLEETS_FETCH';
+export const EMIT_GROUP_FLEETS_FETCH = 'EMIT_GROUP_FLEETS_FETCH';
 
 //====================== Reducer trigger actions
 // Set fleets data in store
@@ -18,6 +20,12 @@ export const storeSetFleetsData = ({fleets, hasMoreData, page}) => ({
     fleets,
     hasMoreData,
     type: STORE_SET_FLEETS_DATA
+});
+
+// Set group fleets data in store
+export const storeSetGroupFleetsData = ({fleets}) => ({
+    fleets,
+    type: STORE_SET_GROUP_FLEETS_DATA
 });
 
 // Set next fleets data in store
@@ -69,4 +77,9 @@ export const emitFleetAddSupply = ({id, amount, sim}) => ({
     sim,
     amount,
     type: EMIT_FLEET_ADD_SUPPLY
+});
+
+// Emit group fleets fetch
+export const emitGroupFleetsFetch = () => ({
+    type: EMIT_GROUP_FLEETS_FETCH
 });
