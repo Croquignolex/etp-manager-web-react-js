@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 
 import OperatorComponent from "../OperatorComponent";
 import {formatNumber} from "../../functions/generalFunctions";
-import LoaderComponent from "../LoaderComponent";
 
 // Component
 function OperationsGroupTransfersCardsComponent({transfers, handleGroupConfirmModalShow, handleGroupDetailsModalShow}) {
@@ -40,7 +39,7 @@ function OperationsGroupTransfersCardsComponent({transfers, handleGroupConfirmMo
                                                 En attente de confirmation
                                             </b>
                                         </li>
-                                    </ul> 
+                                    </ul>
 									<div className="mt-3 text-right">
 										<button type="button"
 												className="btn btn-theme btn-sm"
@@ -54,7 +53,7 @@ function OperationsGroupTransfersCardsComponent({transfers, handleGroupConfirmMo
 										>
 											<i className="fa fa-check" /> Confirmer
 										</button>
-									</div> 
+									</div>
                                 </div>
                             </div>
                         </div>

@@ -64,7 +64,6 @@ export function* emitRefuelsFetch() {
 export function* emitGroupRefuelsFetch() {
     yield takeLatest(EMIT_GROUP_REFUELS_FETCH, function*() {
         try {
-            console.log("into saga")
             // Fire event for request
             yield put(storeRefuelsRequestInit());
             const apiResponse = yield call(apiGetRequest, api.GROUP_REFUELS_API_PATH);

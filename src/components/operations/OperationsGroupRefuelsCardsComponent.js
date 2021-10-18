@@ -15,7 +15,7 @@ function OperationsGroupRefuelsCardsComponent({refuels, handleGroupConfirmModalS
     const handleAgentDetailsModalHide = () => {
         setAgentDetailsModal({...agentDetailsModal, show: false})
     }
-console.log({refuels})
+
     // Render
     return (
         <>

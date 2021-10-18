@@ -143,7 +143,6 @@ function OperationsClearancesPage({refuels, refuelsRequests, hasMoreData, page, 
     }
 
     const handleGroup = () => {
-        console.log("into click")
         dispatch(emitGroupRefuelsFetch());
         setGroupToggle(true)
     }
