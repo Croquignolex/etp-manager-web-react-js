@@ -112,6 +112,7 @@ export const TRANSFERS_API_PATH = `${API_URL}/list_all_flottage_interne`;
 export const CANCEL_TRANSFER_API_PATH = `${API_URL}/annuler_flottage_interne`;
 export const CONFIRM_TRANSFER_API_PATH = `${API_URL}/approuve_flottage_interne`;
 export const GROUP_TRANSFERS_API_PATH = `${API_URL}/list_all_flottage_interne_groupee`;
+export const GROUP_CONFIRM_TRANSFER_API_PATH = `${API_URL}/approuve_flottage_interne_groupee`;
 
 // Supplies
 export const SUPPLIES_API_PATH = `${API_URL}/list_all_flottage`;

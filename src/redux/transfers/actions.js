@@ -15,6 +15,7 @@ export const EMIT_CANCEL_TRANSFER = 'EMIT_CANCEL_TRANSFER';
 export const EMIT_CONFIRM_TRANSFER = 'EMIT_CONFIRM_TRANSFER';
 export const EMIT_NEXT_TRANSFERS_FETCH = 'EMIT_NEXT_TRANSFERS_FETCH';
 export const EMIT_GROUP_TRANSFERS_FETCH = 'EMIT_GROUP_TRANSFERS_FETCH';
+export const EMIT_GROUP_CONFIRM_TRANSFER = 'EMIT_GROUP_CONFIRM_TRANSFER';
 
 //====================== Reducer trigger actions
 // Set transfers data in store
@@ -103,4 +104,10 @@ export const emitCancelTransfer = ({id}) => ({
 // Emit group transfers fetch
 export const emitGroupTransfersFetch = () => ({
     type: EMIT_GROUP_TRANSFERS_FETCH
+});
+
+// Emit group confirm transfer
+export const emitGroupConfirmTransfer = ({ids}) => ({
+    ids,
+    type: EMIT_GROUP_CONFIRM_TRANSFER
 });

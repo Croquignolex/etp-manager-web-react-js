@@ -10,7 +10,7 @@ import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
 import {CANCEL, DONE, FLEET_TYPE, PROCESSING} from "../../constants/typeConstants";
 
 // Component
-function OperationsTransfersCardsComponent({transfers, handleConfirmModalShow, handleCancelModalShow}) {
+function OperationsTransfersCardsComponent({transfers, group, handleConfirmModalShow, handleCancelModalShow}) {
     // Local states
     const [incomingSimDetailsModal, setIncomingSimDetailsModal] = useState({show: false, header: 'DETAIL DU COMPTE', id: ''});
     const [outgoingSimDetailsModal, setOutgoingSimDetailsModal] = useState({show: false, header: 'DETAIL DU COMPTE', id: ''});
@@ -31,9 +31,12 @@ function OperationsTransfersCardsComponent({transfers, handleConfirmModalShow, h
             <div className="row m-1">
                 {transfers.map((item, key) => {
                     return (
-                        <div className="col-lg-4 col-md-6" key={key}>
+                        <div className={`${group ? "col-lg-6" : "col-lg-4"} col-md-6`} key={key}>
                             <div className="card">
-                                <div className={`${fleetTypeBadgeColor(item.status).background} card-header`} />
+                                {group
+                                    ? <div className={`bg-secondary card-header`} />
+                                    : <div className={`${fleetTypeBadgeColor(item.status).background} card-header`} />
+                                }
                                 <div className="card-body">
                                     <ul className="list-group list-group-unbordered">
                                         <OperatorComponent operator={item.operator} />
@@ -69,35 +72,41 @@ function OperationsTransfersCardsComponent({transfers, handleConfirmModalShow, h
                                             <b>Emetteur</b>
                                             <span className="float-right">{item.user.name}</span>
                                         </li>
-                                        <li className="list-group-item">
-                                            {item.status === DONE && <b className="text-success text-bold">Confirmé</b>}
-                                            {item.status === CANCEL && <b className="text-danger text-bold">Annulé</b>}
-                                            {item.status === PROCESSING && <b className="text-danger text-bold">En attente de confirmation</b>}
-                                        </li>
+                                        {(!group) && (
+                                            <li className="list-group-item">
+                                                {item.status === DONE && <b className="text-success text-bold">Confirmé</b>}
+                                                {item.status === CANCEL && <b className="text-danger text-bold">Annulé</b>}
+                                                {item.status === PROCESSING && <b className="text-danger text-bold">En attente de confirmation</b>}
+                                            </li>
+                                        )}
                                     </ul>
-                                    {((item.status === PROCESSING) && (item.type.includes('->' + FLEET_TYPE))) && (
-                                        <div className="mt-3 text-right">
-                                            {item.actionLoader ? <LoaderComponent little={true} /> : (
-                                                <button type="button"
-                                                        className="btn btn-theme btn-sm"
-                                                        onClick={() => handleConfirmModalShow(item)}
-                                                >
-                                                    <i className="fa fa-check" /> Confirmer
-                                                </button>
+                                    {(!group) && (
+                                        <>
+                                            {((item.status === PROCESSING) && (item.type.includes('->' + FLEET_TYPE))) && (
+                                                <div className="mt-3 text-right">
+                                                    {item.actionLoader ? <LoaderComponent little={true} /> : (
+                                                        <button type="button"
+                                                                className="btn btn-theme btn-sm"
+                                                                onClick={() => handleConfirmModalShow(item)}
+                                                        >
+                                                            <i className="fa fa-check" /> Confirmer
+                                                        </button>
+                                                    )}
+                                                </div>
                                             )}
-                                        </div>
-                                    )}
-                                    {((item.status === PROCESSING) && (item.type.includes(FLEET_TYPE + '->'))) && (
-                                        <div className="mt-3 text-right">
-                                            {item.actionLoader ? <LoaderComponent little={true} /> : (
-                                                <button type="button"
-                                                        className="btn btn-danger btn-sm"
-                                                        onClick={() => handleCancelModalShow(item)}
-                                                >
-                                                    <i className="fa fa-times" /> Annuler
-                                                </button>
+                                            {((item.status === PROCESSING) && (item.type.includes(FLEET_TYPE + '->'))) && (
+                                                <div className="mt-3 text-right">
+                                                    {item.actionLoader ? <LoaderComponent little={true} /> : (
+                                                        <button type="button"
+                                                                className="btn btn-danger btn-sm"
+                                                                onClick={() => handleCancelModalShow(item)}
+                                                        >
+                                                            <i className="fa fa-times" /> Annuler
+                                                        </button>
+                                                    )}
+                                                </div>
                                             )}
-                                        </div>
+                                        </>
                                     )}
                                 </div>
                             </div>
@@ -125,9 +134,15 @@ function OperationsTransfersCardsComponent({transfers, handleConfirmModalShow, h
 
 // Prop types to ensure destroyed props data type
 OperationsTransfersCardsComponent.propTypes = {
+    group: PropTypes.bool,
     transfers: PropTypes.array.isRequired,
-    handleCancelModalShow: PropTypes.func.isRequired,
-    handleConfirmModalShow: PropTypes.func.isRequired,
+    handleCancelModalShow: PropTypes.func,
+    handleConfirmModalShow: PropTypes.func,
+};
+
+// Prop types to ensure destroyed props data type
+OperationsTransfersCardsComponent.defaultProps = {
+    group: false
 };
 
 export default React.memo(OperationsTransfersCardsComponent);

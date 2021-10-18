@@ -19,7 +19,8 @@ import {
     emitCancelTransfer,
     emitConfirmTransfer,
     emitNextTransfersFetch,
-    emitGroupTransfersFetch
+    emitGroupTransfersFetch,
+    emitGroupConfirmTransfer
 } from "../../redux/transfers/actions";
 import {
     storeTransfersRequestReset,
@@ -124,8 +125,13 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
     }
 
     // Show group supply modal form
-    const handleGroupConfirmModalShow = ({id, amount, user}) => {
-        setGroupConfirmModal({...groupConfirmModal, id, body: `Confirmer le transfert de flotte groupee de ${user.name} de ${formatNumber(amount)}?`, show: true})
+    const handleGroupConfirmModalShow = (item) => {
+        const ids = [];
+        item.forEach(item => {
+            ids.push(item.id);
+        });
+        const amount = item.reduce((acc, val) => acc + val.amount, 0);
+        setGroupConfirmModal({...groupConfirmModal, id: ids, body: `Confirmer le transfert de flotte groupee de ${item[0].user.name} de ${formatNumber(amount)}?`, show: true})
     }
 
     // Hide group supply modal form
@@ -156,7 +162,7 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
     // Trigger when group transfer confirm confirmed on modal
     const handleGroupConfirm = (id) => {
         handleGroupConfirmModalHide();
-        // dispatch(emitConfirmTransfer({id}));
+        dispatch(emitGroupConfirmTransfer({ids: id}));
     };
 
     // Trigger when clearance confirm confirmed on modal

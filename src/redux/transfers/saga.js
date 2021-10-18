@@ -17,6 +17,7 @@ import {
     storeSetGroupTransfersData,
     storeSetTransferActionData,
     EMIT_GROUP_TRANSFERS_FETCH,
+    EMIT_GROUP_CONFIRM_TRANSFER,
     storeStopInfiniteScrollTransferData
 } from "./actions";
 import {
@@ -36,6 +37,7 @@ import {
     storeCancelTransferRequestSucceed,
     storeConfirmTransferRequestSucceed
 } from "../requests/transfers/actions";
+import {GROUP_CONFIRM_TRANSFER_API_PATH} from "../../constants/apiConstants";
 
 // Fetch transfers from API
 export function* emitTransfersFetch() {
@@ -66,7 +68,7 @@ export function* emitGroupTransfersFetch() {
             const apiResponse = yield call(apiGetRequest, api.GROUP_TRANSFERS_API_PATH);
             // Extract data
             const transfers = extractTransfersData(apiResponse.data.flottages);
-            const groupedTransfer = Object.values(Lodash.groupBy(transfers, transfer => [transfer.sim_outgoing.id, transfer.operator.id]));
+            const groupedTransfer = Object.values(Lodash.groupBy(transfers, transfer => [transfer.user.id, transfer.operator.id]));
             // Fire event to redux
             yield put(storeSetGroupTransfersData({transfers: groupedTransfer}));
             // Fire event for request
@@ -74,6 +76,33 @@ export function* emitGroupTransfersFetch() {
         } catch (message) {
             // Fire event for request
             yield put(storeTransfersRequestFailed({message}));
+        }
+    });
+}
+
+// Confirm group transfer from API
+export function* emitGroupConfirmTransfer() {
+    yield takeLatest(EMIT_GROUP_CONFIRM_TRANSFER, function*({ids}) {
+        try {
+            // Fire event at redux to toggle action loader
+            yield put(storeSetTransferActionData({id: ids[0]}));
+            // Fire event for request
+            yield put(storeConfirmTransferRequestInit());
+            const apiResponse = yield call(apiPostRequest, api.GROUP_CONFIRM_TRANSFER_API_PATH, {ids});
+            const apiResponse2 = yield call(apiGetRequest, api.GROUP_TRANSFERS_API_PATH);
+            // Extract data
+            const transfers = extractTransfersData(apiResponse2.data.flottages);
+            const groupedTransfer = Object.values(Lodash.groupBy(transfers, transfer => [transfer.user.id, transfer.operator.id]));
+            // Fire event to redux
+            yield put(storeSetGroupTransfersData({transfers: groupedTransfer}));
+            // Fire event at redux to toggle action loader
+            yield put(storeSetTransferActionData({id: ids[0]}));
+            // Fire event for request
+            yield put(storeConfirmTransferRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeSetTransferActionData({id: ids[0]}));
+            yield put(storeConfirmTransferRequestFailed({message}));
         }
     });
 }
@@ -251,5 +280,6 @@ export default function* sagaTransfers() {
         fork(emitConfirmTransfer),
         fork(emitNextTransfersFetch),
         fork(emitGroupTransfersFetch),
+        fork(emitGroupConfirmTransfer),
     ]);
 }
