@@ -126,9 +126,11 @@ export const emitGroupSupplyAddReturn = ({ids, amount, sim}) => ({
 });
 
 // Emit group supply add return
-export const emitGroupSupplyAddRecovery = ({ids, amount}) => ({
+export const emitGroupSupplyAddRecovery = ({ids, agentSim, managerSim, amount}) => ({
     ids,
     amount,
+    agentSim,
+    managerSim,
     type: EMIT_GROUP_SUPPLY_ADD_RECOVERY
 });
 

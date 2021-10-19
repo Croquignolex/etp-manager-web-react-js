@@ -16,6 +16,7 @@ import OperationsFleetsReturnContainer from "../../containers/operations/Operati
 import OperationsCashRecoveryContainer from "../../containers/operations/OperationsCashRecoveryContainer";
 import OperationsFleetsAddSupplyContainer from "../../containers/operations/OperationsFleetsAddSupplyContainer";
 import RequestsGroupSuppliesCardsComponent from "../../components/operations/RequestsGroupSuppliesCardsComponent";
+import OperationsGroupSuppliesAddReturnContainer from "../../containers/operations/OperationsGroupSuppliesAddReturnContainer";
 import OperationsFleetsAddAnonymousSupplyContainer from "../../containers/operations/OperationsFleetsAddAnonymousSupplyContainer";
 import {
     applySuccess,
@@ -324,14 +325,13 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, us
             <FormModalComponent modal={supplyDetailsModal} handleClose={handleSupplyDetailsModalHide}>
                 <SupplyDetailsContainer supply={supplyDetailsModal.supply} />
             </FormModalComponent>
-            {/*================================*********************============================*/}
             <FormModalComponent modal={groupReturnModal} handleClose={handleGroupReturnModalHide}>
-                {/*<OperationsGroupSuppliesAddReturnComponent supply={groupReturnModal.item}
+                <OperationsGroupSuppliesAddReturnContainer supply={groupReturnModal.item}
                                                            handleClose={handleGroupReturnModalHide}
-                />*/}
+                />
             </FormModalComponent>
             <FormModalComponent modal={groupRecoveryModal} handleClose={handleGroupRecoveryModalHide}>
-                {/*<OperationsGroupSuppliesAddRecoveryComponent supply={groupRecoveryModal.item}
+                {/*<OperationsGroupSuppliesAddRecoveryContainer supply={groupRecoveryModal.item}
                                                              handleClose={handleGroupRecoveryModalHide}
                 />*/}
             </FormModalComponent>
