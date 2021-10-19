@@ -105,12 +105,14 @@ export const SUPPLY_FLEET_RECOVERIES_API_PATH = `${API_URL}/list_retour_flotte`;
 export const GROUP_RETURNS_API_PATH = `${API_URL}/list_all_retour_flotte_groupee`;
 export const ADD_FLEET_RETURNS_API_PATH = `${API_URL}/retour_flotte_sans_flottage`;
 export const CONFIRM_FLEET_RECOVERIES_API_PATH = `${API_URL}/approuve_retour_flotte`;
+export const GROUP_NEW_FLEET_RECOVERIES_API_PATH = `${API_URL}/retour_flotte_groupee`;
 export const GROUP_CONFIRM_RETURN_API_PATH = `${API_URL}/approuve_retour_flotte_groupee`;
 
 // Cash recovery
 export const NEW_CASH_RECOVERIES_API_PATH = `${API_URL}/recouvrement`;
 export const CASH_RECOVERIES_API_PATH = `${API_URL}/list_all_recouvrement`;
 export const SUPPLY_CASH_RECOVERIES_API_PATH = `${API_URL}/list_recouvrement`;
+export const GROUP_NEW_CASH_RECOVERIES_API_PATH = `${API_URL}/recouvrement_groupee`;
 
 // Transfers
 export const NEW_TRANSFERS_API_PATH = `${API_URL}/flottage_rz`;
