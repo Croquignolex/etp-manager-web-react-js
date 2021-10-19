@@ -5,6 +5,7 @@ export const STORE_UPDATE_SUPPLY_DATA = 'STORE_UPDATE_SUPPLY_DATA';
 export const STORE_SET_NEW_SUPPLY_DATA = 'STORE_SET_NEW_SUPPLY_DATA';
 export const STORE_SET_SUPPLY_ACTION_DATA = 'STORE_SET_SUPPLY_ACTION_DATA';
 export const STORE_SET_NEXT_SUPPLIES_DATA = 'STORE_SET_NEXT_SUPPLIES_DATA';
+export const STORE_SET_GROUP_SUPPLIES_DATA = 'STORE_SET_GROUP_SUPPLIES_DATA';
 export const STORE_STOP_INFINITE_SCROLL_SUPPLY_DATA = 'STORE_STOP_INFINITE_SCROLL_SUPPLY_DATA';
 
 // Middleware action types
@@ -13,7 +14,10 @@ export const EMIT_CANCEL_SUPPLY = 'EMIT_CANCEL_SUPPLY';
 export const EMIT_SUPPLIES_FETCH = 'EMIT_SUPPLIES_FETCH';
 export const EMIT_NEXT_SUPPLIES_FETCH = 'EMIT_NEXT_SUPPLIES_FETCH';
 export const EMIT_ADD_ANONYMOUS_SUPPLY = 'EMIT_ADD_ANONYMOUS_SUPPLY';
+export const EMIT_GROUP_SUPPLIES_FETCH = 'EMIT_GROUP_SUPPLIES_FETCH';
 export const EMIT_SEARCH_SUPPLIES_FETCH = 'EMIT_SEARCH_SUPPLIES_FETCH';
+export const EMIT_GROUP_SUPPLY_ADD_RETURN = 'EMIT_GROUP_SUPPLY_ADD_RETURN';
+export const EMIT_GROUP_SUPPLY_ADD_RECOVERY = 'EMIT_GROUP_SUPPLY_ADD_RECOVERY';
 
 //====================== Reducer trigger actions
 // Set supplies data in store
@@ -62,6 +66,12 @@ export const storeSetSupplyActionData = ({id}) => ({
     type: STORE_SET_SUPPLY_ACTION_DATA
 });
 
+// Set group supplies data in store
+export const storeSetGroupSuppliesData = ({supplies}) => ({
+    supplies,
+    type: STORE_SET_GROUP_SUPPLIES_DATA
+});
+
 //====================== Middleware trigger actions
 // Emit supplies fetch
 export const emitSuppliesFetch = () => ({
@@ -105,4 +115,24 @@ export const emitSearchSuppliesFetch = ({needle}) => ({
 export const emitCancelSupply = ({id}) => ({
     id,
     type: EMIT_CANCEL_SUPPLY
+});
+
+// Emit group supply add return
+export const emitGroupSupplyAddReturn = ({ids, amount, sim}) => ({
+    ids,
+    sim,
+    amount,
+    type: EMIT_GROUP_SUPPLY_ADD_RETURN
+});
+
+// Emit group supply add return
+export const emitGroupSupplyAddRecovery = ({ids, amount}) => ({
+    ids,
+    amount,
+    type: EMIT_GROUP_SUPPLY_ADD_RECOVERY
+});
+
+// Emit group supplies fetch
+export const emitGroupSuppliesFetch = () => ({
+    type: EMIT_GROUP_SUPPLIES_FETCH
 });

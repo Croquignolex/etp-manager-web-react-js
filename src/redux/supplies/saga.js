@@ -1,3 +1,4 @@
+import Lodash from "lodash";
 import {all, call, fork, put, takeLatest} from 'redux-saga/effects'
 
 import {DONE} from "../../constants/typeConstants";
@@ -14,6 +15,8 @@ import {
     storeSetSupplyActionData,
     EMIT_NEXT_SUPPLIES_FETCH,
     EMIT_ADD_ANONYMOUS_SUPPLY,
+    storeSetGroupSuppliesData,
+    EMIT_GROUP_SUPPLIES_FETCH,
     EMIT_SEARCH_SUPPLIES_FETCH,
     storeStopInfiniteScrollSupplyData
 } from "./actions";
@@ -46,6 +49,28 @@ export function* emitSuppliesFetch() {
             const supplies = extractSuppliesData(apiResponse.data.flottages);
             // Fire event to redux
             yield put(storeSetSuppliesData({supplies, hasMoreData: apiResponse.data.hasMoreData, page: 2}));
+            // Fire event for request
+            yield put(storeSuppliesRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeSuppliesRequestFailed({message}));
+        }
+    });
+}
+
+// Fetch group fleets from API
+export function* emitGroupSuppliesFetch() {
+    yield takeLatest(EMIT_GROUP_SUPPLIES_FETCH, function*() {
+        try {
+            // Fire event for request
+            yield put(storeSuppliesRequestInit());
+            yield put(storeSetSuppliesData({supplies: [], hasMoreData: false, page: 0}));
+            const apiResponse = yield call(apiGetRequest, api.GROUP_SUPPLIES_API_PATH);
+            // Extract data
+            const supplies = extractSuppliesData(apiResponse.data.flottages);
+            const groupedFleet = Object.values(Lodash.groupBy(supplies, fleet => [fleet.agent.id, fleet.operator.id]));
+            // Fire event to redux
+            yield put(storeSetGroupSuppliesData({fleets: groupedFleet}));
             // Fire event for request
             yield put(storeSuppliesRequestSucceed({message: apiResponse.message}));
         } catch (message) {
@@ -269,6 +294,7 @@ export default function* sagaSupplies() {
         fork(emitCancelSupply),
         fork(emitSuppliesFetch),
         fork(emitNextSuppliesFetch),
+        fork(emitGroupSuppliesFetch),
         fork(emitAddAnonymousSupply),
         fork(emitSearchSuppliesFetch),
     ]);
