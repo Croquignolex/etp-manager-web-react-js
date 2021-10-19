@@ -11,10 +11,16 @@ import {RECOVERIES_FLEET_PAGE} from "../../constants/pageNameConstants";
 import TableSearchComponent from "../../components/TableSearchComponent";
 import FormModalComponent from "../../components/modals/FormModalComponent";
 import ConfirmModalComponent from "../../components/modals/ConfirmModalComponent";
-import {emitConfirmReturn, emitNextReturnsFetch, emitReturnsFetch} from "../../redux/returns/actions";
 import RecoveriesFleetsCardsComponent from "../../components/recoveries/RecoveriesFleetsCardsComponent";
 import RecoveriesFleetsAddReturnContainer from "../../containers/recoveries/RecoveriesFleetsAddReturnContainer";
 import {storeReturnsRequestReset, storeNextReturnsRequestReset, storeConfirmReturnRequestReset} from "../../redux/requests/returns/actions";
+import {
+    emitReturnsFetch,
+    emitConfirmReturn,
+    emitNextReturnsFetch,
+    emitGroupReturnsFetch,
+    emitGroupConfirmReturn
+} from "../../redux/returns/actions";
 import {
     applySuccess,
     dateToString,
@@ -29,8 +35,11 @@ import {
 function RecoveriesFleetsPage({returns, returnsRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
+    const [groupToggle, setGroupToggle] = useState(false);
     const [confirmModal, setConfirmModal] = useState({show: false, body: '', id: 0});
+    const [groupConfirmModal, setGroupConfirmModal] = useState({show: false, body: '', id: []});
     const [recoveryModal, setRecoveryModal] = useState({show: false, header: "EFFECTUER UN RETOUR FLOTTE"});
+    const [groupDetailModal, setGroupDetailModal] = useState({show: false, header: 'DETAIL DU TRANSFERT DE FLOTTE GROUPE', item: {}});
 
     // Local effects
     useEffect(() => {
@@ -77,12 +86,6 @@ function RecoveriesFleetsPage({returns, returnsRequests, hasMoreData, page, disp
         setConfirmModal({...confirmModal, show: false})
     }
 
-    // Trigger when fleet recovery confirm confirmed on modal
-    const handleConfirm = (id) => {
-        handleConfirmModalHide();
-        dispatch(emitConfirmReturn({id}));
-    };
-
     // Show recovery modal form
     const handleRecoveryModalShow = (item) => {
         setRecoveryModal({...recoveryModal, item, show: true})
@@ -92,6 +95,53 @@ function RecoveriesFleetsPage({returns, returnsRequests, hasMoreData, page, disp
     const handleRecoveryModalHide = () => {
         setRecoveryModal({...recoveryModal, show: false})
     }
+
+    // Show group supply modal form
+    const handleGroupConfirmModalShow = (item) => {
+        const ids = [];
+        item.forEach(item => {
+            ids.push(item.id);
+        });
+        const amount = item.reduce((acc, val) => acc + val.amount, 0);
+        setGroupConfirmModal({...groupConfirmModal, id: ids, body: `Confirmer le transfert de flotte groupée de ${item[0].user.name} de ${formatNumber(amount)}?`, show: true})
+    }
+
+    // Hide group supply modal form
+    const handleGroupConfirmModalHide = () => {
+        setGroupConfirmModal({...groupConfirmModal, show: false})
+    }
+
+    // Show group detail modal form
+    const handleGroupDetailsModalShow = (item) => {
+        setGroupDetailModal({...groupDetailModal, item, show: true})
+    }
+
+    // Hide group detail modal form
+    const handleGroupDetailsModalHide = () => {
+        setGroupDetailModal({...groupDetailModal, show: false})
+    }
+
+    const handleGroup = () => {
+        dispatch(emitGroupReturnsFetch());
+        setGroupToggle(true)
+    }
+
+    const handleUngroup = () => {
+        dispatch(emitReturnsFetch());
+        setGroupToggle(false);
+    }
+
+    // Trigger when group transfer confirm confirmed on modal
+    const handleGroupConfirm = (id) => {
+        handleGroupConfirmModalHide();
+        dispatch(emitGroupConfirmReturn({ids: id}));
+    };
+
+    // Trigger when fleet recovery confirm confirmed on modal
+    const handleConfirm = (id) => {
+        handleConfirmModalHide();
+        dispatch(emitConfirmReturn({id}));
+    };
 
     // Render
     return (
@@ -115,28 +165,59 @@ function RecoveriesFleetsPage({returns, returnsRequests, hasMoreData, page, disp
                                             {requestFailed(returnsRequests.list) && <ErrorAlertComponent message={returnsRequests.list.message} />}
                                             {requestFailed(returnsRequests.next) && <ErrorAlertComponent message={returnsRequests.next.message} />}
                                             {requestFailed(returnsRequests.apply) && <ErrorAlertComponent message={returnsRequests.apply.message} />}
-                                            <button type="button"
-                                                    className="btn btn-theme mb-2"
-                                                    onClick={handleRecoveryModalShow}
-                                            >
-                                                <i className="fa fa-redo" /> Effectuer un retour flotte
-                                            </button>
-                                            {/* Search result & Infinite scroll */}
-                                            {(needle !== '' && needle !== undefined)
-                                                ? <RecoveriesFleetsCardsComponent returns={searchEngine(returns, needle)}
-                                                                                  handleConfirmModalShow={handleConfirmModalShow}
-                                                />
-                                                : (requestLoading(returnsRequests.list) ? <LoaderComponent /> :
-                                                        <InfiniteScroll hasMore={hasMoreData}
-                                                                        dataLength={returns.length}
-                                                                        loader={<LoaderComponent />}
-                                                                        next={handleNextReturnsData}
-                                                                        style={{ overflow: 'hidden' }}
-                                                        >
-                                                            <RecoveriesFleetsCardsComponent returns={returns}
-                                                                                            handleConfirmModalShow={handleConfirmModalShow}
+                                            {(groupToggle) ?
+                                                ((requestLoading(returnsRequests.list) || requestLoading(returnsRequests.apply)) ? <LoaderComponent /> :
+                                                        <>
+                                                            <button type="button"
+                                                                    className="btn btn-secondary mb-2 ml-2"
+                                                                    onClick={handleUngroup}
+                                                            >
+                                                                <i className="fa fa-table" /> Dégrouper
+                                                            </button>
+                                                            <OperationsGroupReturnsCardsComponent returns={returns}
+                                                                                                    handleGroupConfirmModalShow={handleGroupConfirmModalShow}
+                                                                                                    handleGroupDetailsModalShow={handleGroupDetailsModalShow}
                                                             />
-                                                        </InfiniteScroll>
+                                                        </>
+                                                ) :
+                                                (
+                                                    <>
+
+                                                        {!requestLoading(returnsRequests.list) && (
+                                                            <>
+                                                                <button type="button"
+                                                                        className="btn btn-theme mb-2"
+                                                                        onClick={handleRecoveryModalShow}
+                                                                >
+                                                                    <i className="fa fa-redo" /> Effectuer un retour flotte
+                                                                </button>
+                                                                <button type="button"
+                                                                        className="btn btn-danger mb-2 ml-2"
+                                                                        onClick={handleGroup}
+                                                                >
+                                                                    <i className="fa fa-table"/> Grouper
+                                                                </button>
+                                                            </>
+                                                        )}
+                                                        {/* Search result & Infinite scroll */}
+                                                        {(needle !== '' && needle !== undefined)
+                                                            ? <RecoveriesFleetsCardsComponent returns={searchEngine(returns, needle)}
+                                                                                              handleConfirmModalShow={handleConfirmModalShow}
+                                                            />
+                                                            : (requestLoading(returnsRequests.list) ? <LoaderComponent /> :
+                                                                    <InfiniteScroll hasMore={hasMoreData}
+                                                                                    dataLength={returns.length}
+                                                                                    loader={<LoaderComponent />}
+                                                                                    next={handleNextReturnsData}
+                                                                                    style={{ overflow: 'hidden' }}
+                                                                    >
+                                                                        <RecoveriesFleetsCardsComponent returns={returns}
+                                                                                                        handleConfirmModalShow={handleConfirmModalShow}
+                                                                        />
+                                                                    </InfiniteScroll>
+                                                            )
+                                                        }
+                                                    </>
                                                 )
                                             }
                                         </div>
@@ -151,9 +232,16 @@ function RecoveriesFleetsPage({returns, returnsRequests, hasMoreData, page, disp
             <ConfirmModalComponent modal={confirmModal}
                                    handleModal={handleConfirm}
                                    handleClose={handleConfirmModalHide}
-            /> 
+            />
+            <ConfirmModalComponent modal={groupConfirmModal}
+                                   handleModal={handleGroupConfirm}
+                                   handleClose={handleGroupConfirmModalHide}
+            />
             <FormModalComponent modal={recoveryModal} handleClose={handleRecoveryModalHide}>
                 <RecoveriesFleetsAddReturnContainer handleClose={handleRecoveryModalHide} />
+            </FormModalComponent>
+            <FormModalComponent modal={groupDetailModal} handleClose={handleGroupDetailsModalHide}>
+                <RecoveriesFleetsCardsComponent group returns={groupDetailModal.item} />
             </FormModalComponent>
         </>
     )
