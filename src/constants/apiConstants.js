@@ -77,6 +77,8 @@ export const CANCEL_OUTLAY_API_PATH = `${API_URL}/annuler_decaissement`;
 // Payment
 export const PAYMENTS_API_PATH = `${API_URL}/encaissement_list`;
 export const CONFIRM_PAYMENT_API_PATH = `${API_URL}/approuve_encaissement`;
+export const GROUP_PAYMENTS_API_PATH = `${API_URL}/encaissement_list_groupee`;
+export const GROUP_CONFIRM_PAYMENT_API_PATH = `${API_URL}/approuve_encaissement_groupee`;
 
 // Zones
 export const All_ZONES_API_PATH = `${API_URL}/zone_list_all`;

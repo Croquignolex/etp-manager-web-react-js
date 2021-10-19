@@ -17,6 +17,10 @@ function reduce(state = initialState, action) {
         case actions.STORE_SET_PAYMENTS_DATA:
             nextState = {list: action.payments, page: action.page, hasMoreData: action.hasMoreData};
             return nextState || state;
+        // Resolve event to set payments data
+        case actions.STORE_SET_GROUP_PAYMENTS_DATA:
+            nextState = {...state, list: action.payments};
+            return nextState || state;
         // Resolve event to set next payments data
         case actions.STORE_SET_NEXT_PAYMENTS_DATA:
             nextState = {list: [...state.list, ...action.payments], page: action.page, hasMoreData: action.hasMoreData};

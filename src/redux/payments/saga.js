@@ -1,3 +1,4 @@
+import Lodash from "lodash";
 import {all, call, fork, put, takeLatest} from 'redux-saga/effects'
 
 import * as api from "../../constants/apiConstants";
@@ -10,6 +11,9 @@ import {
     storeSetNextPaymentsData,
     EMIT_NEXT_PAYMENTS_FETCH,
     storeSetPaymentActionData,
+    EMIT_GROUP_PAYMENTS_FETCH,
+    storeSetGroupPaymentsData,
+    EMIT_GROUP_CONFIRM_PAYMENT,
     storeStopInfiniteScrollPaymentData
 } from "./actions";
 import {
@@ -30,6 +34,7 @@ export function* emitPaymentsFetch() {
         try {
             // Fire event for request
             yield put(storePaymentsRequestInit());
+            yield put(storeSetPaymentsData({payments: [], hasMoreData: false, page: 0}));
             const apiResponse = yield call(apiGetRequest, `${api.PAYMENTS_API_PATH}?page=1`);
             // Extract data
             const payments = extractPaymentsData(apiResponse.data.versements);
@@ -40,6 +45,50 @@ export function* emitPaymentsFetch() {
         } catch (message) {
             // Fire event for request
             yield put(storePaymentsRequestFailed({message}));
+        }
+    });
+}
+
+// Fetch group payments from API
+export function* emitGroupPaymentsFetch() {
+    yield takeLatest(EMIT_GROUP_PAYMENTS_FETCH, function*() {
+        try {
+            // Fire event for request
+            yield put(storePaymentsRequestInit());
+            yield put(storeSetPaymentsData({payments: [], hasMoreData: false, page: 0}));
+            const apiResponse = yield call(apiGetRequest, api.GROUP_PAYMENTS_API_PATH);
+            // Extract data
+            const payments = extractPaymentsData(apiResponse.data.versements);
+            const groupedPayment = Object.values(Lodash.groupBy(payments, payment => payment.manager.id));
+            // Fire event to redux
+            yield put(storeSetGroupPaymentsData({payments: groupedPayment}));
+            // Fire event for request
+            yield put(storePaymentsRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storePaymentsRequestFailed({message}));
+        }
+    });
+}
+
+// Confirm group payment from API
+export function* emitGroupConfirmPayment() {
+    yield takeLatest(EMIT_GROUP_CONFIRM_PAYMENT, function*({ids}) {
+        try {
+            // Fire event for request
+            yield put(storeConfirmPaymentRequestInit());
+            const apiResponse = yield call(apiPostRequest, api.GROUP_CONFIRM_PAYMENT_API_PATH, {ids});
+            const apiResponse2 = yield call(apiGetRequest, api.GROUP_PAYMENTS_API_PATH);
+            // Extract data
+            const payments = extractPaymentsData(apiResponse2.data.versements);
+            const groupedPayment = Object.values(Lodash.groupBy(payments, payment => payment.manager.id));
+            // Fire event to redux
+            yield put(storeSetGroupPaymentsData({payments: groupedPayment}));
+            // Fire event for request
+            yield put(storeConfirmPaymentRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeConfirmPaymentRequestFailed({message}));
         }
     });
 }
@@ -138,5 +187,7 @@ export default function* sagaPayments() {
         fork(emitPaymentsFetch),
         fork(emitConfirmPayment),
         fork(emitNextPaymentsFetch),
+        fork(emitGroupPaymentsFetch),
+        fork(emitGroupConfirmPayment),
     ]);
 }

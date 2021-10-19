@@ -3,12 +3,15 @@ export const STORE_SET_PAYMENTS_DATA = 'STORE_SET_PAYMENTS_DATA';
 export const STORE_UPDATE_PAYMENT_DATA = 'STORE_UPDATE_PAYMENT_DATA';
 export const STORE_SET_NEXT_PAYMENTS_DATA = 'STORE_SET_NEXT_PAYMENTS_DATA';
 export const STORE_SET_PAYMENT_ACTION_DATA = 'STORE_SET_PAYMENT_ACTION_DATA';
+export const STORE_SET_GROUP_PAYMENTS_DATA = 'STORE_SET_GROUP_PAYMENTS_DATA';
 export const STORE_STOP_INFINITE_SCROLL_PAYMENT_DATA = 'STORE_STOP_INFINITE_SCROLL_PAYMENT_DATA';
 
 // Middleware action types
 export const EMIT_PAYMENTS_FETCH = 'EMIT_PAYMENTS_FETCH';
 export const EMIT_CONFIRM_PAYMENT = 'EMIT_CONFIRM_PAYMENT';
 export const EMIT_NEXT_PAYMENTS_FETCH = 'EMIT_NEXT_PAYMENTS_FETCH';
+export const EMIT_GROUP_PAYMENTS_FETCH = 'EMIT_GROUP_PAYMENTS_FETCH';
+export const EMIT_GROUP_CONFIRM_PAYMENT = 'EMIT_GROUP_CONFIRM_PAYMENT';
 
 //====================== Reducer trigger actions
 // Set payments data in store
@@ -44,6 +47,12 @@ export const storeUpdatePaymentData = ({id}) => ({
     type: STORE_UPDATE_PAYMENT_DATA
 });
 
+// Set group payments data in store
+export const storeSetGroupPaymentsData = ({payments}) => ({
+    payments,
+    type: STORE_SET_GROUP_PAYMENTS_DATA
+});
+
 //====================== Middleware trigger actions
 // Emit payments fetch
 export const emitPaymentsFetch = () => ({
@@ -60,4 +69,15 @@ export const emitNextPaymentsFetch = ({page}) => ({
 export const emitConfirmPayment = ({id}) => ({
     id,
     type: EMIT_CONFIRM_PAYMENT
+});
+
+// Emit group payments fetch
+export const emitGroupPaymentsFetch = () => ({
+    type: EMIT_GROUP_PAYMENTS_FETCH
+});
+
+// Emit group confirm payment
+export const emitGroupConfirmPayment = ({ids}) => ({
+    ids,
+    type: EMIT_GROUP_CONFIRM_PAYMENT
 });
