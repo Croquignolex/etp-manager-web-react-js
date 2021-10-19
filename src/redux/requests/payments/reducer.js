@@ -1,5 +1,6 @@
 import * as actions from "./actions";
 import {requestFailedValue, requestInitValue, requestSucceededValue} from "../../../functions/reduxFunctions";
+import {STORE_CONFIRM_PAYMENT_REQUEST_INIT} from "./actions";
 
 // Partial global store for requests data management
 const initialState = {
@@ -47,6 +48,10 @@ function reduce(state = initialState, action) {
             nextState = {...state, next: initialState.next};
             return nextState || state;
         // ======================================================== Confirm payment
+        // Resolve event to set confirm payment init request store data
+        case actions.STORE_CONFIRM_PAYMENT_REQUEST_INIT:
+            nextState = {...state, apply: requestInitValue()};
+            return nextState || state;
         // Resolve event to set confirm payment init request store data
         case actions.STORE_CONFIRM_PAYMENT_REQUEST_FAILED:
             nextState = {...state, apply: requestFailedValue(action.message)};
