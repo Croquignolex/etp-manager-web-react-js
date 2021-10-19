@@ -70,7 +70,7 @@ export function* emitGroupSuppliesFetch() {
             const supplies = extractSuppliesData(apiResponse.data.flottages);
             const groupedFleet = Object.values(Lodash.groupBy(supplies, fleet => [fleet.status, fleet.agent.id, fleet.operator.id]));
             // Fire event to redux
-            yield put(storeSetGroupSuppliesData({fleets: groupedFleet}));
+            yield put(storeSetGroupSuppliesData({supplies: groupedFleet}));
             // Fire event for request
             yield put(storeSuppliesRequestSucceed({message: apiResponse.message}));
         } catch (message) {

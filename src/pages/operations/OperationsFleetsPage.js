@@ -234,9 +234,9 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, us
                                                                 <i className="fa fa-table" /> Dégrouper
                                                             </button>
                                                             <RequestsGroupSuppliesCardsComponent supplies={supplies}
-                                                                                               handleGroupReturnModalShow={handleGroupReturnModalShow}
-                                                                                               handleGroupDetailsModalShow={handleGroupDetailsModalShow}
-                                                                                               handleGroupRecoveryModalShow={handleGroupRecoveryModalShow}
+                                                                                                 handleGroupReturnModalShow={handleGroupReturnModalShow}
+                                                                                                 handleGroupDetailsModalShow={handleGroupDetailsModalShow}
+                                                                                                 handleGroupRecoveryModalShow={handleGroupRecoveryModalShow}
                                                             />
                                                         </>
                                                 ) :
