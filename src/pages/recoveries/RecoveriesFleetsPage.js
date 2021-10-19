@@ -13,6 +13,7 @@ import FormModalComponent from "../../components/modals/FormModalComponent";
 import ConfirmModalComponent from "../../components/modals/ConfirmModalComponent";
 import RecoveriesFleetsCardsComponent from "../../components/recoveries/RecoveriesFleetsCardsComponent";
 import RecoveriesFleetsAddReturnContainer from "../../containers/recoveries/RecoveriesFleetsAddReturnContainer";
+import OperationsGroupReturnsCardsComponent from "../../components/recoveries/OperationsGroupReturnsCardsComponent";
 import {storeReturnsRequestReset, storeNextReturnsRequestReset, storeConfirmReturnRequestReset} from "../../redux/requests/returns/actions";
 import {
     emitReturnsFetch,
