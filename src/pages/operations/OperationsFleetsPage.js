@@ -34,19 +34,24 @@ import {
     emitCancelSupply,
     emitSuppliesFetch,
     emitNextSuppliesFetch,
-    emitSearchSuppliesFetch
+    emitSearchSuppliesFetch, emitGroupSuppliesFetch
 } from "../../redux/supplies/actions";
+import OperationsClearancesCardsComponent from "../../components/operations/OperationsClearancesCardsComponent";
 
 // Component
 function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, user, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
+    const [groupToggle, setGroupToggle] = useState(false);
     const [cancelModal, setCancelModal] = useState({show: false, body: '', id: 0});
     const [supplyModal, setSupplyModal] = useState({show: false, header: 'EFFECTUER UN FLOTTAGE'});
-    const [anonymousSupplyModal, setAnonymousSupplyModal] = useState({show: false, header: 'EFFECTUER UN FLOTTAGE ANONYME'});
     const [returnModal, setReturnModal] = useState({show: false, header: 'EFFECTUER UN RETOUR FLOTTE', item: {}});
+    const [groupDetailModal, setGroupDetailModal] = useState({show: false, header: 'DETAIL DU FLOTTAGE GROUPE', item: {}});
+    const [anonymousSupplyModal, setAnonymousSupplyModal] = useState({show: false, header: 'EFFECTUER UN FLOTTAGE ANONYME'});
     const [recoveryModal, setRecoveryModal] = useState({show: false, header: "EFFECTUER UN RECOUVREMENT D'ESPECE", item: {}});
     const [supplyDetailsModal, setSupplyDetailsModal] = useState({show: false, header: "DETAIL DU FLOTTAGE AGENT", supply: ''});
+    const [groupReturnModal, setGroupReturnModal] = useState({show: false, header: 'EFFECTUER UN RETOUR FLOTTE GROUPE', item: {}});
+    const [groupRecoveryModal, setGroupRecoveryModal] = useState({show: false, header: "EFFECTUER UN RECOUVREMENT D'ESPECES GROUPE", item: {}});
 
     // Local effects
     useEffect(() => {
@@ -69,6 +74,16 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, us
 
     const handleNeedleInput = (data) => {
         setNeedle(data)
+    }
+
+    const handleGroup = () => {
+        dispatch(emitGroupSuppliesFetch());
+        setGroupToggle(true)
+    }
+
+    const handleUngroup = () => {
+        dispatch(emitSuppliesFetch());
+        setGroupToggle(false);
     }
 
     const handleSearchInput = () => {
@@ -147,6 +162,36 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, us
         setCancelModal({...cancelModal, show: false})
     }
 
+    // Show group return modal form
+    const handleGroupReturnModalShow = (item) => {
+        setGroupReturnModal({...groupReturnModal, item, show: true})
+    }
+
+    // Hide group return modal form
+    const handleGroupReturnModalHide = () => {
+        setGroupReturnModal({...groupReturnModal, show: false})
+    }
+
+    // Show group recovery modal form
+    const handleGroupRecoveryModalShow = (item) => {
+        setGroupRecoveryModal({...groupRecoveryModal, item, show: true})
+    }
+
+    // Hide group recovery modal form
+    const handleGroupRecoveryModalHide = () => {
+        setGroupRecoveryModal({...groupRecoveryModal, show: false})
+    }
+
+    // Show detail modal form
+    const handleGroupDetailsModalShow = (item) => {
+        setGroupDetailModal({...groupDetailModal, item, show: true})
+    }
+
+    // Hide detail supply detail modal form
+    const handleGroupDetailsModalHide = () => {
+        setGroupDetailModal({...groupDetailModal, show: false})
+    }
+
     // Trigger when clearance cancel confirmed on modal
     const handleCancel = (id) => {
         handleCancelModalHide();
@@ -178,46 +223,78 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, us
                                             {requestFailed(suppliesRequests.list) && <ErrorAlertComponent message={suppliesRequests.list.message} />}
                                             {requestFailed(suppliesRequests.next) && <ErrorAlertComponent message={suppliesRequests.next.message} />}
                                             {requestFailed(suppliesRequests.cancel) && <ErrorAlertComponent message={suppliesRequests.cancel.message} />}
-                                            <button type="button"
-                                                    className="btn btn-theme mb-2"
-                                                    onClick={handleSupplyModalShow}
-                                            >
-                                                <i className="fa fa-rss" /> Effectuer un flottage
-                                            </button>
-                                            <button type="button"
-                                                    className="btn btn-theme mb-2 ml-2"
-                                                    onClick={handleAnonymousSupplyModalShow}
-                                            >
-                                                <i className="fa fa-user-slash" /> Effectuer un flottage anonyme
-                                            </button>
-                                            {/* Search result & Infinite scroll */}
-                                            {requestLoading(suppliesRequests.list) ? <LoaderComponent /> : ((needle !== '' && needle !== undefined) ?
-                                                    (
-                                                        <OperationsFleetsCardsComponent user={user}
-                                                                                        supplies={searchEngine(supplies, needle)}
-                                                                                        handleCancelModalShow={handleCancelModalShow}
-                                                                                        handleFleetRecoveryModalShow={handleReturnModalShow}
-                                                                                        handleCashRecoveryModalShow={handleRecoveryModalShow}
-                                                                                        handleSupplyDetailsModalShow={handleSupplyDetailsModalShow}
-                                                        />
-                                                    ) :
-                                                    (
-                                                        <InfiniteScroll hasMore={hasMoreData}
-                                                                        loader={<LoaderComponent />}
-                                                                        dataLength={supplies.length}
-                                                                        next={handleNextSuppliesData}
-                                                                        style={{ overflow: 'hidden' }}
-                                                        >
-                                                            <OperationsFleetsCardsComponent  user={user}
-                                                                                             supplies={supplies}
-                                                                                             handleCancelModalShow={handleCancelModalShow}
-                                                                                             handleFleetRecoveryModalShow={handleReturnModalShow}
-                                                                                             handleCashRecoveryModalShow={handleRecoveryModalShow}
-                                                                                             handleSupplyDetailsModalShow={handleSupplyDetailsModalShow}
-                                                            />
-                                                        </InfiniteScroll>
-                                                    )
-                                            )}
+                                            {(groupToggle) ?
+                                                (requestLoading(suppliesRequests.list) ? <LoaderComponent /> :
+                                                        <>
+                                                            <button type="button"
+                                                                    className="btn btn-secondary mb-2 ml-2"
+                                                                    onClick={handleUngroup}
+                                                            >
+                                                                <i className="fa fa-table" /> Dégrouper
+                                                            </button>
+                                                            {/*<RequestsGroupSuppliesCardsComponent supplies={supplies}
+                                                                                               handleGroupReturnModalShow={handleGroupReturnModalShow}
+                                                                                               handleGroupDetailsModalShow={handleGroupDetailsModalShow}
+                                                                                               handleGroupRecoveryModalShow={handleGroupRecoveryModalShow}
+                                                            />*/}
+                                                        </>
+                                                ) :
+                                                (
+                                                    <>
+
+                                                        {!requestLoading(suppliesRequests.list) && (
+                                                            <>
+                                                                <button type="button"
+                                                                        className="btn btn-theme mb-2"
+                                                                        onClick={handleSupplyModalShow}
+                                                                >
+                                                                    <i className="fa fa-rss" /> Effectuer un flottage
+                                                                </button>
+                                                                <button type="button"
+                                                                        className="btn btn-theme mb-2 ml-2"
+                                                                        onClick={handleAnonymousSupplyModalShow}
+                                                                >
+                                                                    <i className="fa fa-user-slash" /> Effectuer un flottage anonyme
+                                                                </button>
+                                                                <button type="button"
+                                                                        className="btn btn-danger mb-2 ml-2"
+                                                                        onClick={handleGroup}
+                                                                >
+                                                                    <i className="fa fa-table"/> Grouper
+                                                                </button>
+                                                            </>
+                                                        )}
+                                                        {/* Search result & Infinite scroll */}
+                                                        {requestLoading(suppliesRequests.list) ? <LoaderComponent /> : ((needle !== '' && needle !== undefined) ?
+                                                                (
+                                                                    <OperationsFleetsCardsComponent user={user}
+                                                                                                    supplies={searchEngine(supplies, needle)}
+                                                                                                    handleCancelModalShow={handleCancelModalShow}
+                                                                                                    handleFleetRecoveryModalShow={handleReturnModalShow}
+                                                                                                    handleCashRecoveryModalShow={handleRecoveryModalShow}
+                                                                                                    handleSupplyDetailsModalShow={handleSupplyDetailsModalShow}
+                                                                    />
+                                                                ) :
+                                                                (
+                                                                    <InfiniteScroll hasMore={hasMoreData}
+                                                                                    loader={<LoaderComponent />}
+                                                                                    dataLength={supplies.length}
+                                                                                    next={handleNextSuppliesData}
+                                                                                    style={{ overflow: 'hidden' }}
+                                                                    >
+                                                                        <OperationsFleetsCardsComponent  user={user}
+                                                                                                         supplies={supplies}
+                                                                                                         handleCancelModalShow={handleCancelModalShow}
+                                                                                                         handleFleetRecoveryModalShow={handleReturnModalShow}
+                                                                                                         handleCashRecoveryModalShow={handleRecoveryModalShow}
+                                                                                                         handleSupplyDetailsModalShow={handleSupplyDetailsModalShow}
+                                                                        />
+                                                                    </InfiniteScroll>
+                                                                )
+                                                        )}
+                                                    </>
+                                                )
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -245,6 +322,20 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, us
             </FormModalComponent>
             <FormModalComponent modal={supplyDetailsModal} handleClose={handleSupplyDetailsModalHide}>
                 <SupplyDetailsContainer supply={supplyDetailsModal.supply} />
+            </FormModalComponent>
+            {/*================================*********************============================*/}
+            <FormModalComponent modal={groupReturnModal} handleClose={handleGroupReturnModalHide}>
+                {/*<OperationsGroupSuppliesAddReturnComponent supply={groupReturnModal.item}
+                                                           handleClose={handleGroupReturnModalHide}
+                />*/}
+            </FormModalComponent>
+            <FormModalComponent modal={groupRecoveryModal} handleClose={handleGroupRecoveryModalHide}>
+                {/*<OperationsGroupSuppliesAddRecoveryComponent supply={groupRecoveryModal.item}
+                                                             handleClose={handleGroupRecoveryModalHide}
+                />*/}
+            </FormModalComponent>
+            <FormModalComponent modal={groupDetailModal} handleClose={handleGroupDetailsModalHide}>
+                <OperationsFleetsCardsComponent group supplies={groupDetailModal.item} />
             </FormModalComponent>
         </>
     )
