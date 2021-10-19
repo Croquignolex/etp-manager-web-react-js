@@ -86,7 +86,7 @@ function OperationsFleetsCardsComponent({supplies, user, group, handleFleetRecov
                                             </span>
                                         </li>
                                         <li className="list-group-item">
-                                            <b>Reste récouvrir</b>
+                                            <b>Reste à récouvrir</b>
                                             <span className="float-right text-danger text-bold">
                                                 {formatNumber(item.remaining)}
                                             </span>

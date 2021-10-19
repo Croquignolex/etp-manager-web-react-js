@@ -15,6 +15,7 @@ import OperationsFleetsCardsComponent from "../../components/operations/Operatio
 import OperationsFleetsReturnContainer from "../../containers/operations/OperationsFleetsReturnContainer";
 import OperationsCashRecoveryContainer from "../../containers/operations/OperationsCashRecoveryContainer";
 import OperationsFleetsAddSupplyContainer from "../../containers/operations/OperationsFleetsAddSupplyContainer";
+import RequestsGroupSuppliesCardsComponent from "../../components/operations/RequestsGroupSuppliesCardsComponent";
 import OperationsFleetsAddAnonymousSupplyContainer from "../../containers/operations/OperationsFleetsAddAnonymousSupplyContainer";
 import {
     applySuccess,
@@ -34,9 +35,9 @@ import {
     emitCancelSupply,
     emitSuppliesFetch,
     emitNextSuppliesFetch,
-    emitSearchSuppliesFetch, emitGroupSuppliesFetch
+    emitGroupSuppliesFetch,
+    emitSearchSuppliesFetch
 } from "../../redux/supplies/actions";
-import OperationsClearancesCardsComponent from "../../components/operations/OperationsClearancesCardsComponent";
 
 // Component
 function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, user, dispatch, location}) {
@@ -232,11 +233,11 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, us
                                                             >
                                                                 <i className="fa fa-table" /> Dégrouper
                                                             </button>
-                                                            {/*<RequestsGroupSuppliesCardsComponent supplies={supplies}
+                                                            <RequestsGroupSuppliesCardsComponent supplies={supplies}
                                                                                                handleGroupReturnModalShow={handleGroupReturnModalShow}
                                                                                                handleGroupDetailsModalShow={handleGroupDetailsModalShow}
                                                                                                handleGroupRecoveryModalShow={handleGroupRecoveryModalShow}
-                                                            />*/}
+                                                            />
                                                         </>
                                                 ) :
                                                 (
@@ -248,13 +249,13 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, us
                                                                         className="btn btn-theme mb-2"
                                                                         onClick={handleSupplyModalShow}
                                                                 >
-                                                                    <i className="fa fa-rss" /> Effectuer un flottage
+                                                                    <i className="fa fa-rss" /> Flottage
                                                                 </button>
                                                                 <button type="button"
                                                                         className="btn btn-theme mb-2 ml-2"
                                                                         onClick={handleAnonymousSupplyModalShow}
                                                                 >
-                                                                    <i className="fa fa-user-slash" /> Effectuer un flottage anonyme
+                                                                    <i className="fa fa-user-slash" /> Flottage anonyme
                                                                 </button>
                                                                 <button type="button"
                                                                         className="btn btn-danger mb-2 ml-2"

@@ -70,7 +70,7 @@ function SupplyInfoComponent({supply}) {
                             </span>
                         </li>
                         <li className="list-group-item">
-                            <b>Reste récouvrir</b>
+                            <b>Reste à récouvrir</b>
                             <span className="float-right text-danger text-bold">{formatNumber(supply.remaining)}</span>
                         </li>
                         <li className="list-group-item">
