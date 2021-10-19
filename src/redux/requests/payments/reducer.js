@@ -1,6 +1,5 @@
 import * as actions from "./actions";
 import {requestFailedValue, requestInitValue, requestSucceededValue} from "../../../functions/reduxFunctions";
-import {STORE_CONFIRM_PAYMENT_REQUEST_INIT} from "./actions";
 
 // Partial global store for requests data management
 const initialState = {
