@@ -10,7 +10,7 @@ import {emitAllSimsFetch} from "../../redux/sims/actions";
 import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
-import {emitGroupSupplyAddRecovery} from "../../redux/supplies/actions";
+import {emitGroupSupplyAddReturn} from "../../redux/supplies/actions";
 import {storeAllSimsRequestReset} from "../../redux/requests/sims/actions";
 import {storeReturnRequestReset} from "../../redux/requests/returns/actions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
@@ -91,7 +91,7 @@ function OperationsGroupSuppliesAddReturnComponent({supply, request, sims, allSi
         });
         // Check
         if(validationOK) {
-            dispatch(emitGroupSupplyAddRecovery({
+            dispatch(emitGroupSupplyAddReturn({
                 ids,
                 amount,
                 agentSim: _outgoingSim.data,

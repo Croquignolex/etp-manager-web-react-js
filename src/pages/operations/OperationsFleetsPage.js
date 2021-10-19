@@ -17,6 +17,7 @@ import OperationsCashRecoveryContainer from "../../containers/operations/Operati
 import OperationsFleetsAddSupplyContainer from "../../containers/operations/OperationsFleetsAddSupplyContainer";
 import RequestsGroupSuppliesCardsComponent from "../../components/operations/RequestsGroupSuppliesCardsComponent";
 import OperationsGroupSuppliesAddReturnContainer from "../../containers/operations/OperationsGroupSuppliesAddReturnContainer";
+import OperationsGroupSuppliesAddRecoveryContainer from "../../containers/operations/OperationsGroupSuppliesAddRecoveryContainer";
 import OperationsFleetsAddAnonymousSupplyContainer from "../../containers/operations/OperationsFleetsAddAnonymousSupplyContainer";
 import {
     applySuccess,
@@ -331,9 +332,9 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, us
                 />
             </FormModalComponent>
             <FormModalComponent modal={groupRecoveryModal} handleClose={handleGroupRecoveryModalHide}>
-                {/*<OperationsGroupSuppliesAddRecoveryContainer supply={groupRecoveryModal.item}
+                <OperationsGroupSuppliesAddRecoveryContainer supply={groupRecoveryModal.item}
                                                              handleClose={handleGroupRecoveryModalHide}
-                />*/}
+                />
             </FormModalComponent>
             <FormModalComponent modal={groupDetailModal} handleClose={handleGroupDetailsModalHide}>
                 <OperationsFleetsCardsComponent group supplies={groupDetailModal.item} />

@@ -118,19 +118,18 @@ export const emitCancelSupply = ({id}) => ({
 });
 
 // Emit group supply add return
-export const emitGroupSupplyAddReturn = ({ids, amount, sim}) => ({
-    ids,
-    sim,
-    amount,
-    type: EMIT_GROUP_SUPPLY_ADD_RETURN
-});
-
-// Emit group supply add return
-export const emitGroupSupplyAddRecovery = ({ids, agentSim, managerSim, amount}) => ({
+export const emitGroupSupplyAddReturn = ({ids, amount, agentSim, managerSim}) => ({
     ids,
     amount,
     agentSim,
     managerSim,
+    type: EMIT_GROUP_SUPPLY_ADD_RETURN
+});
+
+// Emit group supply add return
+export const emitGroupSupplyAddRecovery = ({ids, amount}) => ({
+    ids,
+    amount,
     type: EMIT_GROUP_SUPPLY_ADD_RECOVERY
 });
 
