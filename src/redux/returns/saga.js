@@ -1,3 +1,4 @@
+import Lodash from "lodash";
 import { all, takeLatest, put, fork, call } from 'redux-saga/effects'
 
 import * as api from "../../constants/apiConstants";
@@ -12,8 +13,11 @@ import {
     EMIT_ADD_FLEET_RETURN,
     EMIT_NEXT_RETURNS_FETCH,
     storeSetNextReturnsData,
+    EMIT_GROUP_RETURNS_FETCH,
+    storeSetGroupReturnsData,
     storeSetReturnActionData,
     EMIT_SUPPLY_RETURNS_FETCH,
+    EMIT_GROUP_CONFIRM_RETURN,
     storeSetAddFleetReturnData,
     storeStopInfiniteScrollReturnData
 } from "./actions";
@@ -41,6 +45,7 @@ export function* emitReturnsFetch() {
         try {
             // Fire event for request
             yield put(storeReturnsRequestInit());
+            yield put(storeSetReturnsData({returns: [], hasMoreData: false, page: 0}));
             const apiResponse = yield call(apiGetRequest, `${api.FLEET_RECOVERIES_API_PATH}?page=1`);
             // Extract data
             const returns = extractReturnsData(apiResponse.data.recouvrements);
@@ -51,6 +56,50 @@ export function* emitReturnsFetch() {
         } catch (message) {
             // Fire event for request
             yield put(storeReturnsRequestFailed({message}));
+        }
+    });
+}
+
+// Fetch group returns from API
+export function* emitGroupReturnsFetch() {
+    yield takeLatest(EMIT_GROUP_RETURNS_FETCH, function*() {
+        try {
+            // Fire event for request
+            yield put(storeReturnsRequestInit());
+            yield put(storeSetReturnsData({returns: [], hasMoreData: false, page: 0}));
+            const apiResponse = yield call(apiGetRequest, api.GROUP_RETURNS_API_PATH);
+            // Extract data
+            const returns = extractReturnsData(apiResponse.data.recouvrements);
+            const groupedReturn = Object.values(Lodash.groupBy(returns, _return => [_return.user.id, _return.operator.id]));
+            // Fire event to redux
+            yield put(storeSetGroupReturnsData({returns: groupedReturn}));
+            // Fire event for request
+            yield put(storeReturnsRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeReturnsRequestFailed({message}));
+        }
+    });
+}
+
+// Confirm group return from API
+export function* emitGroupConfirmReturn() {
+    yield takeLatest(EMIT_GROUP_CONFIRM_RETURN, function*({ids}) {
+        try {
+            // Fire event for request
+            yield put(storeConfirmReturnRequestInit());
+            const apiResponse = yield call(apiPostRequest, api.GROUP_CONFIRM_RETURN_API_PATH, {ids});
+            const apiResponse2 = yield call(apiGetRequest, api.GROUP_RETURNS_API_PATH);
+            // Extract data
+            const returns = extractReturnsData(apiResponse2.data.recouvrements);
+            const groupedReturn = Object.values(Lodash.groupBy(returns, _return => [_return.user.id, _return.operator.id]));
+            // Fire event to redux
+            yield put(storeSetGroupReturnsData({returns: groupedReturn}));
+            // Fire event for request
+            yield put(storeConfirmReturnRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeConfirmReturnRequestFailed({message}));
         }
     });
 }
@@ -248,6 +297,8 @@ export default function* sagaReturns() {
         fork(emitConfirmReturn),
         fork(emitAddFleetReturn),
         fork(emitNextReturnsFetch),
+        fork(emitGroupReturnsFetch),
         fork(emitSupplyReturnsFetch),
+        fork(emitGroupConfirmReturn),
     ]);
 }

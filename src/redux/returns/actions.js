@@ -3,6 +3,7 @@ export const STORE_SET_RETURNS_DATA = 'STORE_SET_RETURNS_DATA';
 export const STORE_UPDATE_RETURN_DATA = 'STORE_UPDATE_RETURN_DATA';
 export const STORE_SET_NEXT_RETURNS_DATA = 'STORE_SET_NEXT_RETURNS_DATA';
 export const STORE_SET_RETURN_ACTION_DATA = 'STORE_SET_RETURN_ACTION_DATA';
+export const STORE_SET_GROUP_RETURNS_DATA = 'STORE_SET_GROUP_RETURNS_DATA';
 export const STORE_SET_ADD_FLEET_RETURN_DATA = 'STORE_SET_ADD_FLEET_RETURN_DATA';
 export const STORE_STOP_INFINITE_SCROLL_RETURNS_DATA = 'STORE_STOP_INFINITE_SCROLL_RETURNS_DATA';
 
@@ -12,7 +13,9 @@ export const EMIT_RETURNS_FETCH = 'EMIT_RETURNS_FETCH';
 export const EMIT_CONFIRM_RETURN = 'EMIT_CONFIRM_RETURN';
 export const EMIT_ADD_FLEET_RETURN = 'EMIT_ADD_FLEET_RETURN';
 export const EMIT_NEXT_RETURNS_FETCH = 'EMIT_NEXT_RETURNS_FETCH';
+export const EMIT_GROUP_RETURNS_FETCH = 'EMIT_GROUP_RETURNS_FETCH';
 export const EMIT_SUPPLY_RETURNS_FETCH = 'EMIT_SUPPLY_RETURNS_FETCH';
+export const EMIT_GROUP_CONFIRM_RETURN = 'EMIT_GROUP_CONFIRM_RETURN';
 
 //====================== Reducer trigger actions
 // Set returns data in store
@@ -54,6 +57,12 @@ export const storeSetReturnActionData = ({id}) => ({
     type: STORE_SET_RETURN_ACTION_DATA
 });
 
+// Set group returns data in store
+export const storeSetGroupReturnsData = ({returns}) => ({
+    returns,
+    type: STORE_SET_GROUP_RETURNS_DATA
+});
+
 //====================== Middleware trigger actions
 // Emit returns fetch
 export const emitReturnsFetch = () => ({
@@ -93,4 +102,15 @@ export const emitAddFleetReturn = ({amount, agentSim, managerSim}) => ({
 export const emitSupplyReturnsFetch = ({id}) => ({
     id,
     type: EMIT_SUPPLY_RETURNS_FETCH
+});
+
+// Emit group returns fetch
+export const emitGroupReturnsFetch = () => ({
+    type: EMIT_GROUP_RETURNS_FETCH
+});
+
+// Emit group confirm return
+export const emitGroupConfirmReturn = ({ids}) => ({
+    ids,
+    type: EMIT_GROUP_CONFIRM_RETURN
 });
