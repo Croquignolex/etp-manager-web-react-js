@@ -7,14 +7,17 @@ import LoaderComponent from "../../components/LoaderComponent";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
+import FormModalComponent from "../../components/modals/FormModalComponent";
 import ConfirmModalComponent from "../../components/modals/ConfirmModalComponent";
 import {CHECKOUT_INTERNAL_PAYMENTS_PAGE} from "../../constants/pageNameConstants";
 import CheckoutPaymentsCardsComponent from "../../components/checkout/CheckoutPaymentsCardsComponent";
+import OperationsGroupPaymentsCardsComponent from "../../components/checkout/OperationsGroupPaymentsCardsComponent";
 import {
+    emitPaymentsFetch,
     emitConfirmPayment,
-    emitGroupConfirmPayment, emitGroupPaymentsFetch,
     emitNextPaymentsFetch,
-    emitPaymentsFetch
+    emitGroupPaymentsFetch,
+    emitGroupConfirmPayment
 } from "../../redux/payments/actions";
 import {
     storePaymentsRequestReset,
@@ -30,7 +33,6 @@ import {
     requestLoading,
     requestSucceeded
 } from "../../functions/generalFunctions";
-import FormModalComponent from "../../components/modals/FormModalComponent";
 
 // Component
 function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, dispatch, location}) {
