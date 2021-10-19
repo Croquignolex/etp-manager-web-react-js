@@ -28,6 +28,7 @@ export function* emitClearancesFetch() {
         try {
             // Fire event for request
             yield put(storeClearancesRequestInit());
+            yield put(storeSetClearancesData({clearances: [], hasMoreData: false, page: 0}));
             const apiResponse = yield call(apiGetRequest, `${api.CLEARANCES_API_PATH}?page=1`);
             // Extract data
             const clearances = extractClearancesData(apiResponse.data.demandes);
@@ -48,6 +49,7 @@ export function* emitNextClearancesFetch() {
         try {
             // Fire event for request
             yield put(storeNextClearancesRequestInit());
+            yield put(storeSetClearancesData({clearances: [], hasMoreData: false, page: 0}));
             const apiResponse = yield call(apiGetRequest, `${api.CLEARANCES_API_PATH}?page=${page}`);
             // Extract data
             const clearances = extractClearancesData(apiResponse.data.demandes);

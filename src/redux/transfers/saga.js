@@ -44,6 +44,7 @@ export function* emitTransfersFetch() {
         try {
             // Fire event for request
             yield put(storeTransfersRequestInit());
+            yield put(storeSetTransfersData({transfers: [], hasMoreData: false, page: 0}));
             const apiResponse = yield call(apiGetRequest, `${api.TRANSFERS_API_PATH}?page=1`);
             // Extract data
             const transfers = extractTransfersData(apiResponse.data.flottages);
@@ -64,6 +65,7 @@ export function* emitGroupTransfersFetch() {
         try {
             // Fire event for request
             yield put(storeTransfersRequestInit());
+            yield put(storeSetTransfersData({transfers: [], hasMoreData: false, page: 0}));
             const apiResponse = yield call(apiGetRequest, api.GROUP_TRANSFERS_API_PATH);
             // Extract data
             const transfers = extractTransfersData(apiResponse.data.flottages);

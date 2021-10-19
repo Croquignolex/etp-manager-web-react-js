@@ -198,12 +198,10 @@ function OperationsClearancesPage({refuels, refuelsRequests, hasMoreData, page, 
                                                             >
                                                                 <i className="fa fa-table" /> Dégrouper
                                                             </button>
-                                                            {!requestFailed(refuelsRequests.list) && (
-                                                                <OperationsGroupRefuelsCardsComponent refuels={refuels}
-                                                                                                      handleGroupConfirmModalShow={handleGroupConfirmModalShow}
-                                                                                                      handleGroupDetailsModalShow={handleGroupDetailsModalShow}
-                                                                />
-                                                            )}
+                                                            <OperationsGroupRefuelsCardsComponent refuels={refuels}
+                                                                                                  handleGroupConfirmModalShow={handleGroupConfirmModalShow}
+                                                                                                  handleGroupDetailsModalShow={handleGroupDetailsModalShow}
+                                                            />
                                                         </>
                                                 ) :
                                                 (
@@ -232,27 +230,24 @@ function OperationsClearancesPage({refuels, refuelsRequests, hasMoreData, page, 
                                                             </>
                                                         )}
                                                         {/* Search result & Infinite scroll */}
-                                                        {requestLoading(refuelsRequests.list) ? <LoaderComponent /> : (
-                                                            !requestFailed(refuelsRequests.list) && (
-                                                                (needle !== '' && needle !== undefined) ?
-                                                                    (
-                                                                        <OperationsClearancesCardsComponent refuels={searchEngine(refuels, needle)}
+                                                        {requestLoading(refuelsRequests.list) ? <LoaderComponent /> : ((needle !== '' && needle !== undefined) ?
+                                                                (
+                                                                    <OperationsClearancesCardsComponent refuels={searchEngine(refuels, needle)}
+                                                                                                        handleConfirmModalShow={handleConfirmModalShow}
+                                                                    />
+                                                                ) :
+                                                                (
+                                                                    <InfiniteScroll hasMore={hasMoreData}
+                                                                                    dataLength={refuels.length}
+                                                                                    loader={<LoaderComponent />}
+                                                                                    next={handleNextRefuelsData}
+                                                                                    style={{ overflow: 'hidden' }}
+                                                                    >
+                                                                        <OperationsClearancesCardsComponent refuels={refuels}
                                                                                                             handleConfirmModalShow={handleConfirmModalShow}
                                                                         />
-                                                                    ) :
-                                                                    (
-                                                                        <InfiniteScroll hasMore={hasMoreData}
-                                                                                        dataLength={refuels.length}
-                                                                                        loader={<LoaderComponent />}
-                                                                                        next={handleNextRefuelsData}
-                                                                                        style={{ overflow: 'hidden' }}
-                                                                        >
-                                                                            <OperationsClearancesCardsComponent refuels={refuels}
-                                                                                                                handleConfirmModalShow={handleConfirmModalShow}
-                                                                            />
-                                                                        </InfiniteScroll>
-                                                                    )
-                                                            )
+                                                                    </InfiniteScroll>
+                                                                )
                                                         )}
                                                     </>
                                                 )

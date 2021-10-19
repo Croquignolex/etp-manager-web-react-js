@@ -214,12 +214,10 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
                                                             >
                                                                 <i className="fa fa-table" /> Dégrouper
                                                             </button>
-                                                            {!requestFailed(handoversRequests.list) && (
-                                                                <OperationsGroupHandoversCardsComponent handovers={handovers}
-                                                                                                        handleGroupConfirmModalShow={handleGroupConfirmModalShow}
-                                                                                                        handleGroupDetailsModalShow={handleGroupDetailsModalShow}
-                                                                />
-                                                            )}
+                                                            <OperationsGroupHandoversCardsComponent handovers={handovers}
+                                                                                                    handleGroupConfirmModalShow={handleGroupConfirmModalShow}
+                                                                                                    handleGroupDetailsModalShow={handleGroupDetailsModalShow}
+                                                            />
                                                         </>
                                                 ) :
                                                 (
@@ -242,28 +240,27 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
                                                             </>
                                                         )}
                                                         {/* Search result & Infinite scroll */}
-                                                        {!requestFailed(handoversRequests.list) && (
-                                                            (needle !== '' && needle !== undefined)
-                                                                ? <CheckoutHandoversCardsComponent user={user}
-                                                                                                   handovers={searchEngine(handovers, needle)}
-                                                                                                   handleCancelModalShow={handleCancelModalShow}
-                                                                                                   handleConfirmModalShow={handleConfirmModalShow}
-                                                                />
-                                                                : (requestLoading(handoversRequests.list) ? <LoaderComponent /> :
-                                                                        <InfiniteScroll hasMore={hasMoreData}
-                                                                                        loader={<LoaderComponent />}
-                                                                                        dataLength={handovers.length}
-                                                                                        next={handleNextHandoversData}
-                                                                                        style={{ overflow: 'hidden' }}
-                                                                        >
-                                                                            <CheckoutHandoversCardsComponent user={user}
-                                                                                                             handovers={handovers}
-                                                                                                             handleCancelModalShow={handleCancelModalShow}
-                                                                                                             handleConfirmModalShow={handleConfirmModalShow}
-                                                                            />
-                                                                        </InfiniteScroll>
-                                                                )
-                                                        )}
+                                                        {(needle !== '' && needle !== undefined)
+                                                            ? <CheckoutHandoversCardsComponent user={user}
+                                                                                               handovers={searchEngine(handovers, needle)}
+                                                                                               handleCancelModalShow={handleCancelModalShow}
+                                                                                               handleConfirmModalShow={handleConfirmModalShow}
+                                                            />
+                                                            : (requestLoading(handoversRequests.list) ? <LoaderComponent /> :
+                                                                    <InfiniteScroll hasMore={hasMoreData}
+                                                                                    loader={<LoaderComponent />}
+                                                                                    dataLength={handovers.length}
+                                                                                    next={handleNextHandoversData}
+                                                                                    style={{ overflow: 'hidden' }}
+                                                                    >
+                                                                        <CheckoutHandoversCardsComponent user={user}
+                                                                                                         handovers={handovers}
+                                                                                                         handleCancelModalShow={handleCancelModalShow}
+                                                                                                         handleConfirmModalShow={handleConfirmModalShow}
+                                                                        />
+                                                                    </InfiniteScroll>
+                                                            )
+                                                        }
                                                     </>
                                                 )
                                             }

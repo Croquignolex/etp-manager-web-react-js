@@ -37,6 +37,7 @@ export function* emitFleetsFetch() {
         try {
             // Fire event for request
             yield put(storeFleetsRequestInit());
+            yield put(storeSetFleetsData({fleets: [], hasMoreData: false, page: 0}));
             const apiResponse = yield call(apiGetRequest, `${api.FLEETS_API_PATH}?page=1`);
             // Extract data
             const fleets = extractFleetsData(apiResponse.data.demandes);
@@ -57,6 +58,7 @@ export function* emitGroupFleetsFetch() {
         try {
             // Fire event for request
             yield put(storeFleetsRequestInit());
+            yield put(storeSetFleetsData({fleets: [], hasMoreData: false, page: 0}));
             const apiResponse = yield call(apiGetRequest, api.GROUP_FLEETS_API_PATH);
             // Extract data
             const fleets = extractFleetsData(apiResponse.data.demandes);

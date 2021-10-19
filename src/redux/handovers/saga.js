@@ -44,6 +44,7 @@ export function* emitHandoversFetch() {
         try {
             // Fire event for request
             yield put(storeHandoversRequestInit());
+            yield put(storeSetHandoversData({handovers: [], hasMoreData: false, page: 0}));
             const apiResponse = yield call(apiGetRequest, `${api.HANDOVERS_API_PATH}?page=1`);
             // Extract data
             const handovers = extractHandoversData(apiResponse.data.versements);
@@ -64,6 +65,7 @@ export function* emitGroupHandoversFetch() {
         try {
             // Fire event for request
             yield put(storeHandoversRequestInit());
+            yield put(storeSetHandoversData({handovers: [], hasMoreData: false, page: 0}));
             const apiResponse = yield call(apiGetRequest, api.GROUP_HANDOVERS_API_PATH);
             // Extract data
             const handovers = extractHandoversData(apiResponse.data.versements);

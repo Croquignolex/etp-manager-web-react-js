@@ -209,12 +209,10 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
                                                             >
                                                                 <i className="fa fa-table" /> Dégrouper
                                                             </button>
-                                                            {!requestFailed(transfersRequests.list) && (
-                                                                <OperationsGroupTransfersCardsComponent transfers={transfers}
-                                                                                                        handleGroupConfirmModalShow={handleGroupConfirmModalShow}
-                                                                                                        handleGroupDetailsModalShow={handleGroupDetailsModalShow}
-                                                                />
-                                                            )}
+                                                            <OperationsGroupTransfersCardsComponent transfers={transfers}
+                                                                                                    handleGroupConfirmModalShow={handleGroupConfirmModalShow}
+                                                                                                    handleGroupDetailsModalShow={handleGroupDetailsModalShow}
+                                                            />
                                                         </>
                                                 ) :
                                                 (
@@ -237,26 +235,25 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
                                                             </>
                                                         )}
                                                         {/* Search result & Infinite scroll */}
-                                                        {!requestFailed(transfersRequests.list) && (
-                                                            (needle !== '' && needle !== undefined)
-                                                                ? <OperationsTransfersCardsComponent transfers={searchEngine(transfers, needle)}
-                                                                                                     handleCancelModalShow={handleCancelModalShow}
-                                                                                                     handleConfirmModalShow={handleConfirmModalShow}
-                                                                />
-                                                                : (requestLoading(transfersRequests.list) ? <LoaderComponent /> :
-                                                                        <InfiniteScroll hasMore={hasMoreData}
-                                                                                        loader={<LoaderComponent />}
-                                                                                        dataLength={transfers.length}
-                                                                                        next={handleNextTransfersData}
-                                                                                        style={{ overflow: 'hidden' }}
-                                                                        >
-                                                                            <OperationsTransfersCardsComponent transfers={transfers}
-                                                                                                               handleCancelModalShow={handleCancelModalShow}
-                                                                                                               handleConfirmModalShow={handleConfirmModalShow}
-                                                                            />
-                                                                        </InfiniteScroll>
-                                                                )
-                                                        )}
+                                                        {(needle !== '' && needle !== undefined)
+                                                            ? <OperationsTransfersCardsComponent transfers={searchEngine(transfers, needle)}
+                                                                                                 handleCancelModalShow={handleCancelModalShow}
+                                                                                                 handleConfirmModalShow={handleConfirmModalShow}
+                                                            />
+                                                            : (requestLoading(transfersRequests.list) ? <LoaderComponent /> :
+                                                                    <InfiniteScroll hasMore={hasMoreData}
+                                                                                    loader={<LoaderComponent />}
+                                                                                    dataLength={transfers.length}
+                                                                                    next={handleNextTransfersData}
+                                                                                    style={{ overflow: 'hidden' }}
+                                                                    >
+                                                                        <OperationsTransfersCardsComponent transfers={transfers}
+                                                                                                           handleCancelModalShow={handleCancelModalShow}
+                                                                                                           handleConfirmModalShow={handleConfirmModalShow}
+                                                                        />
+                                                                    </InfiniteScroll>
+                                                            )
+                                                        }
                                                     </>
                                                 )
                                             }
