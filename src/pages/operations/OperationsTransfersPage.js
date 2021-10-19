@@ -131,7 +131,7 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
             ids.push(item.id);
         });
         const amount = item.reduce((acc, val) => acc + val.amount, 0);
-        setGroupConfirmModal({...groupConfirmModal, id: ids, body: `Confirmer le transfert de flotte groupee de ${item[0].user.name} de ${formatNumber(amount)}?`, show: true})
+        setGroupConfirmModal({...groupConfirmModal, id: ids, body: `Confirmer le transfert de flotte groupée de ${item[0].user.name} de ${formatNumber(amount)}?`, show: true})
     }
 
     // Hide group supply modal form
