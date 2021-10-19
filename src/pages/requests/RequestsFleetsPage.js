@@ -121,10 +121,12 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
                                                         >
                                                             <i className="fa fa-table" /> Dégrouper
                                                         </button>
-                                                        <RequestsGroupFleetsCardsComponent fleets={fleets}
-                                                                                           handleGroupSupplyModalShow={handleGroupSupplyModalShow}
-                                                                                           handleGroupSupplyDetailsModalShow={handleGroupSupplyDetailsModalShow}
-                                                        />
+                                                        {!requestFailed(fleetsRequests.list) && (
+                                                            <RequestsGroupFleetsCardsComponent fleets={fleets}
+                                                                                               handleGroupSupplyModalShow={handleGroupSupplyModalShow}
+                                                                                               handleGroupSupplyDetailsModalShow={handleGroupSupplyDetailsModalShow}
+                                                            />
+                                                        )}
                                                     </>
                                                 ) :
                                                 (
@@ -139,23 +141,24 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
                                                             </button>
                                                         )}
                                                         {/* Search result & Infinite scroll */}
-                                                        {(needle !== '' && needle !== undefined)
-                                                            ? <RequestsFleetsCardsComponent fleets={searchEngine(fleets, needle)}
-                                                                                            handleSupplyModalShow={handleSupplyModalShow}
-                                                            />
-                                                            : (requestLoading(fleetsRequests.list) ? <LoaderComponent /> :
-                                                                    <InfiniteScroll hasMore={hasMoreData}
-                                                                                    dataLength={fleets.length}
-                                                                                    next={handleNextFleetsData}
-                                                                                    loader={<LoaderComponent />}
-                                                                                    style={{ overflow: 'hidden' }}
-                                                                    >
-                                                                        <RequestsFleetsCardsComponent fleets={fleets}
-                                                                                                      handleSupplyModalShow={handleSupplyModalShow}
-                                                                        />
-                                                                    </InfiniteScroll>
-                                                            )
-                                                        }
+                                                        {!requestFailed(fleetsRequests.list) && (
+                                                            (needle !== '' && needle !== undefined)
+                                                                ? <RequestsFleetsCardsComponent fleets={searchEngine(fleets, needle)}
+                                                                                                handleSupplyModalShow={handleSupplyModalShow}
+                                                                />
+                                                                : (requestLoading(fleetsRequests.list) ? <LoaderComponent /> :
+                                                                        <InfiniteScroll hasMore={hasMoreData}
+                                                                                        dataLength={fleets.length}
+                                                                                        next={handleNextFleetsData}
+                                                                                        loader={<LoaderComponent />}
+                                                                                        style={{ overflow: 'hidden' }}
+                                                                        >
+                                                                            <RequestsFleetsCardsComponent fleets={fleets}
+                                                                                                          handleSupplyModalShow={handleSupplyModalShow}
+                                                                            />
+                                                                        </InfiniteScroll>
+                                                                )
+                                                        )}
                                                     </>
                                                 )
                                             }
