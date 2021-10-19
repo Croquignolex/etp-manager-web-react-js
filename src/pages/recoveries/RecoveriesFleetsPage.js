@@ -104,7 +104,7 @@ function RecoveriesFleetsPage({returns, returnsRequests, hasMoreData, page, disp
             ids.push(item.id);
         });
         const amount = item.reduce((acc, val) => acc + val.amount, 0);
-        setGroupConfirmModal({...groupConfirmModal, id: ids, body: `Confirmer le transfert de flotte groupée de ${item[0].user.name} de ${formatNumber(amount)}?`, show: true})
+        setGroupConfirmModal({...groupConfirmModal, id: ids, body: `Confirmer le retour flotte groupée de ${item[0].agent.name} de ${formatNumber(amount)}?`, show: true})
     }
 
     // Hide group supply modal form
