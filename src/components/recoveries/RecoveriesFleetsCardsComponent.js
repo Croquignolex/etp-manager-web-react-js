@@ -11,7 +11,7 @@ import {dateToString, formatNumber} from "../../functions/generalFunctions";
 import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer";
 
 // Component
-function RecoveriesFleetsCardsComponent({returns, handleConfirmModalShow}) {
+function RecoveriesFleetsCardsComponent({returns, group, handleConfirmModalShow}) {
     // Local states
     const [agentDetailsModal, setAgentDetailsModal] = useState({show: false, header: "DETAIL DE L'AGENT/RESSOURCE", id: ''});
     const [incomingSimDetailsModal, setIncomingSimDetailsModal] = useState({show: false, header: 'DETAIL DU COMPTE AGENT', id: ''});
@@ -38,9 +38,12 @@ function RecoveriesFleetsCardsComponent({returns, handleConfirmModalShow}) {
             <div className="row m-1">
                 {returns.map((item, key) => {
                     return (
-                        <div className="col-lg-4 col-md-6" key={key}>
+                        <div className={`${group ? "col-lg-6" : "col-lg-4"} col-md-6`} key={key}>
                             <div className="card">
-                                <div className={`${fleetTypeBadgeColor(item.status).background} card-header`} />
+                                {group
+                                    ? <div className={`bg-secondary card-header`} />
+                                    : <div className={`${fleetTypeBadgeColor(item.status).background} card-header`} />
+                                }
                                 <div className="card-body">
                                     <ul className="list-group list-group-unbordered">
                                         <OperatorComponent operator={item.operator} />
@@ -57,51 +60,57 @@ function RecoveriesFleetsCardsComponent({returns, handleConfirmModalShow}) {
                                         <li className="list-group-item">
                                             <b>Compte agent</b>
                                             <span className="float-right">
-                                                {item.sim_outgoing.number}
+                                                {item.sim_outgoing?.number}
                                                 <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
-                                                   onClick={() => setOutgoingSimDetailsModal({...outgoingSimDetailsModal, show: true, id: item.sim_outgoing.id})}
+                                                   onClick={() => setOutgoingSimDetailsModal({...outgoingSimDetailsModal, show: true, id: item.sim_outgoing?.id})}
                                                 />
                                             </span>
                                         </li>
                                         <li className="list-group-item">
                                             <b>Compte flottage</b>
                                             <span className="float-right">
-                                                {item.sim_incoming.number}
+                                                {item.sim_incoming?.number}
                                                 <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
-                                                   onClick={() => setIncomingSimDetailsModal({...incomingSimDetailsModal, show: true, id: item.sim_incoming.id})}
+                                                   onClick={() => setIncomingSimDetailsModal({...incomingSimDetailsModal, show: true, id: item.sim_incoming?.id})}
                                                 />
                                             </span>
                                         </li>
                                         <li className="list-group-item">
                                             <b>Agent/Ressource</b>
                                             <span className="float-right">
-                                                {item.agent.name}
+                                                {item.agent?.name}
                                                 <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
-                                                   onClick={() => setAgentDetailsModal({...agentDetailsModal, show: true, id: item.agent.id})}
+                                                   onClick={() => setAgentDetailsModal({...agentDetailsModal, show: true, id: item.agent?.id})}
                                                 />
                                             </span>
                                         </li>
                                         <li className="list-group-item">
                                             <b>Responsable</b>
-                                            <span className="float-right">{item.collector.name}</span>
+                                            <span className="float-right">{item.collector?.name}</span>
                                         </li>
-                                        <li className="list-group-item">
-                                            {item.status === CANCEL && <b className="text-danger text-bold">Annulé</b>}
-                                            {item.status === DONE && <b className="text-success text-bold">Confirmé</b>}
-                                            {item.status === PROCESSING && <b className="text-danger text-bold">En attente de confirmation</b>}
-                                        </li>
+                                        {(!group) && (
+                                            <li className="list-group-item">
+                                                {item.status === DONE && <b className="text-success text-bold">Confirmé</b>}
+                                                {item.status === CANCEL && <b className="text-danger text-bold">Annulé</b>}
+                                                {item.status === PROCESSING && <b className="text-danger text-bold">En attente de confirmation</b>}
+                                            </li>
+                                        )}
                                     </ul>
-                                    {(item.status === PROCESSING) && (
-                                        <div className="mt-3 text-right">
-                                            {item.actionLoader ? <LoaderComponent little={true} /> : (
-                                                <button type="button"
-                                                        className="btn btn-theme btn-sm"
-                                                        onClick={() => handleConfirmModalShow(item)}
-                                                >
-                                                    <i className="fa fa-check" /> Confirmer
-                                                </button>
+                                    {(!group) && (
+                                        <>
+                                            {(item.status === PROCESSING) && (
+                                                <div className="mt-3 text-right">
+                                                    {item.actionLoader ? <LoaderComponent little={true} /> : (
+                                                        <button type="button"
+                                                                className="btn btn-theme btn-sm"
+                                                                onClick={() => handleConfirmModalShow(item)}
+                                                        >
+                                                            <i className="fa fa-check" /> Confirmer
+                                                        </button>
+                                                    )}
+                                                </div>
                                             )}
-                                        </div>
+                                        </>
                                     )}
                                 </div>
                             </div>
@@ -133,6 +142,11 @@ function RecoveriesFleetsCardsComponent({returns, handleConfirmModalShow}) {
 // Prop types to ensure destroyed props data type
 RecoveriesFleetsCardsComponent.propTypes = {
     returns: PropTypes.array.isRequired
+};
+
+// Prop types to ensure destroyed props data type
+RecoveriesFleetsCardsComponent.defaultProps = {
+    group: false
 };
 
 export default React.memo(RecoveriesFleetsCardsComponent);

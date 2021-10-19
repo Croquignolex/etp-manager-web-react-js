@@ -70,7 +70,7 @@ export function* emitGroupReturnsFetch() {
             const apiResponse = yield call(apiGetRequest, api.GROUP_RETURNS_API_PATH);
             // Extract data
             const returns = extractReturnsData(apiResponse.data.recouvrements);
-            const groupedReturn = Object.values(Lodash.groupBy(returns, _return => [_return.user.id, _return.operator.id]));
+            const groupedReturn = Object.values(Lodash.groupBy(returns, _return => [_return.agent.id, _return.operator.id]));
             // Fire event to redux
             yield put(storeSetGroupReturnsData({returns: groupedReturn}));
             // Fire event for request
@@ -92,7 +92,7 @@ export function* emitGroupConfirmReturn() {
             const apiResponse2 = yield call(apiGetRequest, api.GROUP_RETURNS_API_PATH);
             // Extract data
             const returns = extractReturnsData(apiResponse2.data.recouvrements);
-            const groupedReturn = Object.values(Lodash.groupBy(returns, _return => [_return.user.id, _return.operator.id]));
+            const groupedReturn = Object.values(Lodash.groupBy(returns, _return => [_return.agent.id, _return.operator.id]));
             // Fire event to redux
             yield put(storeSetGroupReturnsData({returns: groupedReturn}));
             // Fire event for request
