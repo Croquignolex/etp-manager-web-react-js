@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from "prop-types";
 
 import {formatNumber} from "../../functions/generalFunctions";
-import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 
 // Component
 function OperationsGroupPaymentsCardsComponent({payments, handleGroupConfirmModalShow, handleGroupDetailsModalShow}) {
@@ -14,7 +13,7 @@ function OperationsGroupPaymentsCardsComponent({payments, handleGroupConfirmModa
                     return (
                         <div className="col-lg-4 col-md-6" key={key}>
                             <div className="card">
-                                <div className={`${fleetTypeBadgeColor(item.status).background} card-header`} />
+                                <div className={`bg-primary card-header`} />
                                 <div className="card-body">
                                     <ul className="list-group list-group-unbordered">
                                         <li className="list-group-item">
