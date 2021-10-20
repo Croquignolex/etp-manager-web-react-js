@@ -4,6 +4,7 @@ import React, {useEffect, useMemo, useState} from 'react';
 import DisabledInput from "../form/DisabledInput";
 import ButtonComponent from "../form/ButtonComponent";
 import SelectComponent from "../form/SelectComponent";
+import AmountComponent from "../form/AmountComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import {FLEET_TYPE} from "../../constants/typeConstants";
 import {emitAllSimsFetch} from "../../redux/sims/actions";
@@ -16,7 +17,6 @@ import {storeReturnRequestReset} from "../../redux/requests/returns/actions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
 import {
     applySuccess,
-    formatString,
     requestFailed,
     requestLoading,
     requestSucceeded
@@ -28,8 +28,10 @@ function OperationsGroupSuppliesAddReturnComponent({supply, request, sims, allSi
     const [selectedOp, setSelectedOp] = useState('');
     const [outgoingSim, setOutgoingSim] = useState(DEFAULT_FORM_DATA);
     const [incomingSim, setIncomingSim] = useState(DEFAULT_FORM_DATA);
-
-    const amount = supply.reduce((acc, val) => acc + parseInt(val.remaining, 10), 0);
+    const [amount, setAmount] = useState({
+        ...DEFAULT_FORM_DATA,
+        data: supply.reduce((acc, val) => acc + parseInt(val.remaining, 10), 0)
+    });
 
     // Local effects
     useEffect(() => {
@@ -50,6 +52,11 @@ function OperationsGroupSuppliesAddReturnComponent({supply, request, sims, allSi
         }
         // eslint-disable-next-line
     }, [request]);
+
+    const handleAmountInput = (data) => {
+        shouldResetErrorData();
+        setAmount({...amount, isValid: true, data})
+    }
 
     const handleOutgoingSelect = (data) => {
         shouldResetErrorData();
@@ -85,18 +92,20 @@ function OperationsGroupSuppliesAddReturnComponent({supply, request, sims, allSi
     const handleSubmit = (e) => {
         e.preventDefault();
         shouldResetErrorData();
+        const _amount = requiredChecker(amount);
         const _outgoingSim = requiredChecker(outgoingSim);
         const _incomingSim = requiredChecker(incomingSim);
         // Set value
+        setAmount(_amount);
         setOutgoingSim(_outgoingSim);
         setIncomingSim(_incomingSim);
-        const validationOK = (_incomingSim.isValid && _outgoingSim.isValid);
-        const ids = [];
-        supply.forEach(item => {
-            ids.push(item.id);
-        });
+        const validationOK = (_amount.isValid && _incomingSim.isValid && _outgoingSim.isValid);
         // Check
         if(validationOK) {
+            const ids = [];
+            supply.forEach(item => {
+                ids.push(item.id);
+            });
             dispatch(emitGroupSupplyAddReturn({
                 ids,
                 amount,
@@ -121,15 +130,16 @@ function OperationsGroupSuppliesAddReturnComponent({supply, request, sims, allSi
                         />
                     </div>
                     <div className='col-sm-4'>
-                        <DisabledInput id='inputAmount'
-                                       val={formatString(amount)}
-                                       label='Flotte à retourner'
-                        />
-                    </div>
-                    <div className='col-sm-4'>
                         <DisabledInput id='inputNumber'
                                        val={supply.length}
                                        label='Flottages groupés'
+                        />
+                    </div>
+                    <div className='col-sm-4'>
+                        <AmountComponent input={amount}
+                                         id='inputFleet'
+                                         label='Montant'
+                                         handleInput={handleAmountInput}
                         />
                     </div>
                 </div>
