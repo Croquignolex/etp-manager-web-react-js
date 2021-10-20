@@ -132,7 +132,7 @@ function RequestsGroupFleetsAddSupplyComponent({fleet, request, sims, simsReques
 // Prop types to ensure destroyed props data type
 RequestsGroupFleetsAddSupplyComponent.propTypes = {
     sims: PropTypes.array.isRequired,
-    fleet: PropTypes.object.isRequired,
+    fleet: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired,
     handleClose: PropTypes.func.isRequired,

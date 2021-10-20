@@ -13,7 +13,7 @@ function OperatorComponent({operator}) {
 
 // Prop types to ensure destroyed props data type
 OperatorComponent.propTypes = {
-    operator: PropTypes.object.isRequired
+    operator: PropTypes.object
 };
 
 export default React.memo(OperatorComponent);

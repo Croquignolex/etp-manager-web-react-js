@@ -21,9 +21,9 @@ export const DELETE_NOTIFICATIONS_API_PATH = `${API_URL}/delete_notifications`;
 // Requests
 export const FLEET_ADD_SUPPLY_API_PATH = `${API_URL}/flottage`;
 export const FLEETS_API_PATH = `${API_URL}/list_demandes_flote_general`;
-export const GROUP_FLEET_ADD_SUPPLY_API_PATH = `${API_URL}/flottage_goupee`;
+export const GROUP_FLEET_ADD_SUPPLY_API_PATH = `${API_URL}/flottage_groupee`;
 export const ALL_FLEETS_API_PATH = `${API_URL}/list_demandes_flote_general_all`;
-export const GROUP_FLEETS_API_PATH = `${API_URL}/list_demandes_flote_general_goupee`;
+export const GROUP_FLEETS_API_PATH = `${API_URL}/list_demandes_flote_general_groupee`;
 
 export const CLEARANCES_API_PATH = `${API_URL}/list_demandes_destockage`;
 export const ALL_CLEARANCES_API_PATH = `${API_URL}/list_demandes_destockage_all`;
@@ -66,8 +66,8 @@ export const NEW_HANDOVER_API_PATH = `${API_URL}/passation`;
 export const HANDOVERS_API_PATH = `${API_URL}/passations_list`;
 export const CANCEL_HANDOVER_API_PATH = `${API_URL}/annuler_passation`;
 export const CONFIRM_HANDOVER_API_PATH = `${API_URL}/approuve_passation`;
-export const GROUP_HANDOVERS_API_PATH = `${API_URL}/passations_list_goupee`;
-export const GROUP_CONFIRM_HANDOVER_API_PATH = `${API_URL}/approuve_passation_goupee`;
+export const GROUP_HANDOVERS_API_PATH = `${API_URL}/passations_list_groupee`;
+export const GROUP_CONFIRM_HANDOVER_API_PATH = `${API_URL}/approuve_passation_groupee`;
 
 // Outlay
 export const NEW_OUTLAY_API_PATH = `${API_URL}/decaissement`;
@@ -119,8 +119,8 @@ export const NEW_TRANSFERS_API_PATH = `${API_URL}/flottage_rz`;
 export const TRANSFERS_API_PATH = `${API_URL}/list_all_flottage_interne`;
 export const CANCEL_TRANSFER_API_PATH = `${API_URL}/annuler_flottage_interne`;
 export const CONFIRM_TRANSFER_API_PATH = `${API_URL}/approuve_flottage_interne`;
-export const GROUP_TRANSFERS_API_PATH = `${API_URL}/list_all_flottage_interne_goupee`;
-export const GROUP_CONFIRM_TRANSFER_API_PATH = `${API_URL}/approuve_flottage_interne_goupee`;
+export const GROUP_TRANSFERS_API_PATH = `${API_URL}/list_all_flottage_interne_groupee`;
+export const GROUP_CONFIRM_TRANSFER_API_PATH = `${API_URL}/approuve_flottage_interne_groupee`;
 
 // Supplies
 export const SUPPLIES_API_PATH = `${API_URL}/list_all_flottage`;
@@ -135,9 +135,9 @@ export const REFUELS_API_PATH = `${API_URL}/list_destockage`;
 export const NEW_REFUEL_API_PATH = `${API_URL}/approvisionnement_etp`;
 export const CONFIRM_REFUEL_API_PATH = `${API_URL}/approuve_destockage`;
 export const SEARCH_REFUELS_API_PATH = `${API_URL}/search_list_destockage`;
-export const GROUP_REFUELS_API_PATH = `${API_URL}/list_destockage_goupee`;
+export const GROUP_REFUELS_API_PATH = `${API_URL}/list_destockage_groupee`;
 export const NEW_ANONYMOUS_REFUEL_API_PATH = `${API_URL}/destockage_anonyme`;
-export const GROUP_CONFIRM_REFUEL_API_PATH = `${API_URL}/approuve_destockage_goupee`;
+export const GROUP_CONFIRM_REFUEL_API_PATH = `${API_URL}/approuve_destockage_groupee`;
 
 // Vendors
 export const VENDORS_API_PATH = `${API_URL}/vendors`;

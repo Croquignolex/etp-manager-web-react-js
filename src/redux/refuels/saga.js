@@ -69,7 +69,7 @@ export function* emitGroupRefuelsFetch() {
             const apiResponse = yield call(apiGetRequest, api.GROUP_REFUELS_API_PATH);
             // Extract data
             const refuels = extractRefuelsData(apiResponse.data.destockages);
-            const groupedRefuel = Object.values(Lodash.groupBy(refuels, refuel => [refuel.agent.id, refuel.operator.id]));console.log({groupedRefuel})
+            const groupedRefuel = Object.values(Lodash.groupBy(refuels, refuel => [refuel.agent.id, refuel.operator.id]));
             // Fire event to redux
             yield put(storeSetGroupRefuelsData({refuels: groupedRefuel}));
             // Fire event for request

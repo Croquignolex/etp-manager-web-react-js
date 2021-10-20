@@ -16,10 +16,7 @@ function CheckoutPaymentsCardsComponent({payments, group, handleConfirmModalShow
                     return (
                         <div className={`${group ? "col-lg-6" : "col-lg-4"} col-md-6`} key={key}>
                             <div className="card">
-                                {group
-                                    ? <div className={`bg-secondary card-header`} />
-                                    : <div className={`${fleetTypeBadgeColor(item.status).background} card-header`} />
-                                }
+                                <div className={`${fleetTypeBadgeColor(item.status).background} card-header`} />
                                 <div className="card-body">
                                     <ul className="list-group list-group-unbordered">
                                         <li className="list-group-item">
