@@ -20,7 +20,7 @@ function RequestsGroupFleetsAddSupplyComponent({fleet, request, sims, simsReques
     // Local state
     const [sim, setSim] = useState(DEFAULT_FORM_DATA);
 
-    const amount = fleet.reduce((acc, val) => acc + val.amount, 0);
+    const amount = fleet.reduce((acc, val) => acc + parseInt(val.amount, 10), 0);
 
     // Local effects
     useEffect(() => {

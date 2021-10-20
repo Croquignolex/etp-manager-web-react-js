@@ -123,7 +123,7 @@ function OperationsClearancesPage({refuels, refuelsRequests, hasMoreData, page, 
         item.forEach(item => {
             ids.push(item.id);
         });
-        const amount = item.reduce((acc, val) => acc + val.amount, 0);
+        const amount = item.reduce((acc, val) => acc + parseInt(val.amount, 10), 0);
         setGroupConfirmModal({...groupConfirmModal, id: ids, body: `Confirmer le déstockage groupé de ${item[0].agent.name} de ${formatNumber(amount)}?`, show: true})
     }
 

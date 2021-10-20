@@ -25,7 +25,7 @@ function OperationsGroupPaymentsCardsComponent({payments, handleGroupConfirmModa
                                         <li className="list-group-item">
                                             <b>Montant</b>
                                             <span className="float-right text-success text-bold">
-                                                {formatNumber(item.reduce((acc, val) => acc + val.amount, 0))}
+                                                {formatNumber(item.reduce((acc, val) => acc + parseInt(val.amount, 10), 0))}
                                             </span>
                                         </li>
 
