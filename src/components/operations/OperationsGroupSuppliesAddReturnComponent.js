@@ -14,7 +14,13 @@ import {emitGroupSupplyAddReturn} from "../../redux/supplies/actions";
 import {storeAllSimsRequestReset} from "../../redux/requests/sims/actions";
 import {storeReturnRequestReset} from "../../redux/requests/returns/actions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
-import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
+import {
+    applySuccess,
+    formatString,
+    requestFailed,
+    requestLoading,
+    requestSucceeded
+} from "../../functions/generalFunctions";
 
 // Component
 function OperationsGroupSuppliesAddReturnComponent({supply, request, sims, allSimsRequests, dispatch, handleClose}) {
@@ -23,7 +29,7 @@ function OperationsGroupSuppliesAddReturnComponent({supply, request, sims, allSi
     const [outgoingSim, setOutgoingSim] = useState(DEFAULT_FORM_DATA);
     const [incomingSim, setIncomingSim] = useState(DEFAULT_FORM_DATA);
 
-    const amount = supply.reduce((acc, val) => acc + val.remaining, 0);
+    const amount = supply.reduce((acc, val) => acc + parseInt(val.remaining, 10), 0);
 
     // Local effects
     useEffect(() => {
@@ -115,8 +121,8 @@ function OperationsGroupSuppliesAddReturnComponent({supply, request, sims, allSi
                         />
                     </div>
                     <div className='col-sm-4'>
-                        <DisabledInput val={amount}
-                                       id='inputAmount'
+                        <DisabledInput id='inputAmount'
+                                       val={formatString(amount)}
                                        label='Flotte à retourner'
                         />
                     </div>
