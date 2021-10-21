@@ -69,7 +69,7 @@ function OperationsGroupSuppliesAddRecoveryComponent({supply, request, dispatch,
             });
             dispatch(emitGroupSupplyAddRecovery({
                 ids,
-                amount
+                amount: _amount.data
             }));
         }
     };
