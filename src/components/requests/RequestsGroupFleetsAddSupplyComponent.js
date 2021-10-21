@@ -4,6 +4,7 @@ import React, {useEffect, useMemo, useState} from 'react';
 import DisabledInput from "../form/DisabledInput";
 import ButtonComponent from "../form/ButtonComponent";
 import SelectComponent from "../form/SelectComponent";
+import AmountComponent from "../form/AmountComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import {emitAllFleetSimsFetch} from "../../redux/sims/actions";
 import {requiredChecker} from "../../functions/checkerFunctions";
@@ -19,8 +20,10 @@ import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../
 function RequestsGroupFleetsAddSupplyComponent({fleet, request, sims, simsRequests, dispatch, handleClose}) {
     // Local state
     const [sim, setSim] = useState(DEFAULT_FORM_DATA);
-
-    const amount = fleet.reduce((acc, val) => acc + parseInt(val.amount, 10), 0);
+    const [amount, setAmount] = useState({
+        ...DEFAULT_FORM_DATA,
+        data: fleet.reduce((acc, val) => acc + parseInt(val.amount, 10), 0)
+    });
 
     // Local effects
     useEffect(() => {
@@ -41,6 +44,11 @@ function RequestsGroupFleetsAddSupplyComponent({fleet, request, sims, simsReques
         }
         // eslint-disable-next-line
     }, [request]);
+
+    const handleAmountInput = (data) => {
+        shouldResetErrorData();
+        setAmount({...amount, isValid: true, data})
+    }
 
     const handleSimSelect = (data) => {
         shouldResetErrorData();
@@ -65,9 +73,11 @@ function RequestsGroupFleetsAddSupplyComponent({fleet, request, sims, simsReques
         e.preventDefault();
         shouldResetErrorData();
         const _sim = requiredChecker(sim);
+        const _amount = requiredChecker(amount);
         // Set value
         setSim(_sim);
-        const validationOK = _sim.isValid;
+        setAmount(_amount);
+        const validationOK = (_amount.isValid && _sim.isValid);
         const ids = [];
         fleet.forEach(item => {
             ids.push(item.id);
@@ -76,8 +86,8 @@ function RequestsGroupFleetsAddSupplyComponent({fleet, request, sims, simsReques
         if(validationOK) {
             dispatch(emitGroupFleetAddSupply({
                 ids,
-                amount,
                 sim: _sim.data,
+                amount: _amount.data,
             }));
         }
         else playWarningSound();
@@ -115,9 +125,10 @@ function RequestsGroupFleetsAddSupplyComponent({fleet, request, sims, simsReques
                         />
                     </div>
                     <div className='col-sm-6'>
-                        <DisabledInput val={amount}
-                                       id='inputAmount'
-                                       label='Montant à flotter'
+                        <AmountComponent input={amount}
+                                         id='inputFleet'
+                                         label='Montant'
+                                         handleInput={handleAmountInput}
                         />
                     </div>
                 </div>
