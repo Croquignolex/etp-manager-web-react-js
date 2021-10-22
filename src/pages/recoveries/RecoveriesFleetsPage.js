@@ -124,12 +124,14 @@ function RecoveriesFleetsPage({returns, returnsRequests, hasMoreData, page, disp
 
     const handleGroup = () => {
         dispatch(emitGroupReturnsFetch());
-        setGroupToggle(true)
+        setGroupToggle(true);
+        setNeedle('');
     }
 
     const handleUngroup = () => {
         dispatch(emitReturnsFetch());
         setGroupToggle(false);
+        setNeedle('');
     }
 
     // Trigger when group transfer confirm confirmed on modal
@@ -168,44 +170,41 @@ function RecoveriesFleetsPage({returns, returnsRequests, hasMoreData, page, disp
                                             {requestFailed(returnsRequests.apply) && <ErrorAlertComponent message={returnsRequests.apply.message} />}
                                             {(groupToggle) ?
                                                 ((requestLoading(returnsRequests.list) || requestLoading(returnsRequests.apply)) ? <LoaderComponent /> :
-                                                        <>
-                                                            <button type="button"
-                                                                    className="btn btn-secondary mb-2 ml-2"
-                                                                    onClick={handleUngroup}
-                                                            >
-                                                                <i className="fa fa-table" /> Dégrouper
-                                                            </button>
-                                                            <OperationsGroupReturnsCardsComponent returns={returns}
-                                                                                                    handleGroupConfirmModalShow={handleGroupConfirmModalShow}
-                                                                                                    handleGroupDetailsModalShow={handleGroupDetailsModalShow}
-                                                            />
-                                                        </>
+                                                    <>
+                                                        <button type="button"
+                                                                className="btn btn-secondary mb-2 ml-2"
+                                                                onClick={handleUngroup}
+                                                        >
+                                                            <i className="fa fa-table" /> Dégrouper
+                                                        </button>
+                                                        <OperationsGroupReturnsCardsComponent returns={groupSearchEngine(returns, needle)}
+                                                                                              handleGroupConfirmModalShow={handleGroupConfirmModalShow}
+                                                                                              handleGroupDetailsModalShow={handleGroupDetailsModalShow}
+                                                        />
+                                                    </>
                                                 ) :
                                                 (
-                                                    <>
-
-                                                        {!requestLoading(returnsRequests.list) && (
-                                                            <>
-                                                                <button type="button"
-                                                                        className="btn btn-theme mb-2"
-                                                                        onClick={handleRecoveryModalShow}
-                                                                >
-                                                                    <i className="fa fa-redo" /> Effectuer un retour flotte
-                                                                </button>
-                                                                <button type="button"
-                                                                        className="btn btn-danger mb-2 ml-2"
-                                                                        onClick={handleGroup}
-                                                                >
-                                                                    <i className="fa fa-table"/> Grouper
-                                                                </button>
-                                                            </>
-                                                        )}
-                                                        {/* Search result & Infinite scroll */}
-                                                        {(needle !== '' && needle !== undefined)
-                                                            ? <RecoveriesFleetsCardsComponent returns={searchEngine(returns, needle)}
-                                                                                              handleConfirmModalShow={handleConfirmModalShow}
-                                                            />
-                                                            : (requestLoading(returnsRequests.list) ? <LoaderComponent /> :
+                                                    (requestLoading(returnsRequests.list) ? <LoaderComponent /> :
+                                                        <>
+                                                            <button type="button"
+                                                                    className="btn btn-theme mb-2"
+                                                                    onClick={handleRecoveryModalShow}
+                                                            >
+                                                                <i className="fa fa-redo" /> Retour flotte
+                                                            </button>
+                                                            <button type="button"
+                                                                    className="btn btn-danger mb-2 ml-2"
+                                                                    onClick={handleGroup}
+                                                            >
+                                                                <i className="fa fa-table"/> Grouper
+                                                            </button>
+                                                            {/* Search result & Infinite scroll */}
+                                                            {(needle !== '' && needle !== undefined)
+                                                                ? (
+                                                                    <RecoveriesFleetsCardsComponent returns={searchEngine(returns, needle)}
+                                                                                                    handleConfirmModalShow={handleConfirmModalShow}
+                                                                    />
+                                                                ) : (
                                                                     <InfiniteScroll hasMore={hasMoreData}
                                                                                     dataLength={returns.length}
                                                                                     loader={<LoaderComponent />}
@@ -216,9 +215,10 @@ function RecoveriesFleetsPage({returns, returnsRequests, hasMoreData, page, disp
                                                                                                         handleConfirmModalShow={handleConfirmModalShow}
                                                                         />
                                                                     </InfiniteScroll>
-                                                            )
-                                                        }
-                                                    </>
+                                                                )
+                                                            }
+                                                        </>
+                                                    )
                                                 )
                                             }
                                         </div>
@@ -262,6 +262,24 @@ function searchEngine(data, _needle) {
                 needleSearch(item.sim_outgoing.number, _needle) ||
                 needleSearch(dateToString(item.creation), _needle) ||
                 needleSearch(fleetTypeBadgeColor(item.status).text, _needle)
+            )
+        });
+    }
+    // Return data
+    return data;
+}
+
+// Search engine
+function groupSearchEngine(data, _needle) {
+    // Avoid empty filtering
+    if(_needle !== '' && _needle !== undefined) {
+        // Filter
+        data = data.filter((item) => {
+            return (
+                needleSearch(item.length, _needle) ||
+                needleSearch(item[0].agent.name, _needle) ||
+                needleSearch(item[0].operator.name, _needle) ||
+                needleSearch(item.reduce((acc, val) => acc + parseInt(val.amount, 10), 0), _needle)
             )
         });
     }

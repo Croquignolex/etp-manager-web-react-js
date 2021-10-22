@@ -155,13 +155,15 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
 
     const handleGroup = () => {
         dispatch(emitGroupHandoversFetch());
-        setGroupToggle(true)
+        setGroupToggle(true);
+        setNeedle('');
     }
 
     const handleUngroup = () => {
         dispatch(emitHandoversFetch());
         dispatch(emitFetchUserBalance());
         setGroupToggle(false);
+        setNeedle('');
     }
 
     // Trigger when group transfer confirm confirmed on modal

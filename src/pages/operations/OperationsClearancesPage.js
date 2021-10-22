@@ -145,12 +145,14 @@ function OperationsClearancesPage({refuels, refuelsRequests, hasMoreData, page, 
 
     const handleGroup = () => {
         dispatch(emitGroupRefuelsFetch());
-        setGroupToggle(true)
+        setGroupToggle(true);
+        setNeedle('');
     }
 
     const handleUngroup = () => {
         dispatch(emitRefuelsFetch());
         setGroupToggle(false);
+        setNeedle('');
     }
 
     // Trigger when group transfer confirm confirmed on modal
@@ -309,8 +311,8 @@ function groupSearchEngine(data, _needle) {
         data = data.filter((item) => {
             return (
                 needleSearch(item.length, _needle) ||
-                needleSearch(item[0].operator, _needle) ||
                 needleSearch(item[0].agent.name, _needle) ||
+                needleSearch(item[0].operator.name, _needle) ||
                 needleSearch(item.reduce((acc, val) => acc + parseInt(val.amount, 10), 0), _needle)
             )
         });

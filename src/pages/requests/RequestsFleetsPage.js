@@ -42,12 +42,14 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
 
     const handleGroup = () => {
         dispatch(emitGroupFleetsFetch());
-        setGroupToggle(true)
+        setGroupToggle(true);
+        setNeedle('');
     }
 
     const handleUngroup = () => {
         dispatch(emitFleetsFetch());
         setGroupToggle(false);
+        setNeedle('');
     }
 
     // Reset error alert
