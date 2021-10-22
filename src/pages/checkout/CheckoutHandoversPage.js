@@ -207,46 +207,43 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
                                             {requestFailed(handoversRequests.cancel) && <ErrorAlertComponent message={handoversRequests.cancel.message} />}
                                             {(groupToggle) ?
                                                 ((requestLoading(handoversRequests.list) || requestLoading(handoversRequests.apply)) ? <LoaderComponent /> :
-                                                        <>
-                                                            <button type="button"
-                                                                    className="btn btn-secondary mb-2 ml-2"
-                                                                    onClick={handleUngroup}
-                                                            >
-                                                                <i className="fa fa-table" /> Dégrouper
-                                                            </button>
-                                                            <OperationsGroupHandoversCardsComponent handovers={handovers}
-                                                                                                    handleGroupConfirmModalShow={handleGroupConfirmModalShow}
-                                                                                                    handleGroupDetailsModalShow={handleGroupDetailsModalShow}
-                                                            />
-                                                        </>
+                                                    <>
+                                                        <button type="button"
+                                                                className="btn btn-secondary mb-2 ml-2"
+                                                                onClick={handleUngroup}
+                                                        >
+                                                            <i className="fa fa-table" /> Dégrouper
+                                                        </button>
+                                                        <OperationsGroupHandoversCardsComponent handovers={groupSearchEngine(handovers, needle)}
+                                                                                                handleGroupConfirmModalShow={handleGroupConfirmModalShow}
+                                                                                                handleGroupDetailsModalShow={handleGroupDetailsModalShow}
+                                                        />
+                                                    </>
                                                 ) :
                                                 (
-                                                    <>
-
-                                                        {!requestLoading(handoversRequests.list) && (
-                                                            <>
-                                                                <button type="button"
-                                                                        className="btn btn-theme mb-2"
-                                                                        onClick={handleHandoverModalShow}
-                                                                >
-                                                                    <i className="fa fa-handshake" /> Passation de service
-                                                                </button>
-                                                                <button type="button"
-                                                                        className="btn btn-danger mb-2 ml-2"
-                                                                        onClick={handleGroup}
-                                                                >
-                                                                    <i className="fa fa-table"/> Grouper
-                                                                </button>
-                                                            </>
-                                                        )}
-                                                        {/* Search result & Infinite scroll */}
-                                                        {(needle !== '' && needle !== undefined)
-                                                            ? <CheckoutHandoversCardsComponent user={user}
-                                                                                               handovers={searchEngine(handovers, needle)}
-                                                                                               handleCancelModalShow={handleCancelModalShow}
-                                                                                               handleConfirmModalShow={handleConfirmModalShow}
-                                                            />
-                                                            : (requestLoading(handoversRequests.list) ? <LoaderComponent /> :
+                                                    (requestLoading(handoversRequests.list) ? <LoaderComponent /> :
+                                                        <>
+                                                            <button type="button"
+                                                                    className="btn btn-theme mb-2"
+                                                                    onClick={handleHandoverModalShow}
+                                                            >
+                                                                <i className="fa fa-handshake" /> Passation de service
+                                                            </button>
+                                                            <button type="button"
+                                                                    className="btn btn-danger mb-2 ml-2"
+                                                                    onClick={handleGroup}
+                                                            >
+                                                                <i className="fa fa-table"/> Grouper
+                                                            </button>
+                                                            {/* Search result & Infinite scroll */}
+                                                            {(needle !== '' && needle !== undefined)
+                                                                ? (
+                                                                    <CheckoutHandoversCardsComponent user={user}
+                                                                                                   handovers={searchEngine(handovers, needle)}
+                                                                                                   handleCancelModalShow={handleCancelModalShow}
+                                                                                                   handleConfirmModalShow={handleConfirmModalShow}
+                                                                    />
+                                                                ) : (
                                                                     <InfiniteScroll hasMore={hasMoreData}
                                                                                     loader={<LoaderComponent />}
                                                                                     dataLength={handovers.length}
@@ -259,9 +256,10 @@ function CheckoutHandoversPage({handovers, handoversRequests, hasMoreData, page,
                                                                                                          handleConfirmModalShow={handleConfirmModalShow}
                                                                         />
                                                                     </InfiniteScroll>
-                                                            )
-                                                        }
-                                                    </>
+                                                                )
+                                                            }
+                                                        </>
+                                                    )
                                                 )
                                             }
                                         </div>
@@ -306,6 +304,23 @@ function searchEngine(data, _needle) {
                 needleSearch(item.sender.name, _needle) ||
                 needleSearch(item.receiver.name, _needle) ||
                 needleSearch(dateToString(item.creation), _needle)
+            )
+        });
+    }
+    // Return data
+    return data;
+}
+
+// Search engine
+function groupSearchEngine(data, _needle) {
+    // Avoid empty filtering
+    if(_needle !== '' && _needle !== undefined) {
+        // Filter
+        data = data.filter((item) => {
+            return (
+                needleSearch(item.length, _needle) ||
+                needleSearch(item[0].sender.name, _needle) ||
+                needleSearch(item.reduce((acc, val) => acc + parseInt(val.amount, 10), 0), _needle)
             )
         });
     }
