@@ -6,6 +6,7 @@ import HeaderComponent from "../../components/HeaderComponent";
 import LoaderComponent from "../../components/LoaderComponent";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
+import TableSearchComponent from "../../components/TableSearchComponent";
 import {OPERATIONS_FLEETS_PAGE} from "../../constants/pageNameConstants";
 import FormModalComponent from "../../components/modals/FormModalComponent";
 import DeleteModelComponent from "../../components/modals/DeleteModalComponent";
@@ -81,12 +82,14 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, us
 
     const handleGroup = () => {
         dispatch(emitGroupSuppliesFetch());
-        setGroupToggle(true)
+        setGroupToggle(true);
+        setNeedle('');
     }
 
     const handleUngroup = () => {
         dispatch(emitSuppliesFetch());
         setGroupToggle(false);
+        setNeedle('');
     }
 
     const handleSearchInput = () => {
@@ -215,10 +218,12 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, us
                                         {/* Search input */}
                                         <div className="card-header">
                                             <div className="card-tools">
-                                                <TableSearchWithButtonComponent needle={needle}
-                                                                                handleNeedle={handleNeedleInput}
-                                                                                handleSearch={handleSearchInput}
-                                                />
+                                                {(groupToggle) ? <TableSearchComponent needle={needle} handleNeedle={handleNeedleInput} /> :
+                                                    <TableSearchWithButtonComponent needle={needle}
+                                                                                    handleNeedle={handleNeedleInput}
+                                                                                    handleSearch={handleSearchInput}
+                                                    />
+                                                }
                                             </div>
                                         </div>
                                         <div className="card-body">
@@ -228,48 +233,44 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, us
                                             {requestFailed(suppliesRequests.cancel) && <ErrorAlertComponent message={suppliesRequests.cancel.message} />}
                                             {(groupToggle) ?
                                                 (requestLoading(suppliesRequests.list) ? <LoaderComponent /> :
-                                                        <>
-                                                            <button type="button"
-                                                                    className="btn btn-secondary mb-2 ml-2"
-                                                                    onClick={handleUngroup}
-                                                            >
-                                                                <i className="fa fa-table" /> Dégrouper
-                                                            </button>
-                                                            <RequestsGroupSuppliesCardsComponent supplies={supplies}
-                                                                                                 handleGroupReturnModalShow={handleGroupReturnModalShow}
-                                                                                                 handleGroupDetailsModalShow={handleGroupDetailsModalShow}
-                                                                                                 handleGroupRecoveryModalShow={handleGroupRecoveryModalShow}
-                                                            />
-                                                        </>
+                                                    <>
+                                                        <button type="button"
+                                                                className="btn btn-secondary mb-2 ml-2"
+                                                                onClick={handleUngroup}
+                                                        >
+                                                            <i className="fa fa-table" /> Dégrouper
+                                                        </button>
+                                                        <RequestsGroupSuppliesCardsComponent supplies={groupSearchEngine(supplies, needle)}
+                                                                                             handleGroupReturnModalShow={handleGroupReturnModalShow}
+                                                                                             handleGroupDetailsModalShow={handleGroupDetailsModalShow}
+                                                                                             handleGroupRecoveryModalShow={handleGroupRecoveryModalShow}
+                                                        />
+                                                    </>
                                                 ) :
                                                 (
-                                                    <>
-
-                                                        {!requestLoading(suppliesRequests.list) && (
-                                                            <>
-                                                                <button type="button"
-                                                                        className="btn btn-theme mb-2"
-                                                                        onClick={handleSupplyModalShow}
-                                                                >
-                                                                    <i className="fa fa-rss" /> Flottage
-                                                                </button>
-                                                                <button type="button"
-                                                                        className="btn btn-theme mb-2 ml-2"
-                                                                        onClick={handleAnonymousSupplyModalShow}
-                                                                >
-                                                                    <i className="fa fa-user-slash" /> Flottage anonyme
-                                                                </button>
-                                                                <button type="button"
-                                                                        className="btn btn-danger mb-2 ml-2"
-                                                                        onClick={handleGroup}
-                                                                >
-                                                                    <i className="fa fa-table"/> Grouper
-                                                                </button>
-                                                            </>
-                                                        )}
-                                                        {/* Search result & Infinite scroll */}
-                                                        {requestLoading(suppliesRequests.list) ? <LoaderComponent /> : ((needle !== '' && needle !== undefined) ?
-                                                                (
+                                                    (requestLoading(suppliesRequests.list) ? <LoaderComponent /> :
+                                                        <>
+                                                            <button type="button"
+                                                                    className="btn btn-theme mb-2"
+                                                                    onClick={handleSupplyModalShow}
+                                                            >
+                                                                <i className="fa fa-rss" /> Flottage
+                                                            </button>
+                                                            <button type="button"
+                                                                    className="btn btn-theme mb-2 ml-2"
+                                                                    onClick={handleAnonymousSupplyModalShow}
+                                                            >
+                                                                <i className="fa fa-user-slash" /> Flottage anonyme
+                                                            </button>
+                                                            <button type="button"
+                                                                    className="btn btn-danger mb-2 ml-2"
+                                                                    onClick={handleGroup}
+                                                            >
+                                                                <i className="fa fa-table"/> Grouper
+                                                            </button>
+                                                            {/* Search result & Infinite scroll */}
+                                                            {(needle !== '' && needle !== undefined)
+                                                                ? (
                                                                     <OperationsFleetsCardsComponent user={user}
                                                                                                     supplies={searchEngine(supplies, needle)}
                                                                                                     handleCancelModalShow={handleCancelModalShow}
@@ -277,8 +278,7 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, us
                                                                                                     handleCashRecoveryModalShow={handleRecoveryModalShow}
                                                                                                     handleSupplyDetailsModalShow={handleSupplyDetailsModalShow}
                                                                     />
-                                                                ) :
-                                                                (
+                                                                ) : (
                                                                     <InfiniteScroll hasMore={hasMoreData}
                                                                                     loader={<LoaderComponent />}
                                                                                     dataLength={supplies.length}
@@ -294,8 +294,9 @@ function OperationsFleetsPage({supplies, suppliesRequests, hasMoreData, page, us
                                                                         />
                                                                     </InfiniteScroll>
                                                                 )
-                                                        )}
-                                                    </>
+                                                            }
+                                                        </>
+                                                    )
                                                 )
                                             }
                                         </div>
@@ -358,6 +359,25 @@ function searchEngine(data, _needle) {
                 needleSearch(item.sim_incoming.number, _needle) ||
                 needleSearch(item.sim_outgoing.number, _needle) ||
                 needleSearch(dateToString(item.creation), _needle)
+            )
+        });
+    }
+    // Return data
+    return data;
+}
+
+// Search engine
+function groupSearchEngine(data, _needle) {
+    // Avoid empty filtering
+    if(_needle !== '' && _needle !== undefined) {
+        // Filter
+        data = data.filter((item) => {
+            return (
+                needleSearch(item.length, _needle) ||
+                needleSearch(item[0].agent.name, _needle) ||
+                needleSearch(item[0].operator.name, _needle) ||
+                needleSearch(item.reduce((acc, val) => acc + parseInt(val.amount, 10), 0), _needle) ||
+                needleSearch(item.reduce((acc, val) => acc + parseInt(val.remaining, 10), 0), _needle)
             )
         });
     }

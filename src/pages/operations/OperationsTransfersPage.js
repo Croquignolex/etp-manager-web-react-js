@@ -217,43 +217,45 @@ function OperationsTransfersPage({transfers, transfersRequests, hasMoreData, pag
                                                         />
                                                     </>
                                                 ) :
-                                                (requestLoading(transfersRequests.list) ? <LoaderComponent /> :
-                                                    <>
-                                                        <button type="button"
-                                                                className="btn btn-theme mb-2 ml-2"
-                                                                onClick={handleTransferModalShow}
-                                                        >
-                                                            <i className="fa fa-exchange" /> Transferer la flotte
-                                                        </button>
-                                                        <button type="button"
-                                                                className="btn btn-danger mb-2 ml-2"
-                                                                onClick={handleGroup}
-                                                        >
-                                                            <i className="fa fa-table"/> Grouper
-                                                        </button>
-                                                        {/* Search result & Infinite scroll */}
-                                                        {(needle !== '' && needle !== undefined)
-                                                            ? (
-                                                                <OperationsTransfersCardsComponent transfers={searchEngine(transfers, needle)}
-                                                                                                 handleCancelModalShow={handleCancelModalShow}
-                                                                                                 handleConfirmModalShow={handleConfirmModalShow}
-                                                                />
-                                                            )
-                                                            : (
-                                                                <InfiniteScroll hasMore={hasMoreData}
-                                                                                loader={<LoaderComponent />}
-                                                                                dataLength={transfers.length}
-                                                                                next={handleNextTransfersData}
-                                                                                style={{ overflow: 'hidden' }}
-                                                                >
-                                                                    <OperationsTransfersCardsComponent transfers={transfers}
-                                                                                                       handleCancelModalShow={handleCancelModalShow}
-                                                                                                       handleConfirmModalShow={handleConfirmModalShow}
+                                                (
+                                                    (requestLoading(transfersRequests.list) ? <LoaderComponent /> :
+                                                        <>
+                                                            <button type="button"
+                                                                    className="btn btn-theme mb-2 ml-2"
+                                                                    onClick={handleTransferModalShow}
+                                                            >
+                                                                <i className="fa fa-exchange" /> Transferer la flotte
+                                                            </button>
+                                                            <button type="button"
+                                                                    className="btn btn-danger mb-2 ml-2"
+                                                                    onClick={handleGroup}
+                                                            >
+                                                                <i className="fa fa-table"/> Grouper
+                                                            </button>
+                                                            {/* Search result & Infinite scroll */}
+                                                            {(needle !== '' && needle !== undefined)
+                                                                ? (
+                                                                    <OperationsTransfersCardsComponent transfers={searchEngine(transfers, needle)}
+                                                                                                     handleCancelModalShow={handleCancelModalShow}
+                                                                                                     handleConfirmModalShow={handleConfirmModalShow}
                                                                     />
-                                                                </InfiniteScroll>
-                                                            )
-                                                        }
-                                                    </>
+                                                                )
+                                                                : (
+                                                                    <InfiniteScroll hasMore={hasMoreData}
+                                                                                    loader={<LoaderComponent />}
+                                                                                    dataLength={transfers.length}
+                                                                                    next={handleNextTransfersData}
+                                                                                    style={{ overflow: 'hidden' }}
+                                                                    >
+                                                                        <OperationsTransfersCardsComponent transfers={transfers}
+                                                                                                           handleCancelModalShow={handleCancelModalShow}
+                                                                                                           handleConfirmModalShow={handleConfirmModalShow}
+                                                                        />
+                                                                    </InfiniteScroll>
+                                                                )
+                                                            }
+                                                        </>
+                                                    )
                                                 )
                                             }
                                         </div>

@@ -115,12 +115,14 @@ function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, di
 
     const handleGroup = () => {
         dispatch(emitGroupPaymentsFetch());
-        setGroupToggle(true)
+        setGroupToggle(true);
+        setNeedle('');
     }
 
     const handleUngroup = () => {
         dispatch(emitPaymentsFetch());
         setGroupToggle(false);
+        setNeedle('');
     }
 
     // Trigger when group transfer confirm confirmed on modal
@@ -159,38 +161,35 @@ function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, di
                                             {requestFailed(paymentsRequests.apply) && <ErrorAlertComponent message={paymentsRequests.apply.message} />}
                                             {(groupToggle) ?
                                                 ((requestLoading(paymentsRequests.list) || requestLoading(paymentsRequests.apply)) ? <LoaderComponent /> :
-                                                        <>
-                                                            <button type="button"
-                                                                    className="btn btn-secondary mb-2 ml-2"
-                                                                    onClick={handleUngroup}
-                                                            >
-                                                                <i className="fa fa-table" /> Dégrouper
-                                                            </button>
-                                                            <OperationsGroupPaymentsCardsComponent payments={payments}
-                                                                                                   handleGroupConfirmModalShow={handleGroupConfirmModalShow}
-                                                                                                   handleGroupDetailsModalShow={handleGroupDetailsModalShow}
-                                                            />
-                                                        </>
+                                                    <>
+                                                        <button type="button"
+                                                                className="btn btn-secondary mb-2 ml-2"
+                                                                onClick={handleUngroup}
+                                                        >
+                                                            <i className="fa fa-table" /> Dégrouper
+                                                        </button>
+                                                        <OperationsGroupPaymentsCardsComponent payments={groupSearchEngine(payments, needle)}
+                                                                                               handleGroupConfirmModalShow={handleGroupConfirmModalShow}
+                                                                                               handleGroupDetailsModalShow={handleGroupDetailsModalShow}
+                                                        />
+                                                    </>
                                                 ) :
                                                 (
-                                                    <>
-
-                                                        {!requestLoading(paymentsRequests.list) && (
-                                                            <>
-                                                                <button type="button"
-                                                                        className="btn btn-danger mb-2 ml-2"
-                                                                        onClick={handleGroup}
-                                                                >
-                                                                    <i className="fa fa-table"/> Grouper
-                                                                </button>
-                                                            </>
-                                                        )}
-                                                        {/* Search result & Infinite scroll */}
-                                                        {(needle !== '' && needle !== undefined)
-                                                            ? <CheckoutPaymentsCardsComponent payments={searchEngine(payments, needle)}
-                                                                                              handleConfirmModalShow={handleConfirmModalShow}
-                                                            />
-                                                            : (requestLoading(paymentsRequests.list) ? <LoaderComponent /> :
+                                                    (requestLoading(paymentsRequests.list) ? <LoaderComponent /> :
+                                                        <>
+                                                            <button type="button"
+                                                                    className="btn btn-danger mb-2 ml-2"
+                                                                    onClick={handleGroup}
+                                                            >
+                                                                <i className="fa fa-table"/> Grouper
+                                                            </button>
+                                                            {/* Search result & Infinite scroll */}
+                                                            {(needle !== '' && needle !== undefined)
+                                                                ? (
+                                                                    <CheckoutPaymentsCardsComponent payments={searchEngine(payments, needle)}
+                                                                                                  handleConfirmModalShow={handleConfirmModalShow}
+                                                                    />
+                                                                ) : (
                                                                     <InfiniteScroll hasMore={hasMoreData}
                                                                                     loader={<LoaderComponent />}
                                                                                     dataLength={payments.length}
@@ -201,9 +200,10 @@ function CheckoutPaymentsPage({payments, paymentsRequests, hasMoreData, page, di
                                                                                                         handleConfirmModalShow={handleConfirmModalShow}
                                                                         />
                                                                     </InfiniteScroll>
-                                                            )
-                                                        }
-                                                    </>
+                                                                )
+                                                            }
+                                                        </>
+                                                    )
                                                 )
                                             }
                                         </div>
@@ -241,6 +241,23 @@ function searchEngine(data, _needle) {
                 needleSearch(item.manager.name, _needle) ||
                 needleSearch(item.collector.name, _needle) ||
                 needleSearch(dateToString(item.creation), _needle)
+            )
+        });
+    }
+    // Return data
+    return data;
+}
+
+// Search engine
+function groupSearchEngine(data, _needle) {
+    // Avoid empty filtering
+    if(_needle !== '' && _needle !== undefined) {
+        // Filter
+        data = data.filter((item) => {
+            return (
+                needleSearch(item.length, _needle) ||
+                needleSearch(item[0].manager.name, _needle) ||
+                needleSearch(item.reduce((acc, val) => acc + parseInt(val.amount, 10), 0), _needle)
             )
         });
     }
