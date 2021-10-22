@@ -105,7 +105,7 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
                                         {/* Search input */}
                                         <div className="card-header">
                                             <div className="card-tools">
-                                                {!groupToggle && <TableSearchComponent needle={needle} handleNeedle={handleNeedleInput}/>}
+                                                <TableSearchComponent needle={needle} handleNeedle={handleNeedleInput}/>
                                             </div>
                                         </div>
                                         <div className="card-body">
@@ -121,29 +121,28 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
                                                         >
                                                             <i className="fa fa-table" /> Dégrouper
                                                         </button>
-                                                        <RequestsGroupFleetsCardsComponent fleets={fleets}
+                                                        <RequestsGroupFleetsCardsComponent fleets={groupSearchEngine(fleets, needle)}
                                                                                            handleGroupSupplyModalShow={handleGroupSupplyModalShow}
                                                                                            handleGroupSupplyDetailsModalShow={handleGroupSupplyDetailsModalShow}
                                                         />
                                                     </>
                                                 ) :
                                                 (
-                                                    <>
-
-                                                        {!requestLoading(fleetsRequests.list) && (
+                                                    (requestLoading(fleetsRequests.list) ? <LoaderComponent /> :
+                                                        <>
                                                             <button type="button"
                                                                     className="btn btn-danger mb-2 ml-2"
                                                                     onClick={handleGroup}
                                                             >
                                                                 <i className="fa fa-table"/> Grouper
                                                             </button>
-                                                        )}
-                                                        {/* Search result & Infinite scroll */}
-                                                        {(needle !== '' && needle !== undefined)
-                                                            ? <RequestsFleetsCardsComponent fleets={searchEngine(fleets, needle)}
-                                                                                            handleSupplyModalShow={handleSupplyModalShow}
-                                                            />
-                                                            : (requestLoading(fleetsRequests.list) ? <LoaderComponent /> :
+                                                            {/* Search result & Infinite scroll */}
+                                                            {(needle !== '' && needle !== undefined)
+                                                                ? (
+                                                                    <RequestsFleetsCardsComponent fleets={searchEngine(fleets, needle)}
+                                                                                                handleSupplyModalShow={handleSupplyModalShow}
+                                                                    />
+                                                                ) : (
                                                                     <InfiniteScroll hasMore={hasMoreData}
                                                                                     dataLength={fleets.length}
                                                                                     next={handleNextFleetsData}
@@ -154,9 +153,10 @@ function RequestsFleetsPage({fleets, fleetsRequests, hasMoreData, page, dispatch
                                                                                                       handleSupplyModalShow={handleSupplyModalShow}
                                                                         />
                                                                     </InfiniteScroll>
-                                                            )
-                                                        }
-                                                    </>
+                                                                )
+                                                            }
+                                                        </>
+                                                    )
                                                 )
                                             }
                                         </div>
@@ -201,6 +201,24 @@ function searchEngine(data, _needle) {
                 needleSearch(item.operator.name, _needle) ||
                 needleSearch(dateToString(item.creation), _needle) ||
                 needleSearch(fleetTypeBadgeColor(item.status).text, _needle)
+            )
+        });
+    }
+    // Return data
+    return data;
+}
+
+// Search engine
+function groupSearchEngine(data, _needle) {
+    // Avoid empty filtering
+    if(_needle !== '' && _needle !== undefined) {
+        // Filter
+        data = data.filter((item) => {
+            return (
+                needleSearch(item.length, _needle) ||
+                needleSearch(item[0].agent.name, _needle) ||
+                needleSearch(item[0].operator.name, _needle) ||
+                needleSearch(item.reduce((acc, val) => acc + parseInt(val.amount, 10), 0), _needle)
             )
         });
     }
