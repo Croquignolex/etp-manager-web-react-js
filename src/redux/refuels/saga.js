@@ -279,6 +279,7 @@ export default function* sagaRefuels() {
         fork(emitConfirmRefuel),
         fork(emitNextRefuelsFetch),
         fork(emitGroupRefuelsFetch),
+        fork(emitSearchRefuelsFetch),
         fork(emitAddAnonymousRefuel),
         fork(emitGroupConfirmRefuel),
     ]);
