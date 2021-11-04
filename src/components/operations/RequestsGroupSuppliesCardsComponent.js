@@ -24,10 +24,13 @@ function RequestsGroupSuppliesCardsComponent({supplies, handleGroupDetailsModalS
         <>
             <div className="row m-1">
                 {supplies.map((item, key) => {
+                    const amountToFleet = item.reduce((acc, val) => acc + parseInt(val.amount, 10), 0);
+                    const amountToRecover = item.reduce((acc, val) => acc + parseInt(val.remaining, 10), 0);
+                    const pendingStatus = (amountToFleet === amountToRecover);
                     return (
                         <div className="col-lg-4 col-md-6" key={key}>
                             <div className="card">
-                                <div className={`${fleetTypeBadgeColor(item[0].status).background} card-header`} />
+                                <div className={`${fleetTypeBadgeColor(pendingStatus ? PENDING : PROCESSING).background} card-header`} />
                                 <div className="card-body">
                                     <ul className="list-group list-group-unbordered">
                                         <OperatorComponent operator={item[0].operator} />
@@ -40,13 +43,13 @@ function RequestsGroupSuppliesCardsComponent({supplies, handleGroupDetailsModalS
                                         <li className="list-group-item">
                                             <b>Montant flotté</b>
                                             <span className="float-right text-success text-bold">
-                                                {formatNumber(item.reduce((acc, val) => acc + parseInt(val.amount, 10), 0))}
+                                                {formatNumber(amountToFleet)}
                                             </span>
                                         </li>
                                         <li className="list-group-item">
                                             <b>Reste à récouvrir</b>
                                             <span className="float-right text-danger text-bold">
-                                                {formatNumber(item.reduce((acc, val) => acc + parseInt(val.remaining, 10), 0))}
+                                                {formatNumber(amountToRecover)}
                                             </span>
                                         </li>
                                         <li className="list-group-item">
@@ -59,8 +62,10 @@ function RequestsGroupSuppliesCardsComponent({supplies, handleGroupDetailsModalS
                                             </span>
                                         </li>
                                         <li className="list-group-item">
-                                            {item[0].status === PENDING && <b className="text-danger text-bold">En attente de recouvrement</b>}
-                                            {item[0].status === PROCESSING && <b className="text-primary text-bold">Recouvert partiellement</b>}
+                                            {(pendingStatus)
+                                                ? <b className="text-danger text-bold">En attente de recouvrement</b>
+                                                : <b className="text-primary text-bold">Recouvert partiellement</b>
+                                            }
                                         </li>
                                     </ul>
                                     <div className="mt-3 text-right">

@@ -80,7 +80,7 @@ export function* emitGroupSuppliesFetch() {
             const apiResponse = yield call(apiGetRequest, api.GROUP_SUPPLIES_API_PATH);
             // Extract data
             const supplies = extractSuppliesData(apiResponse.data.flottages);
-            const groupedFleet = Object.values(Lodash.groupBy(supplies, fleet => [fleet.status, fleet.agent.id, fleet.operator.id]));
+            const groupedFleet = Object.values(Lodash.groupBy(supplies, fleet => [fleet.agent.id, fleet.operator.id]));
             // Fire event to redux
             yield put(storeSetGroupSuppliesData({supplies: groupedFleet}));
             // Fire event for request
@@ -238,7 +238,7 @@ export function* emitGroupSupplyAddReturn() {
             const apiResponse2 = yield call(apiGetRequest, api.GROUP_SUPPLIES_API_PATH);
             // Extract data
             const supplies = extractSuppliesData(apiResponse2.data.flottages);
-            const groupedFleet = Object.values(Lodash.groupBy(supplies, fleet => [fleet.status, fleet.agent.id, fleet.operator.id]));
+            const groupedFleet = Object.values(Lodash.groupBy(supplies, fleet => [fleet.agent.id, fleet.operator.id]));
             // Fire event to redux
             yield put(storeSetGroupSuppliesData({supplies: groupedFleet}));
             // Fire event for request
@@ -261,7 +261,7 @@ export function* emitGroupSupplyAddRecovery() {
             const apiResponse2 = yield call(apiGetRequest, api.GROUP_SUPPLIES_API_PATH);
             // Extract data
             const supplies = extractSuppliesData(apiResponse2.data.flottages);
-            const groupedFleet = Object.values(Lodash.groupBy(supplies, fleet => [fleet.status, fleet.agent.id, fleet.operator.id]));
+            const groupedFleet = Object.values(Lodash.groupBy(supplies, fleet => [fleet.agent.id, fleet.operator.id]));
             // Fire event to redux
             yield put(storeSetGroupSuppliesData({supplies: groupedFleet}));
             // Fire event for request
