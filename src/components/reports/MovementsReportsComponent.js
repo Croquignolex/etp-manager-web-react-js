@@ -25,6 +25,7 @@ function CollectorMovementsComponent({movements, selectedEndDate, selectedStartD
                     <ExcelColumn label="DATE" value="creation"/>
                     <ExcelColumn label="TYPE" value="type"/>
                     <ExcelColumn label="NATURE" value="label"/>
+                    <ExcelColumn label="MOTIF" value="reason"/>
                     <ExcelColumn label="ENTREES" value="in"/>
                     <ExcelColumn label="SORTIES" value="out"/>
                     <ExcelColumn label="SOLDES" value="balance"/>
@@ -53,6 +54,7 @@ function CollectorMovementsComponent({movements, selectedEndDate, selectedStartD
                                         <th>DATE</th>
                                         <th>TYPE</th>
                                         <th>NATURE</th>
+                                        <th>MOTIF</th>
                                         <th>ENTREES</th>
                                         <th>SORTIES</th>
                                         <th>SOLDES</th>
@@ -64,7 +66,8 @@ function CollectorMovementsComponent({movements, selectedEndDate, selectedStartD
                                             <tr key={key}>
                                                 <td>{item.creation}</td>
                                                 <td>{item.type}</td>
-                                                <td>{formatString(item.label, 20)}</td>
+                                                <td title={item.label}>{formatString(item.label, 20)}</td>
+                                                <td title={item.reason}>{formatString(item.reason, 20)}</td>
                                                 <td>{item.in}</td>
                                                 <td>{item.out}</td>
                                                 <td>{item.balance}</td>
@@ -73,7 +76,7 @@ function CollectorMovementsComponent({movements, selectedEndDate, selectedStartD
                                     })}
                                     {movements.length === 0 && (
                                         <tr>
-                                            <td colSpan={6}>
+                                            <td colSpan={7}>
                                                 <div className='alert custom-active text-center'>
                                                     Pas de mouvements de caisse
                                                 </div>
