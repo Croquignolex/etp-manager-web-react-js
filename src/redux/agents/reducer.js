@@ -14,6 +14,7 @@ const initialState = {
         description: '', phone: '', email: '', creation: '',
         avatar: '', status: '', reference: '', town: '', country: '',
 
+        agency: {id: '', name: ''},
         creator: {id: '', name: ''},
         account: {id: '', balance: ''},
         zone: {id: '', name: '', map: ''},
@@ -66,7 +67,7 @@ function reduce(state = initialState, action) {
             };
             return nextState || state;
         // Resolve event to set sim action data
-        case actions.STORE_SET_SIM_ACTION_DATA:
+        case actions.STORE_SET_AGENT_ACTION_DATA:
             nextState = {
                 ...state,
                 list: Lodash.map(state.list, (item) => {
