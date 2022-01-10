@@ -15,8 +15,8 @@ import {AGENT_TYPE, CANCEL, DONE, PENDING, PROCESSING} from "../../constants/typ
 function RequestsFleetsCardsComponent({fleets, group, handleSupplyModalShow}) {
     // Local states
     const [simDetailsModal, setSimDetailsModal] = useState({show: false, header: 'DETAIL DU COMPTE', id: ''});
-    const [resourceDetailsModal, setResourceDetailsModal] = useState({show: false, header: "DETAIL DE LA RESSOURCE", id: ''});
     const [agentDetailsModal, setAgentDetailsModal] = useState({show: false, header: "DETAIL DE L'AGENT", id: ''});
+    const [resourceDetailsModal, setResourceDetailsModal] = useState({show: false, header: "DETAIL DE LA RESSOURCE", id: ''});
 
     // Hide sim details modal form
     const handleSimDetailModalHide = () => {
