@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React, {useEffect, useMemo, useState} from 'react';
 
+import DisabledInput from "../form/DisabledInput";
 import InputComponent from "../form/InputComponent";
 import ButtonComponent from "../form/ButtonComponent";
 import SelectComponent from "../form/SelectComponent";
@@ -10,8 +11,10 @@ import {emitAddAgentSims} from "../../redux/agents/actions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {dataToArrayForSelect} from "../../functions/arrayFunctions";
 import {playWarningSound} from "../../functions/playSoundFunctions";
+import {emitAllOperatorsFetch} from "../../redux/operators/actions";
 import {phoneChecker, requiredChecker} from "../../functions/checkerFunctions";
 import {storeAgentAddSimRequestReset} from "../../redux/requests/agents/actions";
+import {storeAllOperatorsRequestReset} from "../../redux/requests/operators/actions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
@@ -24,6 +27,7 @@ function AgentAddSimComponent({request, agent, operators, allOperatorsRequests, 
 
     // Local effects
     useEffect(() => {
+        dispatch(emitAllOperatorsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -44,6 +48,7 @@ function AgentAddSimComponent({request, agent, operators, allOperatorsRequests, 
     // Reset error alert
     const shouldResetErrorData = () => {
         dispatch(storeAgentAddSimRequestReset());
+        dispatch(storeAllOperatorsRequestReset());
     };
 
     const handleDescriptionInput = (data) => {
@@ -103,6 +108,14 @@ function AgentAddSimComponent({request, agent, operators, allOperatorsRequests, 
         <>
             {requestFailed(request) && <ErrorAlertComponent message={request.message} />}
             <form onSubmit={handleSubmit}>
+                <div className="row">
+                    <div className='col-sm-6'>
+                        <DisabledInput id='inputAgent'
+                                       val={agent.name}
+                                       label='Agent'
+                        />
+                    </div>
+                </div>
                 <div className='row'>
                     <div className='col-sm-6'>
                         <InputComponent label='Nom'

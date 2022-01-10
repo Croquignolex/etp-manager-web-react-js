@@ -3,7 +3,6 @@ import React, {useState} from 'react';
 
 import FormModalComponent from "../modals/FormModalComponent";
 import {dateToString} from "../../functions/generalFunctions";
-import {agentTypeBadgeColor} from "../../functions/typeFunctions";
 import AgentPrimaryInfoEditContainer from "../../containers/agents/AgentPrimaryInfoEditContainer";
 
 // Component
@@ -28,18 +27,16 @@ function AgentPrimaryInfoComponent({agent}) {
                 <i className="fa fa-edit" /> Modifier les info
             </button>
             <div className="card">
-                <div className={`${agentTypeBadgeColor(agent.reference).background} card-header`}>
-                    <h3 className="card-title">{agentTypeBadgeColor(agent.reference).text}</h3>
-                    <div className="card-tools">
-                        {agent.status
-                            ?  <span className="badge badge-success">Activé</span>
-                            :  <span className="badge badge-danger">Bloqué</span>
-                        }
-                    </div>
-                </div>
+                <div className="card-header bg-secondary" />
                 <div className="card-body">
                     <div className="text-center mb-2">
                         <img src={agent.avatar} alt="avatar..." className="profile-user-img img-fluid img-circle" />
+                        <div className="float-right">
+                            {agent.status
+                                ?  <span className="badge badge-success">Activé</span>
+                                :  <span className="badge badge-danger">Bloqué</span>
+                            }
+                        </div>
                     </div>
                     <ul className="list-group list-group-unbordered mb-3">
                         <li className="list-group-item">

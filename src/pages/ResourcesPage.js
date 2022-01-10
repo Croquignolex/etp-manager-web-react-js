@@ -151,9 +151,9 @@ function AgentsPage({agents, agentsRequests, hasMoreData, page, dispatch, locati
                                             {requestLoading(agentsRequests.list) ? <LoaderComponent /> : ((needle !== '' && needle !== undefined) ?
                                                     (
                                                         <ResourcesCardsComponent handleBlock={handleBlock}
-                                                                              agents={searchEngine(agents, needle)}
-                                                                              handleBlockModalShow={handleBlockModalShow}
-                                                                              handleAgentDetailsModalShow={handleAgentDetailsModalShow}
+                                                                                 agents={searchEngine(agents, needle)}
+                                                                                 handleBlockModalShow={handleBlockModalShow}
+                                                                                 handleAgentDetailsModalShow={handleAgentDetailsModalShow}
                                                         />
                                                     ) :
                                                     (
@@ -164,9 +164,9 @@ function AgentsPage({agents, agentsRequests, hasMoreData, page, dispatch, locati
                                                                         style={{ overflow: 'hidden' }}
                                                         >
                                                             <ResourcesCardsComponent agents={agents}
-                                                                                  handleBlock={handleBlock}
-                                                                                  handleBlockModalShow={handleBlockModalShow}
-                                                                                  handleAgentDetailsModalShow={handleAgentDetailsModalShow}
+                                                                                     handleBlock={handleBlock}
+                                                                                     handleBlockModalShow={handleBlockModalShow}
+                                                                                     handleAgentDetailsModalShow={handleAgentDetailsModalShow}
                                                             />
                                                         </InfiniteScroll>
                                                     )

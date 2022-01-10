@@ -9,8 +9,8 @@ import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
 // Component
 function AgentSimsListComponent({agent}) {
     // Local states
-    const [addSimModal, setAddSimEditModal] = useState({show: false, header: 'AJOUTER UN COMPTE CHEZ ' + agent.name});
     const [simDetailsModal, setSimDetailsModal] = useState({show: false, header: 'DETAIL DU COMPTE', id: ''});
+    const [addSimModal, setAddSimEditModal] = useState({show: false, header: 'AJOUTER UN COMPTE CHEZ ' + agent.name});
 
     // Show add sim modal form
     const handleAddSimModalShow = () => {
@@ -48,13 +48,15 @@ function AgentSimsListComponent({agent}) {
                                 return (
                                     <tr key={key}>
                                         <td>
-                                            {item.name}
-                                            <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
+                                            <i className="fa fa-question-circle small mr-1 hand-cursor text-theme"
                                                onClick={() => setSimDetailsModal({...simDetailsModal, show: true, id: item.id})}
                                             />
+                                            {item.name}
                                         </td>
                                         <td>{item.number}</td>
-                                        <td className='text-right text-success text-bold'>{formatNumber(item.balance)}</td>
+                                        <td className='text-right text-success text-bold'>
+                                            {formatNumber(item.balance)}
+                                        </td>
                                     </tr>
                                 )
                             })}

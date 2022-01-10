@@ -5,23 +5,17 @@ import LoaderComponent from "../LoaderComponent";
 import AgentCniComponent from "./AgentCniComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import {emitAgentFetch} from "../../redux/agents/actions";
-import {emitAllZonesFetch} from "../../redux/zones/actions";
 import AgentSimsListComponent from "./AgentSimsListComponent";
-import {emitAllOperatorsFetch} from "../../redux/operators/actions";
 import AgentPrimaryInfoComponent from "./AgentPrimaryInfoComponent";
 import AgentSecondaryInfoComponent from "./AgentSecondaryInfoComponent";
 import {storeAgentRequestReset} from "../../redux/requests/agents/actions";
-import {storeAllZonesRequestReset} from "../../redux/requests/zones/actions";
 import {requestFailed, requestLoading} from "../../functions/generalFunctions";
-import {storeAllOperatorsRequestReset} from "../../redux/requests/operators/actions";
 
 // Component
 function AgentDetailsComponent({id, agent, dispatch, request}) {
     // Local effects
     useEffect(() => {
         dispatch(emitAgentFetch({id}));
-        dispatch(emitAllZonesFetch());
-        dispatch(emitAllOperatorsFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -32,8 +26,6 @@ function AgentDetailsComponent({id, agent, dispatch, request}) {
     // Reset error alert
     const shouldResetErrorData = () => {
         dispatch(storeAgentRequestReset());
-        dispatch(storeAllZonesRequestReset());
-        dispatch(storeAllOperatorsRequestReset());
     };
 
     // Render

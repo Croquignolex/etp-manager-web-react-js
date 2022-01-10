@@ -23,6 +23,7 @@ function SideBarComponent({user, pathname}) {
             buildCheckoutMenu(),
             buildSimsMenu(),
             buildAgentsMenu(),
+            buildResourcesMenu(),
             buildVendorsMenu(),
             buildReportsMenu(),
         ];
@@ -181,6 +182,16 @@ function buildAgentsMenu() {
     return {
         name: page.AGENTS,
         path: path.AGENTS_PAGE_PATH,
+        icon: 'fa fa-user-cog',
+        sub: []
+    };
+}
+
+// Build resources menu
+function buildResourcesMenu() {
+    return {
+        name: page.RESOURCES,
+        path: path.RESOURCES_PAGE_PATH,
         icon: 'fa fa-user-cog',
         sub: []
     };

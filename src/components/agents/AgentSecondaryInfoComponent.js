@@ -7,7 +7,7 @@ import AgentZoneEditContainer from "../../containers/agents/AgentZoneEditContain
 
 // Component
 function AgentSecondaryInfoComponent({agent}) {
-    // Local states;
+    // Local states
     const [zoneEditModal, setZoneEditModal] = useState({show: false, header: 'MODIFIER LA ZONE DE ' + agent.name});
     const [docEditModal, setDocEditModal] = useState({show: false, header: 'MODIFIER LE DOSSIER DE ' + agent.name});
 
@@ -44,7 +44,7 @@ function AgentSecondaryInfoComponent({agent}) {
                 <div className="card-body">
                     <ul className="list-group list-group-unbordered mb-3">
                         <li className="list-group-item">
-                            <b>Crée par</b>
+                            <b>Créer par</b>
                             <span className="float-right">{agent.creator.name}</span>
                         </li>
                         <li className="list-group-item">

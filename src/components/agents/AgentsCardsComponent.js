@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 
 import LoaderComponent from "../LoaderComponent";
 import {dateToString} from "../../functions/generalFunctions";
-import {agentTypeBadgeColor} from "../../functions/typeFunctions";
 
 // Component
 function AgentsCardsComponent({agents, handleBlock, handleBlockModalShow, handleAgentDetailsModalShow}) {
+
     // Render
     return (
         <>
@@ -15,11 +15,7 @@ function AgentsCardsComponent({agents, handleBlock, handleBlockModalShow, handle
                     return (
                         <div className="col-lg-4 col-md-6" key={key}>
                             <div className="card">
-                                <div className={`${agentTypeBadgeColor(item.reference).background} card-header`}>
-                                    <h3 className="card-title">
-                                        {agentTypeBadgeColor(item.reference).text}
-                                    </h3>
-                                </div>
+                                <div className="card-header bg-secondary" />
                                 <div className="card-body">
                                     <div className="text-center mb-3">
                                         <img src={item.avatar} alt="avatar..." className="profile-user-img img-fluid img-circle" />
@@ -35,6 +31,7 @@ function AgentsCardsComponent({agents, handleBlock, handleBlockModalShow, handle
                                             )}
                                         </div>
                                     </div>
+
                                     <ul className="list-group list-group-unbordered">
                                         <li className="list-group-item">
                                             <b>Création</b>
@@ -53,7 +50,7 @@ function AgentsCardsComponent({agents, handleBlock, handleBlockModalShow, handle
                                             <span className="float-right">{item.zone.name}</span>
                                         </li>
                                         <li className="list-group-item">
-                                            <b>Crée par</b>
+                                            <b>Créer par</b>
                                             <span className="float-right">{item.creator.name}</span>
                                         </li>
                                     </ul>

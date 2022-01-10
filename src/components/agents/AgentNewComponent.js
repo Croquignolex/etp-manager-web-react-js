@@ -7,8 +7,8 @@ import SelectComponent from "../form/SelectComponent";
 import {emitNewAgent} from "../../redux/agents/actions";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import TextareaComponent from "../form/TextareaComponent";
-import FileImageComponent from "../form/FileImageComponent";
 import {emitAllZonesFetch} from "../../redux/zones/actions";
+import FileImageComponent from "../form/FileImageComponent";
 import * as constants from "../../constants/defaultConstants";
 import FileDocumentComponent from "../form/FileDocumentComponent";
 import {playWarningSound} from "../../functions/playSoundFunctions";
@@ -19,7 +19,7 @@ import {fileChecker, imageChecker, phoneChecker, requiredChecker} from "../../fu
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
-function AgentNewComponent({type, zones, request, allZonesRequests, dispatch, handleClose}) {
+function AgentNewComponent({zones, request, allZonesRequests, dispatch, handleClose}) {
     // Local state
     const [doc, setDoc] = useState(constants.DEFAULT_FORM_DATA);
     const [zone, setZone] = useState(constants.DEFAULT_FORM_DATA);
@@ -129,30 +129,25 @@ function AgentNewComponent({type, zones, request, allZonesRequests, dispatch, ha
             _document.isValid && _zone.isValid &&
             _backIDCard.isValid && _frontIDCard.isValid
         );
-
         // Check
         if(validationOK)
             dispatch(emitNewAgent({
-                reference: type,
                 name: _name.data,
                 zone: _zone.data,
                 email: email.data,
                 phone: _phone.data,
                 address: address.data,
                 document: _document.data,
-                town: constants.DEFAULT_TOWN,
                 description: description.data,
                 backIDCard: _backIDCard.data.file,
-                country: constants.DEFAULT_COUNTRY,
                 frontIDCard: _frontIDCard.data.file,
-                password: constants.DEFAULT_PASSWORD,
             }));
         else playWarningSound();
     };
 
     // Render
     return (
-        <div>
+        <>
             {requestFailed(request) && <ErrorAlertComponent message={request.message} />}
             {requestFailed(allZonesRequests) && <ErrorAlertComponent message={allZonesRequests.message} />}
             <div className="row">
@@ -241,14 +236,13 @@ function AgentNewComponent({type, zones, request, allZonesRequests, dispatch, ha
                     </form>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 
 // Prop types to ensure destroyed props data type
 AgentNewComponent.propTypes = {
     zones: PropTypes.array.isRequired,
-    type: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired,
     handleClose: PropTypes.func.isRequired,
