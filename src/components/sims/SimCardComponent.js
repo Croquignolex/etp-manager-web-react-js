@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import OperatorComponent from "../OperatorComponent";
 import FormModalComponent from "../modals/FormModalComponent";
 import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer";
+import AgencyDetailsContainer from "../../containers/agencies/AgencyDetailsContainer";
 import {dateToString, formatNumber, upperFirstCase} from "../../functions/generalFunctions";
 import {
     AGENT_TYPE,
@@ -16,11 +17,17 @@ import {
 // Component
 function SimCardComponent({sim}) {
     // Local states
-    const [agentDetailsModal, setAgentDetailsModal] = useState({show: false, header: "DETAIL DE L'AGENT/RESSOURCE", id: ''});
+    const [agentDetailsModal, setAgentDetailsModal] = useState({show: false, header: "DETAIL DE L'AGENT", id: ''});
+    const [agencyDetailsModal, setAgencyDetailsModal] = useState({show: false, header: "DETAIL DE L'AGENCE", id: ''});
 
     // Hide agent details modal form
     const handleAgentDetailsModalHide = () => {
         setAgentDetailsModal({...agentDetailsModal, show: false})
+    }
+
+    // Hide agency details modal form
+    const handleAgencyDetailsModalHide = () => {
+        setAgencyDetailsModal({...agencyDetailsModal, show: false})
     }
 
     // Render
@@ -58,9 +65,9 @@ function SimCardComponent({sim}) {
                             )}
                             {sim.type.name === RESOURCE_TYPE && (
                                 <>
-                                    {sim.agent.name}
+                                    {sim.agency.name}
                                     <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
-                                       onClick={() => setAgentDetailsModal({...agentDetailsModal, show: true, id: sim.agent.id})}
+                                       onClick={() => setAgencyDetailsModal({...agencyDetailsModal, show: true, id: sim.agency.id})}
                                     />
                                 </>
                             )}
@@ -73,6 +80,9 @@ function SimCardComponent({sim}) {
             {/* Modal */}
             <FormModalComponent modal={agentDetailsModal} handleClose={handleAgentDetailsModalHide}>
                 <AgentDetailsContainer id={agentDetailsModal.id} />
+            </FormModalComponent>
+            <FormModalComponent modal={agencyDetailsModal} handleClose={handleAgencyDetailsModalHide}>
+                <AgencyDetailsContainer id={agencyDetailsModal.id} />
             </FormModalComponent>
         </div>
     )
