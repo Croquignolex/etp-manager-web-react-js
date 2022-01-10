@@ -5,18 +5,25 @@ import OperatorComponent from "../OperatorComponent";
 import FormModalComponent from "../modals/FormModalComponent";
 import {formatNumber} from "../../functions/generalFunctions";
 import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
-import {PENDING, PROCESSING} from "../../constants/typeConstants";
+import {AGENT_TYPE, PENDING, PROCESSING} from "../../constants/typeConstants";
 import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer";
+import ResourceDetailsContainer from "../../containers/resources/ResourceDetailsContainer";
 
 // Component
 function RequestsGroupSuppliesCardsComponent({supplies, handleGroupDetailsModalShow,
                                                  handleGroupReturnModalShow, handleGroupRecoveryModalShow}) {
     // Local states
-    const [agentDetailsModal, setAgentDetailsModal] = useState({show: false, header: "DETAIL DE L'AGENT/RESSOURCE", id: ''});
+    const [agentDetailsModal, setAgentDetailsModal] = useState({show: false, header: "DETAIL DE L'AGENT", id: ''});
+    const [resourceDetailsModal, setResourceDetailsModal] = useState({show: false, header: "DETAIL DE LA RESSOURCE", id: ''});
 
     // Hide agent details modal form
     const handleAgentDetailsModalHide = () => {
         setAgentDetailsModal({...agentDetailsModal, show: false})
+    }
+
+    // Hide resource details modal form
+    const handleResourceDetailsModalHide = () => {
+        setResourceDetailsModal({...resourceDetailsModal, show: false})
     }
 
     // Render
@@ -53,12 +60,17 @@ function RequestsGroupSuppliesCardsComponent({supplies, handleGroupDetailsModalS
                                             </span>
                                         </li>
                                         <li className="list-group-item">
-                                            <b>Agent/Ressource</b>
+                                            <b>{(item[0].agent?.reference === AGENT_TYPE) ? "Agent" : "Ressource"}</b>
                                             <span className="float-right">
                                                 {item[0].agent.name}
-                                                <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
-                                                   onClick={() => setAgentDetailsModal({...agentDetailsModal, show: true, id: item[0].agent.id})}
-                                                />
+                                                {(item[0].agent?.reference === AGENT_TYPE)
+                                                    ? <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
+                                                         onClick={() => setAgentDetailsModal({...agentDetailsModal, show: true, id: item[0].agent.id})}
+                                                    />
+                                                    : <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
+                                                         onClick={() => setResourceDetailsModal({...resourceDetailsModal, show: true, id: item[0].agent.id})}
+                                                    />
+                                                }
                                             </span>
                                         </li>
                                         <li className="list-group-item">
@@ -106,6 +118,9 @@ function RequestsGroupSuppliesCardsComponent({supplies, handleGroupDetailsModalS
             {/* Modal */}
             <FormModalComponent modal={agentDetailsModal} handleClose={handleAgentDetailsModalHide}>
                 <AgentDetailsContainer id={agentDetailsModal.id} />
+            </FormModalComponent>
+            <FormModalComponent modal={resourceDetailsModal} handleClose={handleResourceDetailsModalHide}>
+                <ResourceDetailsContainer id={resourceDetailsModal.id} />
             </FormModalComponent>
         </>
     )
