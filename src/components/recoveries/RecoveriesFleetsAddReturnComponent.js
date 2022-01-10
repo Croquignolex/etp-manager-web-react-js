@@ -5,7 +5,6 @@ import ButtonComponent from "../form/ButtonComponent";
 import AmountComponent from "../form/AmountComponent";
 import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
-import {FLEET_TYPE} from "../../constants/typeConstants";
 import {emitAllSimsFetch} from "../../redux/sims/actions";
 import {emitAllAgentsFetch} from "../../redux/agents/actions";
 import {emitAddFleetReturn} from "../../redux/returns/actions";
@@ -15,6 +14,7 @@ import {playWarningSound} from "../../functions/playSoundFunctions";
 import {storeAllSimsRequestReset} from "../../redux/requests/sims/actions";
 import {storeAllAgentsRequestReset} from "../../redux/requests/agents/actions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
+import {AGENT_TYPE, FLEET_TYPE, RESOURCE_TYPE} from "../../constants/typeConstants";
 import {storeAddFleetReturnRequestReset} from "../../redux/requests/returns/actions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
@@ -78,8 +78,15 @@ function RecoveriesFleetsAddReturnComponent({request, agents, sims, dispatch, ha
 
     // Build select options
     const outgoingSelectOptions = useMemo(() => {
-        return dataToArrayForSelect(mappedSims(sims.filter(item => item.agent.id === agent.data)))
-    }, [sims, agent.data]);
+        const selectedAgent = agents.find((item) => item.id === agent.data);
+        if(selectedAgent) {
+            if(selectedAgent.reference === AGENT_TYPE) {
+                return dataToArrayForSelect(mappedSims(sims.filter(item => item.agent.id === agent.data)));
+            } else {
+                return dataToArrayForSelect(mappedSims(sims.filter(item => item.type.name === RESOURCE_TYPE)));
+            }
+        } else return [];
+    }, [sims, agent.data, agents]);
 
     // Build select options
     const agentSelectOptions = useMemo(() => {
@@ -97,17 +104,20 @@ function RecoveriesFleetsAddReturnComponent({request, agents, sims, dispatch, ha
     const handleSubmit = (e) => {
         e.preventDefault();
         shouldResetErrorData();
+        const _agent = requiredChecker(agent);
         const _amount = requiredChecker(amount);
         const _outgoingSim = requiredChecker(outgoingSim);
         const _incomingSim = requiredChecker(incomingSim);
         // Set value
+        setAgent(_agent);
         setAmount(_amount);
         setOutgoingSim(_outgoingSim);
         setIncomingSim(_incomingSim);
-        const validationOK = (_amount.isValid && _incomingSim.isValid && _outgoingSim.isValid);
+        const validationOK = (_amount.isValid && _incomingSim.isValid && _outgoingSim.isValid && _agent.isValid);
         // Check
         if(validationOK) {
             dispatch(emitAddFleetReturn({
+                agent: _agent.data,
                 amount: _amount.data,
                 agentSim: _outgoingSim.data,
                 managerSim: _incomingSim.data

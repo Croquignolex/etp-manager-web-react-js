@@ -229,7 +229,8 @@ function extractRefuelData(apiRefuel) {
     if(apiAgent && apiUser) {
         refuel.agent = {
             name: apiUser.name,
-            id: apiUser.id.toString()
+            id: apiUser.id.toString(),
+            reference: apiAgent.reference
         };
     }
     if(apiSim) {

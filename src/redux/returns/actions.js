@@ -91,12 +91,14 @@ export const emitNewReturn = ({supply, amount, agentSim, managerSim}) => ({
 });
 
 // Emit add fleet return
-export const emitAddFleetReturn = ({amount, agentSim, managerSim}) => ({
+export const emitAddFleetReturn = ({amount, agent, agentSim, managerSim}) => ({
+    agent,
     amount,
     agentSim,
     managerSim,
     type: EMIT_ADD_FLEET_RETURN
 });
+
 
 // Emit supply returns fetch
 export const emitSupplyReturnsFetch = ({id}) => ({

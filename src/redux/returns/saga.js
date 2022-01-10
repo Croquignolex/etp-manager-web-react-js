@@ -169,11 +169,11 @@ export function* emitNewReturn() {
 
 // New  add fleet from API
 export function* emitAddFleetReturn() {
-    yield takeLatest(EMIT_ADD_FLEET_RETURN, function*({amount, agentSim, managerSim}) {
+    yield takeLatest(EMIT_ADD_FLEET_RETURN, function*({amount, agent, agentSim, managerSim}) {
         try {
             // Fire event for request
             yield put(storeAddFleetReturnRequestInit());
-            const data = {montant: amount, puce_agent: agentSim, puce_flottage: managerSim};
+            const data = {montant: amount, id_agent: agent, puce_agent: agentSim, puce_flottage: managerSim};
             const apiResponse = yield call(apiPostRequest, api.ADD_FLEET_RETURNS_API_PATH, data);
             // Extract data
             const returns = extractRecoveryData(
@@ -230,7 +230,8 @@ function extractRecoveryData(apiRecovery, apiUser, apiAgent, apiCollector, apiSi
     if(apiAgent && apiUser) {
         recovery.agent = {
             name: apiUser.name,
-            id: apiUser.id.toString()
+            id: apiUser.id.toString(),
+            reference: apiAgent.reference
         };
     }
     if(apiCollector) {

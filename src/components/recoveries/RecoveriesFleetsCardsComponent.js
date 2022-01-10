@@ -5,15 +5,17 @@ import LoaderComponent from "../LoaderComponent";
 import OperatorComponent from "../OperatorComponent";
 import FormModalComponent from "../modals/FormModalComponent";
 import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
-import {CANCEL, DONE, PROCESSING} from "../../constants/typeConstants";
 import SimDetailsContainer from "../../containers/sims/SimDetailsContainer";
 import {dateToString, formatNumber} from "../../functions/generalFunctions";
 import AgentDetailsContainer from "../../containers/agents/AgentDetailsContainer";
+import {AGENT_TYPE, CANCEL, DONE, PROCESSING} from "../../constants/typeConstants";
+import ResourceDetailsContainer from "../../containers/resources/ResourceDetailsContainer";
 
 // Component
 function RecoveriesFleetsCardsComponent({returns, group, handleConfirmModalShow}) {
     // Local states
-    const [agentDetailsModal, setAgentDetailsModal] = useState({show: false, header: "DETAIL DE L'AGENT/RESSOURCE", id: ''});
+    const [agentDetailsModal, setAgentDetailsModal] = useState({show: false, header: "DETAIL DE L'AGENT", id: ''});
+    const [resourceDetailsModal, setResourceDetailsModal] = useState({show: false, header: "DETAIL DE LA RESSOURCE", id: ''});
     const [incomingSimDetailsModal, setIncomingSimDetailsModal] = useState({show: false, header: 'DETAIL DU COMPTE AGENT', id: ''});
     const [outgoingSimDetailsModal, setOutgoingSimDetailsModal] = useState({show: false, header: 'DETAIL DU COMPTE DE FLOTTAGE', id: ''});
 
@@ -30,6 +32,11 @@ function RecoveriesFleetsCardsComponent({returns, group, handleConfirmModalShow}
     // Hide outgoing sim details modal form
     const handleOutgoingSimDetailModalHide = () => {
         setOutgoingSimDetailsModal({...outgoingSimDetailsModal, show: false})
+    }
+
+    // Hide resource details modal form
+    const handleResourceDetailsModalHide = () => {
+        setResourceDetailsModal({...resourceDetailsModal, show: false})
     }
 
     // Render
@@ -73,12 +80,17 @@ function RecoveriesFleetsCardsComponent({returns, group, handleConfirmModalShow}
                                             </span>
                                         </li>
                                         <li className="list-group-item">
-                                            <b>Agent/Ressource</b>
+                                            <b>{(item.agent?.reference === AGENT_TYPE) ? "Agent" : "Ressource"}</b>
                                             <span className="float-right">
-                                                {item.agent?.name}
-                                                <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
-                                                   onClick={() => setAgentDetailsModal({...agentDetailsModal, show: true, id: item.agent?.id})}
-                                                />
+                                                {item.agent.name}
+                                                {(item.agent?.reference === AGENT_TYPE)
+                                                    ? <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
+                                                         onClick={() => setAgentDetailsModal({...agentDetailsModal, show: true, id: item.agent.id})}
+                                                    />
+                                                    : <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
+                                                         onClick={() => setResourceDetailsModal({...resourceDetailsModal, show: true, id: item.agent.id})}
+                                                    />
+                                                }
                                             </span>
                                         </li>
                                         <li className="list-group-item">
@@ -131,6 +143,9 @@ function RecoveriesFleetsCardsComponent({returns, group, handleConfirmModalShow}
             </FormModalComponent>
             <FormModalComponent small={true} modal={outgoingSimDetailsModal} handleClose={handleOutgoingSimDetailModalHide}>
                 <SimDetailsContainer id={outgoingSimDetailsModal.id} />
+            </FormModalComponent>
+            <FormModalComponent modal={resourceDetailsModal} handleClose={handleResourceDetailsModalHide}>
+                <ResourceDetailsContainer id={resourceDetailsModal.id} />
             </FormModalComponent>
         </>
     )

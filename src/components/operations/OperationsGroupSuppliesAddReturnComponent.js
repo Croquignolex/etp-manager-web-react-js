@@ -6,7 +6,6 @@ import ButtonComponent from "../form/ButtonComponent";
 import SelectComponent from "../form/SelectComponent";
 import AmountComponent from "../form/AmountComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
-import {FLEET_TYPE} from "../../constants/typeConstants";
 import {emitAllSimsFetch} from "../../redux/sims/actions";
 import {requiredChecker} from "../../functions/checkerFunctions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
@@ -15,6 +14,7 @@ import {emitGroupSupplyAddReturn} from "../../redux/supplies/actions";
 import {storeAllSimsRequestReset} from "../../redux/requests/sims/actions";
 import {storeReturnRequestReset} from "../../redux/requests/returns/actions";
 import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
+import {AGENT_TYPE, FLEET_TYPE, RESOURCE_TYPE} from "../../constants/typeConstants";
 import {
     applySuccess,
     requestFailed,
@@ -79,7 +79,11 @@ function OperationsGroupSuppliesAddReturnComponent({supply, request, sims, allSi
 
     // Build select options
     const outgoingSelectOptions = useMemo(() => {
-        return dataToArrayForSelect(mappedSims(sims.filter(item => supply[0].agent.id === item.agent.id)))
+        if(supply[0].agent?.reference === AGENT_TYPE) {
+            return dataToArrayForSelect(mappedSims(sims.filter(item => supply[0].agent?.id === item.agent.id)))
+        } else {
+            return dataToArrayForSelect(mappedSims(sims.filter(item => item.type.name === RESOURCE_TYPE)))
+        }
     }, [sims, supply]);
 
     // Reset error alert
