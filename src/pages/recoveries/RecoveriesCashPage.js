@@ -99,7 +99,7 @@ function searchEngine(data, _needle) {
         data = data.filter((item) => {
             return (
                 needleSearch(item.amount, _needle) ||
-                needleSearch(item.agent.name, _needle) ||
+                needleSearch(item.agent?.name, _needle) ||
                 needleSearch(item.collector.name, _needle) ||
                 needleSearch(dateToString(item.creation), _needle) ||
                 needleSearch(fleetTypeBadgeColor(item.status).text, _needle)

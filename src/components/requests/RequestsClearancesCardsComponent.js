@@ -72,7 +72,7 @@ function RequestsClearancesCardsComponent({clearances}) {
                                         <li className="list-group-item">
                                             <b>{(item.agent?.reference === AGENT_TYPE) ? "Agent" : "Ressource"}</b>
                                             <span className="float-right">
-                                                {item.agent.name}
+                                                {item.agent?.name}
                                                 {(item.agent?.reference === AGENT_TYPE)
                                                     ? <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
                                                          onClick={() => setAgentDetailsModal({...agentDetailsModal, show: true, id: item.agent.id})}

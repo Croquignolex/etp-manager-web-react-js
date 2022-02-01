@@ -234,7 +234,7 @@ export function* emitNewAgent() {
 
 // New agent into API
 export function* emitNewResource() {
-    yield takeLatest(EMIT_NEW_RESOURCE, function*({name, address, phone, agency, email, description,
+    yield takeLatest(EMIT_NEW_RESOURCE, function*({name, address, phone, zone, email, description,
                                                       frontIDCard, backIDCard, document}) {
         try {
             // Fire event for request
@@ -244,7 +244,7 @@ export function* emitNewResource() {
             data.append('name', name);
             data.append('phone', phone);
             data.append('email', email);
-            data.append('id_agency', agency);
+            data.append('id_zone', zone);
             data.append('adresse', address);
             data.append('document', document);
             data.append('description', description);
@@ -259,8 +259,6 @@ export function* emitNewResource() {
                 apiResponse.data.zone,
                 apiResponse.data.caisse,
                 apiResponse.data.createur,
-                apiResponse.data.puces,
-                apiResponse.data.agency,
             );
             // Fire event to redux
             yield put(storeSetNewAgentData({agent}));

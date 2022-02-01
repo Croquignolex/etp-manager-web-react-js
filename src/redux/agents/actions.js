@@ -140,11 +140,11 @@ export const emitNewAgent = ({name, address, phone, zone, email, description, ba
 });
 
 // Emit new resource fetch
-export const emitNewResource = ({name, address, phone, agency, email, description, backIDCard, frontIDCard, document}) => ({
+export const emitNewResource = ({name, address, phone, zone, email, description, backIDCard, frontIDCard, document}) => ({
     name,
+    zone,
     phone,
     email,
-    agency,
     address,
     document,
     backIDCard,

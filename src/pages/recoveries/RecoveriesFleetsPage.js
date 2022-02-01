@@ -256,7 +256,7 @@ function searchEngine(data, _needle) {
         data = data.filter((item) => {
             return (
                 needleSearch(item.amount, _needle) ||
-                needleSearch(item.agent.name, _needle) ||
+                needleSearch(item.agent?.name, _needle) ||
                 needleSearch(item.collector.name, _needle) ||
                 needleSearch(item.sim_incoming.number, _needle) ||
                 needleSearch(item.sim_outgoing.number, _needle) ||

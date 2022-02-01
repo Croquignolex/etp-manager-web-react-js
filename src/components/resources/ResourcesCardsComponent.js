@@ -1,21 +1,11 @@
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from "prop-types";
 
 import LoaderComponent from "../LoaderComponent";
 import {dateToString} from "../../functions/generalFunctions";
-import FormModalComponent from "../modals/FormModalComponent";
-import AgencyDetailsContainer from "../../containers/agencies/AgencyDetailsContainer";
 
 // Component
 function ResourcesCardsComponent({agents, handleBlock, handleBlockModalShow, handleAgentDetailsModalShow}) {
-    // Local states
-    const [agencyDetailsModal, setAgencyDetailsModal] = useState({show: false, header: "DETAIL DE L'AGENCE", id: ''});
-
-    // Hide agency details modal form
-    const handleAgencyDetailModalHide = () => {
-        setAgencyDetailsModal({...agencyDetailsModal, show: false})
-    }
-
     // Render
     return (
         <>
@@ -55,13 +45,8 @@ function ResourcesCardsComponent({agents, handleBlock, handleBlockModalShow, han
                                             <span className="float-right">{item.phone}</span>
                                         </li>
                                         <li className="list-group-item">
-                                            <b>Agence</b>
-                                            <span className="float-right">
-                                                {item.agency.name}
-                                                <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
-                                                   onClick={() => setAgencyDetailsModal({...agencyDetailsModal, show: true, id: item.agency.id})}
-                                                />
-                                            </span>
+                                            <b>Zone</b>
+                                            <span className="float-right">{item.zone.name}</span>
                                         </li>
                                         <li className="list-group-item">
                                             <b>Créer par</b>
@@ -89,10 +74,6 @@ function ResourcesCardsComponent({agents, handleBlock, handleBlockModalShow, han
                     </div>
                 }
             </div>
-            {/* Modal */}
-            <FormModalComponent modal={agencyDetailsModal} handleClose={handleAgencyDetailModalHide}>
-                <AgencyDetailsContainer id={agencyDetailsModal.id} />
-            </FormModalComponent>
         </>
     )
 }

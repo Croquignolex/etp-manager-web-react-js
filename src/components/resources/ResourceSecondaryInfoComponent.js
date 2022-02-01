@@ -3,24 +3,22 @@ import React, {useState} from 'react';
 
 import FormModalComponent from "../modals/FormModalComponent";
 import AgentDocEditContainer from "../../containers/agents/AgentDocEditContainer";
-import AgencyDetailsContainer from "../../containers/agencies/AgencyDetailsContainer";
-import ResourceAgencyEditContainer from "../../containers/resources/ResourceAgencyEditContainer";
+import AgentZoneEditContainer from "../../containers/agents/AgentZoneEditContainer";
 
 // Component
 function ResourceSecondaryInfoComponent({agent}) {
     // Local states
     const [docEditModal, setDocEditModal] = useState({show: false, header: 'MODIFIER LE DOSSIER DE ' + agent.name});
-    const [agencyDetailsModal, setAgencyDetailsModal] = useState({show: false, header: "DETAIL DE L'AGENCE", id: ''});
-    const [agencyEditModal, setAgencyEditModal] = useState({show: false, header: "MODIFIER L'AGENCE DE " + agent.name});
+    const [zoneEditModal, setZoneEditModal] = useState({show: false, header: 'MODIFIER LA ZONE DE ' + agent.name});
 
-    // Show agency edit modal form
-    const handleAgencyEditModalShow = () => {
-        setAgencyEditModal({...agencyEditModal, show: true})
+    // Show zone edit modal form
+    const handleZoneEditModalShow = () => {
+        setZoneEditModal({...zoneEditModal, show: true})
     }
 
     // Hide zone edit modal form
-    const handleAgencyEditModalHide = () => {
-        setAgencyEditModal({...agencyEditModal, show: false})
+    const handleZoneEditModalHide = () => {
+        setZoneEditModal({...zoneEditModal, show: false})
     }
 
     // Show doc edit modal form
@@ -33,16 +31,11 @@ function ResourceSecondaryInfoComponent({agent}) {
         setDocEditModal({...docEditModal, show: false})
     }
 
-    // Hide agency details modal form
-    const handleAgencyDetailModalHide = () => {
-        setAgencyDetailsModal({...agencyDetailsModal, show: false})
-    }
-
     // Render
     return (
         <>
-            <button type="button" className="btn btn-theme mr-1 mb-1" onClick={handleAgencyEditModalShow}>
-                <i className="fa fa-edit" /> Modifier l'agence
+            <button type="button" className="btn btn-theme mr-1 mb-1" onClick={handleZoneEditModalShow}>
+                <i className="fa fa-edit" /> Modifier la zone
             </button>
             <button type="button" className="btn btn-theme mb-1" onClick={handleDocEditModalShow}>
                 <i className="fa fa-edit" /> Modifier le dossier
@@ -63,15 +56,8 @@ function ResourceSecondaryInfoComponent({agent}) {
                             <span className="float-right">{agent.country}</span>
                         </li>
                         <li className="list-group-item">
-                            <b>Agence</b>
-                            <span className="float-right">
-                                {agent.agency.name}
-                                {agent.agency.id !== '' && (
-                                    <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
-                                       onClick={() => setAgencyDetailsModal({...agencyDetailsModal, show: true, id: agent.agency.id})}
-                                    />
-                                )}
-                            </span>
+                            <b>Zone</b>
+                            <span className="float-right">{agent.zone.name}</span>
                         </li>
                         <li className="list-group-item">
                             <b>Address</b>
@@ -92,14 +78,11 @@ function ResourceSecondaryInfoComponent({agent}) {
                 </div>
             </div>
             {/* Modal */}
-            <FormModalComponent modal={agencyEditModal} handleClose={handleAgencyEditModalHide}>
-                <ResourceAgencyEditContainer handleClose={handleAgencyEditModalHide} />
+            <FormModalComponent modal={zoneEditModal} handleClose={handleZoneEditModalHide}>
+                <AgentZoneEditContainer handleClose={handleZoneEditModalHide} />
             </FormModalComponent>
             <FormModalComponent modal={docEditModal} handleClose={handleDocEditModalHide}>
                 <AgentDocEditContainer handleClose={handleDocEditModalHide} />
-            </FormModalComponent>
-            <FormModalComponent modal={agencyDetailsModal} handleClose={handleAgencyDetailModalHide}>
-                <AgencyDetailsContainer id={agencyDetailsModal.id} />
             </FormModalComponent>
         </>
     )
