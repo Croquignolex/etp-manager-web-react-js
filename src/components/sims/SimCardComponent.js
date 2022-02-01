@@ -53,7 +53,7 @@ function SimCardComponent({sim}) {
                 </li>
                 {AGENT_RESOURCE_COLLECTOR_CORPORATE_TYPE.includes(sim.type.name) && (
                     <li className="list-group-item">
-                        <b>{upperFirstCase(sim.type.name)}</b>
+                        <b>{(sim.type.name === RESOURCE_TYPE) ? "Agence" : upperFirstCase(sim.type.name)}</b>
                         <span className="float-right">
                             {sim.type.name === AGENT_TYPE && (
                                 <>

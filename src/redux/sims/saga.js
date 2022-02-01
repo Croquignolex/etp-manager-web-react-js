@@ -290,7 +290,8 @@ export function* emitSimFetch() {
                 apiResponse.data.agent,
                 apiResponse.data.corporate,
                 apiResponse.data.flote,
-                apiResponse.data.recouvreur
+                apiResponse.data.recouvreur,
+                apiResponse.data.agency,
             );
             // Fire event to redux
             yield put(storeSetSimData({sim}));
@@ -319,7 +320,8 @@ export function* emitUpdateSimOperator() {
                 apiResponse.data.agent,
                 apiResponse.data.corporate,
                 apiResponse.data.flote,
-                apiResponse.data.recouvreur
+                apiResponse.data.recouvreur,
+                apiResponse.data.agency,
             );
             // Fire event to redux
             yield put(storeSetSimData({sim, alsoInList: true}));
