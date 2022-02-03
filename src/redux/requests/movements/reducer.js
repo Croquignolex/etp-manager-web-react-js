@@ -3,7 +3,7 @@ import {requestFailedValue, requestInitValue, requestSucceededValue} from "../..
 
 // Partial global store for requests data management
 const initialState = {
-    list: {failed: false, loading: true, succeeded: false, message: ""}
+    list: {failed: false, loading: false, succeeded: false, message: ""}
 };
 
 // Reduce
