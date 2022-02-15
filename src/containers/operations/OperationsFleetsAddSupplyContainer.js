@@ -6,9 +6,11 @@ import OperationsFleetsAddSupplyComponent from "../../components/operations/Oper
 const mapStateToProps = (state) => ({
     sims: state.sims.list,
     agents: state.agents.list,
+    agencies: state.agencies.list,
     request: state.suppliesRequests.add,
     allSimsRequests: state.simsRequests.all,
     allAgentsRequests: state.agentsRequests.all,
+    allAgenciesRequests: state.agenciesRequests.all,
 });
 
 // Map dispatch function to component props

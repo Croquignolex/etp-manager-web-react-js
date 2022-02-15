@@ -18,21 +18,27 @@ import {dataToArrayForSelect, mappedSims} from "../../functions/arrayFunctions";
 import {storeAddSupplyRequestReset} from "../../redux/requests/supplies/actions";
 import {AGENT_TYPE, FLEET_TYPE, RESOURCE_TYPE} from "../../constants/typeConstants";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
+import {emitAllAgenciesFetch} from "../../redux/agencies/actions";
+import {storeAllAgenciesRequestReset} from "../../redux/requests/agencies/actions";
 
 // Component
-function OperationsFleetsAddSupplyComponent({request, sims, agents, allAgentsRequests, allSimsRequests, dispatch, handleClose}) {
+function OperationsFleetsAddSupplyComponent({request, sims, agents, agencies, dispatch, handleClose,
+                                                allAgentsRequests, allSimsRequests, allAgenciesRequests}) {
     // Local state
     const [amount, setAmount] = useState(DEFAULT_FORM_DATA);
+    const [agency, setAgency] = useState(DEFAULT_FORM_DATA);
     const [selectedOp, setSelectedOp] = useState('');
     const [directPay, setDirectPay] = useState(false);
     const [outgoingSim, setOutgoingSim] = useState(DEFAULT_FORM_DATA);
     const [incomingSim, setIncomingSim] = useState(DEFAULT_FORM_DATA);
+    const [showAgencies, setShowAgencies] = useState(false);
     const [agent, setAgent] = useState({...DEFAULT_FORM_DATA, data: 0});
 
     // Local effects
     useEffect(() => {
         dispatch(emitAllSimsFetch());
         dispatch(emitAllAgentsFetch());
+        dispatch(emitAllAgenciesFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -62,6 +68,11 @@ function OperationsFleetsAddSupplyComponent({request, sims, agents, allAgentsReq
         setIncomingSim({...incomingSim,  isValid: true, data})
     }
 
+    const handleAgencySelect = (data) => {
+        shouldResetErrorData();
+        setAgency({...agency,  isValid: true, data})
+    }
+
     const handleDirectPaySelect = (data) => {
         shouldResetErrorData();
         setDirectPay(!data)
@@ -69,6 +80,8 @@ function OperationsFleetsAddSupplyComponent({request, sims, agents, allAgentsReq
 
     const handleAgentSelect = (data) => {
         shouldResetErrorData();
+        const selectedAgent = agents.find((item) => item.id === data);
+        setShowAgencies(selectedAgent.reference === RESOURCE_TYPE);
         setAgent({...agent,  isValid: true, data})
     }
 
@@ -87,11 +100,15 @@ function OperationsFleetsAddSupplyComponent({request, sims, agents, allAgentsReq
                 )))
             } else {
                 return dataToArrayForSelect(mappedSims(sims.filter(
-                    item => (item.type.name === RESOURCE_TYPE) && (item.operator.id === selectedOp)
+                    item => (
+                        (item.type.name === RESOURCE_TYPE) &&
+                        (item.agency.id === agency.data) &&
+                        (item.operator.id === selectedOp)
+                    )
                 )))
             }
         } else return [];
-    }, [sims, agent.data, agents, selectedOp]);
+    }, [sims, agent.data, agency.data, agents, selectedOp]);
 
     // Build select options
     const outgoingSelectOptions = useMemo(() => {
@@ -103,11 +120,17 @@ function OperationsFleetsAddSupplyComponent({request, sims, agents, allAgentsReq
         return dataToArrayForSelect(agents)
     }, [agents]);
 
+    // Build select options
+    const agencySelectOptions = useMemo(() => {
+        return dataToArrayForSelect(agencies);
+    }, [agencies]);
+
     // Reset error alert
     const shouldResetErrorData = () => {
         dispatch(storeAllSimsRequestReset());
         dispatch(storeAddSupplyRequestReset());
         dispatch(storeAllAgentsRequestReset());
+        dispatch(storeAllAgenciesRequestReset());
     };
 
     // Trigger add supply form submit
@@ -157,13 +180,18 @@ function OperationsFleetsAddSupplyComponent({request, sims, agents, allAgentsReq
                                          requestProcessing={requestLoading(allAgentsRequests)}
                         />
                     </div>
-                    <div className='col-sm-6'>
-                        <AmountComponent input={amount}
-                                         id='inputAmount'
-                                         label='Montant à flotter'
-                                         handleInput={handleAmountInput}
-                        />
-                    </div>
+                    {showAgencies && (
+                        <div className='col-sm-6'>
+                            <SelectComponent id='inputAgencyAgent'
+                                             input={agency}
+                                             label="Agence"
+                                             title='Choisir une agence'
+                                             options={agencySelectOptions}
+                                             handleInput={handleAgencySelect}
+                                             requestProcessing={requestLoading(allAgenciesRequests)}
+                            />
+                        </div>
+                    )}
                 </div>
                 <div className='row'>
                     <div className='col-sm-6'>
@@ -188,6 +216,13 @@ function OperationsFleetsAddSupplyComponent({request, sims, agents, allAgentsReq
                     </div>
                 </div>
                 <div className='row'>
+                    <div className='col-sm-6'>
+                        <AmountComponent input={amount}
+                                         id='inputAmount'
+                                         label='Montant à flotter'
+                                         handleInput={handleAmountInput}
+                        />
+                    </div>
                     <div className='col-sm-6'>
                         <label htmlFor="inputAutoPay">Paiement immédiat?</label>
                         <CheckBoxComponent input={directPay}
