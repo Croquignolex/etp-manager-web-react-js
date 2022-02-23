@@ -4,7 +4,7 @@ import React, {useEffect, useState} from 'react';
 import InputComponent from "../form/InputComponent";
 import ButtonComponent from "../form/ButtonComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
-import {emitUserPasswordUpdate} from "../../redux/user/actions";
+import {emitUserLogout, emitUserPasswordUpdate} from "../../redux/user/actions";
 import {DEFAULT_FORM_DATA} from "../../constants/defaultConstants";
 import {playWarningSound} from "../../functions/playSoundFunctions";
 import {storeUserPasswordEditRequestReset} from "../../redux/requests/user/actions";
@@ -31,7 +31,9 @@ function ProfilePasswordComponent({request, dispatch}) {
             setOldPassword(DEFAULT_FORM_DATA);
             setNewPassword(DEFAULT_FORM_DATA);
             setConfirmPassword(DEFAULT_FORM_DATA);
+            setTimeout(() => dispatch(emitUserLogout()), 2000);
         }
+        // eslint-disable-next-line
     }, [request]);
 
     // Local effects
