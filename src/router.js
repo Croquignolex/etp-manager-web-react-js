@@ -17,6 +17,7 @@ function AppRoutes() {
                 <PublicRouteContainer exact path="/" component={asyncComponent(() => import('./containers/CheckUserContainer'))} />
                 {/* Available pages on auth mode */}
                 {/* Common pages */}
+                <RestrictedRouteContainer exact path={path.HOME_PAGE_PATH} component={asyncComponent(() => import('./pages/HomePage'))} />
                 <RestrictedRouteContainer exact path={path.PROFILE_PAGE_PATH} component={asyncComponent(() => import('./pages/ProfilePage'))} />
                 <RestrictedRouteContainer exact path={path.SETTINGS_PAGE_PATH} component={asyncComponent(() => import('./containers/SettingsPageContainer'))} />
                 <RestrictedRouteContainer exact path={path.DASHBOARD_PAGE_PATH} component={asyncComponent(() => import('./containers/DashboardPageContainer'))} />

@@ -1,4 +1,5 @@
 // User
+export const HOME_PAGE = 'Accueil';
 export const PROFILE_PAGE = 'Mon profil';
 export const SETTINGS_PAGE = 'Paramètres';
 export const DASHBOARD_PAGE = 'Tableau de bord';
