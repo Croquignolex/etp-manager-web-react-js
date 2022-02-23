@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Route, Redirect } from 'react-router-dom';
-import {PROFILE_PAGE_PATH} from "../../constants/pagePathConstants";
+import {HOME_PAGE_PATH, PROFILE_PAGE_PATH} from "../../constants/pagePathConstants";
 
 // Component
 const PublicRouteComponent = ({ component: Component, user, ...rest }) => (
@@ -10,7 +10,11 @@ const PublicRouteComponent = ({ component: Component, user, ...rest }) => (
         render={props =>
             !user.isLoggedIn
                 ? <Component {...props} />
-                : <Redirect to={{pathname: PROFILE_PAGE_PATH}} />
+                : (
+                    user.home
+                        ? <Redirect to={{pathname: HOME_PAGE_PATH}} />
+                        : <Redirect to={{pathname: PROFILE_PAGE_PATH}} />
+                )
         }
     />
 );
