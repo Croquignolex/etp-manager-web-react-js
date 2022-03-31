@@ -1,29 +1,25 @@
 import PropTypes from "prop-types";
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import InputComponent from "../form/InputComponent";
 import ButtonComponent from "../form/ButtonComponent";
-import SelectComponent from "../form/SelectComponent";
 import ErrorAlertComponent from "../ErrorAlertComponent";
 import TextareaComponent from "../form/TextareaComponent";
 import {emitNewResource} from "../../redux/agents/actions";
-import {emitAllZonesFetch} from "../../redux/zones/actions";
 import FileImageComponent from "../form/FileImageComponent";
 import * as constants from "../../constants/defaultConstants";
 import FileDocumentComponent from "../form/FileDocumentComponent";
 import {playWarningSound} from "../../functions/playSoundFunctions";
-import {storeAllZonesRequestReset} from "../../redux/requests/zones/actions";
 import {storeAddAgentRequestReset} from "../../redux/requests/agents/actions";
-import {dataToArrayForSelect, mappedZones} from "../../functions/arrayFunctions";
 import {fileChecker, imageChecker, phoneChecker, requiredChecker} from "../../functions/checkerFunctions";
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
-function ResourceNewComponent({zones, request, allZonesRequests, dispatch, handleClose}) {
+function ResourceNewComponent({request, dispatch, handleClose}) {
     // Local state
     const [doc, setDoc] = useState(constants.DEFAULT_FORM_DATA);
     const [name, setName] = useState(constants.DEFAULT_FORM_DATA);
-    const [zone, setZone] = useState(constants.DEFAULT_FORM_DATA);
+    // const [zone, setZone] = useState(constants.DEFAULT_FORM_DATA);
     const [phone, setPhone] = useState(constants.DEFAULT_FORM_DATA);
     const [email, setEmail] = useState(constants.DEFAULT_FORM_DATA);
     const [address, setAddress] = useState(constants.DEFAULT_FORM_DATA);
@@ -33,7 +29,7 @@ function ResourceNewComponent({zones, request, allZonesRequests, dispatch, handl
 
     // Local effects
     useEffect(() => {
-        dispatch(emitAllZonesFetch());
+        // dispatch(emitAllZonesFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -86,10 +82,10 @@ function ResourceNewComponent({zones, request, allZonesRequests, dispatch, handl
         setBackIDCard({...backIDCard, isValid: true, data})
     }
 
-    const handleZoneSelect = (data) => {
+    /*const handleZoneSelect = (data) => {
         shouldResetErrorData();
         setZone({...zone, isValid: true, data})
-    }
+    }*/
 
     const handleFileInput = (data) => {
         shouldResetErrorData();
@@ -97,13 +93,13 @@ function ResourceNewComponent({zones, request, allZonesRequests, dispatch, handl
     }
 
     // Build select options
-    const zoneSelectOptions = useMemo(() => {
+    /*const zoneSelectOptions = useMemo(() => {
         return dataToArrayForSelect(mappedZones(zones))
-    }, [zones]);
+    }, [zones]);*/
 
     // Reset error alert
     const shouldResetErrorData = () => {
-        dispatch(storeAllZonesRequestReset());
+        // dispatch(storeAllZonesRequestReset());
         dispatch(storeAddAgentRequestReset());
     };
 
@@ -114,25 +110,24 @@ function ResourceNewComponent({zones, request, allZonesRequests, dispatch, handl
         const _document = fileChecker(doc);
         const _phone = phoneChecker(phone);
         const _name = requiredChecker(name);
-        const _zone = requiredChecker(zone);
+        // const _zone = requiredChecker(zone);
         const _backIDCard = imageChecker(backIDCard);
         const _frontIDCard = imageChecker(frontIDCard);
         // Set value
         setName(_name);
-        setZone(_zone);
+        // setZone(_zone);
         setPhone(_phone);
         setDoc(_document);
         setBackIDCard(_backIDCard);
         setFrontIDCard(_frontIDCard);
         const validationOK = (
             _name.isValid && _phone.isValid &&
-            _document.isValid && _zone.isValid &&
+            _document.isValid &&
             _backIDCard.isValid && _frontIDCard.isValid
         );
         // Check
         if(validationOK)
             dispatch(emitNewResource({
-                zone: _zone.data,
                 name: _name.data,
                 email: email.data,
                 phone: _phone.data,
@@ -149,7 +144,7 @@ function ResourceNewComponent({zones, request, allZonesRequests, dispatch, handl
     return (
         <>
             {requestFailed(request) && <ErrorAlertComponent message={request.message} />}
-            {requestFailed(allZonesRequests) && <ErrorAlertComponent message={allZonesRequests.message} />}
+            {/*{requestFailed(allZonesRequests) && <ErrorAlertComponent message={allZonesRequests.message} />}*/}
             <div className="row">
                 <div className="col">
                     <form onSubmit={handleSubmit}>
@@ -180,7 +175,7 @@ function ResourceNewComponent({zones, request, allZonesRequests, dispatch, handl
                                                 handleInput={handleEmailInput}
                                 />
                             </div>
-                            <div className='col-sm-6'>
+                            {/*<div className='col-sm-6'>
                                 <SelectComponent label='Zone'
                                                  input={zone}
                                                  id='inputZone'
@@ -189,7 +184,7 @@ function ResourceNewComponent({zones, request, allZonesRequests, dispatch, handl
                                                  handleInput={handleZoneSelect}
                                                  requestProcessing={requestLoading(allZonesRequests)}
                                 />
-                            </div>
+                            </div>*/}
                         </div>
                         <div className='row'>
                             <div className='col-sm-6'>

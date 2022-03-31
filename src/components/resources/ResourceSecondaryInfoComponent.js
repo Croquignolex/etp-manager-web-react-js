@@ -3,23 +3,22 @@ import React, {useState} from 'react';
 
 import FormModalComponent from "../modals/FormModalComponent";
 import AgentDocEditContainer from "../../containers/agents/AgentDocEditContainer";
-import AgentZoneEditContainer from "../../containers/agents/AgentZoneEditContainer";
 
 // Component
 function ResourceSecondaryInfoComponent({agent}) {
     // Local states
     const [docEditModal, setDocEditModal] = useState({show: false, header: 'MODIFIER LE DOSSIER DE ' + agent.name});
-    const [zoneEditModal, setZoneEditModal] = useState({show: false, header: 'MODIFIER LA ZONE DE ' + agent.name});
+    // /**/const [zoneEditModal, setZoneEditModal] = useState({show: false, header: 'MODIFIER LA ZONE DE ' + agent.name});
 
-    // Show zone edit modal form
+    /*// Show zone edit modal form
     const handleZoneEditModalShow = () => {
         setZoneEditModal({...zoneEditModal, show: true})
-    }
+    }*/
 
-    // Hide zone edit modal form
+    /*// Hide zone edit modal form
     const handleZoneEditModalHide = () => {
         setZoneEditModal({...zoneEditModal, show: false})
-    }
+    }*/
 
     // Show doc edit modal form
     const handleDocEditModalShow = () => {
@@ -34,9 +33,9 @@ function ResourceSecondaryInfoComponent({agent}) {
     // Render
     return (
         <>
-            <button type="button" className="btn btn-theme mr-1 mb-1" onClick={handleZoneEditModalShow}>
+            {/*<button type="button" className="btn btn-theme mr-1 mb-1" onClick={handleZoneEditModalShow}>
                 <i className="fa fa-edit" /> Modifier la zone
-            </button>
+            </button>*/}
             <button type="button" className="btn btn-theme mb-1" onClick={handleDocEditModalShow}>
                 <i className="fa fa-edit" /> Modifier le dossier
             </button>
@@ -55,10 +54,10 @@ function ResourceSecondaryInfoComponent({agent}) {
                             <b>Pays</b>
                             <span className="float-right">{agent.country}</span>
                         </li>
-                        <li className="list-group-item">
+                        {/*<li className="list-group-item">
                             <b>Zone</b>
                             <span className="float-right">{agent.zone.name}</span>
-                        </li>
+                        </li>*/}
                         <li className="list-group-item">
                             <b>Address</b>
                             <p>{agent.address}</p>
@@ -78,9 +77,9 @@ function ResourceSecondaryInfoComponent({agent}) {
                 </div>
             </div>
             {/* Modal */}
-            <FormModalComponent modal={zoneEditModal} handleClose={handleZoneEditModalHide}>
+            {/*<FormModalComponent modal={zoneEditModal} handleClose={handleZoneEditModalHide}>
                 <AgentZoneEditContainer handleClose={handleZoneEditModalHide} />
-            </FormModalComponent>
+            </FormModalComponent>*/}
             <FormModalComponent modal={docEditModal} handleClose={handleDocEditModalHide}>
                 <AgentDocEditContainer handleClose={handleDocEditModalHide} />
             </FormModalComponent>

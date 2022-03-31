@@ -44,10 +44,10 @@ function ResourcesCardsComponent({agents, handleBlock, handleBlockModalShow, han
                                             <b>Téléphone</b>
                                             <span className="float-right">{item.phone}</span>
                                         </li>
-                                        <li className="list-group-item">
+                                        {/*<li className="list-group-item">
                                             <b>Zone</b>
                                             <span className="float-right">{item.zone.name}</span>
-                                        </li>
+                                        </li>*/}
                                         <li className="list-group-item">
                                             <b>Créer par</b>
                                             <span className="float-right">{item.creator.name}</span>

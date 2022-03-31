@@ -4,9 +4,9 @@ import ResourceNewComponent from "../../components/resources/ResourceNewComponen
 
 // Map state function to component props
 const mapStateToProps = (state) => ({
-    zones: state.zones.list,
+    // zones: state.zones.list,
     request: state.agentsRequests.add,
-    allZonesRequests: state.zonesRequests.all,
+    // allZonesRequests: state.zonesRequests.all,
 });
 
 // Map dispatch function to component props
