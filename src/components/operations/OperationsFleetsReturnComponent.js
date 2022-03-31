@@ -18,8 +18,10 @@ import {AGENT_TYPE, FLEET_TYPE, RESOURCE_TYPE} from "../../constants/typeConstan
 import {applySuccess, requestFailed, requestLoading, requestSucceeded} from "../../functions/generalFunctions";
 
 // Component
-function OperationsFleetsReturnComponent({supply, request, sims, allSimsRequests, dispatch, handleClose}) {
+function OperationsFleetsReturnComponent({supply, request, sims, agencies, allSimsRequests,
+                                             allAgenciesRequests, dispatch, handleClose}) {
     // Local state
+    const [agency, setAgency] = useState(DEFAULT_FORM_DATA);
     const [selectedOp, setSelectedOp] = useState('');
     const [outgoingSim, setOutgoingSim] = useState(DEFAULT_FORM_DATA);
     const [incomingSim, setIncomingSim] = useState(DEFAULT_FORM_DATA);
@@ -28,6 +30,7 @@ function OperationsFleetsReturnComponent({supply, request, sims, allSimsRequests
     // Local effects
     useEffect(() => {
         dispatch(emitAllSimsFetch());
+        dispatch(emitAllAgenciesFetch());
         // Cleaner error alert while component did unmount without store dependency
         return () => {
             shouldResetErrorData();
@@ -62,12 +65,22 @@ function OperationsFleetsReturnComponent({supply, request, sims, allSimsRequests
         setAmount({...amount, isValid: true, data})
     }
 
+    const handleAgencySelect = (data) => {
+        shouldResetErrorData();
+        setAgency({...agency,  isValid: true, data})
+    }
+
     // Build select options
     const incomingSelectOptions = useMemo(() => {
         return dataToArrayForSelect(mappedSims(sims.filter(
             item => (FLEET_TYPE === item.type.name) && (item.operator.id === selectedOp)
         )))
     }, [sims, selectedOp]);
+
+    // Build select options
+    const agencySelectOptions = useMemo(() => {
+        return dataToArrayForSelect(agencies);
+    }, [agencies]);
 
     // Build select options
     const outgoingSelectOptions = useMemo(() => {
