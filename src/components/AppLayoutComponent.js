@@ -22,9 +22,9 @@ function AppLayoutComponent({userCheckRequest, dispatch, pathname, children}) {
            document.getElementsByTagName('body')[0].classList.add('sidebar-collapse')
        }
         // Check notification settings
-        if(ENABLE_NOTIFICATION) {
+        /*if(ENABLE_NOTIFICATION) {
             dispatch(emitUnreadNotificationsFetch());
-        }
+        }*/
         // eslint-disable-next-line
     }, [pathname]);
 
@@ -43,6 +43,14 @@ function AppLayoutComponent({userCheckRequest, dispatch, pathname, children}) {
         // Check notification settings
         if(ENABLE_NOTIFICATION) {
             dispatch(emitUnreadNotificationsFetch());
+            // First call
+            let intervalValue = setInterval(() => {
+                dispatch(emitUnreadNotificationsFetch());
+            }, 20000);
+            // Cleaner interval to avoid infinite loop or performance break
+            return () => {
+                clearInterval(intervalValue)
+            }
         }
         // eslint-disable-next-line
     }, []);
