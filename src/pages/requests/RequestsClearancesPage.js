@@ -8,15 +8,18 @@ import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
 import AppLayoutContainer from "../../containers/AppLayoutContainer";
 import ErrorAlertComponent from "../../components/ErrorAlertComponent";
 import TableSearchComponent from "../../components/TableSearchComponent";
+import FormModalComponent from "../../components/modals/FormModalComponent";
 import {emitClearancesFetch, emitNextClearancesFetch} from "../../redux/clearances/actions";
 import RequestsClearancesCardsComponent from "../../components/requests/RequestsClearancesCardsComponent";
 import {dateToString, needleSearch, requestFailed, requestLoading} from "../../functions/generalFunctions";
+import RequestsClearancesAddDeclareContainer from "../../containers/requests/RequestsClearancesAddDeclareContainer";
 import {storeClearancesRequestReset, storeNextClearancesRequestReset} from "../../redux/requests/clearances/actions";
 
 // Component
 function RequestsClearancesPage({clearances, clearancesRequests, hasMoreData, page, dispatch, location}) {
     // Local states
     const [needle, setNeedle] = useState('');
+    const [declareModal, setDeclareModal] = useState({show: false, header: 'PRENDRE EN CHARGE', item: {}});
 
     // Local effects
     useEffect(() => {
@@ -43,6 +46,16 @@ function RequestsClearancesPage({clearances, clearancesRequests, hasMoreData, pa
         dispatch(emitNextClearancesFetch({page}));
     }
 
+    // Show declare modal form
+    const handleDeclareModalShow = (item) => {
+        setDeclareModal({...declareModal, item, show: true})
+    }
+
+    // Hide declare modal form
+    const handleDeclareModalHide = () => {
+        setDeclareModal({...declareModal, show: false})
+    }
+
     // Render
     return (
         <>
@@ -66,7 +79,10 @@ function RequestsClearancesPage({clearances, clearancesRequests, hasMoreData, pa
                                             {requestFailed(clearancesRequests.next) && <ErrorAlertComponent message={clearancesRequests.next.message} />}
                                             {/* Search result & Infinite scroll */}
                                             {(needle !== '' && needle !== undefined)
-                                                ? <RequestsClearancesCardsComponent clearances={searchEngine(clearances, needle)} />
+                                                ? <RequestsClearancesCardsComponent
+                                                    clearances={searchEngine(clearances, needle)}
+                                                    handleDeclareModalShow={handleDeclareModalShow}
+                                                />
                                                 : (requestLoading(clearancesRequests.list) ? <LoaderComponent /> :
                                                         <InfiniteScroll hasMore={hasMoreData}
                                                                         loader={<LoaderComponent />}
@@ -74,7 +90,10 @@ function RequestsClearancesPage({clearances, clearancesRequests, hasMoreData, pa
                                                                         style={{ overflow: 'hidden' }}
                                                                         next={handleNextClearancesData}
                                                         >
-                                                            <RequestsClearancesCardsComponent clearances={clearances} />
+                                                            <RequestsClearancesCardsComponent
+                                                                clearances={clearances}
+                                                                handleDeclareModalShow={handleDeclareModalShow}
+                                                            />
                                                         </InfiniteScroll>
                                                 )
                                             }
@@ -86,6 +105,12 @@ function RequestsClearancesPage({clearances, clearancesRequests, hasMoreData, pa
                     </section>
                 </div>
             </AppLayoutContainer>
+            {/* Modal */}
+            <FormModalComponent modal={declareModal} handleClose={handleDeclareModalHide}>
+                <RequestsClearancesAddDeclareContainer clearance={declareModal.item}
+                                                       handleClose={handleDeclareModalHide}
+                />
+            </FormModalComponent>
         </>
     )
 }

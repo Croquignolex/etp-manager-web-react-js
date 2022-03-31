@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React, {useState} from 'react';
 
+import LoaderComponent from "../LoaderComponent";
 import OperatorComponent from "../OperatorComponent";
 import FormModalComponent from "../modals/FormModalComponent";
 import {fleetTypeBadgeColor} from "../../functions/typeFunctions";
@@ -11,7 +12,7 @@ import ResourceDetailsContainer from "../../containers/resources/ResourceDetails
 import {AGENT_TYPE, CANCEL, DONE, PENDING, PROCESSING} from "../../constants/typeConstants";
 
 // Component
-function RequestsClearancesCardsComponent({clearances}) {
+function RequestsClearancesCardsComponent({clearances, handleDeclareModalShow}) {
     // Local states
     const [simDetailModal, setSimDetailModal] = useState({show: false, header: 'DETAIL DU COMPTE', id: ''});
     const [agentDetailsModal, setAgentDetailsModal] = useState({show: false, header: "DETAIL DE L'AGENT", id: ''});
@@ -94,6 +95,22 @@ function RequestsClearancesCardsComponent({clearances}) {
                                             {item.status === PENDING && <b className="text-danger text-bold">En attente de prise en charge</b>}
                                         </li>
                                     </ul>
+                                    <div className="mt-3 text-right">
+                                        {((item.status === PENDING) || (item.status === PROCESSING)) && (
+                                            !item.actionLoader && (
+                                                <div className="mt-3 text-right">
+                                                    {item.actionLoader ? <LoaderComponent little={true} /> :
+                                                        <button type="button"
+                                                                className="btn btn-sm btn-theme"
+                                                                onClick={() => handleDeclareModalShow(item)}
+                                                        >
+                                                            <i className="fa fa-hand-holding" /> Prendre en charge
+                                                        </button>
+                                                    }
+                                                </div>
+                                            )
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         </div>

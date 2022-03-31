@@ -1,14 +1,16 @@
 import { all, takeLatest, put, fork, call } from 'redux-saga/effects'
 
 import * as api from "../../constants/apiConstants";
-import {apiGetRequest} from "../../functions/axiosFunctions";
 import {storeStopInfiniteScrollFleetData} from "../fleets/actions";
+import {apiGetRequest, apiPostRequest} from "../../functions/axiosFunctions";
 import {
     EMIT_CLEARANCES_FETCH,
     storeSetClearancesData,
+    storeUpdateClearanceData,
     EMIT_ALL_CLEARANCES_FETCH,
     storeSetNextClearancesData,
-    EMIT_NEXT_CLEARANCES_FETCH
+    EMIT_NEXT_CLEARANCES_FETCH,
+    EMIT_CLEARANCE_ADD_DECLARE
 } from "./actions";
 import {
     storeClearancesRequestInit,
@@ -19,7 +21,10 @@ import {
     storeAllClearancesRequestFailed,
     storeNextClearancesRequestFailed,
     storeAllClearancesRequestSucceed,
-    storeNextClearancesRequestSucceed
+    storeClearanceDeclareRequestInit,
+    storeNextClearancesRequestSucceed,
+    storeClearanceDeclareRequestFailed,
+    storeClearanceDeclareRequestSucceed
 } from "../requests/clearances/actions";
 
 // Fetch clearances from API
@@ -80,6 +85,25 @@ export function* emitAllClearancesFetch() {
         } catch (message) {
             // Fire event for request
             yield put(storeAllClearancesRequestFailed({message}));
+        }
+    });
+}
+
+// Clearance add declare from API
+export function* emitClearanceAddDeclare() {
+    yield takeLatest(EMIT_CLEARANCE_ADD_DECLARE, function*({id, amount}) {
+        try {
+            // Fire event for request
+            yield put(storeClearanceDeclareRequestInit());
+            const data = {montant: amount};
+            const apiResponse = yield call(apiPostRequest, `${api.DECLARE_CLEARANCE_API_PATH}/${id}`, data);
+            // Fire event to redux
+            yield put(storeUpdateClearanceData({id, amount}));
+            // Fire event for request
+            yield put(storeClearanceDeclareRequestSucceed({message: apiResponse.message}));
+        } catch (message) {
+            // Fire event for request
+            yield put(storeClearanceDeclareRequestFailed({message}));
         }
     });
 }
@@ -157,5 +181,6 @@ export default function* sagaClearances() {
         fork(emitClearancesFetch),
         fork(emitAllClearancesFetch),
         fork(emitNextClearancesFetch),
+        fork(emitClearanceAddDeclare),
     ]);
 }

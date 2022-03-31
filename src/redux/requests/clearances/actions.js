@@ -14,6 +14,11 @@ export const STORE_ALL_CLEARANCES_REQUEST_RESET = 'STORE_ALL_CLEARANCES_REQUEST_
 export const STORE_ALL_CLEARANCES_REQUEST_FAILED = 'STORE_ALL_CLEARANCES_REQUEST_FAILED';
 export const STORE_ALL_CLEARANCES_REQUEST_SUCCEEDED = 'STORE_ALL_CLEARANCES_REQUEST_SUCCEEDED';
 
+export const STORE_CLEARANCE_DECLARE_REQUEST_INIT = 'STORE_CLEARANCE_DECLARE_REQUEST_INIT';
+export const STORE_CLEARANCE_DECLARE_REQUEST_RESET = 'STORE_CLEARANCE_DECLARE_REQUEST_RESET';
+export const STORE_CLEARANCE_DECLARE_REQUEST_FAILED = 'STORE_CLEARANCE_DECLARE_REQUEST_FAILED';
+export const STORE_CLEARANCE_DECLARE_REQUEST_SUCCEEDED = 'STORE_CLEARANCE_DECLARE_REQUEST_SUCCEEDED';
+
 // ======================================================== Clearances
 // Set clearances init data into store
 export const storeClearancesRequestInit = () => ({
@@ -79,4 +84,26 @@ export const storeAllClearancesRequestSucceed = ({message}) => ({
 // Set all clearances reset data into store
 export const storeAllClearancesRequestReset = () => ({
     type: STORE_ALL_CLEARANCES_REQUEST_RESET
+});
+// ======================================================== Clearance declare
+// Set clearance declare init data into store
+export const storeClearanceDeclareRequestInit = () => ({
+    type: STORE_CLEARANCE_DECLARE_REQUEST_INIT
+});
+
+// Set clearance declare failed data into store
+export const storeClearanceDeclareRequestFailed = ({message}) => ({
+    message,
+    type: STORE_CLEARANCE_DECLARE_REQUEST_FAILED
+});
+
+// Set clearance declare succeeded data into store
+export const storeClearanceDeclareRequestSucceed = ({message}) => ({
+    message,
+    type: STORE_CLEARANCE_DECLARE_REQUEST_SUCCEEDED
+});
+
+// Set clearance declare reset data into store
+export const storeClearanceDeclareRequestReset = () => ({
+    type: STORE_CLEARANCE_DECLARE_REQUEST_RESET
 });
