@@ -71,7 +71,7 @@ function OperationsCashRecoveryComponent({supply, request, dispatch, handleClose
             <form onSubmit={handleSubmit}>
                 <div className='row'>
                     <div className='col-sm-6'>
-                        <DisabledInput label='Agent'
+                        <DisabledInput label='Agent/Ressource'
                                        id='inputAgent'
                                        val={supply.agent.name}
                         />

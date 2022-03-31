@@ -168,6 +168,7 @@ function OperationsFleetsAddSupplyComponent({request, sims, agents, agencies, di
         <>
             {requestFailed(request) && <ErrorAlertComponent message={request.message} />}
             {requestFailed(allSimsRequests) && <ErrorAlertComponent message={allSimsRequests.message} />}
+            {requestFailed(allAgenciesRequests) && <ErrorAlertComponent message={allAgenciesRequests.message} />}
             <form onSubmit={handleSubmit}>
                 <div className='row'>
                     <div className='col-sm-6'>
