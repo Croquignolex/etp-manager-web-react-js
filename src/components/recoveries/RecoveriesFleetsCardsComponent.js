@@ -62,7 +62,7 @@ function RecoveriesFleetsCardsComponent({returns, group, handleConfirmModalShow}
                                             </span>
                                         </li>
                                         <li className="list-group-item">
-                                            <b>Compte agent</b>
+                                            <b>Compte émetteur</b>
                                             <span className="float-right">
                                                 {item.sim_outgoing?.number}
                                                 <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
@@ -71,7 +71,7 @@ function RecoveriesFleetsCardsComponent({returns, group, handleConfirmModalShow}
                                             </span>
                                         </li>
                                         <li className="list-group-item">
-                                            <b>Compte flottage</b>
+                                            <b>Compte recepteur</b>
                                             <span className="float-right">
                                                 {item.sim_incoming?.number}
                                                 <i className="fa fa-question-circle small ml-1 hand-cursor text-theme"
