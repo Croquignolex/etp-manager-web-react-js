@@ -6,9 +6,11 @@ import RecoveriesFleetsAddReturnComponent from "../../components/recoveries/Reco
 const mapStateToProps = (state) => ({
     sims: state.sims.list,
     agents: state.agents.list,
+    agencies: state.agencies.list,
     request: state.returnsRequests.fleet,
     allSimsRequests: state.simsRequests.all,
     allAgentsRequests: state.agentsRequests.all,
+    allAgenciesRequests: state.agenciesRequests.all,
 });
 
 // Map dispatch function to component props
